@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Simulation objectPathDelimiter="|" xmlns="http://www.systems-biology.com">
+  <FormulaList>
+    <ExplicitFormula id="2">
+      <Equation>Time</Equation>
+      <ParameterList>
+        <P alias="Time" id="0" />
+      </ParameterList>
+    </ExplicitFormula>
+    <ExplicitFormula id="4">
+      <Equation>1/Time</Equation>
+      <ParameterList>
+        <P alias="Time" id="0" />
+      </ParameterList>
+    </ExplicitFormula>
+    <ExplicitFormula id="5">
+      <Equation>1E-09</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="7">
+      <Equation>0.0001</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="9">
+      <Equation>1E-10</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="11">
+      <Equation>0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="13">
+      <Equation>60</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="15">
+      <Equation>100000</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="17">
+      <Equation>1</Equation>
+    </ExplicitFormula>
+  </FormulaList>
+  <ParameterList>
+    <P id="1" entityId="74fe8982-69cd-41be-9dc6-7fd8020f2ed4" name="TestTime" path="da|Organism" unit="min" persistable="1" formulaId="2" />
+    <P id="3" entityId="d3bed4bc-f950-49db-81d9-3d031fd4d06f" name="InverseTime" path="da|Organism" unit="1/min" persistable="1" formulaId="4" />
+    <P id="6" entityId="AbsTol" name="AbsTol" persistable="0" formulaId="5" />
+    <P id="8" entityId="RelTol" name="RelTol" persistable="0" formulaId="7" />
+    <P id="10" entityId="H0" name="H0" persistable="0" formulaId="9" />
+    <P id="12" entityId="HMin" name="HMin" persistable="0" formulaId="11" />
+    <P id="14" entityId="HMax" name="HMax" persistable="0" formulaId="13" />
+    <P id="16" entityId="MxStep" name="MxStep" persistable="0" formulaId="15" />
+    <P id="18" entityId="UseJacobian" name="UseJacobian" persistable="0" formulaId="17" />
+  </ParameterList>
+  <Solver name="CVODE1002_2">
+    <H0 id="10" />
+    <HMax id="14" />
+    <HMin id="12" />
+    <AbsTol id="6" />
+    <MxStep id="16" />
+    <RelTol id="8" />
+    <UseJacobian id="18" />
+  </Solver>
+  <OutputSchema>
+    <OutputIntervalList>
+      <OutputInterval distribution="Uniform">
+        <StartTime>0</StartTime>
+        <EndTime>1440</EndTime>
+        <NumberOfTimePoints>97</NumberOfTimePoints>
+      </OutputInterval>
+    </OutputIntervalList>
+  </OutputSchema>
+</Simulation>

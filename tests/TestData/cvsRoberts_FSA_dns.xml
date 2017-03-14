@@ -1,0 +1,101 @@
+<Simulation objectPathDelimiter="/" version="4" xmlns="http://www.systems-biology.com">
+	<EventList/>
+	<ObserverList>
+		<Observer id="4" entityId="Obs1" name="Obs1" path="TopContainer/SubContainer/Obs1" unit="" persistable="1" formulaId="41" />
+	</ObserverList>
+	<VariableList>
+		<V id="1" name="y1" path="TopContainer/SubContainer/y1" unit="L" value="1.0" entityId="y1">
+			<ScaleFactor>1</ScaleFactor>
+			<RHSFormulaList>
+				<RHSFormula id="11"/>
+			</RHSFormulaList>
+		</V>
+		<V id="2" name="y2" path="TopContainer/SubContainer/y2" unit="L" value="0" entityId="y2">
+			<ScaleFactor>1</ScaleFactor>
+			<RHSFormulaList>
+				<RHSFormula id="21"/>
+			</RHSFormulaList>
+		</V>
+		<V id="3" name="y3" path="TopContainer/SubContainer/y3" unit="L" value="0" entityId="y3">
+			<ScaleFactor>1</ScaleFactor>
+			<RHSFormulaList>
+				<RHSFormula id="31"/>
+			</RHSFormulaList>
+		</V>
+	</VariableList>
+	<ParameterList>
+		<P id="111" name="P1" path="TopContainer/SubContainer/P1" unit="L" value="0.04" canBeVaried="1" entityId="P1"/>
+		<P id="112" name="P2" path="TopContainer/SubContainer/P2" unit="L" value="1e4" canBeVaried="1" entityId="P2"/>
+		<P id="113" name="P3" path="TopContainer/SubContainer/P3" unit="L" value="3e7" canBeVaried="1" entityId="P3"/>
+		<P id="80" name="AbsTol" path="No" unit="" value="1E-14" canBeVaried="1" entityId="AbsTol"/>
+		<P id="81" name="RelTol" path="No" unit="" value="1E-4" canBeVaried="1" entityId="RelTol"/>
+		<P id="82" name="H0" path="No" unit="" value="0" canBeVaried="1" entityId="H0"/>
+		<P id="83" name="HMin" path="No" unit="" value="0" canBeVaried="1" entityId="HMin"/>
+		<P id="84" name="HMax" path="No" unit="" value="60" canBeVaried="1" entityId="HMax"/>
+		<P id="85" name="MXStep" path="No" unit="" value="100000" canBeVaried="1" entityId="MXStep"/>
+		<P id="86" name="UseJacobian" path="No" unit="" value="1" canBeVaried="1" entityId="UseJacobian"/>
+	</ParameterList>
+	<FormulaList>
+		<ExplicitFormula id="11">
+			<Equation>-p1*y1 + p2*y2*y3</Equation>
+			<ParameterList>
+				<P alias="p1" id="111"/>
+				<P alias="p2" id="112"/>
+			</ParameterList>
+			<VariableList>
+				<V alias="y1" id="1"/>
+				<V alias="y2" id="2"/>
+				<V alias="y3" id="3"/>
+			</VariableList>
+		</ExplicitFormula>
+		<ExplicitFormula id="21">
+			<Equation>p1*y1 - p2*y2*y3 - p3*(y2)^2</Equation>
+			<ParameterList>
+				<P alias="p1" id="111"/>
+				<P alias="p2" id="112"/>
+				<P alias="p3" id="113"/>
+			</ParameterList>
+			<VariableList>
+				<V alias="y1" id="1"/>
+				<V alias="y2" id="2"/>
+				<V alias="y3" id="3"/>
+			</VariableList>
+		</ExplicitFormula>
+		<ExplicitFormula id="31">
+			<Equation>p3*(y2)^2</Equation>
+			<ParameterList>
+				<P alias="p3" id="113"/>
+			</ParameterList>
+			<VariableList>
+				<V alias="y2" id="2"/>
+			</VariableList>
+		</ExplicitFormula>
+		<ExplicitFormula id="41">
+			<Equation>y1+2*y2+3*y3</Equation>
+			<ParameterList>
+			</ParameterList>
+			<VariableList>
+				<V alias="y1" id="1"/>
+				<V alias="y2" id="2"/>
+				<V alias="y3" id="3"/>
+			</VariableList>
+		</ExplicitFormula>
+	</FormulaList>
+	<Solver name="CVODES_2.8.2_1.0">
+		<H0 id="82"/>
+		<HMax id="84"/>
+		<HMin id="83"/>
+		<AbsTol id="80"/>
+		<MxStep id="85"/>
+		<RelTol id="81"/>
+		<UseJacobian id="86"/>
+	</Solver>
+	<OutputSchema>
+		<OutputIntervalList/>
+		<OutputTimeList>
+			<OutputTime>0</OutputTime>
+			<OutputTime>0.4</OutputTime>
+			<OutputTime>4</OutputTime>
+		</OutputTimeList>
+	</OutputSchema>
+</Simulation>

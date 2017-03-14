@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Component Version="6.0" TypeName="C++.OSPSuite_SimModelComp" Name="OSPSuite_SimModelComp" TypeDescription="C++  DCI Wrapper for SimModel" Description="C++ DCI Wrapper for SimModel">
+	<Ports Type="Parameter">
+		<Port Name="Parameter" Description="">
+			<Table Version="4.2" TypeName="C++.Table" Name="" TypeDescription="" Description="" RecordBased="FALSE">
+				<Attributes/>
+				<Variables>
+					<Variable Key="SimModelSchema">
+						<FieldDef Name="SimModelSchema" DataType="String" Description="" DefaultValue=""/>
+						<Values>C:\VSS\SimModel\trunk\Dev\Schema\BTS.SimModel.xsd</Values>
+					</Variable>
+					<Variable Key="SimulationFile">
+						<FieldDef Name="SimulationFile" DataType="String" Description="" DefaultValue=""/>
+						<Values>C:\VSS\SimModel\trunk\Test\TestData\PKModelCoreCaseStudy_01.xml</Values>
+					</Variable>
+					<Variable Key="StopOnWarnings">
+						<FieldDef Name="StopOnWarnings" DataType="Int" Description="Stop on ODE solver warnings" DefaultValue="1"/>
+						<Values>1</Values>
+					</Variable>
+					<Variable Key="ExecutionTimeLimit">
+						<FieldDef Name="ExecutionTimeLimit" DataType="Double" Description="Execution time limit for single simulation run (0= no limit)" DefaultValue="0"/>
+						<Values>0</Values>
+					</Variable>
+				</Variables>
+			</Table>
+		</Port>
+	</Ports>
+	<Ports Type="Input">
+		<Port Name="AllParameters" Description="All input parameters of the simualtion  (read only)">
+			<Table/>
+		</Port>
+		<Port Name="VariableParameters" Description="Variable input parameters of the simualtion">
+			<Table/>
+		</Port>
+		<Port Name="AllSpecies" Description="All species of the simualtion  (read only)">
+			<Table/>
+		</Port>
+		<Port Name="VariableSpecies" Description="Variable species of the simualtion">
+			<Table/>
+		</Port>
+		<Port Name="AllObservers" Description="All observers of the simualtion (read only)">
+			<Table/>
+		</Port>
+		<Port Name="TimeSchema" Description="Global output time schema">
+			<Table/>
+		</Port>
+		<Port Name="SpeciesTimeSchema" Description="Output time schema for some species, which overrides global output time schema">
+			<Table/>
+		</Port>
+		<Port Name="AllTableParameters" Description="All table input parameters of the simualtion  (read only)">
+			<Table/>
+		</Port>
+		<Port Name="VariableTableParameters" Description="Variable table input parameters of the simualtion">
+			<Table/>
+		</Port>		
+	</Ports>
+	<Ports Type="Output">
+		<Port Name="OutputTimes" Description="Output Times">
+			<Table/>
+		</Port>
+		<Port Name="OutputValues" Description="Output Values">
+			<Table/>
+		</Port>
+	</Ports>
+</Component>

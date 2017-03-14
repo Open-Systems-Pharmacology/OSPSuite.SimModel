@@ -1,0 +1,51 @@
+<Simulation objectPathDelimiter="/" xmlns="http://www.systems-biology.com">
+	<EventList/>
+	<VariableList>
+		<V id="1" name="y1" path="TopContainer" unit="L" value="2" entityId="y1">
+			<ScaleFactor>1</ScaleFactor>
+			<RHSFormulaList/>
+		</V>
+		<V id="3" name="y2" path="TopContainer" unit="L" initialValueFormulaId="30" entityId="y2">
+			<ScaleFactor>1</ScaleFactor>
+			<RHSFormulaList/>
+		</V>
+	</VariableList>
+	<ParameterList>
+		<P id="80" name="AbsTol" path="No" unit="" value="1E-12" canBeVaried="1" entityId="AbsTol"/>
+		<P id="81" name="RelTol" path="No" unit="" value="1E-09" canBeVaried="1" entityId="RelTol"/>
+		<P id="82" name="H0" path="No" unit="" value="1E-10" canBeVaried="1" entityId="H0"/>
+		<P id="83" name="HMin" path="No" unit="" value="0" canBeVaried="1" entityId="HMin"/>
+		<P id="84" name="HMax" path="No" unit="" value="60" canBeVaried="1" entityId="HMax"/>
+		<P id="85" name="MXStep" path="No" unit="" value="100000" canBeVaried="1" entityId="MXStep"/>
+		<P id="86" name="UseJacobian" path="No" unit="" value="1" canBeVaried="1" entityId="UseJacobian"/>
+	</ParameterList>
+	<FormulaList>
+		<ExplicitFormula id="30">
+			<Equation>y1</Equation>
+			<ReferenceList>
+				<R alias="y1" id="1"/>
+			</ReferenceList>
+		</ExplicitFormula>
+	</FormulaList>
+	<Solver name="CVODE_2.7">
+		<H0 id="82"/>
+		<HMax id="84"/>
+		<HMin id="83"/>
+		<AbsTol id="80"/>
+		<MxStep id="85"/>
+		<RelTol id="81"/>
+		<UseJacobian id="86"/>
+	</Solver>
+	<OutputSchema>
+		<OutputIntervalList>
+			<OutputInterval distribution="Uniform">
+				<StartTime>0</StartTime>
+				<EndTime>10</EndTime>
+				<NumberOfTimePoints>11</NumberOfTimePoints>
+			</OutputInterval>
+		</OutputIntervalList>
+		<OutputTimeList>
+			<OutputTime>0</OutputTime>
+		</OutputTimeList>
+	</OutputSchema>
+</Simulation>

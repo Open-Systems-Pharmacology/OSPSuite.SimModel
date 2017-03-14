@@ -1,0 +1,450 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Managed Code">
+      <UniqueIdentifier>{cb4d9d68-9c46-4770-a008-c8895f8fa577}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managed Code\Header Files">
+      <UniqueIdentifier>{58f1843b-efb1-43c0-ab5f-c21b67cc0af6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managed Code\Source Files">
+      <UniqueIdentifier>{83b1ed35-f0d2-4f7c-871d-5d6d5e6dea4d}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="SolverBase">
+      <UniqueIdentifier>{7e1d9695-cf79-4cf8-bb60-3521deb8997c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SolverBase\src">
+      <UniqueIdentifier>{118329dc-7ebe-4ac0-99cd-cdc108d99910}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SolverBase\include">
+      <UniqueIdentifier>{769d85d2-b4f9-48b1-88a0-f907b3eb9ea3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Src\BandwidthReduction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\BooleanFormula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ConstantFormula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\DESolver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\DESolverProperties.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\DiffFormula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\DivFormula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ExplicitFormula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Formula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\FormulaChange.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\FormulaFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GlobalConstants.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\HierarchicalFormulaObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\IfFormula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MathHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MatlabODEExporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MaxFormula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MinFormula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ObjectBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Observer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\OutputSchema.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Parameter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ParameterFormula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ParameterInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\PowerFormula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ProductFormula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Quantity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\QuantityInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\QuantityReference.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Rcm.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SimpleProductFormula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Simulation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SimulationTask.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SolverWarning.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Species.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SpeciesInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SumFormula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Switch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SwitchTask.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TableFormula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TableFormulaWithOffset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\UnaryFunctionFormula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Variable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\VariableFormula.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Managed\Src\AdjustableEntityProperties.cpp">
+      <Filter>Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Managed\Src\Conversions.cpp">
+      <Filter>Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Managed\Src\EntityProperties.cpp">
+      <Filter>Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Managed\Src\ExceptionHelper.cpp">
+      <Filter>Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Managed\Src\ManagedSimulation.cpp">
+      <Filter>Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Managed\Src\ManagedSolverWarning.cpp">
+      <Filter>Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Managed\Src\ParameterProperties.cpp">
+      <Filter>Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Managed\Src\SimModelException.cpp">
+      <Filter>Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Managed\Src\SpeciesProperties.cpp">
+      <Filter>Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Managed\Src\VariableValues.cpp">
+      <Filter>Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Managed\Src\XMLSchemaCache.cpp">
+      <Filter>Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ParameterSensitivity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Managed\Src\ManagedOutputSchema.cpp">
+      <Filter>Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SimulationOptions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\QuantityWithParameterSensitivity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\src\OptionInfo.cpp">
+      <Filter>SolverBase\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\src\OptionValueInfo.cpp">
+      <Filter>SolverBase\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\src\SimModelSolverBase.cpp">
+      <Filter>SolverBase\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\src\SimModelSolverErrorData.cpp">
+      <Filter>SolverBase\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Include\SimModel\BandwidthReduction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\BooleanFormula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\ConstantFormula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\DESolver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\DESolverProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\DiffFormula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\DivFormula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\ExplicitFormula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\Formula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\FormulaChange.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\FormulaFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\GlobalConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\HierarchicalFormulaObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\IfFormula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\MathHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\MatlabODEExporter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\MaxFormula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\MinFormula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\ObjectBase.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\Observer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\OutputSchema.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\Parameter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\ParameterFormula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\ParameterInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\PowerFormula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\ProductFormula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\Quantity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\QuantityInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\QuantityReference.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\Rcm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\SimModelTypeDefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\SimModelXMLHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\SimpleProductFormula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\Simulation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\SimulationTask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\SolverWarning.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\Species.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\SpeciesInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\SumFormula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\Switch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\SwitchTask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\TableFormula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\TableFormulaWithOffset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\TObjectList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\TObjectVector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\UnaryFunctionFormula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\Variable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\VariableFormula.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\XMLLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Managed\Include\SimModelManaged\AdjustableEntityProperties.h">
+      <Filter>Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Managed\Include\SimModelManaged\Conversions.h">
+      <Filter>Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Managed\Include\SimModelManaged\EntityProperties.h">
+      <Filter>Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Managed\Include\SimModelManaged\ExceptionHelper.h">
+      <Filter>Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Managed\Include\SimModelManaged\ManagedSimulation.h">
+      <Filter>Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Managed\Include\SimModelManaged\ParameterProperties.h">
+      <Filter>Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Managed\Include\SimModelManaged\SimModelException.h">
+      <Filter>Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Managed\Include\SimModelManaged\SolverWarning.h">
+      <Filter>Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Managed\Include\SimModelManaged\SpeciesProperties.h">
+      <Filter>Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Managed\Include\SimModelManaged\VariableValues.h">
+      <Filter>Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Managed\Include\SimModelManaged\XMLSchemaCache.h">
+      <Filter>Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\ParameterSensitivity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Managed\Include\SimModelManaged\ManagedOutputSchema.h">
+      <Filter>Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\SimulationOptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\SimModel\QuantityWithParameterSensitivity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SimModelSolverBase\OptionInfo.h">
+      <Filter>SolverBase\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SimModelSolverBase\OptionValueInfo.h">
+      <Filter>SolverBase\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SimModelSolverBase\SimModelSolverBase.h">
+      <Filter>SolverBase\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SimModelSolverBase\SimModelSolverErrorData.h">
+      <Filter>SolverBase\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SolverCallerInterface\SolverCaller.h">
+      <Filter>SolverBase\include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SimModel.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OSPSuite.SimModel.nuspec" />
+  </ItemGroup>
+</Project>

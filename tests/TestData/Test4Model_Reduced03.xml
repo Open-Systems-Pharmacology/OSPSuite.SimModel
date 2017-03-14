@@ -1,0 +1,889 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Simulation objectPathDelimiter="/" xmlns="http://www.systems-biology.com">
+    <ObserverList>
+        <Observer id="26" entityId="85eb4bf0-52a7-4a8d-b8b7-cd151daca404" name="OBSConcentration" path="sd/ORGANISM/ArterialBlood/Plasma/Comp1" unit="µg/l" persistable="1" formulaId="27"/>
+        <Observer id="49" entityId="a9ce52f5-5cad-408f-bc53-146a09d66437" name="OBSConcentration" path="sd/ORGANISM/Bone/Interstitial/Comp1" unit="µg/l" persistable="1" formulaId="50"/>
+        <Observer id="57" entityId="4d36fa14-468d-4d9a-9c94-3b85d4bd36d5" name="OBSConcentration" path="sd/ORGANISM/Bone/Intracellular/Comp1" unit="µg/l" persistable="1" formulaId="58"/>
+        <Observer id="65" entityId="72b0840c-cc2b-452a-bebb-f288b48ad0fa" name="OBSConcentration" path="sd/ORGANISM/Bone/Plasma/Comp1" unit="µg/l" persistable="1" formulaId="66"/>
+        <Observer id="78" entityId="e694bbcd-7244-4338-9a1a-4b331e619b8d" name="OBSConcentration" path="sd/ORGANISM/Lung/Plasma/Comp1" unit="µg/l" persistable="1" formulaId="79"/>
+        <Observer id="89" entityId="0713f9c4-c7cf-4a73-ae95-1bd568090754" name="OBSConcentration" path="sd/ORGANISM/VenousBlood/Plasma/Comp1" unit="µg/l" persistable="0" formulaId="90"/>
+    </ObserverList>
+    <EventList>
+        <Event conditionFormulaId="103" id="102" entityId="68fc7fc8-b7fd-4649-a47e-918678f30b86" oneTime="1">
+            <AssignmentList>
+                <Assignment objectId="91" newFormulaId="104" useAsValue="0"/>
+            </AssignmentList>
+        </Event>
+        <Event conditionFormulaId="106" id="105" entityId="315f1c93-8f7d-4f20-8481-c69f1267affc" oneTime="1">
+            <AssignmentList>
+                <Assignment objectId="91" newFormulaId="107" useAsValue="0"/>
+            </AssignmentList>
+        </Event>
+    </EventList>
+    <FormulaList>
+        <ExplicitFormula id="6">
+            <Equation>V_art + V_lng + V_bon + V_ven</Equation>
+            <ParameterList>
+                <P alias="V_art" id="2"/>
+                <P alias="V_bon" id="3"/>
+                <P alias="V_lng" id="4"/>
+                <P alias="V_ven" id="5"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="8">
+            <Equation>950000</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="10">
+            <Equation>0,435897436</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="12">
+            <Equation>0,37</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="14">
+            <Equation>0,935</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="16">
+            <Equation>0,926</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="17">
+            <Equation>0,183</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="19">
+            <Equation>1</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="21">
+            <Equation>(1-HCT)*V</Equation>
+            <ParameterList>
+                <P alias="f_vas" id="18"/>
+                <P alias="V" id="2"/>
+                <P alias="HCT" id="9"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="23">
+            <Equation>0</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="25">
+            <Equation>M/V</Equation>
+            <ParameterList>
+                <P alias="V" id="20"/>
+            </ParameterList>
+            <VariableList>
+                <V alias="M" id="22"/>
+            </VariableList>
+        </ExplicitFormula>
+        <ExplicitFormula id="27">
+            <Equation>M/V</Equation>
+            <ParameterList>
+                <P alias="V" id="20"/>
+            </ParameterList>
+            <VariableList>
+                <V alias="M" id="22"/>
+            </VariableList>
+        </ExplicitFormula>
+        <ExplicitFormula id="29">
+            <Equation>0,172</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="30">
+            <Equation>0,88</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="32">
+            <Equation>0,859</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="34">
+            <Equation>0,1</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="36">
+            <Equation>0,041</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="38">
+            <Equation>0,268</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="40">
+            <Equation>0,268</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="42">
+            <Equation>0,465</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="44">
+            <Equation>f_int*V</Equation>
+            <ParameterList>
+                <P alias="f_int" id="33"/>
+                <P alias="V" id="3"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="46">
+            <Equation>0</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="48">
+            <Equation>M/V</Equation>
+            <ParameterList>
+                <P alias="V" id="43"/>
+            </ParameterList>
+            <VariableList>
+                <V alias="M" id="45"/>
+            </VariableList>
+        </ExplicitFormula>
+        <ExplicitFormula id="50">
+            <Equation>M/V</Equation>
+            <ParameterList>
+                <P alias="V" id="43"/>
+            </ParameterList>
+            <VariableList>
+                <V alias="M" id="45"/>
+            </VariableList>
+        </ExplicitFormula>
+        <ExplicitFormula id="52">
+            <Equation>f_cell*V</Equation>
+            <ParameterList>
+                <P alias="f_cell" id="31"/>
+                <P alias="V" id="3"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="54">
+            <Equation>0</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="56">
+            <Equation>M/V</Equation>
+            <ParameterList>
+                <P alias="V" id="51"/>
+            </ParameterList>
+            <VariableList>
+                <V alias="M" id="53"/>
+            </VariableList>
+        </ExplicitFormula>
+        <ExplicitFormula id="58">
+            <Equation>M/V</Equation>
+            <ParameterList>
+                <P alias="V" id="51"/>
+            </ParameterList>
+            <VariableList>
+                <V alias="M" id="53"/>
+            </VariableList>
+        </ExplicitFormula>
+        <ExplicitFormula id="60">
+            <Equation>f_vas*(1-HCT)*V_org</Equation>
+            <ParameterList>
+                <P alias="f_vas" id="35"/>
+                <P alias="V_org" id="3"/>
+                <P alias="HCT" id="9"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="62">
+            <Equation>0</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="64">
+            <Equation>M/V</Equation>
+            <ParameterList>
+                <P alias="V" id="59"/>
+            </ParameterList>
+            <VariableList>
+                <V alias="M" id="61"/>
+            </VariableList>
+        </ExplicitFormula>
+        <ExplicitFormula id="66">
+            <Equation>M/V</Equation>
+            <ParameterList>
+                <P alias="V" id="59"/>
+            </ParameterList>
+            <VariableList>
+                <V alias="M" id="61"/>
+            </VariableList>
+        </ExplicitFormula>
+        <ExplicitFormula id="68">
+            <Equation>Q_bon</Equation>
+            <ParameterList>
+                <P alias="Q_bon" id="28"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="69">
+            <Equation>0,06825</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="71">
+            <Equation>0,626</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="73">
+            <Equation>f_vas*(1-HCT)*V_org</Equation>
+            <ParameterList>
+                <P alias="f_vas" id="70"/>
+                <P alias="V_org" id="4"/>
+                <P alias="HCT" id="9"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="75">
+            <Equation>0</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="77">
+            <Equation>M/V</Equation>
+            <ParameterList>
+                <P alias="V" id="72"/>
+            </ParameterList>
+            <VariableList>
+                <V alias="M" id="74"/>
+            </VariableList>
+        </ExplicitFormula>
+        <ExplicitFormula id="79">
+            <Equation>M/V</Equation>
+            <ParameterList>
+                <P alias="V" id="72"/>
+            </ParameterList>
+            <VariableList>
+                <V alias="M" id="74"/>
+            </VariableList>
+        </ExplicitFormula>
+        <ExplicitFormula id="80">
+            <Equation>0,183</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="82">
+            <Equation>1</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="84">
+            <Equation>(1-HCT)*V</Equation>
+            <ParameterList>
+                <P alias="f_vas" id="81"/>
+                <P alias="V" id="5"/>
+                <P alias="HCT" id="9"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="86">
+            <Equation>0</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="88">
+            <Equation>M/V</Equation>
+            <ParameterList>
+                <P alias="V" id="83"/>
+            </ParameterList>
+            <VariableList>
+                <V alias="M" id="85"/>
+            </VariableList>
+        </ExplicitFormula>
+        <ExplicitFormula id="90">
+            <Equation>M/V</Equation>
+            <ParameterList>
+                <P alias="V" id="83"/>
+            </ParameterList>
+            <VariableList>
+                <V alias="M" id="85"/>
+            </VariableList>
+        </ExplicitFormula>
+        <ExplicitFormula id="92">
+            <Equation>0</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="94">
+            <Equation>1</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="97">
+            <Equation>Dose / MW * 1000</Equation>
+            <ParameterList>
+                <P alias="Dose" id="93"/>
+                <P alias="MW" id="96"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="99">
+            <Equation>0.001</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="101">
+            <Equation>0</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="103">
+            <Equation>Time=StartTime</Equation>
+            <ParameterList>
+                <P alias="StartTime" id="100"/>
+                <P alias="Time" id="0"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="104">
+            <Equation>DrugMass/InfusionTime</Equation>
+            <ParameterList>
+                <P alias="DrugMass" id="95"/>
+                <P alias="InfusionTime" id="98"/>
+                <P alias="Time" id="0"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="106">
+            <Equation>Time=StartTime+InfusionTime</Equation>
+            <ParameterList>
+                <P alias="InfusionTime" id="98"/>
+                <P alias="StartTime" id="100"/>
+                <P alias="Time" id="0"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="107">
+            <Equation>0</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="109">
+            <Equation>DrugMass</Equation>
+            <ParameterList>
+                <P alias="DrugMass" id="95"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="112">
+            <Equation>M/V</Equation>
+            <ParameterList>
+                <P alias="V" id="111"/>
+            </ParameterList>
+            <VariableList>
+                <V alias="M" id="108"/>
+            </VariableList>
+        </ExplicitFormula>
+        <ExplicitFormula id="113">
+            <Equation>-1*ApplicationRate</Equation>
+            <ParameterList>
+                <P alias="ApplicationRate" id="91"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="114">
+            <Equation>1*ApplicationRate</Equation>
+            <ParameterList>
+                <P alias="ApplicationRate" id="91"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="115">
+            <Equation>1</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="116">
+            <Equation>-1*Q*(1-HCT)*C_pls</Equation>
+            <ParameterList>
+                <P alias="Q" id="28"/>
+                <P alias="C_pls" id="24"/>
+                <P alias="HCT" id="9"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="117">
+            <Equation>1*Q*(1-HCT)*C_pls</Equation>
+            <ParameterList>
+                <P alias="Q" id="28"/>
+                <P alias="C_pls" id="24"/>
+                <P alias="HCT" id="9"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="122">
+            <Equation>(f_water + f_lipids * 10^LogMA + f_proteins * KProt) * fu</Equation>
+            <ParameterList>
+                <P alias="fu" id="119"/>
+                <P alias="KProt" id="120"/>
+                <P alias="LogMA" id="121"/>
+                <P alias="f_lipids" id="37"/>
+                <P alias="f_proteins" id="39"/>
+                <P alias="f_water" id="41"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="124">
+            <Equation>fu/K_cell_pls</Equation>
+            <ParameterList>
+                <P alias="K_cell_pls" id="118"/>
+                <P alias="fu" id="119"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="127">
+            <Equation>fu/K_int_pls</Equation>
+            <ParameterList>
+                <P alias="fu" id="119"/>
+                <P alias="K_int_pls" id="126"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="131">
+            <Equation>P * P_cell_int_factor</Equation>
+            <ParameterList>
+                <P alias="P_cell_int_factor" id="129"/>
+                <P alias="P" id="130"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="132">
+            <Equation>1</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="135">
+            <Equation>P * P_int_cell_factor</Equation>
+            <ParameterList>
+                <P alias="P_int_cell_factor" id="134"/>
+                <P alias="P" id="130"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="136">
+            <Equation>1</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="139">
+            <Equation>P_cell_int * SA /1000</Equation>
+            <ParameterList>
+                <P alias="P_cell_int" id="128"/>
+                <P alias="SA" id="138"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="141">
+            <Equation>P_int_cell * SA /1000</Equation>
+            <ParameterList>
+                <P alias="P_int_cell" id="133"/>
+                <P alias="SA" id="138"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="142">
+            <Equation>-1*K_water_int * PA_int_cell * C_int - K_water_cell * PA_cell_int * C_cell</Equation>
+            <ParameterList>
+                <P alias="C_cell" id="55"/>
+                <P alias="C_int" id="47"/>
+                <P alias="K_water_cell" id="123"/>
+                <P alias="K_water_int" id="125"/>
+                <P alias="PA_cell_int" id="137"/>
+                <P alias="PA_int_cell" id="140"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="143">
+            <Equation>1*K_water_int * PA_int_cell * C_int - K_water_cell * PA_cell_int * C_cell</Equation>
+            <ParameterList>
+                <P alias="C_cell" id="55"/>
+                <P alias="C_int" id="47"/>
+                <P alias="K_water_cell" id="123"/>
+                <P alias="K_water_int" id="125"/>
+                <P alias="PA_cell_int" id="137"/>
+                <P alias="PA_int_cell" id="140"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="144">
+            <Equation>(V_bon * 1000 / 28.2)^0.75 * 10</Equation>
+            <ParameterList>
+                <P alias="V_bon" id="3"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="145">
+            <Equation>(f_water_int + f_proteins_int_to_pls * (1/fu - f_water_pls)) * fu</Equation>
+            <ParameterList>
+                <P alias="fu" id="119"/>
+                <P alias="f_proteins_int_to_pls" id="11"/>
+                <P alias="f_water_int" id="13"/>
+                <P alias="f_water_pls" id="15"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="147">
+            <Equation>100</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="149">
+            <Equation>-1*fu * P_endothelial * SA /1000 * (C_pls - C_int / K_int_pls)</Equation>
+            <ParameterList>
+                <P alias="C_int" id="47"/>
+                <P alias="C_pls" id="63"/>
+                <P alias="fu" id="119"/>
+                <P alias="K_int_pls" id="126"/>
+                <P alias="P_endothelial" id="146"/>
+                <P alias="SA" id="148"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="150">
+            <Equation>1*fu * P_endothelial * SA /1000 * (C_pls - C_int / K_int_pls)</Equation>
+            <ParameterList>
+                <P alias="C_int" id="47"/>
+                <P alias="C_pls" id="63"/>
+                <P alias="fu" id="119"/>
+                <P alias="K_int_pls" id="126"/>
+                <P alias="P_endothelial" id="146"/>
+                <P alias="SA" id="148"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="151">
+            <Equation>k * f_vas_org * V_org</Equation>
+            <ParameterList>
+                <P alias="f_vas_org" id="35"/>
+                <P alias="V_org" id="3"/>
+                <P alias="k" id="7"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="152">
+            <Equation>-1*Q*(1-HCT)*C_pls</Equation>
+            <ParameterList>
+                <P alias="Q" id="28"/>
+                <P alias="C_pls" id="63"/>
+                <P alias="HCT" id="9"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="153">
+            <Equation>1*Q*(1-HCT)*C_pls</Equation>
+            <ParameterList>
+                <P alias="Q" id="28"/>
+                <P alias="C_pls" id="63"/>
+                <P alias="HCT" id="9"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="154">
+            <Equation>-1*Q*(1-HCT)*C_pls</Equation>
+            <ParameterList>
+                <P alias="Q" id="67"/>
+                <P alias="C_pls" id="76"/>
+                <P alias="HCT" id="9"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="155">
+            <Equation>1*Q*(1-HCT)*C_pls</Equation>
+            <ParameterList>
+                <P alias="Q" id="67"/>
+                <P alias="C_pls" id="76"/>
+                <P alias="HCT" id="9"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="156">
+            <Equation>-1*Q*(1-HCT)*C_pls</Equation>
+            <ParameterList>
+                <P alias="Q" id="67"/>
+                <P alias="C_pls" id="87"/>
+                <P alias="HCT" id="9"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="157">
+            <Equation>1*Q*(1-HCT)*C_pls</Equation>
+            <ParameterList>
+                <P alias="Q" id="67"/>
+                <P alias="C_pls" id="87"/>
+                <P alias="HCT" id="9"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="159">
+            <Equation>0</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="161">
+            <Equation>0</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="163">
+            <Equation>0</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="164">
+            <Equation>1</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="166">
+            <Equation>0</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="167">
+            <Equation>(0.81 + 0.11 * 10^LogMA) / 24.92 * 5.0</Equation>
+            <ParameterList>
+                <P alias="LogMA" id="121"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="169">
+            <Equation>3</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="170">
+            <Equation>Lipophilicity</Equation>
+            <ParameterList>
+                <P alias="Lipophilicity" id="168"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="171">
+            <Equation>400</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="173">
+            <Equation>MW - F * 17 - Cl * 22 - Br * 62 - I * 98</Equation>
+            <ParameterList>
+                <P alias="Br" id="158"/>
+                <P alias="Cl" id="160"/>
+                <P alias="F" id="162"/>
+                <P alias="I" id="165"/>
+                <P alias="MW" id="96"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="174">
+            <Equation>(MWEff / 336) ^ (-6) * 10^LogMA / 5</Equation>
+            <ParameterList>
+                <P alias="LogMA" id="121"/>
+                <P alias="MWEff" id="172"/>
+            </ParameterList>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="175">
+            <Equation>1E-12</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="177">
+            <Equation>1E-09</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="179">
+            <Equation>1E-10</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="181">
+            <Equation>0</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="183">
+            <Equation>60</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="185">
+            <Equation>100000</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+        <ExplicitFormula id="187">
+            <Equation>1</Equation>
+            <ParameterList/>
+            <VariableList/>
+        </ExplicitFormula>
+    </FormulaList>
+    <VariableList>
+        <V id="22" entityId="63dd6769-4feb-4075-aa09-870e8bc307bd" name="Comp1" path="sd/ORGANISM/ArterialBlood/Plasma" unit="µmol" persistable="0" initialValueFormulaId="23">
+            <ScaleFactor>1</ScaleFactor>
+            <RHSFormulaList>
+                <RHSFormula id="116"/>
+                <RHSFormula id="155"/>
+            </RHSFormulaList>
+        </V>
+        <V id="45" entityId="6fd4ff9c-4d5e-4b03-af8f-344ed0c884f5" name="Comp1" path="sd/ORGANISM/Bone/Interstitial" unit="µmol" persistable="0" initialValueFormulaId="46">
+            <ScaleFactor>1</ScaleFactor>
+            <RHSFormulaList>
+                <RHSFormula id="142"/>
+                <RHSFormula id="150"/>
+            </RHSFormulaList>
+        </V>
+        <V id="53" entityId="fcd195b8-32b0-4302-9309-ecfe48c80466" name="Comp1" path="sd/ORGANISM/Bone/Intracellular" unit="µmol" persistable="0" initialValueFormulaId="54">
+            <ScaleFactor>1</ScaleFactor>
+            <RHSFormulaList>
+                <RHSFormula id="143"/>
+            </RHSFormulaList>
+        </V>
+        <V id="61" entityId="5cb0362e-cabe-4588-a053-716f034a54b0" name="Comp1" path="sd/ORGANISM/Bone/Plasma" unit="µmol" persistable="0" initialValueFormulaId="62">
+            <ScaleFactor>1</ScaleFactor>
+            <RHSFormulaList>
+                <RHSFormula id="117"/>
+                <RHSFormula id="149"/>
+                <RHSFormula id="152"/>
+            </RHSFormulaList>
+        </V>
+        <V id="74" entityId="8702692b-8c68-4c77-90c1-16ebca2331d9" name="Comp1" path="sd/ORGANISM/Lung/Plasma" unit="µmol" persistable="0" initialValueFormulaId="75">
+            <ScaleFactor>1</ScaleFactor>
+            <RHSFormulaList>
+                <RHSFormula id="154"/>
+                <RHSFormula id="157"/>
+            </RHSFormulaList>
+        </V>
+        <V id="85" entityId="0beab802-84f5-4bed-ae57-a4afeb96737c" name="Comp1" path="sd/ORGANISM/VenousBlood/Plasma" unit="µmol" persistable="1" initialValueFormulaId="86">
+            <ScaleFactor>1</ScaleFactor>
+            <RHSFormulaList>
+                <RHSFormula id="114"/>
+                <RHSFormula id="153"/>
+                <RHSFormula id="156"/>
+            </RHSFormulaList>
+        </V>
+        <V id="108" entityId="39aaf3e7-dd48-4977-a7d9-f7c2f18a524d" name="Comp1" path="sd/ORGANISM/Applications/Application_1" unit="µmol" persistable="0" initialValueFormulaId="109">
+            <ScaleFactor>1</ScaleFactor>
+            <RHSFormulaList>
+                <RHSFormula id="113"/>
+            </RHSFormulaList>
+        </V>
+    </VariableList>
+    <ParameterList>
+        <P id="1" entityId="6447f6f5-c6d5-4cf3-95d5-619158f22b4e" name="BW" path="sd/ORGANISM" unit="kg" persistable="1" formulaId="6" canBeVaried="1"/>
+        <P id="7" entityId="0a7ffbbc-7eac-47bc-ba97-40466776a587" name="k_SA" path="sd/ORGANISM" unit="" persistable="1" formulaId="8" canBeVaried="1"/>
+        <P id="9" entityId="7b4c6e83-3459-4da9-9a70-20ac16bed27a" name="HCT" path="sd/ORGANISM" unit="" persistable="1" formulaId="10" canBeVaried="1"/>
+        <P id="11" entityId="f26f0ab9-0e5f-4540-80fb-3e8f85e3fd60" name="VolumeFractionProteins_INT_TO_PLS" path="sd/ORGANISM" unit="" persistable="1" formulaId="12" canBeVaried="1"/>
+        <P id="13" entityId="4ef6d024-5451-47a4-bffc-a0476cfd9435" name="VolumeFractionWater_INT" path="sd/ORGANISM" unit="" persistable="1" formulaId="14" canBeVaried="1"/>
+        <P id="15" entityId="d1d5cc05-5315-4397-803c-1ac75d24193b" name="VolumeFractionWater_PLS" path="sd/ORGANISM" unit="" persistable="1" formulaId="16" canBeVaried="1"/>
+        <P id="2" entityId="ce46247a-9e08-4cdb-abd8-902bb4f303e1" name="Volume" path="sd/ORGANISM/ArterialBlood" unit="l" persistable="1" formulaId="17" canBeVaried="1"/>
+        <P id="18" entityId="ea7c6204-f398-4994-898c-a242595416d4" name="f_vas" path="sd/ORGANISM/ArterialBlood" unit="" persistable="1" formulaId="19" canBeVaried="1"/>
+        <P id="20" entityId="afe26b63-e160-458c-ade2-e56b05e6390d" name="Volume" path="sd/ORGANISM/ArterialBlood/Plasma" unit="l" persistable="1" formulaId="21" canBeVaried="1"/>
+        <P id="24" entityId="48a84f25-8305-4305-a366-6f0972711c1b" name="concentration" path="sd/ORGANISM/ArterialBlood/Plasma/Comp1" unit="" persistable="1" formulaId="25" canBeVaried="1"/>
+        <P id="28" entityId="be2be49c-2b70-4c67-b951-443756dd7bad" name="Q" path="sd/ORGANISM/Bone" unit="l/min" persistable="1" formulaId="29" canBeVaried="1"/>
+        <P id="3" entityId="31273964-96ba-4499-b1b6-c52560dda932" name="Volume" path="sd/ORGANISM/Bone" unit="l" persistable="1" formulaId="30" canBeVaried="1"/>
+        <P id="31" entityId="9e4587aa-acc3-40e8-8a65-20abf898e3b5" name="f_cell" path="sd/ORGANISM/Bone" unit="" persistable="1" formulaId="32" canBeVaried="1"/>
+        <P id="33" entityId="18280520-0660-4bd3-87ee-ac8e58be4131" name="f_int" path="sd/ORGANISM/Bone" unit="" persistable="1" formulaId="34" canBeVaried="1"/>
+        <P id="35" entityId="a0a3b58b-8708-4a5a-97ee-98058bdfb701" name="f_vas" path="sd/ORGANISM/Bone" unit="" persistable="1" formulaId="36" canBeVaried="1"/>
+        <P id="37" entityId="6744fb0c-f472-41a1-bf97-7908650e9f19" name="VolumeFractionLipids" path="sd/ORGANISM/Bone" unit="" persistable="1" formulaId="38" canBeVaried="1"/>
+        <P id="39" entityId="aa8bb2ac-b3d8-4da6-a15b-eea0b8507ac6" name="VolumeFractionProteins" path="sd/ORGANISM/Bone" unit="" persistable="1" formulaId="40" canBeVaried="1"/>
+        <P id="41" entityId="13cb7309-ad8a-4eff-9f4e-59c59d28f3a9" name="VolumeFractionWater" path="sd/ORGANISM/Bone" unit="" persistable="1" formulaId="42" canBeVaried="1"/>
+        <P id="43" entityId="faab65c8-176a-454d-97a1-fc23c26f5d1e" name="Volume" path="sd/ORGANISM/Bone/Interstitial" unit="l" persistable="1" formulaId="44" canBeVaried="1"/>
+        <P id="47" entityId="76d9ef13-5319-43ed-80b2-d8488f00daba" name="concentration" path="sd/ORGANISM/Bone/Interstitial/Comp1" unit="" persistable="1" formulaId="48" canBeVaried="1"/>
+        <P id="51" entityId="913324d3-0c6d-4044-96cf-e2bed856b12d" name="Volume" path="sd/ORGANISM/Bone/Intracellular" unit="l" persistable="1" formulaId="52" canBeVaried="1"/>
+        <P id="55" entityId="b8e1a477-b738-4631-b640-88af44cbc278" name="concentration" path="sd/ORGANISM/Bone/Intracellular/Comp1" unit="" persistable="1" formulaId="56" canBeVaried="1"/>
+        <P id="59" entityId="4513e85d-eacd-4023-9793-4cf32ea961df" name="Volume" path="sd/ORGANISM/Bone/Plasma" unit="l" persistable="1" formulaId="60" canBeVaried="1"/>
+        <P id="63" entityId="913e336a-92b2-4938-92ac-c46cc2d80939" name="concentration" path="sd/ORGANISM/Bone/Plasma/Comp1" unit="" persistable="1" formulaId="64" canBeVaried="1"/>
+        <P id="67" entityId="619fc1b1-e513-4103-8269-4b2c3ccd478b" name="Q" path="sd/ORGANISM/Lung" unit="l/min" persistable="1" formulaId="68" canBeVaried="1"/>
+        <P id="4" entityId="dd386a5b-d487-4b85-817e-2e9d2e012f36" name="Volume" path="sd/ORGANISM/Lung" unit="l" persistable="1" formulaId="69" canBeVaried="1"/>
+        <P id="70" entityId="51fa2ec0-338c-4e88-a4a9-fa01dc0613c9" name="f_vas" path="sd/ORGANISM/Lung" unit="" persistable="1" formulaId="71" canBeVaried="1"/>
+        <P id="72" entityId="ea3fa752-4ad9-44d7-b5e9-704de8399baf" name="Volume" path="sd/ORGANISM/Lung/Plasma" unit="l" persistable="1" formulaId="73" canBeVaried="1"/>
+        <P id="76" entityId="1d160c89-9baa-4f0b-afca-0198c9f10e4b" name="concentration" path="sd/ORGANISM/Lung/Plasma/Comp1" unit="" persistable="1" formulaId="77" canBeVaried="1"/>
+        <P id="5" entityId="fe566c43-fabe-436e-893d-ec2c4503bd67" name="Volume" path="sd/ORGANISM/VenousBlood" unit="l" persistable="1" formulaId="80" canBeVaried="1"/>
+        <P id="81" entityId="ee433316-bb23-46f8-8af7-736d5e7be5db" name="f_vas" path="sd/ORGANISM/VenousBlood" unit="" persistable="1" formulaId="82" canBeVaried="1"/>
+        <P id="83" entityId="fd2fcf16-2197-4834-a60f-8c1fd8b66ab0" name="Volume" path="sd/ORGANISM/VenousBlood/Plasma" unit="l" persistable="1" formulaId="84" canBeVaried="1"/>
+        <P id="87" entityId="675bebc4-4eea-44a5-9752-c0b8296f8117" name="concentration" path="sd/ORGANISM/VenousBlood/Plasma/Comp1" unit="" persistable="1" formulaId="88" canBeVaried="1"/>
+        <P id="91" entityId="b582219a-57b2-4495-a5fc-6eb7ea540550" name="ApplicationRate" path="sd/ORGANISM/Applications/Application_1" unit="µmol/min" persistable="1" formulaId="92" canBeVaried="1"/>
+        <P id="93" entityId="8e551a7d-63c4-4fd0-8828-8b2c93b90446" name="Dose" path="sd/ORGANISM/Applications/Application_1/ProtocolSchemaItem" unit="mg" persistable="1" formulaId="94" canBeVaried="1"/>
+        <P id="95" entityId="6729158f-bd74-4f24-9201-85e2613d3b57" name="DrugMass" path="sd/ORGANISM/Applications/Application_1/ProtocolSchemaItem" unit="µmol" persistable="1" formulaId="97" canBeVaried="1"/>
+        <P id="98" entityId="2ea09341-4267-4363-918a-5eece4f73169" name="InfusionTime" path="sd/ORGANISM/Applications/Application_1/ProtocolSchemaItem" unit="min" persistable="1" formulaId="99" canBeVaried="1"/>
+        <P id="100" entityId="cbec2118-80d8-4041-8ae5-67f1eefb37e9" name="StartTime" path="sd/ORGANISM/Applications/Application_1/ProtocolSchemaItem" unit="min" persistable="1" formulaId="101" canBeVaried="1"/>
+        <P id="110" entityId="8b758886-89a7-4371-b402-1a8dfb764a97" name="concentration" path="sd/ORGANISM/Applications/Application_1/Comp1" unit="" persistable="1" formulaId="112" canBeVaried="1"/>
+        <P id="111" entityId="219ae28f-6e44-40fb-be34-d3fa067dd256" name="Volume" path="sd/ORGANISM/Applications/Application_1" unit="" persistable="1" formulaId="115" canBeVaried="1"/>
+        <P id="118" entityId="f8877b3b-3dc5-484a-b4cd-dd8f430d607e" name="K_cell_pls" path="sd/Neighborhoods/Bone_Interstitial_Bone_Intracellular/Comp1" unit="" persistable="1" formulaId="122" canBeVaried="1"/>
+        <P id="123" entityId="53f9fbed-bf2d-4271-ae3d-b34cf6990e58" name="K_water_cell" path="sd/Neighborhoods/Bone_Interstitial_Bone_Intracellular/Comp1" unit="" persistable="1" formulaId="124" canBeVaried="1"/>
+        <P id="125" entityId="f96bb6ea-4fef-4ca4-bdce-6d6c344852c1" name="K_water_int" path="sd/Neighborhoods/Bone_Interstitial_Bone_Intracellular/Comp1" unit="" persistable="1" formulaId="127" canBeVaried="1"/>
+        <P id="128" entityId="aca6dc2c-dadf-46ca-a698-a4491bee0842" name="P_cell_int" path="sd/Neighborhoods/Bone_Interstitial_Bone_Intracellular/Comp1" unit="cm/min" persistable="1" formulaId="131" canBeVaried="1"/>
+        <P id="129" entityId="35f1dd8f-6bc1-4796-bb9c-d2ffd9e628f5" name="P_cell_int_factor" path="sd/Neighborhoods/Bone_Interstitial_Bone_Intracellular/Comp1" unit="" persistable="1" formulaId="132" canBeVaried="1"/>
+        <P id="133" entityId="2add01e8-502f-48ae-95b1-a783fb2755c3" name="P_int_cell" path="sd/Neighborhoods/Bone_Interstitial_Bone_Intracellular/Comp1" unit="cm/min" persistable="1" formulaId="135" canBeVaried="1"/>
+        <P id="134" entityId="c8d17d2e-cd82-4fcd-be31-dd3eca16330b" name="P_int_cell_factor" path="sd/Neighborhoods/Bone_Interstitial_Bone_Intracellular/Comp1" unit="" persistable="1" formulaId="136" canBeVaried="1"/>
+        <P id="137" entityId="014d6d31-0e64-4cbe-9165-f5b98ce4226c" name="PA_cell_int" path="sd/Neighborhoods/Bone_Interstitial_Bone_Intracellular/Comp1" unit="l/min" persistable="1" formulaId="139" canBeVaried="1"/>
+        <P id="140" entityId="459a3e87-9e1b-4d0e-9e74-d5c71dae5ec2" name="PA_int_cell" path="sd/Neighborhoods/Bone_Interstitial_Bone_Intracellular/Comp1" unit="l/min" persistable="1" formulaId="141" canBeVaried="1"/>
+        <P id="138" entityId="98cb865e-b3db-44dc-ae40-56e9736f5f35" name="SA_int_cell" path="sd/Neighborhoods/Bone_Interstitial_Bone_Intracellular" unit="cm²" persistable="1" formulaId="144" canBeVaried="1"/>
+        <P id="126" entityId="2b4e8dd1-c1c8-4a40-bcc5-9a7f671da67a" name="K_int_pls" path="sd/Neighborhoods/Bone_Plasma_Bone_Interstitial/Comp1" unit="" persistable="1" formulaId="145" canBeVaried="1"/>
+        <P id="146" entityId="891582cc-6296-4413-8399-601a3e1ab553" name="P_endothelial" path="sd/Neighborhoods/Bone_Plasma_Bone_Interstitial/Comp1" unit="cm/min" persistable="1" formulaId="147" canBeVaried="1"/>
+        <P id="148" entityId="5158af7e-d1f3-430e-9030-1eabf0461331" name="SA_pls_int" path="sd/Neighborhoods/Bone_Plasma_Bone_Interstitial" unit="cm²" persistable="1" formulaId="151" canBeVaried="1"/>
+        <P id="158" entityId="89012a4c-4ad4-4690-aa69-7a78c711487d" name="Br" path="sd/MoleculeProperties/Comp1" unit="" persistable="1" formulaId="159" canBeVaried="1"/>
+        <P id="160" entityId="7c4afb12-64f2-4aa7-a2af-fb9ffdd7564f" name="Chlor" path="sd/MoleculeProperties/Comp1" unit="" persistable="1" formulaId="161" canBeVaried="1"/>
+        <P id="162" entityId="7f2a844b-d9b5-4e84-b1e7-82497442557f" name="F" path="sd/MoleculeProperties/Comp1" unit="" persistable="1" formulaId="163" canBeVaried="1"/>
+        <P id="119" entityId="5a1d34c2-5b62-47d2-9eec-efdcb5dcc998" name="fu" path="sd/MoleculeProperties/Comp1" unit="" persistable="1" formulaId="164" canBeVaried="1"/>
+        <P id="165" entityId="d653961c-b007-4cab-a7ff-4bfeaf1f2dae" name="I" path="sd/MoleculeProperties/Comp1" unit="" persistable="1" formulaId="166" canBeVaried="1"/>
+        <P id="120" entityId="e82ecdae-b5d1-4c87-82f1-a25855504275" name="KProt" path="sd/MoleculeProperties/Comp1" unit="" persistable="1" formulaId="167" canBeVaried="1"/>
+        <P id="168" entityId="7724080c-dd32-4b5b-90cc-a15e22743664" name="Lipophilicity" path="sd/MoleculeProperties/Comp1" unit="Log Units" persistable="1" formulaId="169" canBeVaried="1"/>
+        <P id="121" entityId="9a9dca7a-fc31-4cae-837e-95d09abfe76c" name="LogMA" path="sd/MoleculeProperties/Comp1" unit="Log Units" persistable="1" formulaId="170" canBeVaried="1"/>
+        <P id="96" entityId="656fa633-8be0-44e7-a208-d3d335c4fd90" name="MW" path="sd/MoleculeProperties/Comp1" unit="" persistable="1" formulaId="171" canBeVaried="1"/>
+        <P id="172" entityId="bd53a12e-65ec-4225-a651-21e8ca2f9b66" name="MWEff" path="sd/MoleculeProperties/Comp1" unit="" persistable="1" formulaId="173" canBeVaried="1"/>
+        <P id="130" entityId="05f8100d-3c0a-4ad2-918f-f5e773a9e4a4" name="P" path="sd/MoleculeProperties/Comp1" unit="" persistable="1" formulaId="174" canBeVaried="1"/>
+        <P id="176" entityId="AbsTol" name="AbsTol" path="No" unit="" persistable="0" formulaId="175" canBeVaried="1"/>
+        <P id="178" entityId="RelTol" name="RelTol" path="No" unit="" persistable="0" formulaId="177" canBeVaried="1"/>
+        <P id="180" entityId="H0" name="H0" path="No" unit="" persistable="0" formulaId="179" canBeVaried="1"/>
+        <P id="182" entityId="HMin" name="HMin" path="No" unit="" persistable="0" formulaId="181" canBeVaried="1"/>
+        <P id="184" entityId="HMax" name="HMax" path="No" unit="" persistable="0" formulaId="183" canBeVaried="1"/>
+        <P id="186" entityId="MxStep" name="MxStep" path="No" unit="" persistable="0" formulaId="185" canBeVaried="1"/>
+        <P id="188" entityId="UseJacobian" name="UseJacobian" path="No" unit="" persistable="0" formulaId="187" canBeVaried="1"/>
+    </ParameterList>
+    <Solver name="CVODE1002_2">
+        <SolverOptionList/>
+        <H0 id="180"/>
+        <HMax id="184"/>
+        <HMin id="182"/>
+        <AbsTol id="176"/>
+        <MxStep id="186"/>
+        <RelTol id="178"/>
+        <UseJacobian id="188"/>
+    </Solver>
+    <OutputSchema>
+        <OutputIntervalList>
+            <OutputInterval distribution="Uniform">
+                <StartTime>0</StartTime>
+                <EndTime>1440</EndTime>
+                <NumberOfTimePoints>121</NumberOfTimePoints>
+            </OutputInterval>
+        </OutputIntervalList>
+        <OutputTimeList/>
+    </OutputSchema>
+</Simulation>

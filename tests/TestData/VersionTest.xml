@@ -1,0 +1,993 @@
+<Simulation objectPathDelimiter="|" version="3" xmlns="http://www.systems-biology.com">
+  <ObserverList>
+    <Observer id="10" entityId="db8b667b-5b31-4dfc-9cd1-81478bb977d1" name="AmountObs_1" path="SpecModel|Organism|ArterialBlood|Plasma|A" unit="µmol" persistable="1" formulaId="11" />
+    <Observer id="16" entityId="6e85f19a-d2e1-401e-a8dc-1a326c8a90f0" name="AmountObs_1" path="SpecModel|Organism|ArterialBlood|Plasma|B" unit="µmol" persistable="1" formulaId="17" />
+    <Observer id="29" entityId="82bbcd76-be1d-49ac-87dc-bca7f77e9e47" name="AmountObs_1" path="SpecModel|Organism|Lung|Plasma|A" unit="µmol" persistable="1" formulaId="30" />
+    <Observer id="34" entityId="110f54c3-b95d-4f3c-a33d-956a7bf2b793" name="AmountObs_1" path="SpecModel|Organism|Lung|Plasma|B" unit="µmol" persistable="1" formulaId="35" />
+    <Observer id="43" entityId="fdf66535-2d5e-4742-a618-e7675fb6c3a4" name="AmountObs_1" path="SpecModel|Organism|Lung|Plasma|D" unit="µmol" persistable="1" formulaId="44" />
+    <Observer id="50" entityId="d3e1671a-b9c3-4453-821f-b51d4403ee6d" name="AmountObs_3" path="SpecModel|Organism|Lung|Cell|A" unit="µmol" persistable="1" formulaId="51" />
+    <Observer id="56" entityId="1b31aa96-05a5-460b-83c4-d1b95f21b524" name="AmountObs_3" path="SpecModel|Organism|Lung|Cell|B" unit="µmol" persistable="1" formulaId="57" />
+    <Observer id="61" entityId="284cb246-9269-4ac9-8f56-c2370e15469f" name="AmountObs_2" path="SpecModel|Organism|Lung|Cell|C" unit="µmol" persistable="1" formulaId="62" />
+    <Observer id="76" entityId="0845edf9-d24d-4f9d-8362-4a0c0121a03d" name="AmountObs_1" path="SpecModel|Organism|Bone|Plasma|A" unit="µmol" persistable="1" formulaId="77" />
+    <Observer id="82" entityId="2371496a-dbaa-4fea-84f6-66cc4a3f030b" name="AmountObs_1" path="SpecModel|Organism|Bone|Plasma|B" unit="µmol" persistable="1" formulaId="83" />
+    <Observer id="89" entityId="b871e4d6-eb09-4c4e-ba7e-248ffdfd4e56" name="AmountObs_3" path="SpecModel|Organism|Bone|Cell|A" unit="µmol" persistable="1" formulaId="90" />
+    <Observer id="95" entityId="a2901689-42cc-4aca-892b-15910317801a" name="AmountObs_3" path="SpecModel|Organism|Bone|Cell|B" unit="µmol" persistable="1" formulaId="96" />
+    <Observer id="100" entityId="97c13dbd-c292-4632-971a-8aecb0fe40a6" name="AmountObs_2" path="SpecModel|Organism|Bone|Cell|C" unit="µmol" persistable="1" formulaId="101" />
+    <Observer id="107" entityId="5599cc99-60dc-4530-986d-9312bb1b421d" name="AmountObs_2" path="SpecModel|Organism|Bone|Cell|E" unit="µmol" persistable="1" formulaId="108" />
+    <Observer id="116" entityId="d863d604-701a-4d60-8acd-a8060f6f06f3" name="AmountObs_3" path="SpecModel|Organism|Bone|Cell|F" unit="µmol" persistable="1" formulaId="117" />
+    <Observer id="127" entityId="92951edd-044b-44e0-b22f-8ae43f961cde" name="AmountObs_1" path="SpecModel|Organism|VenousBlood|Plasma|A" unit="µmol" persistable="1" formulaId="128" />
+    <Observer id="132" entityId="f1e401f1-ec75-419e-83aa-4bcfe69628a9" name="AmountObs_1" path="SpecModel|Organism|VenousBlood|Plasma|B" unit="µmol" persistable="1" formulaId="133" />
+    <Observer id="139" entityId="7953e742-2ea3-4c65-bb6b-c23cda4d65f3" name="AmountObs_1" path="SpecModel|Organism|VenousBlood|Plasma|D" unit="µmol" persistable="1" formulaId="140" />
+    <Observer id="145" entityId="a8b39c83-6607-4654-887a-630f5c596184" name="AmountObs_1" path="SpecModel|Organism|VenousBlood|Plasma|E" unit="µmol" persistable="1" formulaId="146" />
+    <Observer id="148" entityId="65229c50-784e-4723-bdef-bf596c80cecd" name="ContainerObs_1" path="SpecModel|Organism|C" unit="µmol" persistable="1" formulaId="149" />
+  </ObserverList>
+  <EventList>
+    <Event conditionFormulaId="20" id="18" entityId="e7c8ccd9-6a9e-417d-a13b-d93b18bcb7c4" oneTime="1">
+      <AssignmentList>
+        <Assignment objectId="7" newFormulaId="21" useAsValue="1" />
+      </AssignmentList>
+    </Event>
+  </EventList>
+  <FormulaList>
+    <ExplicitFormula id="3">
+      <Equation>BW * 2</Equation>
+      <ReferenceList>
+        <R alias="BW" id="1" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="5">
+      <Equation>2</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="9">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="7" />
+        <R alias="V" id="6" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="11">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="7" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="13">
+      <Equation>A/2</Equation>
+      <ReferenceList>
+        <R alias="A" id="7" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="15">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="12" />
+        <R alias="V" id="6" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="17">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="12" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="20">
+      <Equation>Time = StartTime</Equation>
+      <ReferenceList>
+        <R alias="Time" id="0" />
+        <R alias="StartTime" id="19" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="21">
+      <Equation>A+10</Equation>
+      <ReferenceList>
+        <R alias="A" id="7" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="27">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="25" />
+        <R alias="V" id="23" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="30">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="25" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="33">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="31" />
+        <R alias="V" id="23" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="35">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="31" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="38">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="36" />
+        <R alias="V" id="23" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="42">
+      <Equation>RelExp + RelExpGlobal</Equation>
+      <ReferenceList>
+        <R alias="RelExpGlobal" id="41" />
+        <R alias="RelExp" id="39" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="44">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="36" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="49">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="47" />
+        <R alias="V" id="45" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="51">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="47" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="53">
+      <Equation>A/2</Equation>
+      <ReferenceList>
+        <R alias="A" id="47" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="55">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="52" />
+        <R alias="V" id="45" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="57">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="52" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="60">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="58" />
+        <R alias="V" id="45" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="62">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="58" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="66">
+      <Equation>-1*(k1*k2*fu*A*B*C)</Equation>
+      <ReferenceList>
+        <R alias="k1" id="63" />
+        <R alias="k2" id="64" />
+        <R alias="fu" id="65" />
+        <R alias="A" id="47" />
+        <R alias="B" id="52" />
+        <R alias="C" id="58" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="67">
+      <Equation>k1*k2*fu*A*B*C</Equation>
+      <ReferenceList>
+        <R alias="k1" id="63" />
+        <R alias="k2" id="64" />
+        <R alias="fu" id="65" />
+        <R alias="A" id="47" />
+        <R alias="B" id="52" />
+        <R alias="C" id="58" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="74">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="72" />
+        <R alias="V" id="70" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="77">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="72" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="79">
+      <Equation>A/2</Equation>
+      <ReferenceList>
+        <R alias="A" id="72" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="81">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="78" />
+        <R alias="V" id="70" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="83">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="78" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="88">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="86" />
+        <R alias="V" id="84" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="90">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="86" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="92">
+      <Equation>A/2</Equation>
+      <ReferenceList>
+        <R alias="A" id="86" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="94">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="91" />
+        <R alias="V" id="84" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="96">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="91" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="99">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="97" />
+        <R alias="V" id="84" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="101">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="97" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="104">
+      <Equation>RelExp</Equation>
+      <ReferenceList>
+        <R alias="RelExp" id="103" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="106">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="102" />
+        <R alias="V" id="84" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="108">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="102" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="112">
+      <Equation>RelExp * ProteinContent</Equation>
+      <ReferenceList>
+        <R alias="RelExp" id="110" />
+        <R alias="ProteinContent" id="111" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="114">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="109" />
+        <R alias="V" id="84" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="117">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="109" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="119">
+      <Equation>-1*(k1*k2*fu*A*B*C)</Equation>
+      <ReferenceList>
+        <R alias="k1" id="118" />
+        <R alias="k2" id="64" />
+        <R alias="fu" id="65" />
+        <R alias="A" id="86" />
+        <R alias="B" id="91" />
+        <R alias="C" id="97" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="120">
+      <Equation>k1*k2*fu*A*B*C</Equation>
+      <ReferenceList>
+        <R alias="k1" id="118" />
+        <R alias="k2" id="64" />
+        <R alias="fu" id="65" />
+        <R alias="A" id="86" />
+        <R alias="B" id="91" />
+        <R alias="C" id="97" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="126">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="124" />
+        <R alias="V" id="123" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="128">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="124" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="131">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="129" />
+        <R alias="V" id="123" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="133">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="129" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="136">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="134" />
+        <R alias="V" id="123" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="140">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="134" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="143">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="141" />
+        <R alias="V" id="123" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="146">
+      <Equation>M/2</Equation>
+      <ReferenceList>
+        <R alias="M" id="141" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="149">
+      <Equation>M1+M2</Equation>
+      <ReferenceList>
+        <R alias="M1" id="58" />
+        <R alias="M2" id="97" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="150">
+      <Equation>-1*(Q*C)</Equation>
+      <ReferenceList>
+        <R alias="Q" id="22" />
+        <R alias="C" id="8" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="151">
+      <Equation>Q*C</Equation>
+      <ReferenceList>
+        <R alias="Q" id="22" />
+        <R alias="C" id="8" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="153">
+      <Equation>-1*(Q*C)</Equation>
+      <ReferenceList>
+        <R alias="Q" id="22" />
+        <R alias="C" id="14" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="154">
+      <Equation>Q*C</Equation>
+      <ReferenceList>
+        <R alias="Q" id="22" />
+        <R alias="C" id="14" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="156">
+      <Equation>-1*(Q*C)</Equation>
+      <ReferenceList>
+        <R alias="Q" id="68" />
+        <R alias="C" id="26" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="157">
+      <Equation>Q*C</Equation>
+      <ReferenceList>
+        <R alias="Q" id="68" />
+        <R alias="C" id="26" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="158">
+      <Equation>-1*(Q*C)</Equation>
+      <ReferenceList>
+        <R alias="Q" id="68" />
+        <R alias="C" id="32" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="159">
+      <Equation>Q*C</Equation>
+      <ReferenceList>
+        <R alias="Q" id="68" />
+        <R alias="C" id="32" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="160">
+      <Equation>-1*(Q*C)</Equation>
+      <ReferenceList>
+        <R alias="Q" id="121" />
+        <R alias="C" id="73" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="161">
+      <Equation>Q*C</Equation>
+      <ReferenceList>
+        <R alias="Q" id="121" />
+        <R alias="C" id="73" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="162">
+      <Equation>-1*(Q*C)</Equation>
+      <ReferenceList>
+        <R alias="Q" id="121" />
+        <R alias="C" id="80" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="163">
+      <Equation>Q*C</Equation>
+      <ReferenceList>
+        <R alias="Q" id="121" />
+        <R alias="C" id="80" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="164">
+      <Equation>-1*(Q*C)</Equation>
+      <ReferenceList>
+        <R alias="Q" id="147" />
+        <R alias="C" id="125" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="165">
+      <Equation>Q*C</Equation>
+      <ReferenceList>
+        <R alias="Q" id="147" />
+        <R alias="C" id="125" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="166">
+      <Equation>-1*(Q*C)</Equation>
+      <ReferenceList>
+        <R alias="Q" id="147" />
+        <R alias="C" id="130" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="167">
+      <Equation>Q*C</Equation>
+      <ReferenceList>
+        <R alias="Q" id="147" />
+        <R alias="C" id="130" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="170">
+      <Equation>pH1/pH2*logMA*HelpMe</Equation>
+      <ReferenceList>
+        <R alias="logMA" id="169" />
+        <R alias="pH1" id="24" />
+        <R alias="HelpMe" id="28" />
+        <R alias="pH2" id="46" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="173">
+      <Equation>P_1</Equation>
+      <ReferenceList>
+        <R alias="P_1" id="172" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="176">
+      <Equation>-1*(VmaxAbs*RelExp*C/(Km+C))</Equation>
+      <ReferenceList>
+        <R alias="VmaxAbs" id="174" />
+        <R alias="Km" id="175" />
+        <R alias="C" id="26" />
+        <R alias="RelExp" id="39" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="177">
+      <Equation>VmaxAbs*RelExp*C/(Km+C)</Equation>
+      <ReferenceList>
+        <R alias="VmaxAbs" id="174" />
+        <R alias="Km" id="175" />
+        <R alias="C" id="26" />
+        <R alias="RelExp" id="39" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="179">
+      <Equation>VmaxAbs*RelExp*C/(Km+C)</Equation>
+      <ReferenceList>
+        <R alias="VmaxAbs" id="174" />
+        <R alias="Km" id="175" />
+        <R alias="C" id="26" />
+        <R alias="RelExp" id="39" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="181">
+      <Equation>-1*(fu*P*SA*(C1-C2/K)*logMA)</Equation>
+      <ReferenceList>
+        <R alias="fu" id="65" />
+        <R alias="C1" id="26" />
+        <R alias="C2" id="48" />
+        <R alias="K" id="168" />
+        <R alias="logMA" id="169" />
+        <R alias="P" id="69" />
+        <R alias="SA" id="180" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="182">
+      <Equation>fu*P*SA*(C1-C2/K)*logMA</Equation>
+      <ReferenceList>
+        <R alias="fu" id="65" />
+        <R alias="C1" id="26" />
+        <R alias="C2" id="48" />
+        <R alias="K" id="168" />
+        <R alias="logMA" id="169" />
+        <R alias="P" id="69" />
+        <R alias="SA" id="180" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="185">
+      <Equation>pH1/pH2*logMA</Equation>
+      <ReferenceList>
+        <R alias="logMA" id="184" />
+        <R alias="pH1" id="24" />
+        <R alias="pH2" id="46" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="187">
+      <Equation>0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="189">
+      <Equation>-1*(VMaxAbs*C/(1+C))</Equation>
+      <ReferenceList>
+        <R alias="VMaxAbs" id="188" />
+        <R alias="C" id="32" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="190">
+      <Equation>VMaxAbs*C/(1+C)</Equation>
+      <ReferenceList>
+        <R alias="VMaxAbs" id="188" />
+        <R alias="C" id="32" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="191">
+      <Equation>-1*(fu*P*SA*(C1-C2/K)*logMA)</Equation>
+      <ReferenceList>
+        <R alias="fu" id="65" />
+        <R alias="C1" id="32" />
+        <R alias="C2" id="54" />
+        <R alias="K" id="183" />
+        <R alias="logMA" id="184" />
+        <R alias="P" id="69" />
+        <R alias="SA" id="180" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="192">
+      <Equation>fu*P*SA*(C1-C2/K)*logMA</Equation>
+      <ReferenceList>
+        <R alias="fu" id="65" />
+        <R alias="C1" id="32" />
+        <R alias="C2" id="54" />
+        <R alias="K" id="183" />
+        <R alias="logMA" id="184" />
+        <R alias="P" id="69" />
+        <R alias="SA" id="180" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="194">
+      <Equation>pH1/pH2*logMA*HelpMe</Equation>
+      <ReferenceList>
+        <R alias="logMA" id="169" />
+        <R alias="pH1" id="71" />
+        <R alias="HelpMe" id="75" />
+        <R alias="pH2" id="85" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="197">
+      <Equation>P_1</Equation>
+      <ReferenceList>
+        <R alias="P_1" id="196" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="200">
+      <Equation>-1*(VmaxAbs*RelExp*C/(Km+C))</Equation>
+      <ReferenceList>
+        <R alias="VmaxAbs" id="198" />
+        <R alias="Km" id="199" />
+        <R alias="C" id="87" />
+        <R alias="RelExp" id="103" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="201">
+      <Equation>VmaxAbs*RelExp*C/(Km+C)</Equation>
+      <ReferenceList>
+        <R alias="VmaxAbs" id="198" />
+        <R alias="Km" id="199" />
+        <R alias="C" id="87" />
+        <R alias="RelExp" id="103" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="202">
+      <Equation>VmaxAbs*RelExp*C/(Km+C)</Equation>
+      <ReferenceList>
+        <R alias="VmaxAbs" id="198" />
+        <R alias="Km" id="199" />
+        <R alias="C" id="87" />
+        <R alias="RelExp" id="103" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="204">
+      <Equation>-1*(fu*P*SA*(C1-C2/K)*logMA)</Equation>
+      <ReferenceList>
+        <R alias="fu" id="65" />
+        <R alias="C1" id="73" />
+        <R alias="C2" id="87" />
+        <R alias="K" id="193" />
+        <R alias="logMA" id="169" />
+        <R alias="P" id="122" />
+        <R alias="SA" id="203" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="205">
+      <Equation>fu*P*SA*(C1-C2/K)*logMA</Equation>
+      <ReferenceList>
+        <R alias="fu" id="65" />
+        <R alias="C1" id="73" />
+        <R alias="C2" id="87" />
+        <R alias="K" id="193" />
+        <R alias="logMA" id="169" />
+        <R alias="P" id="122" />
+        <R alias="SA" id="203" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="207">
+      <Equation>pH1/pH2*logMA</Equation>
+      <ReferenceList>
+        <R alias="logMA" id="184" />
+        <R alias="pH1" id="71" />
+        <R alias="pH2" id="85" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="209">
+      <Equation>0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="210">
+      <Equation>-1*(fu*P*SA*(C1-C2/K)*logMA)</Equation>
+      <ReferenceList>
+        <R alias="fu" id="65" />
+        <R alias="C1" id="80" />
+        <R alias="C2" id="93" />
+        <R alias="K" id="206" />
+        <R alias="logMA" id="184" />
+        <R alias="P" id="122" />
+        <R alias="SA" id="203" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="211">
+      <Equation>fu*P*SA*(C1-C2/K)*logMA</Equation>
+      <ReferenceList>
+        <R alias="fu" id="65" />
+        <R alias="C1" id="80" />
+        <R alias="C2" id="93" />
+        <R alias="K" id="206" />
+        <R alias="logMA" id="184" />
+        <R alias="P" id="122" />
+        <R alias="SA" id="203" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="214">
+      <Equation>MW</Equation>
+      <ReferenceList>
+        <R alias="MW" id="213" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="218">
+      <Equation>MW</Equation>
+      <ReferenceList>
+        <R alias="MW" id="217" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="228">
+      <Equation>p</Equation>
+      <ReferenceList>
+        <R alias="p" id="215" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="229">
+      <Equation>1E-09</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="231">
+      <Equation>0.0001</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="233">
+      <Equation>1E-10</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="235">
+      <Equation>0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="237">
+      <Equation>60</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="239">
+      <Equation>100000</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="241">
+      <Equation>1</Equation>
+    </ExplicitFormula>
+  </FormulaList>
+  <VariableList>
+    <V id="7" entityId="ebd483a0-10e4-4940-a49d-38f6f725fd0b" name="A" path="SpecModel|Organism|ArterialBlood|Plasma" unit="µmol" persistable="1" value="1">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="150" />
+        <RHSFormula id="157" />
+      </RHSFormulaList>
+    </V>
+    <V id="12" entityId="250498d9-5f62-42e3-8d21-4a27b47e24d3" name="B" path="SpecModel|Organism|ArterialBlood|Plasma" unit="µmol" persistable="1" initialValueFormulaId="13">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="153" />
+        <RHSFormula id="159" />
+      </RHSFormulaList>
+    </V>
+    <V id="25" entityId="92e296e8-7d86-49eb-bda0-44fe5bddc836" name="A" path="SpecModel|Organism|Lung|Plasma" unit="µmol" persistable="1" value="6">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="156" />
+        <RHSFormula id="165" />
+        <RHSFormula id="176" />
+        <RHSFormula id="181" />
+      </RHSFormulaList>
+    </V>
+    <V id="31" entityId="79f38ed2-bd86-4035-a3d9-e60d156a4f97" name="B" path="SpecModel|Organism|Lung|Plasma" unit="µmol" persistable="1" value="7">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="158" />
+        <RHSFormula id="167" />
+        <RHSFormula id="189" />
+        <RHSFormula id="191" />
+      </RHSFormulaList>
+    </V>
+    <V id="47" entityId="35fff7a3-21b8-45e3-bdd5-1d699703544b" name="A" path="SpecModel|Organism|Lung|Cell" unit="µmol" persistable="1" value="0">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="66" />
+        <RHSFormula id="177" />
+        <RHSFormula id="182" />
+      </RHSFormulaList>
+    </V>
+    <V id="52" entityId="9fdaeae5-8f68-4c00-b3aa-9ca8642a06cc" name="B" path="SpecModel|Organism|Lung|Cell" unit="µmol" persistable="1" initialValueFormulaId="53">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="190" />
+        <RHSFormula id="192" />
+      </RHSFormulaList>
+    </V>
+    <V id="58" entityId="e32bc3ef-af8e-417f-aa11-e6c336422ee3" name="C" path="SpecModel|Organism|Lung|Cell" unit="µmol" persistable="1" value="0">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="67" />
+      </RHSFormulaList>
+    </V>
+    <V id="72" entityId="7e1a0884-2c87-46fd-86cd-4bd46bc93b8d" name="A" path="SpecModel|Organism|Bone|Plasma" unit="µmol" persistable="1" value="0">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="151" />
+        <RHSFormula id="160" />
+        <RHSFormula id="201" />
+        <RHSFormula id="204" />
+      </RHSFormulaList>
+    </V>
+    <V id="78" entityId="c9ae4a9a-203f-410a-b7db-8a90ac43440a" name="B" path="SpecModel|Organism|Bone|Plasma" unit="µmol" persistable="1" initialValueFormulaId="79">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="154" />
+        <RHSFormula id="162" />
+        <RHSFormula id="210" />
+      </RHSFormulaList>
+    </V>
+    <V id="86" entityId="fd461851-e7e4-470c-878e-1cdd7ac535bf" name="A" path="SpecModel|Organism|Bone|Cell" unit="µmol" persistable="1" value="0">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="119" />
+        <RHSFormula id="200" />
+        <RHSFormula id="205" />
+      </RHSFormulaList>
+    </V>
+    <V id="91" entityId="83488bdb-4f91-4ad4-b659-3a70732e8f99" name="B" path="SpecModel|Organism|Bone|Cell" unit="µmol" persistable="1" initialValueFormulaId="92">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="211" />
+      </RHSFormulaList>
+    </V>
+    <V id="97" entityId="06ca15b7-cfbd-46df-8139-48a5957cbdf9" name="C" path="SpecModel|Organism|Bone|Cell" unit="µmol" persistable="1" value="0">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="120" />
+      </RHSFormulaList>
+    </V>
+    <V id="124" entityId="54ad0817-3c0c-452b-bcdb-e5d54ae186d9" name="A" path="SpecModel|Organism|VenousBlood|Plasma" unit="µmol" persistable="1" value="1">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="161" />
+        <RHSFormula id="164" />
+      </RHSFormulaList>
+    </V>
+    <V id="129" entityId="48532084-5a42-4d79-98bb-96ce4160fc08" name="B" path="SpecModel|Organism|VenousBlood|Plasma" unit="µmol" persistable="1" value="0.4">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="163" />
+        <RHSFormula id="166" />
+      </RHSFormulaList>
+    </V>
+  </VariableList>
+  <ParameterList>
+    <P id="1" entityId="85934aa8-f0ee-4be4-af57-d9fdc10603c8" name="BW" path="SpecModel|Organism" persistable="0" value="20" />
+    <P id="2" entityId="417438d2-f9a3-45d5-89c9-802ce59301de" name="BMI" path="SpecModel|Organism" persistable="0" formulaId="3" />
+    <P id="4" entityId="1f0a91d3-747e-4855-94ad-216ee3bab8fe" name="Distributed" path="SpecModel|Organism" persistable="0" formulaId="5" />
+    <P id="6" entityId="925a4a85-be98-40ea-a7a1-db2449b6dcf7" name="Volume" path="SpecModel|Organism|ArterialBlood|Plasma" persistable="0" value="2" />
+    <P id="8" entityId="ee87d219-f5d9-4b43-b6b5-d11d7b0591e8" name="C" path="SpecModel|Organism|ArterialBlood|Plasma|A" persistable="0" formulaId="9" />
+    <P id="14" entityId="bf796a08-ed4b-4b67-aa77-4f96f32c94c0" name="C" path="SpecModel|Organism|ArterialBlood|Plasma|B" persistable="0" formulaId="15" />
+    <P id="19" entityId="28d8e60d-a818-4cfe-8a66-30bb7fc21548" name="StartTime" path="SpecModel|Organism|ArterialBlood|Plasma|Bolus Application|application" persistable="0" value="10" />
+    <P id="22" entityId="d65c71f7-7e37-424f-84cb-3a50cfb598f8" name="Q" path="SpecModel|Organism|ArterialBlood" persistable="0" value="2" />
+    <P id="23" entityId="960946f9-b81d-4439-b846-fed1f202deac" name="Volume" path="SpecModel|Organism|Lung|Plasma" persistable="0" value="2" />
+    <P id="24" entityId="605fe6b2-8da1-4661-b832-e0b8bde4e2c1" name="pH" path="SpecModel|Organism|Lung|Plasma" persistable="0" value="7.5" />
+    <P id="26" entityId="c627f414-7a67-4cfb-a8c9-52542def503e" name="C" path="SpecModel|Organism|Lung|Plasma|A" persistable="0" formulaId="27" />
+    <P id="28" entityId="9ca2cd77-c245-4c81-a15c-1d9052155d83" name="HelpMe" path="SpecModel|Organism|Lung|Plasma|A" persistable="0" value="10" />
+    <P id="32" entityId="3af0f0b3-77c6-43b6-885e-0d6fa5996dda" name="C" path="SpecModel|Organism|Lung|Plasma|B" persistable="0" formulaId="33" />
+    <P id="36" entityId="292e2bb2-a37a-4a2a-922d-26364cb6a996" name="D" path="SpecModel|Organism|Lung|Plasma" unit="µmol" persistable="1" value="8" canBeVaried="0" />
+    <P id="37" entityId="e867d158-16fd-451e-975d-fe77510068f2" name="C" path="SpecModel|Organism|Lung|Plasma|D" persistable="0" formulaId="38" />
+    <P id="39" entityId="b2a63165-5cde-4401-8702-8da8afb61d01" name="RelExp" path="SpecModel|Organism|Lung|Plasma|D" persistable="0" value="0" />
+    <P id="40" entityId="1c704f4a-db33-4cbf-9d55-70141eb0f85d" name="RelExpNorm" path="SpecModel|Organism|Lung|Plasma|D" persistable="0" formulaId="42" />
+    <P id="45" entityId="2f2ecba6-3feb-494b-ab31-0d23e78ea3ca" name="Volume" path="SpecModel|Organism|Lung|Cell" persistable="0" value="1" />
+    <P id="46" entityId="ae6a3abb-d740-4928-a17a-203642bf5c01" name="pH" path="SpecModel|Organism|Lung|Cell" persistable="0" value="7" />
+    <P id="48" entityId="b4e810fa-4dc4-4539-bc4f-796ca766d8e0" name="C" path="SpecModel|Organism|Lung|Cell|A" persistable="0" formulaId="49" />
+    <P id="54" entityId="2276b214-ff38-46f3-a2ef-de5899da8632" name="C" path="SpecModel|Organism|Lung|Cell|B" persistable="0" formulaId="55" />
+    <P id="59" entityId="94b28d01-fdfe-48b3-a605-91c0fbcf0555" name="C" path="SpecModel|Organism|Lung|Cell|C" persistable="0" formulaId="60" />
+    <P id="63" entityId="bf804c38-5680-4a13-b78d-70bf55c54e43" name="k1" path="SpecModel|Organism|Lung|Cell|R1" persistable="0" value="22" />
+    <P id="68" entityId="148b97e7-0a2e-4de6-9ab0-61b312609c64" name="Q" path="SpecModel|Organism|Lung" persistable="0" value="3" />
+    <P id="69" entityId="bc9cfbdc-e09d-461d-b1b7-2402e9993820" name="P" path="SpecModel|Organism|Lung" persistable="0" value="2" />
+    <P id="70" entityId="7bbb1dd0-760f-41e5-8cbe-f6c51c8fc839" name="Volume" path="SpecModel|Organism|Bone|Plasma" persistable="0" value="2" />
+    <P id="71" entityId="d94eeeb5-606f-43e0-a9fd-a1345c0ff63d" name="pH" path="SpecModel|Organism|Bone|Plasma" persistable="0" value="7.5" />
+    <P id="73" entityId="f22c116a-2aeb-4da8-9d0f-799ec1f100cb" name="C" path="SpecModel|Organism|Bone|Plasma|A" persistable="0" formulaId="74" />
+    <P id="75" entityId="b046ab0a-b624-4553-85c4-8c3f2d043357" name="HelpMe" path="SpecModel|Organism|Bone|Plasma|A" persistable="0" value="20" />
+    <P id="80" entityId="df73435f-860b-4b15-bd74-2f7e8636d7e6" name="C" path="SpecModel|Organism|Bone|Plasma|B" persistable="0" formulaId="81" />
+    <P id="84" entityId="1df5952c-9478-4626-ae2d-c71f8e0c4454" name="Volume" path="SpecModel|Organism|Bone|Cell" persistable="0" value="1" />
+    <P id="85" entityId="5361f49e-9340-4c5a-b71d-451a02a29f3b" name="pH" path="SpecModel|Organism|Bone|Cell" persistable="0" value="7" />
+    <P id="87" entityId="6a216632-e57d-4a0d-b77d-b0632d932916" name="C" path="SpecModel|Organism|Bone|Cell|A" persistable="0" formulaId="88" />
+    <P id="93" entityId="4a6bdaf2-bdb9-4349-816c-c38270a9710c" name="C" path="SpecModel|Organism|Bone|Cell|B" persistable="0" formulaId="94" />
+    <P id="98" entityId="4553ac5f-055d-43be-9cb8-11fe88623f52" name="C" path="SpecModel|Organism|Bone|Cell|C" persistable="0" formulaId="99" />
+    <P id="102" entityId="61bb59ba-c5bc-45e7-b83c-c934d69f1b49" name="E" path="SpecModel|Organism|Bone|Cell" unit="µmol" persistable="1" formulaId="104" canBeVaried="0" />
+    <P id="105" entityId="657ac547-f82f-4100-9e71-08edce8d5904" name="C" path="SpecModel|Organism|Bone|Cell|E" persistable="0" formulaId="106" />
+    <P id="103" entityId="65b1ff89-6b85-4ccb-b4bf-ead16c90ce57" name="RelExp" path="SpecModel|Organism|Bone|Cell|E" persistable="0" value="0" />
+    <P id="109" entityId="be14e9f6-7bd6-4bce-819e-e7db76ed1d4e" name="F" path="SpecModel|Organism|Bone|Cell" unit="µmol" persistable="1" formulaId="112" canBeVaried="0" />
+    <P id="113" entityId="e69d90eb-3835-4ab9-bad6-f144680e0f38" name="C" path="SpecModel|Organism|Bone|Cell|F" persistable="0" formulaId="114" />
+    <P id="110" entityId="48c63e68-e855-4bd3-b678-944960248ccd" name="RelExp" path="SpecModel|Organism|Bone|Cell|F" persistable="0" value="0" />
+    <P id="115" entityId="e4e6e935-b4aa-4a47-9a61-a4c120acc7d7" name="Ontogeny factor" path="SpecModel|Organism|Bone|Cell|F" persistable="0" value="5" />
+    <P id="118" entityId="35ff3c16-5cec-40a9-ac03-92d60b88923e" name="k1" path="SpecModel|Organism|Bone|Cell|R1" persistable="0" value="22" />
+    <P id="121" entityId="5a9d8c12-2b4d-4c37-a41a-a93c2b2029b4" name="Q" path="SpecModel|Organism|Bone" persistable="0" value="3" />
+    <P id="122" entityId="f42e69b4-8efc-41fc-abfb-5354d96dddcb" name="P" path="SpecModel|Organism|Bone" persistable="0" value="2" />
+    <P id="123" entityId="ac6ad1fa-a70c-42d0-9a37-b5f8e01ac512" name="Volume" path="SpecModel|Organism|VenousBlood|Plasma" persistable="0" value="2" />
+    <P id="125" entityId="f5df1ea7-2137-472b-8c87-2f6b2f954996" name="C" path="SpecModel|Organism|VenousBlood|Plasma|A" persistable="0" formulaId="126" />
+    <P id="130" entityId="88ba4b8d-d67b-4fd8-af52-669cece405a1" name="C" path="SpecModel|Organism|VenousBlood|Plasma|B" persistable="0" formulaId="131" />
+    <P id="134" entityId="b50f81d4-6178-4c04-abb3-90b18e858f0e" name="D" path="SpecModel|Organism|VenousBlood|Plasma" unit="µmol" persistable="1" value="0" canBeVaried="0" />
+    <P id="135" entityId="b47f6a11-89be-4cb6-94b5-ba2cbfd86576" name="C" path="SpecModel|Organism|VenousBlood|Plasma|D" persistable="0" formulaId="136" />
+    <P id="137" entityId="331e59eb-aca5-4df5-bb03-5ae6140f1da4" name="RelExp" path="SpecModel|Organism|VenousBlood|Plasma|D" persistable="0" value="0" />
+    <P id="138" entityId="b8d5df9b-9dfc-41c8-92f9-d915d69ee0f5" name="RelExpNorm" path="SpecModel|Organism|VenousBlood|Plasma|D" persistable="0" value="0" />
+    <P id="141" entityId="6ac076fe-2698-4641-902a-ff67d091b3d5" name="E" path="SpecModel|Organism|VenousBlood|Plasma" unit="µmol" persistable="1" value="0" canBeVaried="0" />
+    <P id="142" entityId="cac47118-89e7-4dde-bfe4-32fbdbb6cee1" name="C" path="SpecModel|Organism|VenousBlood|Plasma|E" persistable="0" formulaId="143" />
+    <P id="144" entityId="3de6ba9b-da0f-463b-8ddb-a6d3f40c7d44" name="RelExp" path="SpecModel|Organism|VenousBlood|Plasma|E" persistable="0" value="0" />
+    <P id="147" entityId="5354971f-e618-4bcc-b241-07241c47c0b4" name="Q" path="SpecModel|Organism|VenousBlood" persistable="0" value="2" />
+    <P id="65" entityId="e40c1dac-e532-4a9c-b299-8cfe59b03881" name="fu" path="SpecModel|Organism" persistable="0" value="1" />
+    <P id="152" entityId="81e469e0-7d34-4745-95fa-9e75a7ebf33c" name="p1" path="SpecModel|Neighborhoods|art_pls_to_bon_pls|A|T1_1" persistable="0" value="1" />
+    <P id="155" entityId="ae5a7d3f-250e-4941-9cc6-5b33433602b3" name="p1" path="SpecModel|Neighborhoods|art_pls_to_bon_pls|B|T1_1" persistable="0" value="1" />
+    <P id="168" entityId="fe30b31a-282b-4cdb-b02c-fe57f141d95d" name="K" path="SpecModel|Neighborhoods|lng_pls_to_lng_cell|A" persistable="0" formulaId="170" />
+    <P id="171" entityId="174bccdb-8ecb-4630-bc45-0923a8d98877" name="SumProcessRate" path="SpecModel|Neighborhoods|lng_pls_to_lng_cell|A" persistable="0" formulaId="173" />
+    <P id="175" entityId="a9b50b8d-eee6-417e-b359-17830c3134bf" name="Km" path="SpecModel|Neighborhoods|lng_pls_to_lng_cell|A|My Transport1|Transporter #1" persistable="0" value="33" />
+    <P id="174" entityId="3e4049dd-ce1c-41a1-aa1b-644711154891" name="VmaxAbs" path="SpecModel|Neighborhoods|lng_pls_to_lng_cell|A|My Transport1|Transporter #1" persistable="0" value="1" />
+    <P id="178" entityId="5e53a1e7-0293-4769-be40-0029fbf3cd6a" name="p1" path="SpecModel|Neighborhoods|lng_pls_to_lng_cell|A|My Transport1|Transporter #1" persistable="0" value="2" />
+    <P id="172" entityId="07fbcf27-fe77-4957-b2fa-f9ec5b42197f" name="ProcessRate" path="SpecModel|Neighborhoods|lng_pls_to_lng_cell|A|My Transport1|Transporter #1" persistable="0" formulaId="179" />
+    <P id="183" entityId="ca109f5e-a797-47f5-9017-781fb1d171ae" name="K" path="SpecModel|Neighborhoods|lng_pls_to_lng_cell|B" persistable="0" formulaId="185" />
+    <P id="186" entityId="93575d75-5cfe-42ce-bfc6-e5cd09cc976a" name="SumProcessRate" path="SpecModel|Neighborhoods|lng_pls_to_lng_cell|B" persistable="0" formulaId="187" />
+    <P id="188" entityId="d5afa01c-698c-4ed4-8e5e-ef9a068d5dfe" name="VmaxAbs" path="SpecModel|Neighborhoods|lng_pls_to_lng_cell|B|My Transport1|Transporter #1" persistable="0" value="1" />
+    <P id="180" entityId="ded1d091-48a2-4d0b-bcaa-a6883f641942" name="SA" path="SpecModel|Neighborhoods|lng_pls_to_lng_cell" persistable="0" value="22" />
+    <P id="193" entityId="b25f71b1-a996-40f0-8bd9-1f407a305a49" name="K" path="SpecModel|Neighborhoods|bon_pls_to_bon_cell|A" persistable="0" formulaId="194" />
+    <P id="195" entityId="a22e67d8-4fcd-43e1-ba8e-f13e49b9d84b" name="SumProcessRate" path="SpecModel|Neighborhoods|bon_pls_to_bon_cell|A" persistable="0" formulaId="197" />
+    <P id="199" entityId="65edf97f-b8e3-4187-9872-6cc6979d552b" name="Km" path="SpecModel|Neighborhoods|bon_pls_to_bon_cell|A|My Transport2|Transporter #2" persistable="0" value="66" />
+    <P id="198" entityId="bbe678e6-83dc-4b04-a42c-6119c0969d07" name="VmaxAbs" path="SpecModel|Neighborhoods|bon_pls_to_bon_cell|A|My Transport2|Transporter #2" persistable="0" value="2" />
+    <P id="196" entityId="bf971dd9-4923-4461-ae03-e8d6f9aba339" name="ProcessRate" path="SpecModel|Neighborhoods|bon_pls_to_bon_cell|A|My Transport2|Transporter #2" persistable="0" formulaId="202" />
+    <P id="206" entityId="35806693-c4d2-4d99-b264-91f1f7ef36e1" name="K" path="SpecModel|Neighborhoods|bon_pls_to_bon_cell|B" persistable="0" formulaId="207" />
+    <P id="208" entityId="6b67e527-0340-49c5-a583-f1374739d4e3" name="SumProcessRate" path="SpecModel|Neighborhoods|bon_pls_to_bon_cell|B" persistable="0" formulaId="209" />
+    <P id="203" entityId="066cfdeb-16c1-4ef1-9b44-27de5b417106" name="SA" path="SpecModel|Neighborhoods|bon_pls_to_bon_cell" persistable="0" value="22" />
+    <P id="212" entityId="32dcb3be-2c9c-4f70-a094-2233a6962184" name="XYZ" path="SpecModel|A" persistable="0" formulaId="214" />
+    <P id="213" entityId="708e1853-d928-469b-bd3a-62a54e0dbb50" name="MW" path="SpecModel|A" persistable="0" value="1" />
+    <P id="169" entityId="f42cab3a-5b0d-4f01-84d0-c73132775f2c" name="logMA" path="SpecModel|A" persistable="0" value="2" />
+    <P id="215" entityId="7bac8cee-b6dc-4465-aba6-79f6eb1984e3" name="oneGlobalParameter" path="SpecModel|A" persistable="0" value="33" />
+    <P id="216" entityId="c3e30c07-297e-4097-8719-0f1e3252c03a" name="XYZ" path="SpecModel|B" persistable="0" formulaId="218" />
+    <P id="217" entityId="69a4e8a8-c68d-4e79-ad30-777ae6f65c3e" name="MW" path="SpecModel|B" persistable="0" value="2" />
+    <P id="184" entityId="6dbf9920-f089-4078-93d2-b0ff9c3771da" name="logMA" path="SpecModel|B" persistable="0" value="2" />
+    <P id="219" entityId="4a0e9120-b490-48a9-a9ea-5a746da0e992" name="MW" path="SpecModel|D" persistable="0" value="3" />
+    <P id="220" entityId="02d73ab1-0eac-43f7-bd90-08180304bd35" name="logMA" path="SpecModel|D" persistable="0" value="3" />
+    <P id="41" entityId="5529d74f-289f-4129-99d5-390f81fce5b0" name="RelExpGlobal" path="SpecModel|D" persistable="0" value="0" />
+    <P id="221" entityId="26ca8296-7bf7-4a8f-9473-551bbec97135" name="MW" path="SpecModel|C" persistable="0" value="3" />
+    <P id="222" entityId="488d4a16-2777-4348-9b6f-9757201d104c" name="logMA" path="SpecModel|C" persistable="0" value="3" />
+    <P id="223" entityId="7a8d37a1-fe02-4580-9a6b-7907d8e8a5cd" name="MW" path="SpecModel|E" persistable="0" value="4" />
+    <P id="224" entityId="bd48dc5e-bb3f-406b-9b76-baf76b414276" name="logMA" path="SpecModel|E" persistable="0" value="5" />
+    <P id="225" entityId="062ddf22-853b-43d8-84c8-edac291f91cb" name="MW" path="SpecModel|F" persistable="0" value="4" />
+    <P id="226" entityId="15805739-e87c-4ea8-b137-bb8f8e6369b3" name="logMA" path="SpecModel|F" persistable="0" value="5" />
+    <P id="111" entityId="ae648d7b-e8cf-4632-8422-d0e6ef51f673" name="ProteinContent" path="SpecModel|F" persistable="0" value="1" />
+    <P id="64" entityId="3d35f92d-d397-49a5-8963-7c90a80afcd5" name="k2" path="SpecModel|R1" persistable="0" value="1" />
+    <P id="227" entityId="fdd9f788-d7ca-43fa-9e46-5c00bc6fa9ca" name="k3" path="SpecModel|R1" persistable="0" formulaId="228" />
+    <P id="230" entityId="AbsTol" name="AbsTol" persistable="0" formulaId="229" />
+    <P id="232" entityId="RelTol" name="RelTol" persistable="0" formulaId="231" />
+    <P id="234" entityId="H0" name="H0" persistable="0" formulaId="233" />
+    <P id="236" entityId="HMin" name="HMin" persistable="0" formulaId="235" />
+    <P id="238" entityId="HMax" name="HMax" persistable="0" formulaId="237" />
+    <P id="240" entityId="MxStep" name="MxStep" persistable="0" formulaId="239" />
+    <P id="242" entityId="UseJacobian" name="UseJacobian" persistable="0" formulaId="241" />
+  </ParameterList>
+  <Solver name="CVODE1002_2">
+    <H0 id="234" />
+    <HMax id="238" />
+    <HMin id="236" />
+    <AbsTol id="230" />
+    <MxStep id="240" />
+    <RelTol id="232" />
+    <UseJacobian id="242" />
+  </Solver>
+  <OutputSchema>
+    <OutputIntervalList>
+      <OutputInterval distribution="Uniform">
+        <StartTime>0</StartTime>
+        <EndTime>5000000</EndTime>
+        <NumberOfTimePoints>2</NumberOfTimePoints>
+      </OutputInterval>
+    </OutputIntervalList>
+  </OutputSchema>
+</Simulation>

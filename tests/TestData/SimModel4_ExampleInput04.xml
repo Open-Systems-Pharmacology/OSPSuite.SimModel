@@ -1,0 +1,165 @@
+<Simulation objectPathDelimiter="/" xmlns="http://www.systems-biology.com">
+	<EventList>
+		<Event conditionFormulaId="123593627" id="223334765" entityId="223334765" oneTime="0">
+			<AssignmentList>
+				<Assignment objectId="707106947" newFormulaId="654056141"/>
+			</AssignmentList>
+		</Event>
+	</EventList>
+	<FormulaList>
+		<ExplicitFormula id="160799034">
+			<Equation>P2+P3</Equation>
+			<ParameterList>
+				<P alias="P2" id="111745402"/>
+				<P alias="P3" id="707106947"/>
+			</ParameterList>
+			<VariableList/>
+		</ExplicitFormula>
+		<ExplicitFormula id="655074044">
+			<Equation>5</Equation>
+			<ParameterList/>
+			<VariableList/>
+		</ExplicitFormula>
+		<ExplicitFormula id="149224337">
+			<Equation>10</Equation>
+			<ParameterList/>
+			<VariableList/>
+		</ExplicitFormula>
+		<ExplicitFormula id="415719451">
+			<Equation>2</Equation>
+			<ParameterList/>
+			<VariableList/>
+		</ExplicitFormula>
+		<ExplicitFormula id="440008466">
+			<Equation>3</Equation>
+			<ParameterList/>
+			<VariableList/>
+		</ExplicitFormula>
+		<ExplicitFormula id="339431985">
+			<Equation>SE*(Educt+P+P1)</Equation>
+			<ParameterList>
+				<P alias="P1" id="920312349"/>
+				<P alias="SE" id="618410384"/>
+			</ParameterList>
+			<VariableList>
+				<V alias="Educt" id="189259446"/>
+				<V alias="P" id="312028349"/>
+			</VariableList>
+		</ExplicitFormula>
+		<ExplicitFormula id="441838484">
+			<Equation>-1</Equation>
+			<ParameterList/>
+			<VariableList/>
+		</ExplicitFormula>
+		<ExplicitFormula id="563047431">
+			<Equation>SP*(Educt+P+P1)</Equation>
+			<ParameterList>
+				<P alias="P1" id="920312349"/>
+				<P alias="SP" id="614335454"/>
+			</ParameterList>
+			<VariableList>
+				<V alias="Educt" id="189259446"/>
+				<V alias="P" id="312028349"/>
+			</VariableList>
+		</ExplicitFormula>
+		<ExplicitFormula id="507937657">
+			<Equation>1</Equation>
+			<ParameterList/>
+			<VariableList/>
+		</ExplicitFormula>
+		<ExplicitFormula id="123593627">
+			<Equation>0</Equation>
+			<ParameterList>
+				<P alias="Time" id="0"/>
+			</ParameterList>
+			<VariableList/>
+		</ExplicitFormula>
+		<ExplicitFormula id="654056141">
+			<Equation>5</Equation>
+			<ParameterList/>
+			<VariableList/>
+		</ExplicitFormula>
+		<ExplicitFormula id="8">
+			<Equation>1E-12</Equation>
+			<ParameterList/>
+			<VariableList/>
+		</ExplicitFormula>
+		<ExplicitFormula id="9">
+			<Equation>1E-09</Equation>
+			<ParameterList/>
+			<VariableList/>
+		</ExplicitFormula>
+		<ExplicitFormula id="10">
+			<Equation>1E-10</Equation>
+			<ParameterList/>
+			<VariableList/>
+		</ExplicitFormula>
+		<ExplicitFormula id="11">
+			<Equation>0</Equation>
+			<ParameterList/>
+			<VariableList/>
+		</ExplicitFormula>
+		<ExplicitFormula id="12">
+			<Equation>60</Equation>
+			<ParameterList/>
+			<VariableList/>
+		</ExplicitFormula>
+		<ExplicitFormula id="13">
+			<Equation>100000</Equation>
+			<ParameterList/>
+			<VariableList/>
+		</ExplicitFormula>
+		<ExplicitFormula id="14">
+			<Equation>1</Equation>
+			<ParameterList/>
+			<VariableList/>
+		</ExplicitFormula>
+	</FormulaList>
+	<VariableList>
+		<V id="189259446" name="Educt" path="TopContainer" unit="L" initialValueFormulaId="415719451" entityId="189259446">
+			<ScaleFactor>1</ScaleFactor>
+			<RHSFormulaList>
+			</RHSFormulaList>
+		</V>
+		<V id="312028349" name="P" path="TopContainer" unit="L" initialValueFormulaId="440008466" entityId="312028349">
+			<ScaleFactor>1</ScaleFactor>
+			<RHSFormulaList>
+			</RHSFormulaList>
+		</V>
+	</VariableList>
+	<ParameterList>
+		<P id="920312349" name="P1" path="TopContainer" unit="L" formulaId="160799034" canBeVaried="1" entityId="920312349"/>
+		<P id="111745402" name="P2" path="TopContainer" unit="L" formulaId="655074044" canBeVaried="1" entityId="111745402"/>
+		<P id="707106947" name="P3" path="TopContainer" unit="L" formulaId="149224337" canBeVaried="1" entityId="707106947"/>
+		<P id="618410384" name="SE" path="TopContainer" unit="L" formulaId="441838484" canBeVaried="1" entityId="618410384"/>
+		<P id="614335454" name="SP" path="TopContainer" unit="L" formulaId="507937657" canBeVaried="1" entityId="614335454"/>
+		<P id="1" name="AbsTol" path="No" unit="" formulaId="8" canBeVaried="1" entityId="1"/>
+		<P id="2" name="RelTol" path="No" unit="" formulaId="9" canBeVaried="1" entityId="2"/>
+		<P id="3" name="H0" path="No" unit="" formulaId="10" canBeVaried="1" entityId="3"/>
+		<P id="4" name="HMin" path="No" unit="" formulaId="11" canBeVaried="1" entityId="4"/>
+		<P id="5" name="HMax" path="No" unit="" formulaId="12" canBeVaried="1" entityId="5"/>
+		<P id="6" name="MXStep" path="No" unit="" formulaId="13" canBeVaried="1" entityId="6"/>
+		<P id="7" name="UseJacobian" path="No" unit="" formulaId="14" canBeVaried="1" entityId="7"/>
+	</ParameterList>
+	<Solver name="CVODE_1.0">
+		<H0 id="3"/>
+		<HMax id="5"/>
+		<HMin id="4"/>
+		<AbsTol id="1"/>
+		<MxStep id="6"/>
+		<RelTol id="2"/>
+		<UseJacobian id="7"/>
+	</Solver>
+	<OutputSchema>
+		<OutputIntervalList>
+			<OutputInterval distribution="Uniform">
+				<StartTime>0</StartTime>
+				<EndTime>1440</EndTime>
+				<NumberOfTimePoints>120</NumberOfTimePoints>
+			</OutputInterval>
+		</OutputIntervalList>
+		<OutputTimeList>
+			<OutputTime>0</OutputTime>
+		</OutputTimeList>
+	</OutputSchema>
+</Simulation>

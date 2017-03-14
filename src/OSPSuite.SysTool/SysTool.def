@@ -1,0 +1,5 @@
+; SysTool.def : Declares the module parameters.
+
+LIBRARY      "SysTool1_1.DLL"
+
+EXPORTS

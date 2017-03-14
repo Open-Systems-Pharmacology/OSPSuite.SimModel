@@ -1,0 +1,6 @@
+[submodule "src/DCI"]
+	path = src/DCI
+	url = https://github.com/Open-Systems-Pharmacology/DCI.git
+[submodule "src/OSPSuite.SimModelSolverBase"]
+	path = src/OSPSuite.SimModelSolverBase
+	url = https://github.com/Open-Systems-Pharmacology/OSPSuite.SimModelSolverBase.git

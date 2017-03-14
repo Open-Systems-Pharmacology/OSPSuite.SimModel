@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Simulation objectPathDelimiter="|" version="4" xmlns="http://www.systems-biology.com">
+  <EventList>
+    <Event conditionFormulaId="7" id="6" entityId="kpKP7PqTJUysWawgw5rowA" oneTime="0">
+      <AssignmentList>
+        <Assignment objectId="2" newFormulaId="8" useAsValue="1" />
+      </AssignmentList>
+    </Event>
+    <Event conditionFormulaId="10" id="9" entityId="96giqkwCFk6NGOXzM7VkgA" oneTime="0">
+      <AssignmentList>
+        <Assignment objectId="2" newFormulaId="11" useAsValue="1" />
+      </AssignmentList>
+    </Event>
+  </EventList>
+  <FormulaList>
+    <ExplicitFormula id="4">
+      <Equation>V&gt;0 ? M/V : 0</Equation>
+      <ReferenceList>
+        <R alias="M" id="2" />
+        <R alias="V" id="1" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="5">
+      <Equation>-(0)</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="7">
+      <Equation>Time=10</Equation>
+      <ReferenceList>
+        <R alias="Time" id="0" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="8">
+      <Equation>M1+10</Equation>
+      <ReferenceList>
+        <R alias="M1" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="10">
+      <Equation>Time=10</Equation>
+      <ReferenceList>
+        <R alias="Time" id="0" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="11">
+      <Equation>M1+20</Equation>
+      <ReferenceList>
+        <R alias="M1" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="12">
+      <Equation>1E-09</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="14">
+      <Equation>0.0001</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="16">
+      <Equation>1E-10</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="18">
+      <Equation>0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="20">
+      <Equation>60</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="22">
+      <Equation>100000</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="24">
+      <Equation>1</Equation>
+    </ExplicitFormula>
+  </FormulaList>
+  <VariableList>
+    <V id="2" entityId="xvkeGkVsl0OVHjD_q4zy5A" name="M1" path="S1|Organism|M1" unit="µmol" persistable="1" value="0" negativeValuesAllowed="0">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="5" />
+      </RHSFormulaList>
+    </V>
+  </VariableList>
+  <ParameterList>
+    <P id="1" entityId="t-edc5JwUkyvmSOo21fVXQ" name="Volume" path="S1|Organism|Volume" unit="l" persistable="0" value="1" />
+    <P id="3" entityId="AU7etYwlU0Oq1Rx3v_oWYg" name="Concentration" path="S1|Organism|M1|Concentration" unit="µmol/l" persistable="0" formulaId="4" />
+    <P id="13" entityId="AbsTol" name="AbsTol" path="AbsTol" persistable="0" formulaId="12" />
+    <P id="15" entityId="RelTol" name="RelTol" path="RelTol" persistable="0" formulaId="14" />
+    <P id="17" entityId="H0" name="H0" path="H0" persistable="0" formulaId="16" />
+    <P id="19" entityId="HMin" name="HMin" path="HMin" persistable="0" formulaId="18" />
+    <P id="21" entityId="HMax" name="HMax" path="HMax" persistable="0" formulaId="20" />
+    <P id="23" entityId="MxStep" name="MxStep" path="MxStep" persistable="0" formulaId="22" />
+    <P id="25" entityId="UseJacobian" name="UseJacobian" path="UseJacobian" persistable="0" formulaId="24" />
+  </ParameterList>
+  <Solver name="CVODE1002_2">
+    <H0 id="17" />
+    <HMax id="21" />
+    <HMin id="19" />
+    <AbsTol id="13" />
+    <MxStep id="23" />
+    <RelTol id="15" />
+    <UseJacobian id="25" />
+  </Solver>
+  <OutputSchema>
+    <OutputIntervalList>
+      <OutputInterval distribution="Uniform">
+        <StartTime>0</StartTime>
+        <EndTime>30</EndTime>
+        <NumberOfTimePoints>3</NumberOfTimePoints>
+      </OutputInterval>
+    </OutputIntervalList>
+  </OutputSchema>
+</Simulation>

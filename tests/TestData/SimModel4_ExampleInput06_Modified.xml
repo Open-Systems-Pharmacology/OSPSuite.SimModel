@@ -1,0 +1,152 @@
+<Simulation objectPathDelimiter="/" xmlns="http://www.systems-biology.com">
+	<EventList/>
+	<VariableList>
+		<V id="1" name="y1" path="TopContainer/Subcontainer1" unit="L" value="2" entityId="y1">
+			<ScaleFactor>1</ScaleFactor>
+			<RHSFormulaList>
+				<RHSFormula id="11"/>
+				<RHSFormula id="12"/>
+				<RHSFormula id="13"/>
+			</RHSFormulaList>
+		</V>
+		<V id="2" name="y2" path="TopContainer/Subcontainer1" unit="L" value="10" entityId="y2">
+			<ScaleFactor>1</ScaleFactor>
+			<RHSFormulaList>
+				<RHSFormula id="21"/>
+				<RHSFormula id="22"/>
+			</RHSFormulaList>
+		</V>
+		<V id="3" name="y3" path="TopContainer/Subcontainer1" unit="L" initialValueFormulaId="30" entityId="y3">
+			<ScaleFactor>1</ScaleFactor>
+			<RHSFormulaList/>
+		</V>
+		<V id="4" name="y4" path="TopContainer/Subcontainer1" unit="L" value="33" entityId="y4">
+			<ScaleFactor>1</ScaleFactor>
+			<RHSFormulaList>
+				<RHSFormula id="41"/>
+			</RHSFormulaList>
+		</V>
+	</VariableList>
+	<ParameterList>
+		<P id="111" name="P1" path="TopContainer/Subcontainer1" unit="L" formulaId="1110" canBeVaried="1" entityId="P1"/>
+		<P id="112" name="P2" path="TopContainer/Subcontainer1" unit="L" formulaId="1120" canBeVaried="1" entityId="P2"/>
+		<P id="113" name="P3" path="TopContainer/Subcontainer1" unit="L" formulaId="1130" canBeVaried="1" entityId="P3"/>
+		<P id="114" name="P4" path="TopContainer/Subcontainer1" unit="L" formulaId="1140" canBeVaried="1" entityId="P4"/>
+		<P id="115" name="P5" path="TopContainer/Subcontainer1" unit="L" formulaId="1150" canBeVaried="1" entityId="P5"/>
+		<P id="80" name="AbsTol" path="No" unit="" value="1E-12" canBeVaried="1" entityId="AbsTol"/>
+		<P id="81" name="RelTol" path="No" unit="" value="1E-09" canBeVaried="1" entityId="RelTol"/>
+		<P id="82" name="H0" path="No" unit="" value="1E-10" canBeVaried="1" entityId="H0"/>
+		<P id="83" name="HMin" path="No" unit="" value="0" canBeVaried="1" entityId="HMin"/>
+		<P id="84" name="HMax" path="No" unit="" value="60" canBeVaried="1" entityId="HMax"/>
+		<P id="85" name="MXStep" path="No" unit="" value="100000" canBeVaried="1" entityId="MXStep"/>
+		<P id="86" name="UseJacobian" path="No" unit="" value="1" canBeVaried="1" entityId="UseJacobian"/>
+	</ParameterList>
+	<FormulaList>
+		<ExplicitFormula id="20">
+			<Equation>P1+P2-1</Equation>
+			<ReferenceList>
+				<R alias="P1" id="111"/>
+				<R alias="P2" id="112"/>
+			</ReferenceList>
+		</ExplicitFormula>
+		<ExplicitFormula id="30">
+			<Equation>y1</Equation>
+			<ReferenceList>
+				<R alias="y1" id="1"/>
+			</ReferenceList>
+		</ExplicitFormula>
+		<ExplicitFormula id="1110">
+			<Equation>sin(y3)^2+4</Equation>
+			<ReferenceList>
+				<R alias="y3" id="3"/>
+			</ReferenceList>
+		</ExplicitFormula>
+		<ExplicitFormula id="1120">
+			<Equation>cos(y3)^2+5</Equation>
+			<ReferenceList>
+				<R alias="y3" id="3"/>
+			</ReferenceList>
+		</ExplicitFormula>
+		<ExplicitFormula id="1130">
+			<Equation>Time</Equation>
+			<ReferenceList>
+				<R alias="Time" id="0"/>
+			</ReferenceList>
+		</ExplicitFormula>
+		<ExplicitFormula id="1140">
+			<Equation>y3-2</Equation>
+			<ReferenceList>
+				<R alias="y3" id="3"/>
+			</ReferenceList>
+		</ExplicitFormula>
+		<TableFormula id="1150" useDerivedValues="1">
+			<PointList>
+				<Point x="0" y="0" restartSolver="0"/>
+				<Point x="10" y="0" restartSolver="0"/>
+				<Point x="20" y="1" restartSolver="0"/>
+				<Point x="30" y="2" restartSolver="0"/>
+			</PointList>
+		</TableFormula>
+		<ExplicitFormula id="11">
+			<Equation>(P1+P2)*y2</Equation>
+			<ReferenceList>
+				<R alias="P1" id="111"/>
+				<R alias="P2" id="112"/>
+				<R alias="y2" id="2"/>
+			</ReferenceList>
+		</ExplicitFormula>
+		<ExplicitFormula id="12">
+			<Equation>(P3-Time)*y1</Equation>
+			<ReferenceList>
+				<R alias="P3" id="113"/>
+				<R alias="Time" id="0"/>
+				<R alias="y1" id="1"/>
+			</ReferenceList>
+		</ExplicitFormula>
+		<ExplicitFormula id="13">
+			<Equation>y3-2</Equation>
+			<ReferenceList>
+				<R alias="y3" id="3"/>
+			</ReferenceList>
+		</ExplicitFormula>
+		<ExplicitFormula id="21">
+			<Equation>y1</Equation>
+			<ReferenceList>
+				<R alias="y1" id="1"/>
+			</ReferenceList>
+		</ExplicitFormula>
+		<ExplicitFormula id="22">
+			<Equation>P4</Equation>
+			<ReferenceList>
+				<R alias="P4" id="114"/>
+			</ReferenceList>
+		</ExplicitFormula>
+		<ExplicitFormula id="41">
+			<Equation>P5</Equation>
+			<ReferenceList>
+				<R alias="P5" id="115"/>
+			</ReferenceList>
+		</ExplicitFormula>
+	</FormulaList>
+	<Solver name="CVODE_2.7">
+		<H0 id="82"/>
+		<HMax id="84"/>
+		<HMin id="83"/>
+		<AbsTol id="80"/>
+		<MxStep id="85"/>
+		<RelTol id="81"/>
+		<UseJacobian id="86"/>
+	</Solver>
+	<OutputSchema>
+		<OutputIntervalList>
+			<OutputInterval distribution="Uniform">
+				<StartTime>0</StartTime>
+				<EndTime>10</EndTime>
+				<NumberOfTimePoints>11</NumberOfTimePoints>
+			</OutputInterval>
+		</OutputIntervalList>
+		<OutputTimeList>
+			<OutputTime>0</OutputTime>
+		</OutputTimeList>
+	</OutputSchema>
+</Simulation>

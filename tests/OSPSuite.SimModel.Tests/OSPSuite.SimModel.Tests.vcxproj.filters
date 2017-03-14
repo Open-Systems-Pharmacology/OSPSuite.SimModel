@@ -1,0 +1,483 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="SimModel">
+      <UniqueIdentifier>{1a5c8b04-88b9-4046-a0b9-b40cc17e6845}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SimModel\Source Files">
+      <UniqueIdentifier>{77ae66cc-6f6c-4e34-9336-0cb0e751e9c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SimModel\Header Files">
+      <UniqueIdentifier>{97ecebef-76cd-4b3e-b75a-128acc33eb72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SimModel\Managed Code">
+      <UniqueIdentifier>{feac03dc-0492-4448-bc0a-6f0cf00d3b17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SimModel\Managed Code\Header Files">
+      <UniqueIdentifier>{44bd47af-2bec-4422-beb3-28fc9e5d1b05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SimModel\Managed Code\Source Files">
+      <UniqueIdentifier>{517d3ee2-e546-4fed-92dc-38ef5c9791ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SimModelComp">
+      <UniqueIdentifier>{e4ff06b0-f894-4856-b139-6b7975d81171}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SimModelComp\Header Files">
+      <UniqueIdentifier>{51d1b2e7-d2eb-4b02-8c1a-8f6fc1c389cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SimModelComp\Source Files">
+      <UniqueIdentifier>{a7dfb792-46fb-4206-ab90-aa87b95b56e8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\BandwidthReduction.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\BooleanFormula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\ConstantFormula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\DESolver.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\DESolverProperties.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\DiffFormula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\DivFormula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\ExplicitFormula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\Formula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\FormulaChange.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\FormulaFactory.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\GlobalConstants.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\HierarchicalFormulaObject.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\IfFormula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\MathHelper.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\MatlabODEExporter.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\MaxFormula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\MinFormula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\ObjectBase.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\Observer.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\OutputSchema.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\Parameter.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\ParameterFormula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\ParameterInfo.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\ParameterSensitivity.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\PowerFormula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\ProductFormula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\Quantity.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\QuantityInfo.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\QuantityReference.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\QuantityWithParameterSensitivity.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\Rcm.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\SimpleProductFormula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\Simulation.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\SimulationOptions.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\SimulationTask.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\SolverWarning.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\Species.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\SpeciesInfo.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\SumFormula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\Switch.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\SwitchTask.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\TableFormula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\TableFormulaWithOffset.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\UnaryFunctionFormula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\Variable.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\VariableFormula.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\managed\src\AdjustableEntityProperties.cpp">
+      <Filter>SimModel\Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\managed\src\Conversions.cpp">
+      <Filter>SimModel\Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\managed\src\EntityProperties.cpp">
+      <Filter>SimModel\Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\managed\src\ExceptionHelper.cpp">
+      <Filter>SimModel\Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\managed\src\ManagedOutputSchema.cpp">
+      <Filter>SimModel\Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\managed\src\ManagedSimulation.cpp">
+      <Filter>SimModel\Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\managed\src\ManagedSolverWarning.cpp">
+      <Filter>SimModel\Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\managed\src\ParameterProperties.cpp">
+      <Filter>SimModel\Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\managed\src\SimModelException.cpp">
+      <Filter>SimModel\Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\managed\src\SpeciesProperties.cpp">
+      <Filter>SimModel\Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\managed\src\VariableValues.cpp">
+      <Filter>SimModel\Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\managed\src\XMLSchemaCache.cpp">
+      <Filter>SimModel\Managed Code\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModelComp\Src\SimModelComp.cpp">
+      <Filter>SimModelComp\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModelComp\src\SimModelComp_HelpFunctions.cpp">
+      <Filter>SimModelComp\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModelComp\src\SimModelComp_XMLHelper.cpp">
+      <Filter>SimModelComp\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ExplicitFormulaSpecs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ExplicitFormulaSpecsHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\OutputSchemaSpecs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\ParameterSpecs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\RcmSpecs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SimModelCompSpecs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SimModelCompSpecsHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SimulationSpecs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SimulationTaskSpecs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SpecsHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TableFormulaSpecs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\TableFormulaWithOffsetSpecs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\AdjustableEntityProperties.h">
+      <Filter>SimModel\Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\Conversions.h">
+      <Filter>SimModel\Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\EntityProperties.h">
+      <Filter>SimModel\Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\ExceptionHelper.h">
+      <Filter>SimModel\Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\ManagedOutputSchema.h">
+      <Filter>SimModel\Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\ManagedSimulation.h">
+      <Filter>SimModel\Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\ParameterProperties.h">
+      <Filter>SimModel\Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\SimModelException.h">
+      <Filter>SimModel\Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\SolverWarning.h">
+      <Filter>SimModel\Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\SpeciesProperties.h">
+      <Filter>SimModel\Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\VariableValues.h">
+      <Filter>SimModel\Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\XMLSchemaCache.h">
+      <Filter>SimModel\Managed Code\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\BandwidthReduction.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\BooleanFormula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\ConstantFormula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\DESolver.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\DESolverProperties.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\DiffFormula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\DivFormula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\ExplicitFormula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\Formula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\FormulaChange.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\FormulaFactory.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\GlobalConstants.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\HierarchicalFormulaObject.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\IfFormula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\MathHelper.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\MatlabODEExporter.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\MaxFormula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\MinFormula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\ObjectBase.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\Observer.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\OutputSchema.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\Parameter.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\ParameterFormula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\ParameterInfo.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\ParameterSensitivity.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\PowerFormula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\ProductFormula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\Quantity.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\QuantityInfo.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\QuantityReference.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\QuantityWithParameterSensitivity.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\Rcm.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\SimModelTypeDefs.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\SimModelXMLHelper.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\SimpleProductFormula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\Simulation.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\SimulationOptions.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\SimulationTask.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\SolverWarning.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\Species.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\SpeciesInfo.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\SumFormula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\Switch.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\SwitchTask.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\TableFormula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\TableFormulaWithOffset.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\TObjectList.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\TObjectVector.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\UnaryFunctionFormula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\Variable.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\VariableFormula.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\XMLLoader.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SimModelSpecs\ExplicitFormulaSpecsHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SimModelSpecs\SimModelCompSpecsHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SimModelSpecs\SpecsHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SimModelSpecs\TableFormulaSpecsHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModelComp\include\SimModelComp\SimModelComp.h">
+      <Filter>SimModelComp\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModelComp\include\SimModelComp\SimModelComp_HelpFunctions.h">
+      <Filter>SimModelComp\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModelComp\include\SimModelComp\SimModelComp_XMLHelper.h">
+      <Filter>SimModelComp\Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

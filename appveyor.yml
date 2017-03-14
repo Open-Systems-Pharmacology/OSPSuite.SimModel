@@ -1,0 +1,49 @@
+environment:
+  major: 2
+  minor: 0
+  release: 0
+  app_version: '$(major).$(minor).$(release).$(APPVEYOR_BUILD_NUMBER)'
+
+version: '$(major).$(minor).$(release).{build}'
+
+build_script:
+  - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Debug;Platform=Win32 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Release;Platform=Win32 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+
+cache:
+  - packages -> **\packages.config  # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
+
+install:
+- ps: >-
+    (new-object net.webclient).DownloadFile('https://download.microsoft.com/download/A/2/D/A2D8587D-0027-4217-9DAD-38AFDB0A177E/msxml.msi', 'C:\\msxml.msi')
+
+    Start-Process msiexec.exe -ArgumentList /i, C:\msxml.msi, /quiet, /qn, /norestart -Wait
+
+before_build:
+  - git submodule update --init --recursive
+  - nuget sources add -name bddhelper -source https://ci.appveyor.com/nuget/ospsuite-bddhelper 
+  - nuget sources add -name utility -source https://ci.appveyor.com/nuget/ospsuite-utility 
+  - nuget sources add -name funcparser -source https://ci.appveyor.com/nuget/ospsuite-funcparser 
+  - nuget sources add -name cvodes -source https://ci.appveyor.com/nuget/ospsuite-simmodel-solver-cvodes-282 
+  - nuget install packages.config -OutputDirectory packages # cannot use automatic artifact publish because it's not recognized in a C++/CLI project
+  - ps: (get-content src\OSPSuite.SimModel\version.h) | foreach-object {$_ -replace "RELEASE 0", "RELEASE $env:RELEASE" -replace "MAJOR 0", "MAJOR $env:MAJOR" -replace "MINOR 0", "MINOR $env:MINOR" -replace "BUILD 0", "BUILD $env:APPVEYOR_BUILD_NUMBER"} | set-content src\OSPSuite.SimModel\version.h
+  - ps: (get-content src\OSPSuite.SimModelComp\version.h) | foreach-object {$_ -replace "RELEASE 0", "RELEASE $env:RELEASE" -replace "MAJOR 0", "MAJOR $env:MAJOR" -replace "MINOR 0", "MINOR $env:MINOR" -replace "BUILD 0", "BUILD $env:APPVEYOR_BUILD_NUMBER"} | set-content src\OSPSuite.SimModelComp\version.h
+
+after_build:
+  - cmd: nuget pack src\OSPSuite.SimModel\OSPSuite.SimModel.nuspec -version %app_version%
+  - cmd: nuget pack src\OSPSuite.SimModelComp\OSPSuite.SimModelComp.nuspec -version %app_version%
+  - ps: Get-ChildItem .\OSPSuite.SimModel.*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+  - ps: Get-ChildItem .\OSPSuite.SimModelComp.*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
+
+test:
+  assemblies:
+  - '**\*.Tests.Release.dll'
+
+skip_commits:
+  files:
+    - '*.md'
+
+notifications:
+  - provider: Slack
+    incoming_webhook:      
+      secure: 4MH9Em6TtrKalq6808dhPOqypTfYBJvVlqPaa9akNyF1h7st5qNdNezFp6T+bWXqrcZ4q/smtPcJ7LkUFHL46JDYUFlIL8FDz+ApX/vP+x0=
