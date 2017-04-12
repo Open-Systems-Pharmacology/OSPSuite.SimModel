@@ -94,6 +94,28 @@ namespace SimulationTests
 		{
 			BDDExtensions::ShouldBeFalse(sut->GetNativeSimulation()->UseBandLinearSolver());
 		}
+
+		IParameterProperties^ GetParameterByPath(IList<IParameterProperties^>^ parameterProperties, System::String^ path)
+        {
+			for each (IParameterProperties^ param in parameterProperties)
+			{
+				if (param->Path == path)
+					return param;
+			}
+
+			return nullptr;
+        }
+
+		ISpeciesProperties^ GetSpeciesByPath(IList<ISpeciesProperties^>^ speciesProperties, System::String^ path)
+		{
+			for each (ISpeciesProperties^ species in speciesProperties)
+			{
+				if (species->Path == path)
+					return species;
+			}
+
+			return nullptr;
+		}
     };
 
     
@@ -449,7 +471,46 @@ namespace SimulationTests
 		}
 	};
 
-   
+	public ref class when_getting_all_parameter_values_and_all_initial_values: public concern_for_simulation
+	{
+
+	public:
+		[TestAttribute]
+		void should_return_correct_value_for_dependent_parameters_and_initial_value_before_and_after_changing_of_basis_parameter()
+		{
+			sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("TestAllParametersInitialValues.xml"));
+
+			//---- set P1 and P2 as variable
+			IList<IParameterProperties^>^ variableParams = gcnew System::Collections::Generic::List<IParameterProperties^>();
+
+			variableParams->Add(GetParameterByPath(sut->ParameterProperties, "P1"));
+			variableParams->Add(GetParameterByPath(sut->ParameterProperties, "P2"));
+			sut->VariableParameters = variableParams;
+
+			sut->FinalizeSimulation();
+
+			//value of P10 should be equal P1+P2, which is initially 1
+			BDDExtensions::ShouldBeEqualTo(GetParameterByPath(sut->ParameterProperties, "P10")->Value, 1.0, 1e-5);
+
+			//initial value of y2 should be equal P1+P2-1, which is initially 0
+			BDDExtensions::ShouldBeEqualTo(GetSpeciesByPath(sut->SpeciesProperties, "y2")->Value, 0.0, 1e-5);
+
+			//update variable parameters
+			variableParams = sut->VariableParameters;
+			GetParameterByPath(variableParams, "P1")->Value = 3;
+			GetParameterByPath(variableParams, "P2")->Value = 4;
+
+			//---- set new parameter values
+			sut->SetParameterValues(variableParams);
+
+			//value of P10 should be equal P1+P2, which is now 7
+			BDDExtensions::ShouldBeEqualTo(GetParameterByPath(sut->ParameterProperties, "P10")->Value, 7.0, 1e-5);
+
+			//initial value of y2 should be equal P1+P2-1, which is now 6
+			BDDExtensions::ShouldBeEqualTo(GetSpeciesByPath(sut->SpeciesProperties, "y2")->Value, 6.0, 1e-5);
+		}
+	};
+
 	public ref class when_running_testsystem_06_without_scalefactor_dense : public when_running_testsystem_06
     {
 
@@ -853,18 +914,15 @@ namespace SimulationTests
 				IList<IParameterProperties^>^ paramProps = sut->ParameterProperties;
 				IList<IParameterProperties^>^ variableParams = gcnew System::Collections::Generic::List<IParameterProperties^>();
 
-				for each (IParameterProperties^ param in paramProps)
-					if ((param->Path == "Subcontainer1/P1") || (param->Path == "Subcontainer1/P2"))
-						variableParams->Add(param);
+				variableParams->Add(GetParameterByPath(paramProps, "Subcontainer1/P1"));
+				variableParams->Add(GetParameterByPath(paramProps, "Subcontainer1/P2"));
 				sut->VariableParameters=variableParams;
 
 				//---- set y2 initial value as variable
 				IList<ISpeciesProperties^>^ speciesProps = sut->SpeciesProperties;
 				IList<ISpeciesProperties^>^ variableSpecies = gcnew System::Collections::Generic::List<ISpeciesProperties^>();
 
-				for each (ISpeciesProperties^ species in speciesProps)
-					if (species->Path == "Subcontainer1/y2")
-						variableSpecies->Add(species);
+				variableSpecies->Add(GetSpeciesByPath(speciesProps, "Subcontainer1/y2"));
 				sut->VariableSpecies=variableSpecies;
 
 				sut->FinalizeSimulation();
@@ -874,25 +932,9 @@ namespace SimulationTests
 				variableSpecies = sut->VariableSpecies;
 
 				//---- set y2(0)=0 and P1+P2=1
-				for each (IParameterProperties^ param in variableParams)
-				{
-					if (param->Path == "Subcontainer1/P1")
-					{
-						param->Value=0.3;
-					}
-					if (param->Path == "Subcontainer1/P2")
-					{
-						param->Value=0.7;
-					}
-				}
-
-				for each (ISpeciesProperties^ species in variableSpecies)
-				{
-					if (species->Path == "Subcontainer1/y2")
-					{
-						species->Value=0;
-					}
-				}
+				GetParameterByPath(variableParams, "Subcontainer1/P1")->Value = 0.3;
+				GetParameterByPath(variableParams, "Subcontainer1/P2")->Value = 0.7;
+				GetSpeciesByPath(variableSpecies,  "Subcontainer1/y2")->Value = 0;
 				
 				//---- set new parameter values and species initial values
 				sut->SetParameterValues(variableParams);
@@ -958,9 +1000,7 @@ namespace SimulationTests
 				IList<IParameterProperties^>^ paramProps = sut->ParameterProperties;
 				IList<IParameterProperties^>^ variableParams = gcnew System::Collections::Generic::List<IParameterProperties^>();
 
-				for each (IParameterProperties^ param in paramProps)
-					if (param->Path == "Subcontainer1/P5")
-						variableParams->Add(param);
+				variableParams->Add(GetParameterByPath(paramProps, "Subcontainer1/P5"));
 				sut->VariableParameters=variableParams;
 
 				sut->FinalizeSimulation();
@@ -979,17 +1019,11 @@ namespace SimulationTests
 				//
 				//=> y4(t)=y4(0)+2*t for 0<=t<=5
 				//   y4(t)=y4(5)=y4(0)+10 for t>=5
-				for each (IParameterProperties^ param in variableParams)
-				{
-					if (param->Path == "Subcontainer1/P5")
-					{
-						IList <IValuePoint^ >^ tablePoints=param->TablePoints;
-						tablePoints->Clear();
-						tablePoints->Add(gcnew ValuePoint(0,0,false));
-						tablePoints->Add(gcnew ValuePoint(5,10,false));
-						tablePoints->Add(gcnew ValuePoint(10,10,false));
-					}
-				}
+				IList <IValuePoint^ >^ tablePoints=GetParameterByPath(variableParams, "Subcontainer1/P5")->TablePoints;
+				tablePoints->Clear();
+				tablePoints->Add(gcnew ValuePoint(0,0,false));
+				tablePoints->Add(gcnew ValuePoint(5,10,false));
+				tablePoints->Add(gcnew ValuePoint(10,10,false));
 				
 				//---- set new parameter values and species initial values
 				sut->SetParameterValues(variableParams);
@@ -1074,18 +1108,15 @@ namespace SimulationTests
 				IList<IParameterProperties^>^ paramProps = sut->ParameterProperties;
 				IList<IParameterProperties^>^ variableParams = gcnew System::Collections::Generic::List<IParameterProperties^>();
 
-				for each (IParameterProperties^ param in paramProps)
-					if ((param->Path == "Subcontainer1/P1") || (param->Path == "Subcontainer1/P2"))
-						variableParams->Add(param);
+				variableParams->Add(GetParameterByPath(paramProps, "Subcontainer1/P1"));
+				variableParams->Add(GetParameterByPath(paramProps, "Subcontainer1/P2"));
 				sut->VariableParameters=variableParams;
 
 				//---- set y2 initial value as variable
 				IList<ISpeciesProperties^>^ speciesProps = sut->SpeciesProperties;
 				IList<ISpeciesProperties^>^ variableSpecies = gcnew System::Collections::Generic::List<ISpeciesProperties^>();
 
-				for each (ISpeciesProperties^ species in speciesProps)
-					if (species->Path == "Subcontainer1/y2")
-						variableSpecies->Add(species);
+				variableSpecies->Add(GetSpeciesByPath(speciesProps, "Subcontainer1/y2"));
 				sut->VariableSpecies=variableSpecies;
 
 				sut->FinalizeSimulation();
@@ -1095,25 +1126,9 @@ namespace SimulationTests
 				variableSpecies = sut->VariableSpecies;
 
 				//---- set y2(0)=0 and P1+P2=1
-				for each (IParameterProperties^ param in variableParams)
-				{
-					if (param->Path == "Subcontainer1/P1")
-					{
-						param->Value=0.3;
-					}
-					if (param->Path == "Subcontainer1/P2")
-					{
-						param->Value=0.7;
-					}
-				}
-
-				for each (ISpeciesProperties^ species in variableSpecies)
-				{
-					if (species->Path == "Subcontainer1/y2")
-					{
-						species->Value=0;
-					}
-				}
+				GetParameterByPath(variableParams, "Subcontainer1/P1")->Value = 0.3;
+				GetParameterByPath(variableParams, "Subcontainer1/P2")->Value = 0.7;
+				GetSpeciesByPath(variableSpecies,  "Subcontainer1/y2")->Value = 0;
 				
 				//---- set new parameter values and species initial values
 				sut->SetParameterValues(variableParams);
@@ -1179,9 +1194,7 @@ namespace SimulationTests
 				IList<IParameterProperties^>^ paramProps = sut->ParameterProperties;
 				IList<IParameterProperties^>^ variableParams = gcnew System::Collections::Generic::List<IParameterProperties^>();
 
-				for each (IParameterProperties^ param in paramProps)
-					if (param->Path == "Subcontainer1/P5")
-						variableParams->Add(param);
+				variableParams->Add(GetParameterByPath(paramProps, "Subcontainer1/P5"));
 				sut->VariableParameters=variableParams;
 
 				sut->FinalizeSimulation();
@@ -1200,17 +1213,11 @@ namespace SimulationTests
 				//
 				//=> y4(t)=y4(0)+2*t for 0<=t<=5
 				//   y4(t)=y4(5)=y4(0)+10 for t>=5
-				for each (IParameterProperties^ param in variableParams)
-				{
-					if (param->Path == "Subcontainer1/P5")
-					{
-						IList <IValuePoint^ >^ tablePoints=param->TablePoints;
-						tablePoints->Clear();
-						tablePoints->Add(gcnew ValuePoint(0,0,false));
-						tablePoints->Add(gcnew ValuePoint(5,10,false));
-						tablePoints->Add(gcnew ValuePoint(10,10,false));
-					}
-				}
+				IList <IValuePoint^ >^ tablePoints = GetParameterByPath(variableParams, "Subcontainer1/P5")->TablePoints;
+				tablePoints->Clear();
+				tablePoints->Add(gcnew ValuePoint(0,0,false));
+				tablePoints->Add(gcnew ValuePoint(5,10,false));
+				tablePoints->Add(gcnew ValuePoint(10,10,false));
 				
 				//---- set new parameter values and species initial values
 				sut->SetParameterValues(variableParams);

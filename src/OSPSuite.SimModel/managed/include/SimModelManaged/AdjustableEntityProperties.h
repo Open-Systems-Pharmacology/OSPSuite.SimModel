@@ -56,7 +56,8 @@ namespace SimModelNET
 	internal:
 		AdjustableEntityProperties(long id, System::String^ entityId, System::String^ path, 
 			                       System::String^ name, System::String^ description, 
-								   System::String^ unit, bool isFormula, System::String^ formulaEquation);
+								   System::String^ unit, bool isFormula, System::String^ formulaEquation,
+			                       double value);
 	public:
 		property long Id
 		{

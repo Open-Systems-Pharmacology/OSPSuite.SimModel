@@ -206,6 +206,7 @@ namespace SimModelNET
 
 		try
 		{
+			_simulation->FillParameterProperties(*_vecAllParameters);
 			parameterProperties = CPPToNETConversions::ParameterPropertiesListFrom(*_vecAllParameters,
 				                                                                   _simulation->GetObjectPathDelimiter());
 		}
@@ -232,6 +233,7 @@ namespace SimModelNET
 
 		try
 		{
+			_simulation->FillDEVariableProperties(*_vecAllSpecies);
 			speciesProperties = CPPToNETConversions::SpeciesPropertiesListFrom(*_vecAllSpecies,
 				                                                               _simulation->GetObjectPathDelimiter());
 		}
