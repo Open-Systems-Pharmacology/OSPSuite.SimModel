@@ -9,7 +9,7 @@ namespace SimModelNET
 		: AdjustableEntityProperties(speciesInfo.GetId(), CPPToNETConversions::MarshalString(speciesInfo.GetEntityId()), 
 			CPPToNETConversions::MarshalString(speciesInfo.PathWithoutRoot(objectPathDelimiter)), CPPToNETConversions::MarshalString(speciesInfo.GetFullName()), 
 			CPPToNETConversions::MarshalString(speciesInfo.GetDescription()), CPPToNETConversions::MarshalString(speciesInfo.GetUnit()), 
-			speciesInfo.IsFormula(), CPPToNETConversions::MarshalString(speciesInfo.GetFormulaEquation()))
+			speciesInfo.IsFormula(), CPPToNETConversions::MarshalString(speciesInfo.GetFormulaEquation()), speciesInfo.GetValue())
 	{
 		_scaleFactor = speciesInfo.GetScaleFactor();
 	}

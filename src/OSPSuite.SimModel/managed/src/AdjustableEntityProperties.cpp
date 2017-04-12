@@ -5,13 +5,13 @@ namespace SimModelNET
 	AdjustableEntityProperties::AdjustableEntityProperties(long id, System::String^ entityId, System::String^ path, 
 		                               System::String^ name, System::String^ description,
 									   System::String^ unit, bool isFormula,
-									   System::String^ formulaEquation) 
+									   System::String^ formulaEquation, double value) 
 	    : EntityProperties(entityId, path, name)
 
 	{
 		_id   = id;
 		_description = description;
-		_value = 0.0;
+		_value = value;
 		_unit = unit;
 		_isFormula = isFormula;
 		_formulaEquation = formulaEquation;

@@ -9,7 +9,7 @@ namespace SimModelNET
 		: AdjustableEntityProperties(parameterInfo.GetId(), CPPToNETConversions::MarshalString(parameterInfo.GetEntityId()), 
 			CPPToNETConversions::MarshalString(parameterInfo.PathWithoutRoot(objectPathDelimiter)), CPPToNETConversions::MarshalString(parameterInfo.GetFullName()), 
 			CPPToNETConversions::MarshalString(parameterInfo.GetDescription()), CPPToNETConversions::MarshalString(parameterInfo.GetUnit()), 
-			parameterInfo.IsFormula(), CPPToNETConversions::MarshalString(parameterInfo.GetFormulaEquation()))
+			parameterInfo.IsFormula(), CPPToNETConversions::MarshalString(parameterInfo.GetFormulaEquation()), parameterInfo.GetValue())
 	{
 		_tablePoints = gcnew List <IValuePoint^ >();
 		_canBeVaried = parameterInfo.CanBeVaried();
