@@ -42,6 +42,7 @@ namespace SimModelCompTests
     {
 	protected:
 		String^ _simulationFilePath;
+		::SimModelComp * _simModelComp;
 
     public:
 		virtual void GlobalContext() override
@@ -72,6 +73,8 @@ namespace SimModelCompTests
 			{
 				Environment::CurrentDirectory = SpecsHelper::BaseDirectory();
 				sut=gcnew SimModelCompWrapper(SpecsHelper::SimModelCompConfigFilePath());
+				
+				_simModelComp = sut->SMCSpecsHelper->GetInstance();
 				sut->ConfigureFrom(_simulationFilePath);
 			}
 			catch(const std::string & errMsg)
@@ -92,6 +95,113 @@ namespace SimModelCompTests
 			}
         }
     };
+
+	public ref class when_getting_output_variables_and_observers : public concern_for_simmodelcomp
+	{
+	protected:
+		bool dciRetVal;
+
+		virtual void Context() override
+		{
+			_simulationFilePath = SpecsHelper::TestFileFrom("PersistableOutputsTest.xml");
+			concern_for_simmodelcomp::Context();
+		}
+
+		virtual void Because() override
+		{
+			try
+			{
+				dciRetVal = _simModelComp->ProcessMetaData() && _simModelComp->ProcessData();
+			}
+			catch (ErrorData & ED)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ED);
+			}
+			catch (System::Exception^)
+			{
+				throw;
+			}
+			catch (...)
+			{
+				ExceptionHelper::ThrowExceptionFromUnknown();
+			}
+		}
+
+	public:
+		[TestAttribute]
+		void should_save_only_persistable_variables_and_observers_into_output_table()
+		{
+			try
+			{
+				BDDExtensions::ShouldBeEqualTo(dciRetVal, true, sut->DCILastError());
+
+				//get values Table
+				DCI::ITableHandle hTab = _simModelComp->GetOutputPorts()->Item(2)->GetTable();
+
+				//test model contains 1 pers. and 1. non-pers. observer and 1 pers. and 1. non-pers. variable
+				BDDExtensions::ShouldBeEqualTo((int)hTab->GetColumns()->GetCount(), 2);
+			}
+			catch (ErrorData & ED)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ED);
+			}
+		}
+	};
+
+	public ref class when_setting_all_output_variables_and_observers_as_persistable : public concern_for_simmodelcomp
+	{
+	protected:
+		bool dciRetVal;
+
+		virtual void Context() override
+		{
+			_simulationFilePath = SpecsHelper::TestFileFrom("PersistableOutputsTest.xml");
+			concern_for_simmodelcomp::Context();
+		}
+
+		virtual void Because() override
+		{
+			try
+			{
+				dciRetVal = _simModelComp->Invoke("SetAllOutputsPersistable","") && 
+					        _simModelComp->ProcessMetaData() && 
+					        _simModelComp->ProcessData();
+			}
+			catch (ErrorData & ED)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ED);
+			}
+			catch (System::Exception^)
+			{
+				throw;
+			}
+			catch (...)
+			{
+				ExceptionHelper::ThrowExceptionFromUnknown();
+			}
+		}
+
+	public:
+		[TestAttribute]
+		void should_save_all_variables_and_observers_into_output_table()
+		{
+			try
+			{
+				BDDExtensions::ShouldBeEqualTo(dciRetVal, true, sut->DCILastError());
+
+				//get values Table
+				DCI::ITableHandle hTab = _simModelComp->GetOutputPorts()->Item(2)->GetTable();
+
+				//test model contains 1 pers. and 1. non-pers. observer and 1 pers. and 1. non-pers. variable
+				//setting them all to persistable should retrieve 4 variables
+				BDDExtensions::ShouldBeEqualTo((int)hTab->GetColumns()->GetCount(), 4);
+			}
+			catch (ErrorData & ED)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ED);
+			}
+		}
+	};
 
 	public ref class when_performing_process_simulation_twice : public concern_for_simmodelcomp
     {

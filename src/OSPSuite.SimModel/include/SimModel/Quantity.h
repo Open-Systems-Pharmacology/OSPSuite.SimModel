@@ -94,7 +94,8 @@ public:
 	SIM_EXPORT std::string GetFullName(void);
 	std::string GetPathWithoutRoot(void);
 
-	bool IsPersistable(void);
+	SIM_EXPORT bool IsPersistable(void);
+	SIM_EXPORT void SetIsPersistable(bool isPersistable);
 
 	bool IsChangedBySwitch(void);
 	void SetIsChangedBySwitch(bool changedBySwitch);
