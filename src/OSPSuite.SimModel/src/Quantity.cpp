@@ -82,6 +82,11 @@ bool Quantity::IsPersistable(void)
 	return _isPersistable;
 }
 
+void Quantity::SetIsPersistable(bool isPersistable)
+{
+	_isPersistable = isPersistable;
+}
+
 bool Quantity::IsChangedBySwitch(void)
 {
 	return _isChangedBySwitch;

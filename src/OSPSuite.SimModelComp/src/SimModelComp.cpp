@@ -434,6 +434,9 @@ void SimModelComp::FillOutputTables()
 	for(i=0; i<m_Sim->SpeciesList().size(); i++)
 	{
 		Species * species = m_Sim->SpeciesList()[i];
+		if (!species->IsPersistable())
+			continue;
+
 		AddValuesToOutputTable(hTabValues, species, "Species", m_ProcessDataFirstRun, 
 			                   species->GetFullName(), species->GetName(), species->GetId());
 	}
@@ -441,6 +444,9 @@ void SimModelComp::FillOutputTables()
 	for(i=0; i<m_Sim->Observers().size(); i++)
 	{
 		Observer * obs = m_Sim->Observers()[i];
+		if (!obs->IsPersistable())
+			continue;
+
 		AddValuesToOutputTable(hTabValues, obs, "Observer", m_ProcessDataFirstRun, 
 			                   obs->GetFullName(), obs->GetName(), obs->GetId());
 	}
@@ -1279,7 +1285,10 @@ DCI::String SimModelComp::Invoke(const DCI::String &fncName, const DCI::String &
 		{
 			m_Sim->SetUseBandLinearSolver(true);
 		}
-
+		else if (fncName == "SetAllOutputsPersistable")
+		{
+			SetAllOutputsPersistable();
+		}
 		else
 		{
 			throw "Unknown function invoked: "+fncName;
@@ -1293,6 +1302,21 @@ DCI::String SimModelComp::Invoke(const DCI::String &fncName, const DCI::String &
 
 	return RetVal;
 
+}
+
+void SimModelComp::SetAllOutputsPersistable()
+{
+	int i;
+
+	for (i = 0; i<m_Sim->SpeciesList().size(); i++)
+	{
+		m_Sim->SpeciesList()[i]->SetIsPersistable(true);
+	}
+
+	for (i = 0; i<m_Sim->Observers().size(); i++)
+	{
+		m_Sim->Observers()[i]->SetIsPersistable(true);
+	}
 }
 
 string SimModelComp::getSolverWarnings(void)

@@ -176,6 +176,8 @@ private:
 	void UpdateSimulationSettings();
 
 	std::string getSimulationString();
+
+	void SetAllOutputsPersistable();
 };
 
 
