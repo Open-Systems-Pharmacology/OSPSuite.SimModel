@@ -79,4 +79,13 @@ namespace SimModelNET
 
 		return _quantity->IsConstant(forCurrentRunOnly);
 	}
+
+	double VariableValues::ComparisonThreshold::get()
+	{
+		SimModelNative::Variable * var = dynamic_cast <SimModelNative::Variable *> (_quantity);
+		if (var == NULL) // should never happen
+			throw gcnew System::ArgumentException(gcnew System::String(EntityId::get() + " is available in model but is not an entity with values(species, observer, ...)"));
+
+		return var->GetComparisonThreshold();
+	}
 }

@@ -76,6 +76,9 @@ class DESolver :
 
 		void storeSensitivityValues(int timeStepNumber, double ** sensitivityValues);
 
+		//calculate and set comparison thresholds for variables and observers
+		void setComparisonThresholds();
+
 protected:
 
 	//---- for debug purposes only

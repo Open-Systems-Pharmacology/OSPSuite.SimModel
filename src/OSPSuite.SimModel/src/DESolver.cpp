@@ -382,8 +382,14 @@ namespace SimModelNative
 
 			} // end of main DE loop
 
-			//Simulation is finished. We scale all values back
-			//Also value range [-AbsTol..AbsTol] is set to zero
+			//---- Simulation is finished. 
+			//     We scale all values back
+			//     Value range [-AbsTol..AbsTol] is set to zero
+			//     Comparison Thresholds of variables and observers are calculated
+
+			//calculate and set comparison thresholds. This must be done BEFORE rescaling!
+			setComparisonThresholds();
+
 			for (i = 0; i < m_ODE_NumUnknowns; i++)
 			{
 				//setting values below abstol to zero must be done BEFORE rescaling!
@@ -431,6 +437,47 @@ namespace SimModelNative
 			if (!_parentSim->GetCancelFlag())
 				throw;
 		}
+	}
+
+	//calculate and set comparison thresholds for variables and observers
+	//this must be done BEFORE rescaling ode variables back with scale factors
+	void DESolver::setComparisonThresholds()
+	{
+		//define threshold for all ODE variables as 10*AbsoluteTolerance
+		//where AbsoluteTolerance is the (global) absolute tolerance used in the simulation
+		const double variableThreshold = 10.0 * m_SolverProperties.GetAbsTol();
+
+		double * odeVariableThresholds = new double[m_ODE_NumUnknowns];
+
+		int i;
+
+		//---- set threshold for ODE variables
+		//     here we must iterate over the species list because
+		//     m_ODEVariables contains only NON-CONSTANT variables
+		for (i = 0; i < _parentSim->SpeciesList().size(); i++)
+		{
+			_parentSim->SpeciesList()[i]->SetComparisonThreshold(variableThreshold);
+		}
+
+		//---- fill array of ODE variable thresholds (used for observer threshold calculation)
+		for (i = 0; i < m_ODE_NumUnknowns; i++)
+		{
+			odeVariableThresholds[i] = variableThreshold;
+		}
+
+		//---- set threshold for observers
+		for (i = 0; i<_parentSim->Observers().size(); i++)
+		{
+			Observer * observer = _parentSim->Observers()[i];
+
+			//calculate oberver threshold as f(ODEVariable_Thresholds, 0.0)
+			//(where f(y,t) is the calculation formula of the observer
+			double observerThreshold= observer->CalculateValue(odeVariableThresholds, 0.0, USE_SCALEFACTOR);
+
+			observer->SetComparisonThreshold(observerThreshold);
+		}
+
+		delete[] odeVariableThresholds;
 	}
 
 	void DESolver::LoadFromXMLNode (const XMLNode & pNode)

@@ -31,6 +31,12 @@ namespace SimModelNET
 		{
 			bool get();
 		}
+
+
+		property double ComparisonThreshold
+		{
+			double get();
+		}
     };
 
 	ref class VariableValues : 
@@ -56,6 +62,12 @@ namespace SimModelNET
 		{
 			virtual bool get();
 		}
+
+		property double ComparisonThreshold
+		{
+			virtual double get();
+		}
+
 	};
 }
 
