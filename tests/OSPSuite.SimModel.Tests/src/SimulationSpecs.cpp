@@ -551,6 +551,20 @@ namespace SimulationTests
 			TestResult();
 			CheckBandLinearSolverDisabled();
         }
+
+		[TestAttribute]
+		void should_calculate_comparison_threshold()
+        {
+			//get absolute tolerance used for calculation (might differ from input absolute tolerance)
+			const double AbsTol = sut->UsedAbsoluteTolerance;
+
+			//expected threshold for ode variables
+			const double threshold = 10.0 * AbsTol;
+
+			IList<IValues^>^ allValues = sut->AllValues;
+			for each(IValues^ values in allValues)
+				BDDExtensions::ShouldBeEqualTo(values->ComparisonThreshold, threshold);
+        }
     };
 
    
@@ -602,6 +616,8 @@ namespace SimulationTests
     {
 
 	protected:   
+		 SimModelNative::Species * _y1, *_y2, *_y3;
+		 double _scaleFactor = 10.0;
 		 virtual void Because() override
         {
 			try
@@ -610,14 +626,13 @@ namespace SimulationTests
 				
 				DisableBandLinearSolver();
 
-				SimModelNative::Species * y1, * y2, * y3;
-				y1 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y1");
-				y2 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y2");
-				y3 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y3");
+				_y1 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y1");
+				_y2 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y2");
+				_y3 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y3");
 
-				y1->SetODEScaleFactor(10.0);
-				y2->SetODEScaleFactor(10.0);
-				y3->SetODEScaleFactor(10.0);
+				_y1->SetODEScaleFactor(_scaleFactor);
+				_y2->SetODEScaleFactor(_scaleFactor);
+				_y3->SetODEScaleFactor(_scaleFactor);
 				
 				sut->FinalizeSimulation();
 
@@ -648,6 +663,22 @@ namespace SimulationTests
 			TestResult();
 			CheckBandLinearSolverDisabled();
         }
+
+		[TestAttribute]
+		void should_calculate_comparison_threshold()
+		{
+			//get absolute tolerance used for calculation (might differ from input absolute tolerance)
+			const double AbsTol = sut->UsedAbsoluteTolerance;
+
+			//expected threshold for ode variables
+			const double threshold = 10.0 * AbsTol;
+
+			BDDExtensions::ShouldBeEqualTo(_y1->GetComparisonThreshold(), threshold * _scaleFactor);
+			BDDExtensions::ShouldBeEqualTo(_y2->GetComparisonThreshold(), threshold * _scaleFactor);
+
+			//scale factor is ignored for constant variables!
+			BDDExtensions::ShouldBeEqualTo(_y3->GetComparisonThreshold(), threshold);
+		}
     };
 
    
