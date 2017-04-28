@@ -24,6 +24,7 @@ Variable::Variable(void)
 	_values = NULL;
 	_valuesSize = 0;
 	_latestIndex = DE_INVALID_INDEX;
+	_comparisonThreshold = 0.0;
 }
 
 Variable::~Variable(void)
@@ -38,6 +39,16 @@ void Variable::SetTheOnlyValue(double value)
 {
 	RedimValues(1);
 	SetValue(0, value);
+}
+
+void Variable::SetComparisonThreshold(double threshold)
+{
+	_comparisonThreshold = threshold;
+}
+
+double Variable::GetComparisonThreshold() const
+{
+	return _comparisonThreshold;
 }
 
 void Variable::RedimValues (int p_ValuesSize)

@@ -24,6 +24,9 @@
 			</RHSFormulaList>
 		</V>
 	</VariableList>
+	<ObserverList>
+		<Observer id="300" entityId="Obs1" name="Obs1" path="TopContainer" unit="" formulaId="3000"/>
+	</ObserverList>	
 	<ParameterList>
 		<P id="111" name="P1" path="TopContainer" unit="L" formulaId="1110" canBeVaried="1" entityId="P1"/>
 		<P id="112" name="P2" path="TopContainer" unit="L" formulaId="1120" canBeVaried="1" entityId="P2"/>
@@ -38,6 +41,13 @@
 		<P id="86" name="UseJacobian" path="No" unit="" formulaId="96" canBeVaried="1" entityId="UseJacobian"/>
 	</ParameterList>
 	<FormulaList>
+		<ExplicitFormula id="3000">
+			<Equation>2*y1</Equation>
+			<ParameterList></ParameterList>
+			<VariableList>
+				<V alias="y1" id="1"/>
+			</VariableList>
+		</ExplicitFormula>
 		<ExplicitFormula id="10">
 			<Equation>2</Equation>
 			<ParameterList></ParameterList>

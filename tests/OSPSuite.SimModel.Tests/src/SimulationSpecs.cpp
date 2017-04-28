@@ -429,7 +429,8 @@ namespace SimulationTests
 		// y1 = exp(Time) + exp(-Time)
 		// y2 = exp(Time) - exp(-Time)
 		// y3 = 2
-
+		//
+		// Additionaly, an Observer Obs1 is defined as Obs1 = 2*y1
 	protected:
 		void TestResult()
 		{
@@ -551,6 +552,26 @@ namespace SimulationTests
 			TestResult();
 			CheckBandLinearSolverDisabled();
         }
+
+		[TestAttribute]
+		void should_calculate_comparison_threshold()
+        {
+			//get absolute tolerance used for calculation (might differ from input absolute tolerance)
+			const double AbsTol = sut->UsedAbsoluteTolerance;
+
+			//expected threshold for ode variables
+			const double threshold = 10.0 * AbsTol;
+
+			IList<IValues^>^ allValues = sut->AllValues;
+			for each(IValues^ values in allValues)
+			{
+				if (values->VariableType == VariableTypes::Observer)
+					//the (only) observer is defined as 2*y1 and thus must retrieve the threshold 2*Threshold(y1)
+					BDDExtensions::ShouldBeEqualTo(values->ComparisonThreshold, 2.0*threshold); 
+				else
+					BDDExtensions::ShouldBeEqualTo(values->ComparisonThreshold, threshold);
+			}
+        }
     };
 
    
@@ -602,6 +623,8 @@ namespace SimulationTests
     {
 
 	protected:   
+		 SimModelNative::Species * _y1, *_y2, *_y3;
+		 double _scaleFactor = 10.0;
 		 virtual void Because() override
         {
 			try
@@ -610,14 +633,13 @@ namespace SimulationTests
 				
 				DisableBandLinearSolver();
 
-				SimModelNative::Species * y1, * y2, * y3;
-				y1 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y1");
-				y2 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y2");
-				y3 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y3");
+				_y1 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y1");
+				_y2 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y2");
+				_y3 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y3");
 
-				y1->SetODEScaleFactor(10.0);
-				y2->SetODEScaleFactor(10.0);
-				y3->SetODEScaleFactor(10.0);
+				_y1->SetODEScaleFactor(_scaleFactor);
+				_y2->SetODEScaleFactor(_scaleFactor);
+				_y3->SetODEScaleFactor(_scaleFactor);
 				
 				sut->FinalizeSimulation();
 
@@ -648,6 +670,26 @@ namespace SimulationTests
 			TestResult();
 			CheckBandLinearSolverDisabled();
         }
+
+		[TestAttribute]
+		void should_calculate_comparison_threshold()
+		{
+			//get absolute tolerance used for calculation (might differ from input absolute tolerance)
+			const double AbsTol = sut->UsedAbsoluteTolerance;
+
+			//expected threshold for ode variables
+			const double threshold = 10.0 * AbsTol;
+
+			BDDExtensions::ShouldBeEqualTo(_y1->GetComparisonThreshold(), threshold * _scaleFactor);
+			BDDExtensions::ShouldBeEqualTo(_y2->GetComparisonThreshold(), threshold * _scaleFactor);
+
+			//scale factor is ignored for constant variables!
+			BDDExtensions::ShouldBeEqualTo(_y3->GetComparisonThreshold(), threshold);
+
+			//the (only) observer is defined as 2*y1 and thus must retrieve the threshold 2*Threshold(y1)
+			SimModelNative::Observer * obs1 = sut->GetNativeSimulation()->Observers().GetObjectByEntityId("Obs1");
+			BDDExtensions::ShouldBeEqualTo(obs1->GetComparisonThreshold(), 2.0 * _y1->GetComparisonThreshold());
+		}
     };
 
    

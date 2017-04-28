@@ -267,6 +267,9 @@ void Species::RescaleValues ()
 	
 	for(int i =0; i<_valuesSize;i++)
 		_values[i] *= m_ODEScaleFactor;
+
+	//threshold for numeric comparisons must be rescaled the same way!
+	_comparisonThreshold *= m_ODEScaleFactor;
 }
 
 void Species::SetValuesBelowAbsTolLevelToZero(double absTol)

@@ -14,6 +14,7 @@ protected:
 	double * _values;
 	std::string m_Name;
 	int _valuesSize;
+	double _comparisonThreshold;
 
 public:
 	Variable(void);
@@ -27,6 +28,8 @@ public:
 	SIM_EXPORT int GetValuesSize () const;
 	void SetLatestValue (const double dValue);
 	void SetTheOnlyValue(double value);
+	void SetComparisonThreshold(double threshold);
+	SIM_EXPORT double GetComparisonThreshold() const;
 };
 
 }//.. end "namespace SimModelNative"
