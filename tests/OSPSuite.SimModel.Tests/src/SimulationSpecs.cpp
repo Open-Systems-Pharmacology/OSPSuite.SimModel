@@ -429,7 +429,8 @@ namespace SimulationTests
 		// y1 = exp(Time) + exp(-Time)
 		// y2 = exp(Time) - exp(-Time)
 		// y3 = 2
-
+		//
+		// Additionaly, an Observer Obs1 is defined as Obs1 = 2*y1
 	protected:
 		void TestResult()
 		{
@@ -563,7 +564,13 @@ namespace SimulationTests
 
 			IList<IValues^>^ allValues = sut->AllValues;
 			for each(IValues^ values in allValues)
-				BDDExtensions::ShouldBeEqualTo(values->ComparisonThreshold, threshold);
+			{
+				if (values->VariableType == VariableTypes::Observer)
+					//the (only) observer is defined as 2*y1 and thus must retrieve the threshold 2*Threshold(y1)
+					BDDExtensions::ShouldBeEqualTo(values->ComparisonThreshold, 2.0*threshold); 
+				else
+					BDDExtensions::ShouldBeEqualTo(values->ComparisonThreshold, threshold);
+			}
         }
     };
 
@@ -678,6 +685,10 @@ namespace SimulationTests
 
 			//scale factor is ignored for constant variables!
 			BDDExtensions::ShouldBeEqualTo(_y3->GetComparisonThreshold(), threshold);
+
+			//the (only) observer is defined as 2*y1 and thus must retrieve the threshold 2*Threshold(y1)
+			SimModelNative::Observer * obs1 = sut->GetNativeSimulation()->Observers().GetObjectByEntityId("Obs1");
+			BDDExtensions::ShouldBeEqualTo(obs1->GetComparisonThreshold(), 2.0 * _y1->GetComparisonThreshold());
 		}
     };
 
