@@ -3,14 +3,8 @@
 
 
 #ifdef WIN32
-
-	#ifdef ReleaseX64
-	#import <msxml6.dll> named_guids
-	#else
-	#import <msxml4.dll> named_guids
-	#include <msxml.h>
-	#endif
-
+#import <msxml6.dll> named_guids
+#include <msxml.h>
 #endif
 
 #include <string>
