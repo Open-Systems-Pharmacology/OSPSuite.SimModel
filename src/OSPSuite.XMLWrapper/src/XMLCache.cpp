@@ -128,11 +128,7 @@ void XMLCache::LoadSchemaFromXMLDom (XMLDocument pXMLDoc)
 #ifdef WIN32
     assert(!pXMLDoc.IsNull());
 
-#ifdef ReleaseX64
     m_Windows_SchemaCache.CreateInstance(__uuidof(MSXML2::XMLSchemaCache60));
-#else
-    m_Windows_SchemaCache.CreateInstance(__uuidof(MSXML2::XMLSchemaCache40));
-#endif
     m_Windows_SchemaCache->add(m_SchemaNamespace.c_str(), pXMLDoc.m_Windows_DocumentPtr.GetInterfacePtr());
     m_SchemaInitialized = true;
 #endif
