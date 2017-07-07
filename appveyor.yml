@@ -13,12 +13,6 @@ build_script:
 cache:
   - packages -> **\packages.config  # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
 
-install:
-- ps: >-
-    (new-object net.webclient).DownloadFile('https://download.microsoft.com/download/a/4/5/a45cb3d5-2268-4d13-9efb-ec800262ac98/msxml6.msi', 'C:\\msxml6.msi')
-
-    Start-Process msiexec.exe -ArgumentList /i, C:\msxml6.msi, /quiet, /qn, /norestart -Wait
-
 before_build:
   - git submodule update --init --recursive
   - nuget sources add -name bddhelper -source https://ci.appveyor.com/nuget/ospsuite-bddhelper 
