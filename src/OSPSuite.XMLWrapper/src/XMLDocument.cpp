@@ -79,7 +79,7 @@ void XMLDocument::Create()
 #ifdef WIN32
     // ============================================= WINDOWS
   MSXML2::IXMLDOMDocument2Ptr XMLDoc=NULL;
-  HRESULT hr=CoCreateInstance(MSXML2::CLSID_DOMDocument, NULL, CLSCTX_INPROC_SERVER,
+  HRESULT hr=CoCreateInstance(MSXML2::CLSID_DOMDocument60, NULL, CLSCTX_INPROC_SERVER,
                               MSXML2::IID_IXMLDOMDocument, (void**)&XMLDoc);
   if(FAILED(hr))
     throw "Creating XML Document failed";
@@ -166,11 +166,7 @@ XMLDocument XMLDocument::FromString (const std::string & mcrXML)
 
 		// Create XML DOM for schema
 		MSXML2::IXMLDOMDocument2Ptr pXMLDoc;
-#ifdef ReleaseX64
 		HRESULT hr = pXMLDoc.CreateInstance(__uuidof(MSXML2::DOMDocument60));
-#else
-		HRESULT hr = pXMLDoc.CreateInstance(__uuidof(MSXML2::DOMDocument40));
-#endif
 
 		if (FAILED(hr))
 		{
@@ -269,11 +265,7 @@ XMLDocument XMLDocument::FromFile (const std::string & mcrFilename)
 		// Create XML DOM
 		MSXML2::IXMLDOMDocument2Ptr doc;
 
-#ifdef ReleaseX64
 		HRESULT hr = doc.CreateInstance(__uuidof(MSXML2::DOMDocument60));
-#else
-		HRESULT hr = doc.CreateInstance(__uuidof(MSXML2::DOMDocument40));
-#endif
 
 		if (FAILED(hr))
 		{

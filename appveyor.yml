@@ -1,6 +1,6 @@
 environment:
   major: 2
-  minor: 0
+  minor: 1
   release: 0
   app_version: '$(major).$(minor).$(release).$(APPVEYOR_BUILD_NUMBER)'
 
@@ -15,9 +15,9 @@ cache:
 
 install:
 - ps: >-
-    (new-object net.webclient).DownloadFile('https://download.microsoft.com/download/A/2/D/A2D8587D-0027-4217-9DAD-38AFDB0A177E/msxml.msi', 'C:\\msxml.msi')
+    (new-object net.webclient).DownloadFile('https://download.microsoft.com/download/a/4/5/a45cb3d5-2268-4d13-9efb-ec800262ac98/msxml6.msi', 'C:\\msxml6.msi')
 
-    Start-Process msiexec.exe -ArgumentList /i, C:\msxml.msi, /quiet, /qn, /norestart -Wait
+    Start-Process msiexec.exe -ArgumentList /i, C:\msxml6.msi, /quiet, /qn, /norestart -Wait
 
 before_build:
   - git submodule update --init --recursive
