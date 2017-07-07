@@ -15,7 +15,7 @@
 #include "XMLWrapper/XMLDocument.h"
 
 #ifdef WIN32
-#import <msxml4.dll> named_guids
+#import <msxml6.dll> named_guids
 #include <msxml.h>
 
 #endif
