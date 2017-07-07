@@ -39,6 +39,11 @@ test:
   assemblies:
   - '**\*.Tests.Release.dll'
 
+branches:
+  only:
+    - master
+    - develop
+
 skip_commits:
   files:
     - '*.md'
