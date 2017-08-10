@@ -223,6 +223,9 @@
     <ClCompile Include="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\src\SimModelSolverErrorData.cpp">
       <Filter>SolverBase\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\VariableWithParameterSensitivity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\SimModel\BandwidthReduction.h">
@@ -437,6 +440,9 @@
     </ClInclude>
     <ClInclude Include="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SolverCallerInterface\SolverCaller.h">
       <Filter>SolverBase\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SimModel\VariableWithParameterSensitivity.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

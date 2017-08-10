@@ -120,6 +120,20 @@ namespace UnitTests
 		}
 	}
 
+	void SimModelCompSpecsHelper::SetParametersForCalculateSensitivity(vector<string> parameterPaths)
+	{
+		ITableHandle hTab = _simModelComp->GetInputPorts()->Item(2)->GetTable();
+
+		for (int i = 1; i <= hTab->GetRecords()->GetCount(); i++)
+		{
+			string fullName = hTab->GetValue(i, "Path");
+			if (find(parameterPaths.begin(), parameterPaths.end(), fullName) == parameterPaths.end())
+				continue; //parameter path not in the list
+
+			hTab->SetValue(i, "CalculateSensitivity", (DCI::Byte)1);
+		}
+	}
+
 	vector<double> SimModelCompSpecsHelper::GetOutputTime()
 	{
 		vector<double> times;
@@ -137,6 +151,23 @@ namespace UnitTests
 			throw string("Output variable "+ variableName+" not found");
 
 		FillDoubleVector(hVar, values);
+		return values;
+	}
+
+	vector<double> SimModelCompSpecsHelper::GetOutputSensitivities(const string & variablePath, 
+		                                                           const string & parameterPath,
+		                                                           const string & objectPathDelimiter)
+	{
+		vector<double> values;
+
+		string Key = variablePath + objectPathDelimiter + parameterPath;
+
+		IVariableHandle hVar = _simModelComp->GetOutputPorts()->Item(3)->GetTable()->GetColumn(Key.c_str());
+		if (!hVar)
+			throw string("Output variable " + Key + " not found");
+
+		FillDoubleVector(hVar, values);
+
 		return values;
 	}
 

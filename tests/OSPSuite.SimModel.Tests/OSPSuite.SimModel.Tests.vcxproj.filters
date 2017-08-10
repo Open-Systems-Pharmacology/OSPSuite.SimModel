@@ -264,6 +264,9 @@
     <ClCompile Include="Src\TableFormulaWithOffsetSpecs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\VariableWithParameterSensitivity.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\AdjustableEntityProperties.h">
@@ -478,6 +481,9 @@
     </ClInclude>
     <ClInclude Include="..\..\src\OSPSuite.SimModelComp\include\SimModelComp\SimModelComp_XMLHelper.h">
       <Filter>SimModelComp\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\VariableWithParameterSensitivity.h">
+      <Filter>SimModel\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

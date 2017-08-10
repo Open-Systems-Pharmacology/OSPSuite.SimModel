@@ -395,6 +395,7 @@
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\UnaryFunctionFormula.cpp" />
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\Variable.cpp" />
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\VariableFormula.cpp" />
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\VariableWithParameterSensitivity.cpp" />
     <ClCompile Include="Src\ExplicitFormulaSpecs.cpp" />
     <ClCompile Include="Src\ExplicitFormulaSpecsHelper.cpp" />
     <ClCompile Include="Src\OutputSchemaSpecs.cpp" />
@@ -473,6 +474,7 @@
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\UnaryFunctionFormula.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\Variable.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\VariableFormula.h" />
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\VariableWithParameterSensitivity.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\XMLLoader.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\AdjustableEntityProperties.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\Conversions.h" />

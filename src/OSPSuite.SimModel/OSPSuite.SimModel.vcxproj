@@ -706,6 +706,7 @@ copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
     </ClCompile>
+    <ClCompile Include="src\VariableWithParameterSensitivity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SimModelSolverBase\OptionInfo.h" />
@@ -764,6 +765,7 @@ copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
     <ClInclude Include="Include\SimModel\UnaryFunctionFormula.h" />
     <ClInclude Include="Include\SimModel\Variable.h" />
     <ClInclude Include="Include\SimModel\VariableFormula.h" />
+    <ClInclude Include="include\SimModel\VariableWithParameterSensitivity.h" />
     <ClInclude Include="Include\SimModel\XMLLoader.h" />
     <ClInclude Include="Managed\Include\SimModelManaged\AdjustableEntityProperties.h" />
     <ClInclude Include="Managed\Include\SimModelManaged\Conversions.h" />

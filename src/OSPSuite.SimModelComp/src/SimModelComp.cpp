@@ -1,4 +1,4 @@
-#include "SimModelComp/SimModelComp.h"
+#include "SimModelComp/SimModelComp.h" 
 #include "SimModel/Simulation.h"
 #include "XMLWrapper/XMLCache.h"
 #include "DCI/DCI.h"
@@ -30,6 +30,7 @@ const char * SimModelComp::conDistribution = "Distribution";
 const char * SimModelComp::conParameterType = "ParameterType";
 const char * SimModelComp::conTime="Time";
 const char * SimModelComp::conRestartSolver="RestartSolver";
+const char * SimModelComp::conCalculateSensitivity = "CalculateSensitivity";
 
 const char * SimModelComp::conParameterTypeFormula="Formula";
 const char * SimModelComp::conParameterTypeValue="Value";
@@ -48,11 +49,13 @@ const unsigned int SimModelComp::conTabVariableTableParameter=9;
 
 const unsigned int SimModelComp::conTabOutputTimes = 1;
 const unsigned int SimModelComp::conTabOutputValues = 2;
+const unsigned int SimModelComp::conTabOutputSensitivities = 3;
 
 const char * SimModelComp::conAttrID = "ID";
 const char * SimModelComp::conAttrPath = "Path";
 const char * SimModelComp::conAttrType = "Type";
 const char * SimModelComp::conAttrTimeColumnIndex = "TimeColumnIndex";
+const char * SimModelComp::conAttrSensitivityParameterID = "SensitivityParameterID";
 
 const char * SimModelComp::conEquidistantDistribution = "Equidistant";
 const char * SimModelComp::conLogarithmicDistribution = "Logarithmic";
@@ -107,8 +110,8 @@ DCI::Bool SimModelComp::Configure()
 		if (GetInputPorts()->GetCount() != 9)
 			throw "Component must have exactly nine input ports";
 
-		if (GetOutputPorts()->GetCount() != 2)
-			throw "Component must contain exactly two ouput ports";
+		if (GetOutputPorts()->GetCount() != 3)
+			throw "Component must contain exactly three ouput ports";
 
 		LoadConfigurationFromParameterTable();
 
@@ -133,7 +136,9 @@ DCI::Bool SimModelComp::Configure()
 		//---- fill VariableParameters-Table
 		FillParameterInputTable(GetInputPorts()->Item(conTabVariableParameter), m_AllParameters, 
 			                    INITIAL_FILL, VARIABLE_QUANTITIES);
-		AddIsVariableColumn(GetInputPorts()->Item(conTabVariableParameter)->GetTable());
+		DCI::ITableHandle hTab = GetInputPorts()->Item(conTabVariableParameter)->GetTable();
+		AddByteColumn(hTab, conIsVariable);
+		AddByteColumn(hTab, conCalculateSensitivity);
 
 		//---- fill AllTableParameters-Table
 		FillTableParameterPointsInputTable(GetInputPorts()->Item(conTabAllTableParameter), m_AllParameters, 
@@ -153,7 +158,7 @@ DCI::Bool SimModelComp::Configure()
 		//---- fill variable species table
 		FillSpeciesInputTable(GetInputPorts()->Item(conTabVariableSpecies), m_AllSpecies, 
 			                  INITIAL_FILL, VARIABLE_QUANTITIES);
-		AddIsVariableColumn(GetInputPorts()->Item(conTabVariableSpecies)->GetTable());
+		AddByteColumn(GetInputPorts()->Item(conTabVariableSpecies)->GetTable(), conIsVariable);
 
 		//---- fill observers table
 		FillObserversInputTable();
@@ -404,22 +409,20 @@ void SimModelComp::FillOutputTables()
 
 	DCI::ITableHandle hTabTimes = GetOutputPorts()->Item(conTabOutputTimes)->GetTable();
 	DCI::ITableHandle hTabValues = GetOutputPorts()->Item(conTabOutputValues)->GetTable();
+	DCI::ITableHandle hTabSensitivities = GetOutputPorts()->Item(conTabOutputSensitivities)->GetTable();
 
 	if (m_ProcessDataFirstRun)
 	{
 		//create output tables
-		hTabTimes.BindTo(new DCI::Table);
-		hTabTimes->SetRecordBased(false);
-		GetOutputPorts()->Item(conTabOutputTimes)->SetTable(hTabTimes);
-
-		hTabValues.BindTo(new DCI::Table);
-		hTabValues->SetRecordBased(false);
-		GetOutputPorts()->Item(conTabOutputValues)->SetTable(hTabValues);
+		BindNewTableTo(GetOutputPorts()->Item(conTabOutputTimes), hTabTimes, false);
+		BindNewTableTo(GetOutputPorts()->Item(conTabOutputValues), hTabValues, false);
+		BindNewTableTo(GetOutputPorts()->Item(conTabOutputSensitivities), hTabSensitivities, false);
 	}
 
 	//---- remove previous values if available
 	hTabTimes->GetColumns()->Clear();
 	hTabValues->GetRecords()->Clear();
+	hTabSensitivities->GetRecords()->Clear();
 
 	hVar = hTabTimes->GetColumns()->AddNew("Time");
 	hVar->GetFieldDef()->SetName("Time");
@@ -437,8 +440,8 @@ void SimModelComp::FillOutputTables()
 		if (!species->IsPersistable())
 			continue;
 
-		AddValuesToOutputTable(hTabValues, species, "Species", m_ProcessDataFirstRun, 
-			                   species->GetFullName(), species->GetName(), species->GetId());
+		AddValuesToOutputTables(hTabValues, hTabSensitivities, species, "Species", m_ProcessDataFirstRun,
+			                    species->GetFullName(), species->GetName(), species->GetId());
 	}
 
 	for(i=0; i<m_Sim->Observers().size(); i++)
@@ -447,9 +450,16 @@ void SimModelComp::FillOutputTables()
 		if (!obs->IsPersistable())
 			continue;
 
-		AddValuesToOutputTable(hTabValues, obs, "Observer", m_ProcessDataFirstRun, 
-			                   obs->GetFullName(), obs->GetName(), obs->GetId());
+		AddValuesToOutputTables(hTabValues, hTabSensitivities, obs, "Observer", m_ProcessDataFirstRun,
+			                    obs->GetFullName(), obs->GetName(), obs->GetId());
 	}
+}
+
+void SimModelComp::BindNewTableTo(DCI::IPortHandle & hPort, DCI::ITableHandle & hTab, bool recordBased)
+{
+	hTab.BindTo(new DCI::Table);
+	hTab->SetRecordBased(recordBased);
+	hPort->SetTable(hTab);
 }
 
 //
@@ -496,25 +506,71 @@ DCI::IVariableHandle SimModelComp::AddOutputVariable(DCI::ITableHandle & hTab,
 
 //
 //
-void SimModelComp::AddValuesToOutputTable(DCI::ITableHandle & hTab,
-										  const Variable * pVariable,
-										  const string TypeName,
-										  bool ProcessDataFirstRun,
-										  const string & FullPath,
-										  const string & Name,
-										  const long id)
+void SimModelComp::AddValuesToOutputTables(DCI::ITableHandle & hTabOutputValues,
+	                                       DCI::ITableHandle & hTabOutputSensitivities,
+	                                       VariableWithParameterSensitivity * pVariable,
+										   const string TypeName,
+										   bool ProcessDataFirstRun,
+										   const string & FullPath,
+										   const string & Name,
+										   const long id)
 {
+	//currently all outputs refer to the same time vector
+	const int timeColIdx = 1;
+
 	DCI::IVariableHandle hVar;
 	string Key = FullPath;
 
 	if (ProcessDataFirstRun)
-		hVar = AddOutputVariable(hTab, Key, id, FullPath, TypeName, 1, Name);
+		hVar = AddOutputVariable(hTabOutputValues, Key, id, FullPath, TypeName, timeColIdx, Name);
 	else
-		hVar = hTab->GetColumn(Key.c_str());
+		hVar = hTabOutputValues->GetColumn(Key.c_str());
 
 	DCI::DoubleVector dVec(pVariable->GetValues(), pVariable->GetValuesSize());
 	hVar->SetValues(dVec);
+
+	AddSensitivitiesToOutputTable(hTabOutputSensitivities, pVariable, TypeName, ProcessDataFirstRun, FullPath, Name, id);
 }
+
+void SimModelComp::AddSensitivitiesToOutputTable(DCI::ITableHandle & hTab,
+                                                 VariableWithParameterSensitivity * pVariable,
+                                                 const std::string TypeName,
+                                                 bool ProcessDataFirstRun,
+                                                 const std::string & FullPath,
+                                                 const std::string & Name,
+                                                 const long id)
+{
+	//currently all outputs refer to the same time vector
+	const int timeColIdx = 1;
+
+	for (size_t paramIdx = 0; paramIdx < m_SensitivityParameters.size(); paramIdx++)
+	{
+		ParameterInfo & sensitivityParameterInfo = m_SensitivityParameters[paramIdx];
+		long sensitivityParameterId = sensitivityParameterInfo.GetId();
+
+		DCI::IVariableHandle hVar;
+		string Key = FullPath + m_Sim->GetObjectPathDelimiter() + sensitivityParameterInfo.GetFullName();
+
+		if (ProcessDataFirstRun)
+		{
+			hVar = AddOutputVariable(hTab, Key, id, FullPath, TypeName, timeColIdx, Name);
+
+			//add sensitivity parameter id as attribute
+			DCI::IAttributeHandle hAttr;
+			hAttr = hVar->GetFieldDef()->GetAttributes()->AddNew(conAttrSensitivityParameterID);
+
+			hAttr->SetName(conAttrSensitivityParameterID);
+			hAttr->SetStringValue(XMLHelper::ToString(sensitivityParameterId).c_str());
+		}
+		else
+			hVar = hTab->GetColumn(Key.c_str());
+
+		DCI::DoubleVector dVec(pVariable->ParameterSensitivities().GetObjectById(sensitivityParameterId)->GetValues(), 
+			                   pVariable->GetValuesSize());
+		hVar->SetValues(dVec);
+	}
+}
+
 
 //
 //
@@ -785,7 +841,10 @@ void SimModelComp::CheckInputTableColumns(const DCI::ITableHandle hTab, unsigned
 		CheckColumn(hTab, conDescription, DCI::DT_STRING);
 		
 		if (IsVariableColumnPresent)
+		{
 			CheckColumn(hTab, conIsVariable, DCI::DT_BYTE);
+			CheckColumn(hTab, conCalculateSensitivity, DCI::DT_BYTE);
+		}
 	}
 	else if ((TableID == conTabAllTableParameter) || (TableID == conTabVariableTableParameter))
 	{
@@ -865,7 +924,10 @@ void SimModelComp::FillParameterInputTable(DCI::IPortHandle  hPort,
 		hTab->GetRecords()->Clear();
 
 		if (hTab->GetColumns()->Exists(conIsVariable))
+		{
 			hTab->GetColumns()->Remove(conIsVariable);
+			hTab->GetColumns()->Remove(conCalculateSensitivity);
+		}
 	}
 	
 	//Add table records: the table will contain <= #of params - records
@@ -1055,9 +1117,9 @@ void SimModelComp::AddSpeciesTableColumns(const DCI::ITableHandle hTab)
 	AddColumn(hTab, conDescription, DCI::DT_STRING);
 }
 
-void SimModelComp::AddIsVariableColumn(DCI::ITableHandle hTab)
+void SimModelComp::AddByteColumn(DCI::ITableHandle hTab, const string & columnName)
 {
-	AddColumn(hTab, conIsVariable, DCI::DT_BYTE);
+	AddColumn(hTab, columnName, DCI::DT_BYTE);
 
 	for(int recIdx=1; recIdx<=hTab->GetRecords()->GetCount(); recIdx++)
 		hTab->SetValue(recIdx, conIsVariable, 0);
@@ -1109,6 +1171,7 @@ vector<ParameterInfo> SimModelComp::GetVariableParameters(void)
 
 	//get IsVariable-Values and QuiantityID-Values
 	DCI::ByteVector isVariableVec = hTab->GetColumn(conIsVariable)->GetValues();
+	DCI::ByteVector calcSensitivityVec = hTab->GetColumn(conCalculateSensitivity)->GetValues();
 	DCI::IntVector  idVec = hTab->GetColumn(conID)->GetValues();
 	DCI::StringVector  pathVec = hTab->GetColumn(conPath)->GetValues();
 
@@ -1123,15 +1186,28 @@ vector<ParameterInfo> SimModelComp::GetVariableParameters(void)
 		mapAllSimParams[paramInfo.GetId()] = paramInfo;
 	}
 
+	m_SensitivityParameters.clear();
+
 	for(i=0;i<isVariableVec.Len();i++)
 	{
-		if (isVariableVec[i] == 1)
+		//---- Get variable parameters from DCI table
+		//     Parameters for which sensitivity must be calculated will not be simplified in formulas,
+		//     so we can set also set them to variable
+		if ((isVariableVec[i] == 1) || (calcSensitivityVec[i] == 1))
 		{
 			map<long, ParameterInfo>::iterator iter = mapAllSimParams.find(idVec[i]);
 			if (iter == mapAllSimParams.end())
 				throw "Parameter " + string(pathVec[i]) + " has invalid id";
 
-			SimVariableParams.push_back(iter->second);
+			ParameterInfo & parameterInfo = iter->second;
+
+			if (calcSensitivityVec[i] == 1)
+			{
+				parameterInfo.SetCalculateSensitivity(true);
+				m_SensitivityParameters.push_back(parameterInfo);
+			}
+
+			SimVariableParams.push_back(parameterInfo);
 		}
 	}
 

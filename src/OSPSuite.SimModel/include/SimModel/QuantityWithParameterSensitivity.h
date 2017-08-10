@@ -23,7 +23,7 @@ public:
 	//sensitivity values come in the same order as sensitivity parameters (per construction)
 	void SetSensitivityValues(int timeStepNumber, double* sensitivityValues);
 
-	TObjectList <ParameterSensitivity> & ParameterSensitivities();
+	SIM_EXPORT TObjectList <ParameterSensitivity> & ParameterSensitivities();
 };
 
 }

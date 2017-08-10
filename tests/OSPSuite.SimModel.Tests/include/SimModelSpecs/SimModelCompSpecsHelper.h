@@ -23,9 +23,12 @@ namespace UnitTests
 		std::string DCILastError();
 		void SetAllParametersAsVariable();
 		void SetAllConstantParametersAsVariable();
+		void SetParametersForCalculateSensitivity(std::vector<std::string> parameterPaths);
 
 		std::vector<double> GetOutputTime();
 		std::vector<double> GetOutputValues(const std::string & variableName);
+		std::vector<double> GetOutputSensitivities(const std::string & variablePath, const std::string & parameterPath, 
+			                                       const std::string & objectPathDelimiter);
 		void SaveSimulationToXML(const std::string & file);
 
 		std::vector<int> GetIds(const std::string & tableName);
