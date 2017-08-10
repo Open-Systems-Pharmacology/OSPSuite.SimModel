@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Component Version="6.0" TypeName="C++.OSPSuite_SimModelComp" Name="OSPSuite_SimModelComp" TypeDescription="C++  DCI Wrapper for SimModel" Description="C++ DCI Wrapper for SimModel">
+<Component Version="2.2" TypeName="C++.OSPSuite_SimModelComp" Name="OSPSuite_SimModelComp" TypeDescription="C++ DCI Wrapper for OSPSuite.SimModel" Description="C++ DCI Wrapper for OSPSuite.SimModel">
 	<Ports Type="Parameter">
 		<Port Name="Parameter" Description="">
 			<Table Version="4.2" TypeName="C++.Table" Name="" TypeDescription="" Description="" RecordBased="FALSE">
@@ -7,11 +7,11 @@
 				<Variables>
 					<Variable Key="SimModelSchema">
 						<FieldDef Name="SimModelSchema" DataType="String" Description="" DefaultValue=""/>
-						<Values>C:\VSS\SimModel\trunk\Dev\Schema\BTS.SimModel.xsd</Values>
+						<Values>OSPSuite.SimModel.xsd</Values>
 					</Variable>
 					<Variable Key="SimulationFile">
 						<FieldDef Name="SimulationFile" DataType="String" Description="" DefaultValue=""/>
-						<Values>C:\VSS\SimModel\trunk\Test\TestData\PKModelCoreCaseStudy_01.xml</Values>
+						<Values>PKModelCoreCaseStudy_01.xml</Values>
 					</Variable>
 					<Variable Key="StopOnWarnings">
 						<FieldDef Name="StopOnWarnings" DataType="Int" Description="Stop on ODE solver warnings" DefaultValue="1"/>
@@ -59,6 +59,9 @@
 			<Table/>
 		</Port>
 		<Port Name="OutputValues" Description="Output Values">
+			<Table/>
+		</Port>
+		<Port Name="OutputSensitivities" Description="Output Sensitivities">
 			<Table/>
 		</Port>
 	</Ports>

@@ -1,17 +1,15 @@
 #ifndef _Observer_H_
 #define _Observer_H_
-
+ 
 #include "SimModel/Quantity.h"
-#include "SimModel/Variable.h"
-#include "SimModel/QuantityWithParameterSensitivity.h"
+#include "SimModel/VariableWithParameterSensitivity.h"
 
 namespace SimModelNative
 {
 
 class Observer :
 	public Quantity,
-	public Variable,
-	public QuantityWithParameterSensitivity
+	public VariableWithParameterSensitivity
 {
 protected:
 	std::string getFormulaXMLAttributeName();

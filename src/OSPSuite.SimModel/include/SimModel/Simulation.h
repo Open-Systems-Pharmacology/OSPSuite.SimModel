@@ -119,7 +119,7 @@ public:
 	SIM_EXPORT virtual ~Simulation(void);
 	SIM_EXPORT std::string GetVersion(void);
 
-	std::string GetObjectPathDelimiter(void) const;
+	SIM_EXPORT std::string GetObjectPathDelimiter(void) const;
 
 	TObjectList<Parameter> & Parameters(void);
 	SIM_EXPORT TObjectList<Species>   & SpeciesList(void); //unfortunately, plural von Species is Species :-)

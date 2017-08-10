@@ -1,12 +1,12 @@
 #ifndef _Species_H_
 #define _Species_H_
-
+ 
 #include "SimModel/Quantity.h"
 #include "SimModel/Variable.h"
 #include "SimModel/HierarchicalFormulaObject.h"
 #include "SimModel/TObjectList.h"
 #include "SimModel/SpeciesInfo.h"
-#include "SimModel/QuantityWithParameterSensitivity.h"
+#include "SimModel/VariableWithParameterSensitivity.h"
 #include <set>
 #include <map>
 
@@ -14,9 +14,8 @@ namespace SimModelNative
 {
 
 class Species :
-	public Variable,
 	public HierarchicalFormulaObject,
-	public QuantityWithParameterSensitivity
+	public VariableWithParameterSensitivity
 {
 protected:
 	TObjectList<Formula> _rhsFormulaList;
