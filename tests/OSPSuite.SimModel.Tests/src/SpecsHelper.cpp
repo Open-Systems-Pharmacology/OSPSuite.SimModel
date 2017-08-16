@@ -35,7 +35,7 @@ namespace UnitTests
 
 	String^ SpecsHelper::SchemaPath()
 	{
-		return Path::Combine(SpecsHelper::BaseDirectory(), "..\\..\\src\\Schema\\OSPSuite.SimModel.xsd");
+		return Path::Combine(SpecsHelper::BaseDirectory(), "..\\..\\schema\\OSPSuite.SimModel.xsd");
 	}
 
 	void SpecsHelper::ChangeWorkingDirToBaseDir()
