@@ -3300,4 +3300,71 @@ namespace SimulationTests
 		}
 	};
 
+	public ref class when_changing_output_schema : public concern_for_simulation
+	{
+	protected:
+		virtual void Because() override
+		{
+		}
+
+	public:
+		[TestAttribute]
+		void should_update_output_schema_in_the_simulation_xml_string()
+		{
+			try
+			{
+				SimModelNative::Simulation * sim = sut->GetNativeSimulation();
+				sim->Options().SetKeepXMLNodeAsString(true);
+
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml"));
+
+				SimModelNative::OutputSchema & timeSchema = sim->GetOutputSchema();
+
+				//---- set new output time schema
+				timeSchema.Clear();
+				timeSchema.OutputIntervals().push_back(new SimModelNative::OutputInterval(0, 10, 3, SimModelNative::OutputIntervalDistribution::Equidistant));
+				timeSchema.OutputIntervals().push_back(new SimModelNative::OutputInterval(10, 100, 3, SimModelNative::OutputIntervalDistribution::Equidistant));
+				timeSchema.OutputIntervals().push_back(new SimModelNative::OutputInterval(100, 1000, 3, SimModelNative::OutputIntervalDistribution::Equidistant));
+
+				std::string simXMLString = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + sim->GetSimulationXMLString();
+
+				//---- load new simulation from the xml string of the old one
+				SimModelNative::Simulation * newSim = new SimModelNative::Simulation();
+				newSim->LoadFromXMLString(simXMLString);
+
+				timeSchema = newSim->GetOutputSchema();
+
+				//---- check that output time schema in the new simulation is the same as in the old one
+				BDDExtensions::ShouldBeEqualTo(timeSchema.OutputIntervals().size(), 3);
+				SimModelNative::OutputInterval * interval;
+
+				interval = timeSchema.OutputIntervals()[0];
+				BDDExtensions::ShouldBeEqualTo(interval->StartTime(), 0.0);
+				BDDExtensions::ShouldBeEqualTo(interval->EndTime(), 10.0);
+				BDDExtensions::ShouldBeEqualTo(interval->NumberOfTimePoints(), 3);
+
+				interval = timeSchema.OutputIntervals()[1];
+				BDDExtensions::ShouldBeEqualTo(interval->StartTime(), 10.0);
+				BDDExtensions::ShouldBeEqualTo(interval->EndTime(), 100.0);
+				BDDExtensions::ShouldBeEqualTo(interval->NumberOfTimePoints(), 3);
+
+				interval = timeSchema.OutputIntervals()[2];
+				BDDExtensions::ShouldBeEqualTo(interval->StartTime(), 100.0);
+				BDDExtensions::ShouldBeEqualTo(interval->EndTime(), 1000.0);
+				BDDExtensions::ShouldBeEqualTo(interval->NumberOfTimePoints(), 3);
+			}
+			catch (ErrorData & ED)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ED);
+			}
+			catch (System::Exception^)
+			{
+				throw;
+			}
+			catch (...)
+			{
+				ExceptionHelper::ThrowExceptionFromUnknown();
+			}
+		}
+	};
 }
