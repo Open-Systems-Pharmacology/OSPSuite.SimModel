@@ -4,3 +4,6 @@
 [submodule "src/OSPSuite.SimModelSolverBase"]
 	path = src/OSPSuite.SimModelSolverBase
 	url = https://github.com/Open-Systems-Pharmacology/OSPSuite.SimModelSolverBase.git
+[submodule "schema"]
+	path = schema
+	url = https://github.com/Open-Systems-Pharmacology/OSPSuite.SimModel.Schema.git

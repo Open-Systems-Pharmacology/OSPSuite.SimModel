@@ -25,6 +25,5 @@
     <file src="..\..\Build\Release\OSPSuite.SimModel.dll" target="lib\net45" />
     <file src="..\..\Build\Release\OSPSuite.SimModel.lib" target="lib\net45" />
     <file src="..\..\Build\Release\OSPSuite.SimModel.pdb" target="lib\net45" />
-    <file src="..\Schema\OSPSuite.SimModel.xsd" target="OSPSuite.SimModel" />
   </files>
 </package>

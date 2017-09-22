@@ -252,6 +252,3 @@ paket-files/
 *.sln.iml
 /tests/TestData/saved_ExampleInput06.xml
 /tests/TestData/saved_POPsim.xml
-/tests/TestData/SensitivityTest_StartValuesSensParamDependent.xml
-/tests/TestData/SensitivityTest_StartValuesSensParamDependent.zip
-/tests/TestData/SensitivityTest_StartValuesSensParamDependent02.xml
