@@ -3313,10 +3313,12 @@ namespace SimulationTests
 		{
 			try
 			{
-				SimModelNative::Simulation * sim = sut->GetNativeSimulation();
+				//SimModelNative::Simulation * sim = sut->GetNativeSimulation();
+				SimModelNative::Simulation * sim = new SimModelNative::Simulation();
 				sim->Options().SetKeepXMLNodeAsString(true);
 
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml"));
+				//sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml"));
+				sim->LoadFromXMLFile(NETToCPPConversions::MarshalString(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml")));
 
 				SimModelNative::OutputSchema & timeSchema = sim->GetOutputSchema();
 
@@ -3381,11 +3383,12 @@ namespace SimulationTests
 		{
 			try
 			{
-				SimModelNative::Simulation * sim = sut->GetNativeSimulation();
-				//SimModelNative::Simulation * sim = new SimModelNative::Simulation();
+				//SimModelNative::Simulation * sim = sut->GetNativeSimulation();
+				SimModelNative::Simulation * sim = new SimModelNative::Simulation();
 				sim->Options().SetKeepXMLNodeAsString(true);
 
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml"));
+				//sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml"));
+				sim->LoadFromXMLFile(NETToCPPConversions::MarshalString( SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml")));
 
 				std::string simXMLString = sim->GetSimulationXMLString();
 			}
@@ -3408,11 +3411,12 @@ namespace SimulationTests
 		{
 			try
 			{
-				SimModelNative::Simulation * sim = sut->GetNativeSimulation();
-				//SimModelNative::Simulation * sim = new SimModelNative::Simulation();
+				//SimModelNative::Simulation * sim = sut->GetNativeSimulation();
+				SimModelNative::Simulation * sim = new SimModelNative::Simulation();
 				sim->Options().SetKeepXMLNodeAsString(false);
 
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml"));
+				//sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml"));
+				sim->LoadFromXMLFile(NETToCPPConversions::MarshalString(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml")));
 
 				try
 				{
