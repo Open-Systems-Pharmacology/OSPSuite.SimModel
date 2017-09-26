@@ -1381,6 +1381,36 @@ std::string Simulation::GetSimulationXMLString ()
 		for(idx=0; idx<_species.size(); idx++)
 			_species[idx]->UpdateFormulaInXMLNode(formulaListNode, speciesListNode);
 
+		XMLNode outputSchemaNode = oSimNode.GetChildNode(XMLConstants::OutputSchema);
+		
+		//---- remove <OutputIntervalList> subnode from xml (if exists)
+		XMLNode intervalsNode = outputSchemaNode.GetChildNode(XMLConstants::OutputIntervalList);
+		if (!intervalsNode.IsNull())
+			outputSchemaNode.RemoveChildNode(intervalsNode);
+
+		//---- remove <OutputTimeList> subnode from xml (if exists)
+		XMLNode pointsNode = outputSchemaNode.GetChildNode(XMLConstants::OutputTimeList);
+		if (!pointsNode.IsNull())
+			outputSchemaNode.RemoveChildNode(pointsNode);
+
+		//---- add new intervals to xml
+		intervalsNode = outputSchemaNode.CreateChildNode(XMLConstants::OutputIntervalList);
+
+		for (int intervalIdx = 0; intervalIdx < _outputSchema.OutputIntervals().size(); intervalIdx++)
+		{
+			OutputInterval * interval = _outputSchema.OutputIntervals()[intervalIdx];
+
+			XMLNode intervalNode = intervalsNode.CreateChildNode(XMLConstants::OutputInterval);
+
+			intervalNode.SetAttribute(XMLConstants::Distribution,
+				interval->IntervalDistribution() == OutputIntervalDistribution::Equidistant ?
+				XMLConstants::DistributionEquidistant : XMLConstants::DistributionLogarithmic);
+
+			intervalNode.CreateChildNode(XMLConstants::StartTime).SetValue(interval->StartTime());
+			intervalNode.CreateChildNode(XMLConstants::EndTime).SetValue(interval->EndTime());
+			intervalNode.CreateChildNode(XMLConstants::NumberOfTimePoints).SetValue(interval->NumberOfTimePoints());
+		}
+
 		m_XMLString = pXMLDoc.ToString();
 
 		//Release Doc
