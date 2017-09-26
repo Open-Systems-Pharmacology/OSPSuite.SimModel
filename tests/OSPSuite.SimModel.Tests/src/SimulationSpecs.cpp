@@ -3367,4 +3367,77 @@ namespace SimulationTests
 			}
 		}
 	};
+
+	public ref class when_getting_simulation_xml_string : public concern_for_simulation
+	{
+	protected:
+		virtual void Because() override
+		{
+		}
+
+	public:
+		[TestAttribute]
+		void should_return_xml_string_if_keep_xml_option_was_set_to_true()
+		{
+			try
+			{
+				SimModelNative::Simulation * sim = sut->GetNativeSimulation();
+				//SimModelNative::Simulation * sim = new SimModelNative::Simulation();
+				sim->Options().SetKeepXMLNodeAsString(true);
+
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml"));
+
+				std::string simXMLString = sim->GetSimulationXMLString();
+			}
+			catch (ErrorData & ED)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ED);
+			}
+			catch (System::Exception^)
+			{
+				throw;
+			}
+			catch (...)
+			{
+				ExceptionHelper::ThrowExceptionFromUnknown();
+			}
+		}
+
+		[TestAttribute]
+		void should_fail_to_return_xml_string_if_keep_xml_option_was_set_to_false()
+		{
+			try
+			{
+				SimModelNative::Simulation * sim = sut->GetNativeSimulation();
+				//SimModelNative::Simulation * sim = new SimModelNative::Simulation();
+				sim->Options().SetKeepXMLNodeAsString(false);
+
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml"));
+
+				try
+				{
+					std::string simXMLString = sim->GetSimulationXMLString();
+				}
+				catch (ErrorData & ED)
+				{
+					//expected behaviour
+					return;
+				}
+
+				ExceptionHelper::ThrowExceptionFrom("GetSimulationXMLString() must throw an exception if 'SetKeepXMLNodeAsString' flag was set to false");
+			}
+			catch (ErrorData & ED)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ED);
+			}
+			catch (System::Exception^)
+			{
+				throw;
+			}
+			catch (...)
+			{
+				ExceptionHelper::ThrowExceptionFromUnknown();
+			}
+		}
+	};
 }
