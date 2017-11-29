@@ -3,7 +3,7 @@
     <description>Calculation engine for models built with PK-Sim® or MoBi®</description>
     <id>OSPSuite.SimModel</id>
     <version>$version$</version>
-    <title>OSPSuite.SimModelComp</title>
+    <title>OSPSuite.SimModel</title>
     <authors>Open-Systems-Pharmacology</authors>
     <owners>Open-Systems-Pharmacology</owners>
     <projectUrl>https://github.com/Open-Systems-Pharmacology/OSPSuite.SimModel</projectUrl>
