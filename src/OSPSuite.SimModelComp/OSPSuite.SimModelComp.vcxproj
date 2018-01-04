@@ -151,13 +151,13 @@
     <Link>
       <AdditionalDependencies>OSPSuite.SimModel.lib;DCI6_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)Build\$(Configuration);$(ProjectDir)..\DCI\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Build\$(Configuration);$(ProjectDir)..\DCI\DCI_6.1\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)..\DCI\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"</Command>
+      <Command>copy "$(ProjectDir)..\DCI\DCI_6.1\Release\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -206,7 +206,7 @@
     <Link>
       <AdditionalDependencies>OSPSuite.SimModel.lib;DCI6_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)Build\$(Configuration);$(ProjectDir)..\DCI\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Build\$(Configuration);$(ProjectDir)..\DCI\DCI_6.1\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -214,7 +214,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)..\DCI\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"</Command>
+      <Command>copy "$(ProjectDir)..\DCI\DCI_6.1\Release\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -299,7 +299,7 @@
     <Link>
       <AdditionalDependencies>OSPSuite.SimModel.lib;DCI6_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)Build\$(Configuration);$(ProjectDir)..\DCI\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Build\$(Configuration);$(ProjectDir)..\DCI\DCI_6.1\ReleaseX64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -307,7 +307,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)..\DCI\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"</Command>
+      <Command>copy "$(ProjectDir)..\DCI\DCI_6.1\ReleaseX64\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
