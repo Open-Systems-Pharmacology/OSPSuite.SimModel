@@ -63,7 +63,7 @@ void ProductFormula::LoadFromXMLNode (const XMLNode & pNode)
 	}
 
 	//now cache into array
-	_noOfMultipliers = multipliersVec.size();
+	_noOfMultipliers = (unsigned int)multipliersVec.size();
 	_multiplierFormulas = new Formula * [_noOfMultipliers];
 
 	for(int i=0; i<_noOfMultipliers; i++)

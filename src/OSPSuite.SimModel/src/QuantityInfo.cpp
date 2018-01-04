@@ -104,7 +104,7 @@ void QuantityInfo::SetFormulaEquation(const string & equation)
 
 string QuantityInfo::PathWithoutRoot(const string & objectPathDelimiter) const
 {
-	int firstdelimiterpos = _fullName.find_first_of(objectPathDelimiter);
+	size_t firstdelimiterpos = _fullName.find_first_of(objectPathDelimiter);
 
 	if (firstdelimiterpos==string::npos)
 		return _fullName;

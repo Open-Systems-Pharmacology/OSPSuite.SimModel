@@ -63,9 +63,9 @@ void BandwidthReductionTask::calculateHalfBandWidths()
 	_upperHalfBandWidth = 0;
 
 	vector<Species *> & DE_Variables = _sim->DE_Variables();
-	unsigned int numberOfVariables = DE_Variables.size();
+	size_t numberOfVariables = DE_Variables.size();
 
-	unsigned int i;
+	size_t i;
 
 	for(i=0; i<numberOfVariables; i++)
 	{
@@ -82,7 +82,7 @@ void BandwidthReductionTask::calculateHalfBandWidths()
 void BandwidthReductionTask::reorderDEVariables(std::vector<unsigned int> indicesPermutation)
 {
 	vector<Species *> & DE_Variables = _sim->DE_Variables();
-	unsigned int numberOfVariables = DE_Variables.size();
+	unsigned int numberOfVariables = (unsigned int)DE_Variables.size();
 	unsigned int i;
 
 	//---- create mapping (<Old DE index>, <New DE index>) for all system variables
@@ -128,7 +128,7 @@ vector<vector<bool> > BandwidthReductionTask::getDependencyMatrix()
 	vector<vector<bool> > dependencyMatrix;
 
 	vector<Species *> & DE_Variables = _sim->DE_Variables();
-	unsigned int numberOfVariables = DE_Variables.size();
+	unsigned int numberOfVariables = (unsigned int)DE_Variables.size();
 
 	for(size_t i=0; i<numberOfVariables; i++)
 	{
@@ -173,14 +173,14 @@ void BandwidthReductionTask::WriteRHSDependencyMatrix(const string & filename)
 		outfile.open(filename.c_str());
 
 		vector<Species *> & DE_Variables = _sim->DE_Variables();
-		int numberOfVariables = DE_Variables.size();
+		size_t numberOfVariables = DE_Variables.size();
 
-		for (int i=0;i<numberOfVariables;i++)
+		for (size_t i=0;i<numberOfVariables;i++)
 		{
-			for(int j=0; j<numberOfVariables;j++)
+			for(size_t j=0; j<numberOfVariables;j++)
 			{
 				// ReSharper disable once CppExpressionStatementsWithoudSideEffects
-				outfile<<DE_Variables[i]->RHSDependsOn(j) ? 1 : 0;
+				outfile<<DE_Variables[i]->RHSDependsOn((unsigned int)j) ? 1 : 0;
 				if (j<numberOfVariables-1)
 					outfile<<",";
 			}

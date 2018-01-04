@@ -80,7 +80,7 @@ void SimpleProductFormula::LoadFromXMLNode (const XMLNode & pNode)
 	}
 
 	//cache number of variables for performance optimization
-	m_ODEIndexVectorSize = m_VariableNames.size();
+	m_ODEIndexVectorSize = (unsigned int)m_VariableNames.size();
 }
 
 void SimpleProductFormula::XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim)

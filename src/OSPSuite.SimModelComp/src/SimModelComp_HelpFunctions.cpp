@@ -103,7 +103,7 @@ void ReleaseXMLDocuments(XMLDocument& pXMLDoc)
 string Trim(const string & src)
 {
 	size_t i;
-	int FirstCharPos = 0,LastCharPos = src.size() - 1;
+	size_t FirstCharPos = 0,LastCharPos = src.size() - 1;
 	string LeftTrimmed;
 
 	for(i=0; i<src.size(); i++)
@@ -125,16 +125,16 @@ string Trim(const string & src)
 
 string StripFileName(const string & FilePath)
 {
-	int pos = FilePath.find_last_of(PATH_SLASH);
-	if(pos<0)
+	size_t pos = FilePath.find_last_of(PATH_SLASH);
+	if(pos == string::npos)
 		return FilePath;
 	return FilePath.substr(pos+1);
 }
 
 string StripFileDir(const string & FilePath)
 {
-	int pos = FilePath.find_last_of(PATH_SLASH);
-	if(pos<0)
+	size_t pos = FilePath.find_last_of(PATH_SLASH);
+	if(pos == string::npos)
 		return "";
 	return FilePath.substr(0,pos+1);
 }

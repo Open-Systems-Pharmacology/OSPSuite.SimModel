@@ -30,7 +30,7 @@ vector<unsigned int> Rcm::GenRcm(vector<vector<bool> > matrix)
 		createAdjacencyInfo(matrix, adjacencyNumber, adj, adj_row);
 
 		//---- get rcm permutation of the indices (1-based);
-		unsigned int nodesNumber = matrix.size();
+		unsigned int nodesNumber = (unsigned int)matrix.size();
 		permutation = new int[nodesNumber];
 		genrcm(nodesNumber, adjacencyNumber, adj_row, adj, permutation);
 
@@ -74,7 +74,7 @@ void Rcm::checkPermutation(const std::vector<unsigned int> & permutation, unsign
 	//---- created an ordered set from the permutation vector
 	//     the set should be {0,1, ..., nodesNumber-1)
 	set<unsigned int> permutationSet;
-	size_t i;
+	unsigned int i;
 
 	for (i=0; i<nodesNumber; i++)
 		permutationSet.insert(permutation[i]);
@@ -101,7 +101,7 @@ void Rcm::createAdjacencyInfo(std::vector<std::vector<bool> > & matrix,
 		                      int * & adj,
 							  int * & adj_row)
 {
-    unsigned int nodesNumber = matrix.size();
+    unsigned int nodesNumber = (unsigned int)matrix.size();
 
 	//set matrix = matrix+matrix'
 	createSymmetricMatrix(matrix);
@@ -123,7 +123,7 @@ void Rcm::createAdjacencyInfo(std::vector<std::vector<bool> > & matrix,
 			if ((rowIdx == colIdx) || !matrix[rowIdx][colIdx])
 				continue; //ignore diagonal and zero elements
 
-			adj[nextAdjacencyElementPosition] = colIdx+1; //column number of the next ajacency entry (1 based !)
+			adj[nextAdjacencyElementPosition] = (unsigned int)colIdx+1; //column number of the next ajacency entry (1 based !)
 
 			nextAdjacencyElementPosition ++;
 		}

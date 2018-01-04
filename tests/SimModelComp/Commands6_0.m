@@ -4,22 +4,22 @@ setenv('path', [dllsPath ';' getenv('path')]);
 warning('off', 'MATLAB:catenate:DimensionMismatch');
 
 %Create the component
-comp=DCIMatlabR2013b6_0('LoadComponent', [dllsPath '\SimModelComp6_0.xml']);
+comp=DCIMatlabR2017b6_1('LoadComponent', [dllsPath '\OSPSuite_SimModelComp.xml']);
 
 %Get parameter table
-tab=DCIMatlabR2013b6_0('GetParameterTable',comp,1);
+tab=DCIMatlabR2017b6_1('GetParameterTable',comp,1);
 
 %%%%%%%%%%%%%%% Set Parameters %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %Simulation Schema
-tab.Variables(1).Values={[dllsPath '\BTS.SimModel.xsd']};
+tab.Variables(1).Values={[dllsPath '\OSPSuite.SimModel.xsd']};
 
 %Simulation File
-tab.Variables(2).Values={'C:\VSS\SimModel\branches\6.0\Test\TestData\SimModel4_ExampleInput06.xml'};
+tab.Variables(2).Values={'C:\VSS\SimModel\branches\6.0_Git\tests\TestData\SimModel4_ExampleInput06.xml'};
 
 %Set parameter table into the component and configure
-DCIMatlabR2013b6_0('SetParameterTable',comp,1,tab);
-DCIMatlabR2013b6_0('Configure',comp);
+DCIMatlabR2017b6_1('SetParameterTable',comp,1,tab);
+DCIMatlabR2017b6_1('Configure',comp);
 
 % ------------------------------------------------------------------------------------
 % Define column indices for the input tables 
@@ -68,10 +68,10 @@ OutSchemaSpeciesStartTimeIdx=3; OutSchemaSpeciesEndTimeIdx=4; OutSchemaSpeciesUn
 OutSchemaSpeciesNoOfTimePointsIdx=6; OutSchemaSpeciesDistributionIdx=7; 
 
 %get input tables
-inTab1 = DCIMatlabR2013b6_0('GetInputTable',comp,1); inTab2 = DCIMatlabR2013b6_0('GetInputTable',comp,2);
-inTab3 = DCIMatlabR2013b6_0('GetInputTable',comp,3); inTab4 = DCIMatlabR2013b6_0('GetInputTable',comp,4);
-inTab5 = DCIMatlabR2013b6_0('GetInputTable',comp,5); inTab6 = DCIMatlabR2013b6_0('GetInputTable',comp,6);
-inTab7 = DCIMatlabR2013b6_0('GetInputTable',comp,7);
+inTab1 = DCIMatlabR2017b6_1('GetInputTable',comp,1); inTab2 = DCIMatlabR2017b6_1('GetInputTable',comp,2);
+inTab3 = DCIMatlabR2017b6_1('GetInputTable',comp,3); inTab4 = DCIMatlabR2017b6_1('GetInputTable',comp,4);
+inTab5 = DCIMatlabR2017b6_1('GetInputTable',comp,5); inTab6 = DCIMatlabR2017b6_1('GetInputTable',comp,6);
+inTab7 = DCIMatlabR2017b6_1('GetInputTable',comp,7);
 
 %show initial input tables
 [{inTab1.Variables(1:end).Name}; num2cell(inTab1.Variables(ParamIDIdx).Values) inTab1.Variables(ParamPathIdx).Values num2cell(inTab1.Variables(ParamValueIdx).Values) inTab1.Variables(ParamUnitIdx).Values num2cell(inTab1.Variables(ParamIsFormulaIdx).Values) inTab1.Variables(ParamFormulaIdx).Values inTab1.Variables(ParamDescriptionIdx).Values]
@@ -93,7 +93,7 @@ inTab2.Variables(ParamIsVariableIdx).Values(4)=1;
 [{inTab2.Variables(1:end).Name}; num2cell(inTab2.Variables(ParamIDIdx).Values) inTab2.Variables(ParamPathIdx).Values num2cell(inTab2.Variables(ParamValueIdx).Values) inTab2.Variables(ParamUnitIdx).Values num2cell(inTab2.Variables(ParamIsFormulaIdx).Values) inTab2.Variables(ParamFormulaIdx).Values inTab2.Variables(ParamDescriptionIdx).Values num2cell(inTab2.Variables(ParamIsVariableIdx).Values)]
 
 %Save input table into the component and set variable parameters
-DCIMatlabR2013b6_0('SetInputTable',comp,2,inTab2);
+DCIMatlabR2017b6_1('SetInputTable',comp,2,inTab2);
 
 %------------------------------------------------------------------
 % Setup species properties to be varied
@@ -106,17 +106,17 @@ inTab4.Variables(SpeciesIsVariableIdx).Values(3)=1;
 [{inTab4.Variables(1:end).Name}; num2cell(inTab4.Variables(SpeciesIDIdx).Values) inTab4.Variables(SpeciesPathIdx).Values num2cell(inTab4.Variables(SpeciesInitialValueIdx).Values) num2cell(inTab4.Variables(SpeciesScaleFactorIdx).Values) inTab4.Variables(SpeciesUnitIdx).Values num2cell(inTab4.Variables(SpeciesIsFormulaIdx).Values) inTab4.Variables(SpeciesFormulaIdx).Values inTab4.Variables(SpeciesDescriptionIdx).Values num2cell(inTab4.Variables(SpeciesIsVariableIdx).Values)]
 
 %Save input table into the component and set variable parameters
-DCIMatlabR2013b6_0('SetInputTable',comp,4,inTab4);
+DCIMatlabR2017b6_1('SetInputTable',comp,4,inTab4);
 
 %------------------------------------------------------------------
 %ProcessMetaData leaves only parameters/species specified by user for optimization
-DCIMatlabR2013b6_0('ProcessMetaData',comp);
+DCIMatlabR2017b6_1('ProcessMetaData',comp);
 
 %get input tables
-inTab1 = DCIMatlabR2013b6_0('GetInputTable',comp,1); inTab2 = DCIMatlabR2013b6_0('GetInputTable',comp,2);
-inTab3 = DCIMatlabR2013b6_0('GetInputTable',comp,3); inTab4 = DCIMatlabR2013b6_0('GetInputTable',comp,4);
-inTab5 = DCIMatlabR2013b6_0('GetInputTable',comp,5); inTab6 = DCIMatlabR2013b6_0('GetInputTable',comp,6);
-inTab7 = DCIMatlabR2013b6_0('GetInputTable',comp,7);
+inTab1 = DCIMatlabR2017b6_1('GetInputTable',comp,1); inTab2 = DCIMatlabR2017b6_1('GetInputTable',comp,2);
+inTab3 = DCIMatlabR2017b6_1('GetInputTable',comp,3); inTab4 = DCIMatlabR2017b6_1('GetInputTable',comp,4);
+inTab5 = DCIMatlabR2017b6_1('GetInputTable',comp,5); inTab6 = DCIMatlabR2017b6_1('GetInputTable',comp,6);
+inTab7 = DCIMatlabR2017b6_1('GetInputTable',comp,7);
 
 %show input tables
 [{inTab1.Variables(1:end).Name}; num2cell(inTab1.Variables(ParamIDIdx).Values) inTab1.Variables(ParamPathIdx).Values num2cell(inTab1.Variables(ParamValueIdx).Values) inTab1.Variables(ParamUnitIdx).Values num2cell(inTab1.Variables(ParamIsFormulaIdx).Values) inTab1.Variables(ParamFormulaIdx).Values inTab1.Variables(ParamDescriptionIdx).Values]
@@ -138,7 +138,7 @@ inTab2.Variables(ParamValueIdx).Values(1)=2;
 [{inTab2.Variables(1:end).Name}; num2cell(inTab2.Variables(ParamIDIdx).Values) inTab2.Variables(ParamPathIdx).Values num2cell(inTab2.Variables(ParamValueIdx).Values) inTab2.Variables(ParamUnitIdx).Values num2cell(inTab2.Variables(ParamIsFormulaIdx).Values) inTab2.Variables(ParamFormulaIdx).Values inTab2.Variables(ParamDescriptionIdx).Values]
 
 %Save new parameter values into the component
-DCIMatlabR2013b6_0('SetInputTable',comp,2,inTab2);
+DCIMatlabR2017b6_1('SetInputTable',comp,2,inTab2);
 
 %------------------------------------------------------------------
 % Update species initial values and scale factor for the next simulation run
@@ -152,7 +152,7 @@ inTab4.Variables(SpeciesScaleFactorIdx).Values(1)=10;
 [{inTab4.Variables(1:end).Name}; num2cell(inTab4.Variables(SpeciesIDIdx).Values) inTab4.Variables(SpeciesPathIdx).Values num2cell(inTab4.Variables(SpeciesInitialValueIdx).Values) num2cell(inTab4.Variables(SpeciesScaleFactorIdx).Values) inTab4.Variables(SpeciesUnitIdx).Values num2cell(inTab4.Variables(SpeciesIsFormulaIdx).Values) inTab4.Variables(SpeciesFormulaIdx).Values inTab4.Variables(SpeciesDescriptionIdx).Values]
 
 %Save new species inbitial values into the component
-DCIMatlabR2013b6_0('SetInputTable',comp,4,inTab4);
+DCIMatlabR2017b6_1('SetInputTable',comp,4,inTab4);
 
 %------------------------------------------------------------------
 % Update output time schema
@@ -167,26 +167,26 @@ inTab6.Variables(5).Values = {'Equidistant', 'Equidistant', 'Equidistant'}';
 [{inTab6.Variables(1:end).Name}; num2cell(inTab6.Variables(OutSchemaStartTimeIdx).Values) num2cell(inTab6.Variables(OutSchemaEndTimeIdx).Values) inTab6.Variables(OutSchemaUnitIdx).Values num2cell(inTab6.Variables(OutSchemaNoOfTimePointsIdx).Values) inTab6.Variables(OutSchemaDistributionIdx).Values]
 
 %Save new species inbitial values into the component
-DCIMatlabR2013b6_0('SetInputTable',comp,6,inTab6);
+DCIMatlabR2017b6_1('SetInputTable',comp,6,inTab6);
 
 %------------------------------------------------------------------
 %Perform one simulation Run
-DCIMatlabR2013b6_0('ProcessData',comp);
+DCIMatlabR2017b6_1('ProcessData',comp);
 
 %#######################################################################
 
 %save changed simulation to XML
-%DCIMatlabR2013b6_0('Invoke', comp, 'SaveSimulationToXml', '');
+%DCIMatlabR2017b6_1('Invoke', comp, 'SaveSimulationToXml', '');
 
 %------------------------------------------------------------------
 % Get and show some results
 %------------------------------------------------------------------
 
 %Get 1st Output table (Simulation Times)
-outTabTimes=DCIMatlabR2013b6_0('GetOutputTable',comp,1);
+outTabTimes=DCIMatlabR2017b6_1('GetOutputTable',comp,1);
 
 %Get 2nd Output table (Simulation values)
-outTabValues=DCIMatlabR2013b6_0('GetOutputTable',comp,2);
+outTabValues=DCIMatlabR2017b6_1('GetOutputTable',comp,2);
 
 %show metainfos for the 1st output
 FirstOutVar = outTabValues.Variables(1);

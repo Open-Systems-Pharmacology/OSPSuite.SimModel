@@ -178,7 +178,7 @@ void Quantity::XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim)
 
 void Quantity::setPathWithoutRoot(const string & objectPathDelimiter)
 {
-	int firstdelimiterpos = _fullName.find_first_of(objectPathDelimiter);
+	size_t firstdelimiterpos = _fullName.find_first_of(objectPathDelimiter);
 
 	if (firstdelimiterpos == string::npos)
 		_pathWithoutRoot = _fullName;

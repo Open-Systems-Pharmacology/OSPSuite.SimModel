@@ -75,7 +75,7 @@ void SumFormula::LoadFromXMLNode (const XMLNode & pNode)
 	}
 
 	//now cache into array
-	_noOfSummands = summandsVec.size();
+	_noOfSummands = (unsigned int)summandsVec.size();
 	_summandFormulas = new Formula * [_noOfSummands];
 
 	for(int i=0; i<_noOfSummands; i++)

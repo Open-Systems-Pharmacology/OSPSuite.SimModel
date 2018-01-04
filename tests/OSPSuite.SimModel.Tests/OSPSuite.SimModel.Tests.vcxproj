@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -36,41 +36,41 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseX64|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseX64|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>true</CLRSupport>
   </PropertyGroup>
@@ -157,16 +157,16 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>DCI6_0.lib;OSPSuite.SimModelSolver_CVODES282.lib;OSPSuite.FuncParser.lib;%(AdditionalDependencies)%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DCI6_1.lib;OSPSuite.FuncParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).$(Configuration).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\src\DCI\;$(SolverPath)bin\native\x86\$(Configuration);$(FuncParserPath)bin\native\x86\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\src\DCI\$(Platform)\$(Configuration);$(SolverPath)bin\native\x86\$(Configuration);$(FuncParserPath)bin\native\x86\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)..\..\src\DCI\*.dll" "$(OutputPath)"</Command>
+      <Command>copy "$(ProjectDir)..\..\src\DCI\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -188,7 +188,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>DCI6_0.lib;OSPSuite.SimModelSolver_CVODES282.lib;OSPSuite.FuncParser.lib;%(AdditionalDependencies)%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DCI6_1.lib;OSPSuite.FuncParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).$(Configuration).dll</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)pre\DCI\$(Configuration);$(SolverPath)bin\native\x86\$(Configuration);$(FuncParserPath)bin\native\x86\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -197,7 +197,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)pre\DCI\$(Configuration)\*.dll" "$(OutputPath)"</Command>
+      <Command>copy "$(ProjectDir)..\..\src\DCI\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -213,9 +213,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>DCI6_0.lib;OSPSuite.SimModelSolver_CVODES282.lib;OSPSuite.FuncParser.lib;%(AdditionalDependencies)%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DCI6_1.lib;OSPSuite.FuncParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).$(Configuration).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(ProjectDir)..\..\src\DCI\;$(SolverPath)bin\native\x86\$(Configuration);$(FuncParserPath)bin\native\x86\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\src\DCI\$(Platform)\$(Configuration);$(SolverPath)bin\native\x86\$(Configuration);$(FuncParserPath)bin\native\x86\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -223,7 +223,7 @@
       <TargetMachine>MachineX86</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)..\..\src\DCI\*.dll" "$(OutputPath)"</Command>
+      <Command>copy "$(ProjectDir)..\..\src\DCI\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -242,7 +242,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>DCI6_0.lib;OSPSuite.SimModelSolver_CVODES282.lib;OSPSuite.FuncParser.lib;%(AdditionalDependencies)%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DCI6_1.lib;OSPSuite.FuncParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).$(Configuration).dll</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)pre\DCI\$(Configuration);$(SolverPath)bin\native\x86\$(Configuration);$(FuncParserPath)bin\native\x86\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -252,7 +252,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)pre\DCI\$(Configuration)\*.dll" "$(OutputPath)"</Command>
+      <Command>copy "$(ProjectDir)..\..\src\DCI\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseX64|Win32'">
@@ -268,7 +268,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>DCI6_0.lib;OSPSuite.SimModelSolver_CVODES282.lib;OSPSuite.FuncParser.lib;%(AdditionalDependencies)%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DCI6_1.lib;OSPSuite.FuncParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).$(Configuration).dll</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)pre\DCI\$(Configuration);$(SolverPath)bin\native\x86\$(Configuration);$(FuncParserPath)bin\native\x86\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -278,7 +278,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)pre\DCI\$(Configuration)\*.dll" "$(OutputPath)"</Command>
+      <Command>copy "$(ProjectDir)..\..\src\DCI\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseX64|x64'">
@@ -288,8 +288,8 @@
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\src\OSPSuite.SimModel\Managed\Include;$(ProjectDir)..\..\src\OSPSuite.SysTool\Include;$(ProjectDir)..\..\src\OSPSuite.SimModel\Include;$(ProjectDir)..\..\src\OSPSuite.SimModelComp\Include;$(SolutionDir)pre\DCI\Include;$(ProjectDir)Include;$(ProjectDir)Managed\Include;$(FuncParserPath)include;$(SolverPath)include;$(ProjectDir)..\..\src\OSPSuite.XMLWrapper\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SIMMODELSPECS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\..\src\OSPSuite.SimModel\Managed\Include;$(ProjectDir)..\..\src\OSPSuite.SysTool\Include;$(ProjectDir)..\..\src\OSPSuite.SimModel\Include;$(ProjectDir)..\..\src\OSPSuite.SimModelComp\Include;$(ProjectDir)..\..\src\DCI\includes;$(ProjectDir)Include;$(ProjectDir)Managed\Include;$(FuncParserPath)include;$(SolverPath)include;$(ProjectDir)..\..\src\OSPSuite.XMLWrapper\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SIMMODELSPECS_EXPORTS;ReleaseX64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader />
@@ -297,9 +297,9 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>DCI6_0.lib;OSPSuite.SimModelSolver_CVODES282.lib;OSPSuite.FuncParser.lib;%(AdditionalDependencies)%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DCI6_1.lib;OSPSuite.FuncParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).$(Configuration).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)pre\DCI\$(Configuration);$(SolverPath)bin\native\x86\$(Configuration);$(FuncParserPath)bin\native\x86\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\src\DCI\$(Platform)\$(Configuration);$(FuncParserPath)bin\native\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -307,7 +307,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(SolutionDir)pre\DCI\$(Configuration)\*.dll" "$(OutputPath)"</Command>
+      <Command>copy "$(ProjectDir)..\..\src\DCI\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -336,6 +336,10 @@
     </ClCompile>
     <ClCompile Include="..\..\src\OSPSuite.SimModelComp\src\SimModelComp_HelpFunctions.cpp" />
     <ClCompile Include="..\..\src\OSPSuite.SimModelComp\src\SimModelComp_XMLHelper.cpp" />
+    <ClCompile Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\src\OptionInfo.cpp" />
+    <ClCompile Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\src\OptionValueInfo.cpp" />
+    <ClCompile Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\src\SimModelSolverBase.cpp" />
+    <ClCompile Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\src\SimModelSolverErrorData.cpp" />
     <ClCompile Include="..\..\src\OSPSuite.SimModel\managed\src\AdjustableEntityProperties.cpp" />
     <ClCompile Include="..\..\src\OSPSuite.SimModel\managed\src\Conversions.cpp" />
     <ClCompile Include="..\..\src\OSPSuite.SimModel\managed\src\EntityProperties.cpp" />
@@ -423,6 +427,11 @@
     <ClInclude Include="..\..\src\OSPSuite.SimModelComp\include\SimModelComp\SimModelComp.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModelComp\include\SimModelComp\SimModelComp_HelpFunctions.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModelComp\include\SimModelComp\SimModelComp_XMLHelper.h" />
+    <ClInclude Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SimModelSolverBase\OptionInfo.h" />
+    <ClInclude Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SimModelSolverBase\OptionValueInfo.h" />
+    <ClInclude Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SimModelSolverBase\SimModelSolverBase.h" />
+    <ClInclude Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SimModelSolverBase\SimModelSolverErrorData.h" />
+    <ClInclude Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SolverCallerInterface\SolverCaller.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\BandwidthReduction.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\BooleanFormula.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\ConstantFormula.h" />

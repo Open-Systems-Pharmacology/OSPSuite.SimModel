@@ -352,7 +352,7 @@ void Species::CacheRHSUsedVariables(const std::set<int> & DEVariblesUsedInSwitch
 	if (usedVariables.size()==0)
 		return; //RHS does not use any variable
 
-	_RHS_noOfUsedVariables = usedVariables.size();
+	_RHS_noOfUsedVariables = (unsigned int)usedVariables.size();
 
 	_RHS_UsedVariablesIndices = new int [_RHS_noOfUsedVariables];
 
