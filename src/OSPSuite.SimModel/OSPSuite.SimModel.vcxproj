@@ -106,38 +106,38 @@
     <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(Configuration)\$(Platform)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(Configuration)\$(Platform)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseX64|Win32'">
-    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(Configuration)\$(Platform)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(Configuration)\$(Platform)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(Configuration)\$(Platform)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseX64|x64'">
-    <OutDir>$(SolutionDir)Build\$(Configuration)\</OutDir>
-    <IntDir>$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)Build\$(Configuration)\$(Platform)\</OutDir>
+    <IntDir>$(Configuration)\$(Platform)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
     <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
@@ -159,7 +159,7 @@
     <Link>
       <AdditionalDependencies>OSPSuite.FuncParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(FuncParserPath)bin\native\x86\$(Configuration);$(SolverPath)bin\native\x86\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(FuncParserPath)bin\native\x86\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <SubSystem>Windows</SubSystem>
@@ -167,8 +167,7 @@
     </Link>
     <PostBuildEvent>
       <Command>copy "$(FuncParserPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
-copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
-</Command>
+copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -186,7 +185,7 @@ copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
     <Link>
       <AdditionalDependencies>OSPSuite.FuncParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(FuncParserPath)bin\native\x86\$(Configuration);$(SolverPath)bin\native\x86\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(FuncParserPath)bin\native\x86\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -195,8 +194,7 @@ copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
     </Link>
     <PostBuildEvent>
       <Command>copy "$(FuncParserPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
-copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
-</Command>
+copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>nuget.exe install ..\..\packages.config -OutputDirectory ..\..\packages</Command>
@@ -217,7 +215,7 @@ copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
     <Link>
       <AdditionalDependencies>OSPSuite.FuncParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(FuncParserPath)bin\native\x86\$(Configuration);$(SolverPath)bin\native\x86\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(FuncParserPath)bin\native\x86\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -226,8 +224,7 @@ copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
     </Link>
     <PostBuildEvent>
       <Command>copy "$(FuncParserPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
-copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
-</Command>
+copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>nuget.exe install ..\..\packages.config -OutputDirectory ..\..\packages</Command>
@@ -254,16 +251,15 @@ copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
     <Link>
       <AdditionalDependencies>OSPSuite.FuncParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(FuncParserPath)bin\native\x86\$(Configuration);$(SolverPath)bin\native\x86\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(FuncParserPath)bin\native\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(FuncParserPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
-copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
-</Command>
+      <Command>copy "$(FuncParserPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"
+copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -274,7 +270,7 @@ copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)Managed\Include;$(FuncParserPath)include;$(SolverPath)include;$(ProjectDir)..\OSPSuite.SysTool\Include;$(ProjectDir)..\OSPSuite.XMLWrapper\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SIMMODEL_EXPORTS;WIN32_PRODUCTION;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SIMMODEL_EXPORTS;_WINDOWS_PRODUCTION;ReleaseX64;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader />
@@ -284,7 +280,7 @@ copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
     <Link>
       <AdditionalDependencies>OSPSuite.FuncParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(FuncParserPath)bin\native\x86\$(Configuration);$(SolverPath)bin\native\x86\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(FuncParserPath)bin\native\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -292,9 +288,8 @@ copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(FuncParserPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
-copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
-</Command>
+      <Command>copy "$(FuncParserPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"
+copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>nuget.exe install ..\..\packages.config -OutputDirectory ..\..\packages</Command>
@@ -326,9 +321,8 @@ copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(FuncParserPath)bin\native\x64\Release\*.dll" "$(OutputPath)"
-copy "$(SolverPath)bin\native\x64\Release\*.dll" "$(OutputPath)"
-</Command>
+      <Command>copy "$(FuncParserPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"
+copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>nuget.exe install ..\..\packages.config -OutputDirectory ..\..\packages</Command>
