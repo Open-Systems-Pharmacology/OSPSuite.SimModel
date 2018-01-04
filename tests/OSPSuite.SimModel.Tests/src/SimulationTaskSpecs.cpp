@@ -1,4 +1,4 @@
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning( disable : 4691)
 #endif
 
@@ -97,7 +97,7 @@ namespace UnitTests
 			                 double times[], bool   saveSolution[],
 							 bool isSwitchTimePoint[], bool restartNeeded[])
 		{
-			BDDExtensions::ShouldBeEqualTo(outputTimePoints.size(), size);
+			BDDExtensions::ShouldBeEqualTo(outputTimePoints.size(), (size_t)size);
 
 			for(unsigned int i=0; i<outputTimePoints.size(); i++)
 			{

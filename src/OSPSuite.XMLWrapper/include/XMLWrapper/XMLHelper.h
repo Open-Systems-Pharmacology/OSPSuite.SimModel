@@ -2,7 +2,7 @@
 #define _XMLHelper_H_
 
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #import <msxml6.dll> named_guids
 #include <msxml.h>
 #endif
@@ -10,7 +10,7 @@
 #include <string>
 
 // Windows only
-#ifdef WIN32
+#ifdef _WINDOWS
 // Disable warning about truncation of type name to 255 characters
 #pragma warning(disable:4786)
 #endif
@@ -26,7 +26,7 @@ class XMLWRAPPER_EXPORT XMLHelper
 		static XMLNode GetModelNodeFromFile (const std::string & sFileName, const XMLCache * pCache);
 		static XMLNode GetModelNodeFromString (const std::string & sModelXML, const XMLCache * pCache);
 
-#ifdef WIN32
+#ifdef _WINDOWS
 		typedef MSXML2::IXMLDOMParseErrorPtr XMLParseErrorPtr;
 #endif
 

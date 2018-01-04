@@ -1,7 +1,7 @@
 #ifndef _Simulation_H_
 #define _Simulation_H_
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning(disable:4786)
 #pragma warning( disable : 4279)
 #endif

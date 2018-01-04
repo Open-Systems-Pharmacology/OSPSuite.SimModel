@@ -3,7 +3,8 @@
 
 #include <string>
 
-#ifdef WIN32
+#ifdef _WINDOWS
+#pragma warning( disable : 4251)
 #import <msxml6.dll> named_guids
 #include <msxml.h>
 #define XMLWRAPPER_EXPORT __declspec(dllexport)
@@ -49,7 +50,7 @@ class XMLWRAPPER_EXPORT XMLNode
 		void SetValue (const std::string & Value);
 		void SetValue (double Value);
 
-#ifdef WIN32
+#ifdef _WINDOWS
 
 	private:
 		MSXML2::IXMLDOMNodePtr m_Windows_NodePtr;

@@ -1,4 +1,4 @@
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(push,off)
 #endif
 
@@ -14,7 +14,7 @@
 #include <ctime>
 #include <vector>
 
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
 #endif
 
@@ -218,7 +218,7 @@ namespace SimModelNative
 
 			//output time points of the simulation
 			vector <OutputTimePoint> outputTimePoints = SimulationTask::OutputTimePoints(_parentSim);
-			int numberOfTimeSteps = outputTimePoints.size();
+			int numberOfTimeSteps = (unsigned int)outputTimePoints.size();
 			int numberOfSimulatedTimeSteps = SimulationTask::NumberOfSimulatedTimeSteps(outputTimePoints);
 
 			//get scaled initial values for DE variables
@@ -511,7 +511,7 @@ namespace SimModelNative
 	{
 		// Handles Windows events such as "Cancel".
 
-#ifdef WIN32
+#ifdef _WINDOWS
 		// ================================= WINDOWS
 
 		MSG myMSG;

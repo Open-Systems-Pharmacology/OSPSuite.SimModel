@@ -653,18 +653,18 @@ void SimModelComp::FillObserversInputTable()
 	m_Sim->FillObserverProperties(observerInfos);
 
 	//---- Add table records
-	hTab->ReDim(observerInfos.size(), hTab->GetColumns()->GetCount());
+	hTab->ReDim((DCI::UInt)observerInfos.size(), hTab->GetColumns()->GetCount());
 
 	//---- Fill observer table from SimModel info
 	for(size_t i=0; i<observerInfos.size(); i++)
 	{
 		QuantityInfo observerInfo = observerInfos[i];
 
-		hTab->SetValue(i+1, conID, observerInfo.GetId());
-		hTab->SetValue(i+1, conPath, observerInfo.GetFullName().c_str());
-		hTab->SetValue(i+1, conUnit, observerInfo.GetUnit().c_str());
-		hTab->SetValue(i+1, conFormula, observerInfo.GetFormulaEquation().c_str());
-		hTab->SetValue(i+1, conDescription, observerInfo.GetDescription().c_str());
+		hTab->SetValue((DCI::UInt)i+1, conID, observerInfo.GetId());
+		hTab->SetValue((DCI::UInt)i+1, conPath, observerInfo.GetFullName().c_str());
+		hTab->SetValue((DCI::UInt)i+1, conUnit, observerInfo.GetUnit().c_str());
+		hTab->SetValue((DCI::UInt)i+1, conFormula, observerInfo.GetFormulaEquation().c_str());
+		hTab->SetValue((DCI::UInt)i+1, conDescription, observerInfo.GetDescription().c_str());
 	}
 }
 
@@ -712,13 +712,13 @@ void SimModelComp::FillOutputSchemaInputTable()
 
 	for(size_t intervalIdx=1; intervalIdx<=outSchema.OutputIntervals().size(); intervalIdx++)
 	{
-		OutputInterval * outInterval = outSchema.OutputIntervals()[intervalIdx-1];
+		OutputInterval * outInterval = outSchema.OutputIntervals()[(unsigned int)intervalIdx-1];
 
-		hTab->SetValue(intervalIdx, conStartTime, outInterval->StartTime());
-		hTab->SetValue(intervalIdx, conEndTime, outInterval->EndTime());
-		hTab->SetValue(intervalIdx, conUnit, "min"); 
-		hTab->SetValue(intervalIdx, conNoOfTimePoints, (DCI::Int)outInterval->NumberOfTimePoints());
-		hTab->SetValue(intervalIdx, conDistribution, IntervalDistributionAsString(outInterval->IntervalDistribution()).c_str());
+		hTab->SetValue((DCI::UInt)intervalIdx, conStartTime, outInterval->StartTime());
+		hTab->SetValue((DCI::UInt)intervalIdx, conEndTime, outInterval->EndTime());
+		hTab->SetValue((DCI::UInt)intervalIdx, conUnit, "min");
+		hTab->SetValue((DCI::UInt)intervalIdx, conNoOfTimePoints, (DCI::Int)outInterval->NumberOfTimePoints());
+		hTab->SetValue((DCI::UInt)intervalIdx, conDistribution, IntervalDistributionAsString(outInterval->IntervalDistribution()).c_str());
 	}
 }
 
@@ -749,11 +749,11 @@ void SimModelComp::UpdateVariableParameters(void)
 	DCI::DoubleVector XPoints       = hTabPoints->GetColumn(conTime)->GetValues();
 	DCI::DoubleVector YPoints       = hTabPoints->GetColumn(conValue)->GetValues();
 	DCI::ByteVector   RestartSolver = hTabPoints->GetColumn(conRestartSolver)->GetValues();
-	long noOfPoints = idVecPoints.Len();
+	size_t noOfPoints = idVecPoints.Len();
 
 	//---- cache ids of table parameters
 	set<DCI::Int> tablePointsIds;
-	long pointIdx;
+	size_t pointIdx;
 	for(pointIdx=0; pointIdx<noOfPoints; pointIdx++)
 		tablePointsIds.insert(idVecPoints[pointIdx]);
 
@@ -932,7 +932,7 @@ void SimModelComp::FillParameterInputTable(DCI::IPortHandle  hPort,
 	
 	//Add table records: the table will contain <= #of params - records
 	//unnecessary records will be remove at the end
-	hTab->ReDim(simParams.size(), hTab->GetColumns()->GetCount());
+	hTab->ReDim((DCI::UInt)simParams.size(), hTab->GetColumns()->GetCount());
 
 	int LastRowIdx = 0;
 	for(size_t i=0; i<simParams.size(); i++)
@@ -985,7 +985,7 @@ void SimModelComp::FillTableParameterPointsInputTable(DCI::IPortHandle  hPort,
 	}
 
 	//---- get all table parameters and count all table points
-	int totalNoOfPoints = 0;
+	size_t totalNoOfPoints = 0;
 
 	vector<ParameterInfo> tableParamInfos;
 
@@ -1005,7 +1005,7 @@ void SimModelComp::FillTableParameterPointsInputTable(DCI::IPortHandle  hPort,
 	}
 
 	//Add table records
-	hTab->ReDim(totalNoOfPoints, hTab->GetColumns()->GetCount());
+	hTab->ReDim((DCI::UInt)totalNoOfPoints, hTab->GetColumns()->GetCount());
 
 	int LastRowIdx = 0;
 
@@ -1053,7 +1053,7 @@ void SimModelComp::FillSpeciesInputTable(DCI::IPortHandle hPort,
 
 	//Add table records: the table will contain <= #of params - records
 	//unnecessary records will be remove at the end
-	hTab->ReDim(simSpecies.size(), hTab->GetColumns()->GetCount());
+	hTab->ReDim((DCI::UInt)simSpecies.size(), hTab->GetColumns()->GetCount());
 
 	int LastRowIdx = 0;
 	for(size_t i=0; i<simSpecies.size(); i++)
@@ -1303,7 +1303,7 @@ DCI::String SimModelComp::Invoke(const DCI::String &fncName, const DCI::String &
 		}
 		else if (fncName == "DoEvents")
 		{
-#ifdef WIN32
+#ifdef _WINDOWS
 			// ================================= WINDOWS
 
 			MSG myMSG;

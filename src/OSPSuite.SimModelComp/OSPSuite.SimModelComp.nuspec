@@ -24,6 +24,11 @@
     <file src="..\..\Build\Release\OSPSuite_SimModelComp.dll" target="OSPSuite.SimModelComp\bin\native\x86\Release" />
     <file src="..\..\Build\Release\OSPSuite_SimModelComp.lib" target="OSPSuite.SimModelComp\bin\native\x86\Release" />
     <file src="..\..\Build\Release\OSPSuite_SimModelComp.pdb" target="OSPSuite.SimModelComp\bin\native\x86\Release" />
+	
+    <file src="..\..\Build\Release\OSPSuite_SimModelComp.dll" target="OSPSuite.SimModelComp\bin\native\x64\Release" />
+    <file src="..\..\Build\Release\OSPSuite_SimModelComp.lib" target="OSPSuite.SimModelComp\bin\native\x64\Release" />
+    <file src="..\..\Build\Release\OSPSuite_SimModelComp.pdb" target="OSPSuite.SimModelComp\bin\native\x64\Release" />
+	
     <file src="OSPSuite_SimModelComp.xml" target="OSPSuite.SimModelComp\" />
   </files>
 </package>

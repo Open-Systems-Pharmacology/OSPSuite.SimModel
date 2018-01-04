@@ -7,7 +7,7 @@
 #include "XMLWrapper/XMLNode.h"
 #include <string>
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning( disable : 4279)
 #endif
 

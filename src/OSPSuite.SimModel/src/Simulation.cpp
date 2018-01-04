@@ -1,4 +1,4 @@
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(push,off)
 #endif
 
@@ -15,15 +15,15 @@
 #include "SimModel/BandwidthReduction.h"
 #include "../../OSPSuite.SimModel/version.h"
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #include <atlbase.h>
 #endif
 
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
 #endif
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning(disable:4996)
 #endif
 
@@ -301,7 +301,7 @@ void Simulation::ResetSimulation(void)
 	_DE_Variables.clear();
 }
 
-#ifdef WIN32
+#ifdef _WINDOWS
 std::string DescriptionFromComError(const _com_error & e)
 {
 	try
@@ -340,7 +340,7 @@ void Simulation::LoadFromXMLFile   (const string & sFileName)
 		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE,
 			            "Out of memory during loading from the XML file'" + sFileName + "'");
 	}
-#ifdef WIN32
+#ifdef _WINDOWS
 	catch (_com_error & e)
 	{
 		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE,
@@ -379,7 +379,7 @@ void Simulation::LoadFromXMLString (const string & sSimulationXML)
 		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE,
 			"Out of memory during loading from the XML string");
 	}
-#ifdef WIN32
+#ifdef _WINDOWS
 	catch (_com_error & e)
 	{
 		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE,

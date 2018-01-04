@@ -1,7 +1,7 @@
 #ifndef __SimModelComp_XMLHelper_h_
 #define __SimModelComp_XMLHelper_h_
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning(disable:4786)
 #pragma warning(disable:4251)
 #pragma warning( disable : 4279)
@@ -14,7 +14,7 @@
 
 #include "XMLWrapper/XMLDocument.h"
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #import <msxml6.dll> named_guids
 #include <msxml.h>
 

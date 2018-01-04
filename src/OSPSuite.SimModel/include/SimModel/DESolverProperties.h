@@ -1,7 +1,7 @@
 #ifndef _DESolverProperties_H_
 #define _DESolverProperties_H_
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning(disable:4786)
 #endif
 

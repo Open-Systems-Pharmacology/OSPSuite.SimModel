@@ -1,8 +1,8 @@
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(push,off)
 #endif
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning(disable:4786)
 #endif
 
@@ -12,7 +12,7 @@
 #include "SimModel/Simulation.h"
 #include "SimModel/Parameter.h"
 
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
 #endif
 

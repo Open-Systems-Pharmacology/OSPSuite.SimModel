@@ -29,6 +29,10 @@
 //---- Detect the platform
 
 //Windows
+#ifdef _WINDOWS
+#pragma warning( disable : 4005)
+#endif
+
 #if (defined(_WIN32) || defined(_WIN64) || defined(__WIN32__) \
   || defined(__MINGW32__)) && !defined(__CYGWIN__)
 #  define SYSTOOL_WIN32

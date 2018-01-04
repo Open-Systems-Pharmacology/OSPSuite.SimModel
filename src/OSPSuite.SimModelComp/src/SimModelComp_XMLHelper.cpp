@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iostream>
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #include <codecvt>
 #define uint16_t UINT16
 #define strcasecmp _stricmp
@@ -14,7 +14,7 @@
 #include <string.h>
 #endif
 
-#ifdef WIN32
+#ifdef _WINDOWS
 //forward declarations
 string GetParseError (MSXML2::IXMLDOMParseErrorPtr pError);
 HRESULT STDStringToBStr(string s, BSTR &bstr, UINT codePage = CP_ACP);
@@ -85,7 +85,7 @@ bool SimModelComp_XMLHelper::FileExists(const string & FileName, string & ErrMsg
 
   if (FileSystem::FileOrFolderExists(FileName))
   {
-#ifdef WIN32
+#ifdef _WINDOWS
 /*
 	DWORD dwFileAttr = GetFileAttributes((LPCTSTR)FileName.c_str());
 	if (dwFileAttr == INVALID_FILE_ATTRIBUTES)
@@ -189,7 +189,7 @@ string SimModelComp_XMLHelper::GetNodeAttrValue (const XMLNode& pNode, const str
   return pNode.GetAttribute (sAttrName,sDefaultValue);
 }
 
-#ifdef WIN32
+#ifdef _WINDOWS
 std::string to_utf8(const wchar_t* buffer, int len)
 {
 	int nChars = ::WideCharToMultiByte(
@@ -228,7 +228,7 @@ void SimModelComp_XMLHelper::SaveStringToFile(const std::string & str, const str
 {
 	string ErrorMsgPrefix = "Saving file '" + FileName + "' failed: ";
 
-#ifdef WIN32		
+#ifdef _WINDOWS		
 	if (FileSystem::FileOrFolderExists(FileName))
 	{
 		if (!FileSystem::DeleteFileOrFolder(FileName))

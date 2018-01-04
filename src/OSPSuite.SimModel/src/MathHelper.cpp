@@ -1,4 +1,4 @@
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(push,off)
 #endif
 
@@ -6,7 +6,7 @@
 #include "XMLWrapper/XMLHelper.h"
 #include <ErrorData.h>
 
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
 #endif
 
@@ -19,7 +19,7 @@ namespace SimModelNative
 
 double MathHelper::GetNaN ()
 {
-#ifdef WIN32
+#ifdef _WINDOWS
 	return _Nan._Double;
 #endif
 
@@ -30,7 +30,7 @@ double MathHelper::GetNaN ()
 
 bool MathHelper::IsNaN (double d)
 {
-#ifdef WIN32
+#ifdef _WINDOWS
         return _isnan(d) ? true : false;
 #endif
 #ifdef linux
@@ -40,7 +40,7 @@ bool MathHelper::IsNaN (double d)
 
 double MathHelper::GetInf ()
 {
-#ifdef WIN32
+#ifdef _WINDOWS
 	return _Inf._Double;
 #endif
 
@@ -56,7 +56,7 @@ double MathHelper::GetNegInf ()
 
 bool MathHelper::IsFinite (double d)
 {
-#ifdef WIN32
+#ifdef _WINDOWS
         return _finite(d) ? true : false;
 #endif
 #ifdef linux

@@ -1,11 +1,11 @@
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(push,off)
 #endif
 
 #include "SimModel/QuantityInfo.h"
 #include "SimModel/MathHelper.h"
 
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
 #endif
 
@@ -104,7 +104,7 @@ void QuantityInfo::SetFormulaEquation(const string & equation)
 
 string QuantityInfo::PathWithoutRoot(const string & objectPathDelimiter) const
 {
-	int firstdelimiterpos = _fullName.find_first_of(objectPathDelimiter);
+	size_t firstdelimiterpos = _fullName.find_first_of(objectPathDelimiter);
 
 	if (firstdelimiterpos==string::npos)
 		return _fullName;

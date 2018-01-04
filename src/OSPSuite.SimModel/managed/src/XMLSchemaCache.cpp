@@ -3,7 +3,7 @@
 #include "SimModelManaged/ExceptionHelper.h"
 #include "SimModel/GlobalConstants.h"
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning( disable : 4279)
 #endif
 
