@@ -35,6 +35,7 @@ after_build:
 test:
   assemblies:
   - '**\*.Tests.Release.dll'
+  - '**\*.Tests.ReleaseX64.dll'
 
 branches:
   only:
