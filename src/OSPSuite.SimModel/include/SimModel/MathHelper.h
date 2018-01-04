@@ -1,7 +1,7 @@
 #ifndef _MathHelper_H_
 #define _MathHelper_H_
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #include <math.h>
 #endif
 

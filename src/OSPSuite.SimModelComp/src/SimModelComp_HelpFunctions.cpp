@@ -9,7 +9,7 @@ using namespace std;
 double GetTime(void)
 {
 	double t;
-#ifdef WIN32
+#ifdef _WINDOWS
     struct _timeb timebuffer;
     _ftime64_s( &timebuffer );
 

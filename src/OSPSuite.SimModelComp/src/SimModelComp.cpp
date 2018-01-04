@@ -1303,7 +1303,7 @@ DCI::String SimModelComp::Invoke(const DCI::String &fncName, const DCI::String &
 		}
 		else if (fncName == "DoEvents")
 		{
-#ifdef WIN32
+#ifdef _WINDOWS
 			// ================================= WINDOWS
 
 			MSG myMSG;

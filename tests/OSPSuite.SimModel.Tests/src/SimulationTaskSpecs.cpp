@@ -1,4 +1,4 @@
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning( disable : 4691)
 #endif
 

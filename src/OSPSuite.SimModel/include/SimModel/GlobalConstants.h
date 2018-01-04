@@ -1,7 +1,7 @@
 #ifndef _GlobalConstants_H_
 #define _GlobalConstants_H_
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #include <ymath.h>
 #define SIM_EXPORT __declspec(dllexport)
 #pragma warning( disable : 4005)

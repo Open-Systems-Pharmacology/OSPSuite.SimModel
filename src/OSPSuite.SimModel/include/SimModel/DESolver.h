@@ -1,7 +1,7 @@
 #ifndef _DESolver_H_
 #define _DESolver_H_
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning(disable:4786)
 #endif
 #include "TObjectList.h"

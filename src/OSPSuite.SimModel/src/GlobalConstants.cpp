@@ -1,11 +1,11 @@
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(push,off)
 #endif
 
 #include "SimModel/GlobalConstants.h"
 #include <string>
 
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
 #endif
 
@@ -16,7 +16,7 @@ using namespace std;
 
 const bool IsNan (const double d) 
 {
-#ifdef WIN32
+#ifdef _WINDOWS
 	return _isnan(d)?true:false;
 #endif
 

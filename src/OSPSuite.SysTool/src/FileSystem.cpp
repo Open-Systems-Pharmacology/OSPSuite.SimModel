@@ -2,6 +2,7 @@
 
 #ifdef SYSTOOL_WIN32
 #  include <io.h>
+#pragma warning( disable : 4996)
 #else
 #include <unistd.h>
 #include <sys/stat.h>

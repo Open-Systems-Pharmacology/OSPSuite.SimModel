@@ -5,7 +5,7 @@
 
 #include "XMLWrapper/XMLNode.h"
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #import <msxml6.dll> named_guids
 #include <msxml.h>
 #endif
@@ -37,7 +37,7 @@ class XMLWRAPPER_EXPORT XMLDocument
 		static XMLDocument FromFile (const std::string & mcrFilename);
 		void ToFile (const std::string & mcrFilename, bool indent = true) const;
 
-#ifdef WIN32
+#ifdef _WINDOWS
 
 	private:
 		MSXML2::IXMLDOMDocument2Ptr m_Windows_DocumentPtr;

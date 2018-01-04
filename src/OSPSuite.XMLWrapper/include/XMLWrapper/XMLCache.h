@@ -29,7 +29,7 @@ class XMLCache
 		XMLWRAPPER_EXPORT bool SchemaInitialized () const;
 		XMLWRAPPER_EXPORT void SetSchemaNamespace(std::string schemaNamespace);
 
-#ifdef WIN32
+#ifdef _WINDOWS
 		typedef MSXML2::IXMLDOMSchemaCollectionPtr LocalSchemaType ;
 
 	private:

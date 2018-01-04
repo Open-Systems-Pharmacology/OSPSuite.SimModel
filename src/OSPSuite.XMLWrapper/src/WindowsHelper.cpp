@@ -1,4 +1,4 @@
-#ifdef WIN32
+#ifdef _WINDOWS
 
 #include "StdAfx.h"
 #include <string>

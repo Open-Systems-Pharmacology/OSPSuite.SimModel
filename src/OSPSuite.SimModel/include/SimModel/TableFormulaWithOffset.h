@@ -5,7 +5,7 @@
 #include "SimModel/Quantity.h"
 #include "SimModel/TableFormula.h"
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning( disable : 4279)
 #endif
 
