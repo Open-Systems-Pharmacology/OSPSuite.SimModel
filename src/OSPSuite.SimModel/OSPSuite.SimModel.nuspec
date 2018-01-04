@@ -21,6 +21,10 @@
     <file src="..\..\Build\Release\OSPSuite.SimModel.dll" target="OSPSuite.SimModel\bin\native\x86\Release" />
     <file src="..\..\Build\Release\OSPSuite.SimModel.lib" target="OSPSuite.SimModel\bin\native\x86\Release" />
     <file src="..\..\Build\Release\OSPSuite.SimModel.pdb" target="OSPSuite.SimModel\bin\native\x86\Release" />
+
+    <file src="..\..\Build\Release\OSPSuite.SimModel.dll" target="OSPSuite.SimModel\bin\native\x64\Release" />
+    <file src="..\..\Build\Release\OSPSuite.SimModel.lib" target="OSPSuite.SimModel\bin\native\x64\Release" />
+    <file src="..\..\Build\Release\OSPSuite.SimModel.pdb" target="OSPSuite.SimModel\bin\native\x64\Release" />
     
     <file src="..\..\Build\Release\OSPSuite.SimModel.dll" target="lib\net45" />
     <file src="..\..\Build\Release\OSPSuite.SimModel.lib" target="lib\net45" />

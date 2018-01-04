@@ -1,8 +1,8 @@
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(push,off)
 #endif
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning(disable:4786)
 #endif
 
@@ -12,7 +12,7 @@
 #include "SimModel/MathHelper.h"
 #include "XMLWrapper/XMLHelper.h"
 
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
 #endif
 
@@ -178,7 +178,7 @@ void Quantity::XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim)
 
 void Quantity::setPathWithoutRoot(const string & objectPathDelimiter)
 {
-	int firstdelimiterpos = _fullName.find_first_of(objectPathDelimiter);
+	size_t firstdelimiterpos = _fullName.find_first_of(objectPathDelimiter);
 
 	if (firstdelimiterpos == string::npos)
 		_pathWithoutRoot = _fullName;

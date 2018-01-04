@@ -1,6 +1,8 @@
+image: Visual Studio 2017
+
 environment:
-  major: 2
-  minor: 2
+  major: 3
+  minor: 1
   release: 0
   app_version: '$(major).$(minor).$(release).$(APPVEYOR_BUILD_NUMBER)'
 
@@ -9,6 +11,7 @@ version: '$(major).$(minor).$(release).{build}'
 build_script:
   - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Debug;Platform=Win32 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Release;Platform=Win32 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=ReleaseX64;Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 cache:
   - packages -> **\packages.config  # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
@@ -32,6 +35,7 @@ after_build:
 test:
   assemblies:
   - '**\*.Tests.Release.dll'
+  - '**\*.Tests.ReleaseX64.dll'
 
 branches:
   only:

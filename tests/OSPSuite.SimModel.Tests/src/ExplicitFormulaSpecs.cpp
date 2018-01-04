@@ -1,4 +1,4 @@
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning( disable : 4691)
 #endif
 
@@ -383,7 +383,7 @@ namespace UnitTests
 
 				vector<double> switchTimePoints=f->SwitchTimePoints();
 
-				BDDExtensions::ShouldBeEqualTo(switchTimePoints.size(), (unsigned int)7);
+				BDDExtensions::ShouldBeEqualTo(switchTimePoints.size(), (size_t)7);
 
 				DoubleQueue dq;
 				

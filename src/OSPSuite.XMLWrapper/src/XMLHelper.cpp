@@ -7,8 +7,9 @@
 #include "XMLWrapper/XMLDocument.h"
 
 // Windows only
-#ifdef WIN32
+#ifdef _WINDOWS
 #include "XMLWrapper/WindowsHelper.h"
+#pragma warning( disable : 4996)
 #else
 #include <cstring>
 #endif
@@ -18,7 +19,7 @@ XMLNode XMLHelper::GetModelNodeFromFile (const std::string & sFileName, const XM
 	// Create XML DOM
 	XMLDocument pXMLDoc = XMLDocument::FromFile(sFileName);
 
-#ifdef WIN32
+#ifdef _WINDOWS
 	//Validate schema
 	ValidateXMLDomWithSchema(pXMLDoc,pCache);
 #endif
@@ -47,7 +48,7 @@ XMLNode XMLHelper::GetModelNodeFromString (const std::string & sModelXML, const 
 	// Create XML DOM
 	XMLDocument pXMLDoc = XMLDocument::FromString(sModelXML);
 
-#ifdef WIN32
+#ifdef _WINDOWS
 	//Validate schema
 	ValidateXMLDomWithSchema(pXMLDoc,pCache);
 #endif
@@ -71,7 +72,7 @@ XMLNode XMLHelper::GetModelNodeFromString (const std::string & sModelXML, const 
 
 std::string XMLHelper::GetParseError (XMLParseErrorPtr pError)
 {
-#ifdef WIN32
+#ifdef _WINDOWS
 	std::string sErr;
 	sErr = "Error code: " + _bstr_t(pError->GeterrorCode()) + "\n";
 	try
@@ -176,7 +177,7 @@ std::string XMLHelper::ToUpper (const std::string & Source)
 	const size_t strSize = Source.size();
 	char * NewStr = new char[strSize+1]; //+1 for  '\0'
 	const char *csource = Source.c_str();
-	for(int i=0; i<strSize; i++)
+	for(size_t i=0; i<strSize; i++)
 		NewStr[i]=toupper(csource[i]);
 	NewStr[strSize] = '\0';
 	std::string newString = NewStr;
@@ -195,7 +196,7 @@ std::string XMLHelper::ToString (double dValue)
 
 void XMLHelper::ValidateXMLDomWithSchema (XMLDocument pXMLDoc, const XMLCache * pCache)
 {
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ===================================================== WINDOWS
 
 	// ********************************************************

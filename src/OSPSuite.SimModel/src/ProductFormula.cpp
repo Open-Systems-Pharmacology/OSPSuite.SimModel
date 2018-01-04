@@ -1,4 +1,4 @@
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(push,off)
 #endif
 
@@ -7,7 +7,7 @@
 #include "XMLWrapper/XMLNode.h"
 #include <assert.h>
 
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
 #endif
 
@@ -63,7 +63,7 @@ void ProductFormula::LoadFromXMLNode (const XMLNode & pNode)
 	}
 
 	//now cache into array
-	_noOfMultipliers = multipliersVec.size();
+	_noOfMultipliers = (unsigned int)multipliersVec.size();
 	_multiplierFormulas = new Formula * [_noOfMultipliers];
 
 	for(int i=0; i<_noOfMultipliers; i++)

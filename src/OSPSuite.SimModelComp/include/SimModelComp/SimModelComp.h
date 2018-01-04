@@ -1,4 +1,4 @@
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning(disable:4018) //signed/unsigned mismatch
 #pragma warning(disable:4244) //conversion from 'long' to 'char', possible loss of data
 #pragma warning(disable:4786)

@@ -1,4 +1,4 @@
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(push,off)
 #endif
 
@@ -7,7 +7,7 @@
 #include "XMLWrapper/XMLNode.h"
 #include <assert.h>
 
-#ifdef WIN32_PRODUCTION
+#ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
 #endif
 
@@ -75,7 +75,7 @@ void SumFormula::LoadFromXMLNode (const XMLNode & pNode)
 	}
 
 	//now cache into array
-	_noOfSummands = summandsVec.size();
+	_noOfSummands = (unsigned int)summandsVec.size();
 	_summandFormulas = new Formula * [_noOfSummands];
 
 	for(int i=0; i<_noOfSummands; i++)

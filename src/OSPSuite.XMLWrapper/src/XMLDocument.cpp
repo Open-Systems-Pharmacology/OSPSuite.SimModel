@@ -4,7 +4,7 @@
 #include "XMLWrapper/XMLHelper.h"
 #include "ErrorData.h"
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #include "XMLWrapper/WindowsHelper.h"
 #endif
 
@@ -14,7 +14,7 @@ static const char* gs_xmlEncoding = "UTF-8";
 
 XMLDocument::XMLDocument()
 {
-#ifdef WIN32
+#ifdef _WINDOWS
 	m_Windows_DocumentPtr = NULL;
 #endif
 
@@ -28,7 +28,7 @@ std::string XMLDocument::GetBaseName ()
 	// Return value
 	std::string sRet="";
 
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	sRet = "At element: " + _bstr_t(m_Windows_DocumentPtr->GetbaseName());
 #endif
@@ -47,7 +47,7 @@ XMLNode XMLDocument::GetRootElement () const
 	// Return value
 	XMLNode ret;
 
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	ret.m_Windows_NodePtr = m_Windows_DocumentPtr -> firstChild;
 #endif
@@ -63,7 +63,7 @@ XMLNode XMLDocument::GetRootElement () const
 
 const bool XMLDocument::IsNull () const
 {
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	return (m_Windows_DocumentPtr == NULL);
 #endif
@@ -76,7 +76,7 @@ const bool XMLDocument::IsNull () const
 
 void XMLDocument::Create()
 {
-#ifdef WIN32
+#ifdef _WINDOWS
     // ============================================= WINDOWS
   MSXML2::IXMLDOMDocument2Ptr XMLDoc=NULL;
   HRESULT hr=CoCreateInstance(MSXML2::CLSID_DOMDocument60, NULL, CLSCTX_INPROC_SERVER,
@@ -100,7 +100,7 @@ void XMLDocument::Create()
 XMLNode XMLDocument::CreateNode(const std::string& nodeName)
 {
   XMLNode node;
-#ifdef WIN32
+#ifdef _WINDOWS
   MSXML2::IXMLDOMNodePtr nodePtr = m_Windows_DocumentPtr->createNode((short) MSXML2::NODE_ELEMENT, nodeName.c_str(), "");
   node.m_Windows_NodePtr = nodePtr;
 #endif
@@ -113,7 +113,7 @@ XMLNode XMLDocument::CreateNode(const std::string& nodeName)
 XMLNode XMLDocument::CreateRootNode(const std::string& rootNodeName)
 {
   XMLNode rootNode = CreateNode(rootNodeName);
-#ifdef WIN32
+#ifdef _WINDOWS
   throw "Not implemented yet";
 #endif
 #ifdef linux
@@ -130,7 +130,7 @@ XMLNode XMLDocument::CreateRootNode(const std::string& rootNodeName)
 
 XMLNode XMLDocument::CreateRootNode(const XMLNode& rootNode)
 {
-#ifdef WIN32
+#ifdef _WINDOWS
   throw "Not implemented yet";
 #endif
 #ifdef linux
@@ -141,7 +141,7 @@ XMLNode XMLDocument::CreateRootNode(const XMLNode& rootNode)
 
 void XMLDocument::Release ()
 {
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	m_Windows_DocumentPtr.Release();
 	m_Windows_DocumentPtr = NULL;
@@ -161,7 +161,7 @@ XMLDocument XMLDocument::FromString (const std::string & mcrXML)
 
 	try
 	{
-#ifdef WIN32
+#ifdef _WINDOWS
 		// ========================================================== WINDOWS
 
 		// Create XML DOM for schema
@@ -216,7 +216,7 @@ XMLDocument XMLDocument::FromString (const std::string & mcrXML)
 	{
 		throw ED;
 	}
-#ifdef WIN32
+#ifdef _WINDOWS
 	catch(_com_error & e)
 	{
 		throw ErrorData(ErrorData::ED_ERROR,
@@ -235,7 +235,7 @@ XMLDocument XMLDocument::FromString (const std::string & mcrXML)
 
 const std::string XMLDocument::ToString () const
 {
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	return (char *) m_Windows_DocumentPtr -> Getxml();
 #endif
@@ -258,7 +258,7 @@ XMLDocument XMLDocument::FromFile (const std::string & mcrFilename)
 	// Return value
 	XMLDocument ret;
 
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	try
 	{
@@ -303,7 +303,7 @@ XMLDocument XMLDocument::FromFile (const std::string & mcrFilename)
 	{
 		throw ED;
 	}
-#ifdef WIN32
+#ifdef _WINDOWS
 	catch(_com_error & e)
 	{
 		throw ErrorData(ErrorData::ED_ERROR,
@@ -340,7 +340,7 @@ XMLDocument XMLDocument::FromFile (const std::string & mcrFilename)
 
 void XMLDocument::ToFile (const std::string & mcrFilename, bool indent) const
 {
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 
 	// Convert filename to bstr

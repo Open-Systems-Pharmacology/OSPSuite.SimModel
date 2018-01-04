@@ -1,7 +1,7 @@
 #include "XMLWrapper/XMLCache.h"
 #include "XMLWrapper/XMLDocument.h"
  
-#ifdef WIN32
+#ifdef _WINDOWS
 #include "XMLWrapper/WindowsHelper.h"
 #endif
 
@@ -28,7 +28,7 @@ XMLCache::XMLCache ()
 	m_SchemaInitialized = false;
 	m_SchemaNamespace = "http://www.pk-sim.com/SimModelSchema";//for backwards compatibility
 
-#ifdef WIN32
+#ifdef _WINDOWS
 	m_Windows_SchemaCache = NULL;
 #endif
 #ifdef linux
@@ -40,7 +40,7 @@ XMLCache::~XMLCache ()
 {
 	m_Instance = NULL;
 
-#ifdef WIN32
+#ifdef _WINDOWS
 	if (m_Windows_SchemaCache)
 	{
 		m_Windows_SchemaCache.Release();
@@ -72,7 +72,7 @@ void XMLCache::LoadSchemaFromXMLString (const std::string & sXML)
 	{
 		throw;
 	}
-#ifdef WIN32
+#ifdef _WINDOWS
 	catch(_com_error & e)
 	{
 		throw ErrorData(ErrorData::ED_ERROR,
@@ -103,7 +103,7 @@ void XMLCache::LoadSchemaFromFile (const std::string & sFileName)
 	{
 		throw;
 	}
-#ifdef WIN32
+#ifdef _WINDOWS
 	catch(_com_error & e)
 	{
 		throw ErrorData(ErrorData::ED_ERROR,
@@ -125,7 +125,7 @@ bool XMLCache::SchemaInitialized () const
 
 void XMLCache::LoadSchemaFromXMLDom (XMLDocument pXMLDoc)
 {
-#ifdef WIN32
+#ifdef _WINDOWS
     assert(!pXMLDoc.IsNull());
 
     m_Windows_SchemaCache.CreateInstance(__uuidof(MSXML2::XMLSchemaCache60));
@@ -153,7 +153,7 @@ void XMLCache::SetSchemaNamespace(std::string schemaNamespace)
 
 const XMLCache::LocalSchemaType XMLCache::GetSchemaCache () const
 {
-#ifdef WIN32
+#ifdef _WINDOWS
     return m_Windows_SchemaCache;
 #endif
 

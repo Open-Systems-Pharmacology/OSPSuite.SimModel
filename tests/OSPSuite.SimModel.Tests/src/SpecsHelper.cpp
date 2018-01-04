@@ -3,7 +3,7 @@
 #include <direct.h>
 #include "SimModelManaged/Conversions.h"
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning( disable : 4691)
 #endif
 

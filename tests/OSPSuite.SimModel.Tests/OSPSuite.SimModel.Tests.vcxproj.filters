@@ -40,6 +40,15 @@
     <Filter Include="SimModelComp\Source Files">
       <UniqueIdentifier>{a7dfb792-46fb-4206-ab90-aa87b95b56e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SolverBase">
+      <UniqueIdentifier>{6acbf99b-4a8a-4a14-ac26-26c59dc8845f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SolverBase\include">
+      <UniqueIdentifier>{a448202b-d79b-47ad-901e-aaee556d2207}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SolverBase\src">
+      <UniqueIdentifier>{d837f09d-fc15-4633-894d-8c973262d9ba}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\BandwidthReduction.cpp">
@@ -267,6 +276,18 @@
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\VariableWithParameterSensitivity.cpp">
       <Filter>SimModel\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\src\OptionInfo.cpp">
+      <Filter>SolverBase\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\src\OptionValueInfo.cpp">
+      <Filter>SolverBase\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\src\SimModelSolverBase.cpp">
+      <Filter>SolverBase\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\src\SimModelSolverErrorData.cpp">
+      <Filter>SolverBase\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\AdjustableEntityProperties.h">
@@ -484,6 +505,21 @@
     </ClInclude>
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\VariableWithParameterSensitivity.h">
       <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SimModelSolverBase\OptionInfo.h">
+      <Filter>SolverBase\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SimModelSolverBase\OptionValueInfo.h">
+      <Filter>SolverBase\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SimModelSolverBase\SimModelSolverBase.h">
+      <Filter>SolverBase\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SimModelSolverBase\SimModelSolverErrorData.h">
+      <Filter>SolverBase\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\SolverCallerInterface\SolverCaller.h">
+      <Filter>SolverBase\include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning( disable : 4691)
 #pragma warning( disable : 4244)
 #endif
@@ -87,7 +87,7 @@ namespace UnitTests
 			try
 			{
 				DoubleQueue timePointsQueue = sut->OutputSchema->AllTimePoints<float>();
-				unsigned int queueSize = timePointsQueue.size();
+				unsigned int queueSize = (unsigned int)timePointsQueue.size();
 				_timePoints = gcnew array<double>(queueSize);
 
 				for(unsigned int i=0; i<queueSize; i++)

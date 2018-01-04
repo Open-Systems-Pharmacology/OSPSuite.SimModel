@@ -1,4 +1,4 @@
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning( disable : 4691)
 #pragma warning( disable : 4244)
 #endif
@@ -64,7 +64,7 @@ namespace SimulationTests
 			double * solverTimes = sim->GetTimeValues();
 			DoubleQueue timeSchema = sut->GetNativeSimulation()->GetOutputSchema().AllTimePoints<float>();
 
-			BDDExtensions::ShouldBeEqualTo<int>(timeSchema.size(), noOfOutputtimePoints);
+			BDDExtensions::ShouldBeEqualTo<int>((unsigned int)timeSchema.size(), noOfOutputtimePoints);
 
 			for(int i=0; i<noOfOutputtimePoints; i++)
 			{
@@ -439,7 +439,7 @@ namespace SimulationTests
 			double * solverTimes = sim->GetTimeValues();
 			DoubleQueue timeSchema = sut->GetNativeSimulation()->GetOutputSchema().AllTimePoints<float>();
 
-			BDDExtensions::ShouldBeEqualTo<int>(timeSchema.size(), noOfOutputtimePoints);
+			BDDExtensions::ShouldBeEqualTo<int>((unsigned int)timeSchema.size(), noOfOutputtimePoints);
 
 			SimModelNative::Species * y1, * y2, * y3;
 			y1 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y1");
@@ -1667,7 +1667,7 @@ namespace SimulationTests
 			SimModelNative::Observer * Art_pls_A_Obs1 = sim->Observers().GetObjectById(7);
 
 			DoubleQueue timeSchema = sut->GetNativeSimulation()->GetOutputSchema().AllTimePoints<float>();
-			BDDExtensions::ShouldBeEqualTo<int>(timeSchema.size(), noOfOutputtimePoints);
+			BDDExtensions::ShouldBeEqualTo<int>((unsigned int)timeSchema.size(), noOfOutputtimePoints);
 
 			BDDExtensions::ShouldBeEqualTo(Art_pls_A->GetValuesSize(), noOfOutputtimePoints);
 			BDDExtensions::ShouldBeEqualTo(Art_pls_A_Obs1->GetValuesSize(), noOfOutputtimePoints);
@@ -1749,7 +1749,7 @@ namespace SimulationTests
 			SimModelNative::Observer * Art_pls_A_Obs1 = sim->Observers().GetObjectById(7);
 
 			DoubleQueue timeSchema = sut->GetNativeSimulation()->GetOutputSchema().AllTimePoints<float>();
-			BDDExtensions::ShouldBeEqualTo<int>(timeSchema.size(), noOfOutputtimePoints);
+			BDDExtensions::ShouldBeEqualTo<int>((unsigned int)timeSchema.size(), noOfOutputtimePoints);
 
 			BDDExtensions::ShouldBeEqualTo(Art_pls_A->GetValuesSize(), noOfOutputtimePoints);
 			BDDExtensions::ShouldBeEqualTo(Art_pls_A_Obs1->GetValuesSize(), noOfOutputtimePoints);
@@ -3422,7 +3422,7 @@ namespace SimulationTests
 				{
 					std::string simXMLString = sim->GetSimulationXMLString();
 				}
-				catch (ErrorData & ED)
+				catch (ErrorData &)
 				{
 					//expected behaviour
 					return;

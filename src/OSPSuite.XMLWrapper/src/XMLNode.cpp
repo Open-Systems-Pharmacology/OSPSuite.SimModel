@@ -2,7 +2,7 @@
 #include "XMLWrapper/XMLNode.h"
 #include "XMLWrapper/XMLHelper.h"
 
-#ifdef WIN32
+#ifdef _WINDOWS
 #include "XMLWrapper/WindowsHelper.h"
 #endif
 
@@ -10,7 +10,7 @@ XMLNode::XMLNode ()
 {
 	// Initialize as NULL pointer
 
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	m_Windows_NodePtr = NULL;
 #endif
@@ -31,7 +31,7 @@ XMLNode XMLNode::GetFirstChild ()
 	// Return value
 	XMLNode ret;
 
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	ret.m_Windows_NodePtr = m_Windows_NodePtr -> firstChild;
 #endif
@@ -55,7 +55,7 @@ const XMLNode XMLNode::GetFirstChild () const
 	// Return value
 	XMLNode ret;
 
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	ret.m_Windows_NodePtr = m_Windows_NodePtr -> firstChild;
 #endif
@@ -79,7 +79,7 @@ XMLNode XMLNode::GetNextSibling ()
 	// Return value
 	XMLNode ret;
 
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	ret.m_Windows_NodePtr = m_Windows_NodePtr -> nextSibling;
 #endif
@@ -103,7 +103,7 @@ const XMLNode XMLNode::GetNextSibling () const
 	// Return value
 	XMLNode ret;
 
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	ret.m_Windows_NodePtr = m_Windows_NodePtr -> nextSibling;
 #endif
@@ -124,7 +124,7 @@ const std::string XMLNode::GetNodeName () const
     throw ErrorData(ErrorData::ED_ERROR, "XMLNode::GetNodeName",
         "Trying to access empty XML node.");
   }
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	return ((char *) m_Windows_NodePtr -> nodeName);
 #endif
@@ -137,7 +137,7 @@ const std::string XMLNode::GetNodeName () const
 
 const bool XMLNode::IsNull () const
 {
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	return (m_Windows_NodePtr == NULL);
 #endif
@@ -156,7 +156,7 @@ XMLNode XMLNode::Clone(bool recursive) const
         "Trying to access empty XML node.");
   }
   XMLNode nodeCopy;
-#ifdef WIN32
+#ifdef _WINDOWS
   // ============================================= WINDOWS
   // TODO: is a deep copy necessary?
   // For now just copy the pointer
@@ -191,7 +191,7 @@ bool XMLNode::HasAttribute (const std::string & mcrName) const
     throw ErrorData(ErrorData::ED_ERROR, "XMLNode::HasAttribute",
         "Trying to access empty XML node.");
   }
-#ifdef WIN32
+#ifdef _WINDOWS
     // ============================================= WINDOWS
     // Get attribute pointer
     const MSXML2::IXMLDOMAttributePtr attribute =
@@ -219,7 +219,7 @@ const std::string XMLNode::GetAttribute (const std::string & mcrName, const std:
 	// Return value
 	std::string ret;
 
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	// Get attribute pointer
 	const MSXML2::IXMLDOMAttributePtr attribute =
@@ -278,7 +278,7 @@ void XMLNode::SetAttribute (const std::string & mcrName, const std::string & mcr
     throw ErrorData(ErrorData::ED_ERROR, "XMLNode::SetAttribute",
         "Trying to access empty XML node.");
   }
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 
 	// Get document
@@ -329,7 +329,7 @@ const bool XMLNode::HasName (const std::string & mcrName) const
 
 XMLNode XMLNode::GetChildNode (const std::string & mcrName)
 {
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	// Check if node exists
 	if (m_Windows_NodePtr == NULL)
@@ -367,7 +367,7 @@ XMLNode XMLNode::GetChildNode (const std::string & mcrName)
 
 const XMLNode XMLNode::GetChildNode (const std::string & mcrName) const
 {
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	// Check if node exists
 	if (m_Windows_NodePtr == NULL)
@@ -413,7 +413,7 @@ XMLNode XMLNode::CreateChildNode (const std::string & mcrName)
 	// Return value
 	XMLNode ret;
 
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 
 	// Get document
@@ -446,7 +446,7 @@ void XMLNode::RemoveChildNode (XMLNode & mrNode)
     throw ErrorData(ErrorData::ED_ERROR, "XMLNode::SetValue",
         "Trying to access empty XML node.");
   }
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	m_Windows_NodePtr -> removeChild(mrNode.m_Windows_NodePtr);
 #endif
@@ -464,7 +464,7 @@ void XMLNode::AppendChildNode (XMLNode & mrNode)
     throw ErrorData(ErrorData::ED_ERROR, "XMLNode::AppendChildNode",
         "Trying to access empty XML node.");
   }
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	m_Windows_NodePtr -> appendChild(mrNode.m_Windows_NodePtr);
 #endif
@@ -520,7 +520,7 @@ const std::string XMLNode::GetXML () const
     throw ErrorData(ErrorData::ED_ERROR, "XMLNode::GetXML",
         "Trying to access empty XML node.");
   }
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	return (char *) m_Windows_NodePtr -> Getxml();
 #endif
@@ -550,7 +550,7 @@ const double XMLNode::GetValue (const double mcDefault) const
 	// Return value
 	double ret;
 
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	try
 	{
@@ -589,7 +589,7 @@ const std::string XMLNode::GetValue () const
   // Return value
   std::string ret;
 
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	HRESULT hr;
 	BSTR itemtext = NULL;
@@ -647,7 +647,7 @@ void XMLNode::SetValue (const std::string & Value)
     throw ErrorData(ErrorData::ED_ERROR, "XMLNode::SetValue",
         "Trying to access empty XML node.");
   }
-#ifdef WIN32
+#ifdef _WINDOWS
 	// ============================================= WINDOWS
 	m_Windows_NodePtr -> text = Value.c_str();
 #endif
