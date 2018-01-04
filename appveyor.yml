@@ -1,3 +1,5 @@
+image: Visual Studio 2017
+
 environment:
   major: 3
   minor: 1
