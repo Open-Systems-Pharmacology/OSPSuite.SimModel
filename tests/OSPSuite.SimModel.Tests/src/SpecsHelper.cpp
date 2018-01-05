@@ -23,19 +23,19 @@ namespace UnitTests
 
 	String^ SpecsHelper::TestFileFrom(String^ fileName)
 	{
-		String^ relPath = (gcnew String("..\\..\\tests\\TestData\\")) + fileName;
+		String^ relPath = (gcnew String("..\\..\\..\\tests\\TestData\\")) + fileName;
 		return Path::Combine(SpecsHelper::BaseDirectory(), relPath);
 	}
 	
 	String^ SpecsHelper::SimModelCompConfigFilePath()
 	{
-		String^ relPath = (gcnew String("..\\..\\src\\OSPSuite.SimModelComp\\OSPSuite_SimModelComp.xml"));
+		String^ relPath = (gcnew String("..\\..\\..\\src\\OSPSuite.SimModelComp\\OSPSuite_SimModelComp.xml"));
 		return Path::Combine(SpecsHelper::BaseDirectory(), relPath);
 	}
 
 	String^ SpecsHelper::SchemaPath()
 	{
-		return Path::Combine(SpecsHelper::BaseDirectory(), "..\\..\\schema\\OSPSuite.SimModel.xsd");
+		return Path::Combine(SpecsHelper::BaseDirectory(), "..\\..\\..\\schema\\OSPSuite.SimModel.xsd");
 	}
 
 	void SpecsHelper::ChangeWorkingDirToBaseDir()

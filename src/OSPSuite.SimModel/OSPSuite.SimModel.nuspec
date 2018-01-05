@@ -14,20 +14,20 @@
     <tags>open-systems-pharmacology</tags>
   </metadata>
   <files>
-    <file src="..\..\Build\Debug\OSPSuite.SimModel.dll" target="OSPSuite.SimModel\bin\native\x86\Debug" />
-    <file src="..\..\Build\Debug\OSPSuite.SimModel.lib" target="OSPSuite.SimModel\bin\native\x86\Debug" />
-    <file src="..\..\Build\Debug\OSPSuite.SimModel.pdb" target="OSPSuite.SimModel\bin\native\x86\Debug" />
+    <file src="..\..\Build\Debug\Win32\OSPSuite.SimModel.dll" target="OSPSuite.SimModel\bin\native\x86\Debug" />
+    <file src="..\..\Build\Debug\Win32\OSPSuite.SimModel.lib" target="OSPSuite.SimModel\bin\native\x86\Debug" />
+    <file src="..\..\Build\Debug\Win32\OSPSuite.SimModel.pdb" target="OSPSuite.SimModel\bin\native\x86\Debug" />
 
-    <file src="..\..\Build\Release\OSPSuite.SimModel.dll" target="OSPSuite.SimModel\bin\native\x86\Release" />
-    <file src="..\..\Build\Release\OSPSuite.SimModel.lib" target="OSPSuite.SimModel\bin\native\x86\Release" />
-    <file src="..\..\Build\Release\OSPSuite.SimModel.pdb" target="OSPSuite.SimModel\bin\native\x86\Release" />
+    <file src="..\..\Build\Release\Win32\OSPSuite.SimModel.dll" target="OSPSuite.SimModel\bin\native\x86\Release" />
+    <file src="..\..\Build\Release\Win32\OSPSuite.SimModel.lib" target="OSPSuite.SimModel\bin\native\x86\Release" />
+    <file src="..\..\Build\Release\Win32\OSPSuite.SimModel.pdb" target="OSPSuite.SimModel\bin\native\x86\Release" />
 
-    <file src="..\..\Build\Release\OSPSuite.SimModel.dll" target="OSPSuite.SimModel\bin\native\x64\Release" />
-    <file src="..\..\Build\Release\OSPSuite.SimModel.lib" target="OSPSuite.SimModel\bin\native\x64\Release" />
-    <file src="..\..\Build\Release\OSPSuite.SimModel.pdb" target="OSPSuite.SimModel\bin\native\x64\Release" />
+    <file src="..\..\Build\Release\x64\OSPSuite.SimModel.dll" target="OSPSuite.SimModel\bin\native\x64\Release" />
+    <file src="..\..\Build\Release\x64\OSPSuite.SimModel.lib" target="OSPSuite.SimModel\bin\native\x64\Release" />
+    <file src="..\..\Build\Release\x64\OSPSuite.SimModel.pdb" target="OSPSuite.SimModel\bin\native\x64\Release" />
     
-    <file src="..\..\Build\Release\OSPSuite.SimModel.dll" target="lib\net45" />
-    <file src="..\..\Build\Release\OSPSuite.SimModel.lib" target="lib\net45" />
-    <file src="..\..\Build\Release\OSPSuite.SimModel.pdb" target="lib\net45" />
+    <file src="..\..\Build\Release\Win32\OSPSuite.SimModel.dll" target="lib\net45" />
+    <file src="..\..\Build\Release\Win32\OSPSuite.SimModel.lib" target="lib\net45" />
+    <file src="..\..\Build\Release\Win32\OSPSuite.SimModel.pdb" target="lib\net45" />
   </files>
 </package>
