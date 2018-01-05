@@ -752,8 +752,19 @@ public:
 
 		virtual void Context() override
 		{
-			Environment::CurrentDirectory = SpecsHelper::BaseDirectory();
-			sut = gcnew SimModelCompWrapper(SpecsHelper::SimModelCompConfigFilePath());
+			try
+			{
+				Environment::CurrentDirectory = SpecsHelper::BaseDirectory();
+				sut = gcnew SimModelCompWrapper(SpecsHelper::SimModelCompConfigFilePath());
+			}
+			catch (const std::string & errMsg)
+			{
+				ExceptionHelper::ThrowExceptionFrom(errMsg);
+			}
+			catch (ErrorData & ED)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ED);
+			}
 		}
 
 	public:

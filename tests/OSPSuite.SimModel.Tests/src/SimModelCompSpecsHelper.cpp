@@ -52,6 +52,9 @@ namespace UnitTests
 	{
 		//---- Create via DCI Manager (Load from config)
 		DCI::IComponentHandle hComp = DCI::Manager::LoadComponentFromXMLFile(simModelCompConfigFilePath);
+		if(!hComp)
+			throw std::string((const char *)DCI::Error::GetDescription());
+
 		hComp.GetPtr()->AddRef();
 
 		_simModelComp=dynamic_cast<SimModelComp *> (hComp.GetPtr());		

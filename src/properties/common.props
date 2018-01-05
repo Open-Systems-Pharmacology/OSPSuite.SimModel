@@ -2,8 +2,8 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <FuncParserVersion>3.0.0.4</FuncParserVersion>
-    <SolverVersion>3.0.0.5</SolverVersion>
+    <FuncParserVersion>3.0.0.6</FuncParserVersion>
+    <SolverVersion>3.0.0.7</SolverVersion>
     <FuncParserPath>$(SolutionDir)packages\OSPSuite.FuncParser.$(FuncParserVersion)\OSPSuite.FuncParser\</FuncParserPath>
     <SolverPath>$(SolutionDir)packages\OSPSuite.SimModelSolver_CVODES282.$(SolverVersion)\OSPSuite.SimModelSolver_CVODES282\</SolverPath>
   </PropertyGroup>
