@@ -243,8 +243,11 @@ void SimModelComp_XMLHelper::SaveStringToFile(const std::string & str, const str
 		//implemented workaround via wstring as found here: 
 		//http://mariusbancila.ro/blog/2008/10/20/writing-utf-8-files-in-c/
 
-		wstring wstr(str.begin(), str.end());
-		string utf8string = to_utf8(wstr);
+        int size_needed = (int)str.size() + 1;
+        size_t outSize;
+        wchar_t* outW = new wchar_t[size_needed];
+        mbstowcs_s(&outSize, outW, size_needed + 1, str.c_str(), size_needed);
+        string utf8string = to_utf8(outW);
 		outf << utf8string;
 
 		outf.close();
