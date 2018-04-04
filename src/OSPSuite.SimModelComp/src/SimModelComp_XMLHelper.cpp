@@ -226,31 +226,36 @@ std::string to_utf8(const std::wstring& str)
 
 void SimModelComp_XMLHelper::SaveStringToFile(const std::string & str, const string & FileName)
 {
-	string ErrorMsgPrefix = "Saving file '" + FileName + "' failed: ";
+   string ErrorMsgPrefix = "Saving file '" + FileName + "' failed: ";
 
 #ifdef _WINDOWS		
-	if (FileSystem::FileOrFolderExists(FileName))
-	{
-		if (!FileSystem::DeleteFileOrFolder(FileName))
-			throw ErrorMsgPrefix+"old file could not be deleted";
-	}
+   if (FileSystem::FileOrFolderExists(FileName))
+   {
+      if (!FileSystem::DeleteFileOrFolder(FileName))
+         throw ErrorMsgPrefix + "old file could not be deleted";
+   }
 
-	ofstream outf(FileName.c_str()); 
+   ofstream outf(FileName.c_str());
 
-	if (outf.is_open())
-    {
-		//just writing std::string to file destroys UTF8 encoding
-		//implemented workaround via wstring as found here: 
-		//http://mariusbancila.ro/blog/2008/10/20/writing-utf-8-files-in-c/
+   if (outf.is_open())
+   {
+      //just writing std::string to file destroys UTF8 encoding
+      //implemented workaround via wstring as found here: 
+      //http://mariusbancila.ro/blog/2008/10/20/writing-utf-8-files-in-c/
+      //Converstion of input string to wchar as described here:
+      //https://stackoverflow.com/questions/29847036/convert-char-to-wchar-t-using-mbstowcs-s
 
-		wstring wstr(str.begin(), str.end());
-		string utf8string = to_utf8(wstr);
-		outf << utf8string;
+      int size_needed = (int)str.size() + 1;
+      size_t outSize;
+      wchar_t* outW = new wchar_t[size_needed];
+      mbstowcs_s(&outSize, outW, size_needed, str.c_str(), size_needed-1);
+      string utf8string = to_utf8(outW);
+      outf << utf8string;
 
-		outf.close();
-    }
-	else
-		throw ErrorMsgPrefix+"file could not be opened"+strerror(errno);
+      outf.close();
+   }
+   else
+      throw ErrorMsgPrefix + "file could not be opened" + strerror(errno);
 #endif
-//TODO Linux not encrypted	
+   //TODO Linux not encrypted	
 }
