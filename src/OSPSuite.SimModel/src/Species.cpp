@@ -92,6 +92,33 @@ string Species::getFormulaXMLAttributeName()
 	return XMLConstants::InitialValueFormulaId;
 }
 
+/*
+Update the scale factor value in the XML node of the species.
+*/
+void Species::UpdateScaleFactorInXMLNode(const XMLNode & speciesListNode)
+{
+   const char * ERROR_SOURCE = "Species::UpdateScaleFactorInXMLNode";
+
+   //Iterate through all species nodes to find the right one.
+   for (XMLNode speciesNode = speciesListNode.GetFirstChild(); !speciesNode.IsNull(); speciesNode = speciesNode.GetNextSibling())
+   {
+      long quantityId = (long)speciesNode.GetAttribute(XMLConstants::Id, INVALID_QUANTITY_ID);
+
+      if (quantityId != _id)
+         continue;
+
+      //Found species node - update the value of the scale factor node.
+      XMLNode scaleFactorNode = speciesNode.GetChildNode(XMLConstants::ScaleFactor);
+      scaleFactorNode.SetValue(m_ODEScaleFactor);
+
+      return;
+   }
+
+   //Species with the stored id not found - should never happen
+   throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE,
+      "Species with id " + _idAsString + " not found in the list");
+}
+
 void Species::XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim)
 {
 	const char * ERROR_SOURCE = "Species::XMLFinalizeInstance";
