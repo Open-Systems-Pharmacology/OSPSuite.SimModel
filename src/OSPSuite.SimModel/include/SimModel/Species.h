@@ -43,7 +43,8 @@ public:
 	void SetODEScaleFactor (double p_ODEScaleFactor);
 
 	void LoadFromXMLNode (const XMLNode & pNode);
-	void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim);
+   void UpdateScaleFactorInXMLNode(const XMLNode & speciesListNode);
+   void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim);
 
 	std::vector < HierarchicalFormulaObject * > GetUsedHierarchicalFormulaObjects ();
 	

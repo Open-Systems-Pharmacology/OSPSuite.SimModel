@@ -1378,8 +1378,12 @@ std::string Simulation::GetSimulationXMLString ()
 		for(idx=0; idx<_parameters.size(); idx++)
 			_parameters[idx]->UpdateFormulaInXMLNode(formulaListNode, parametersListNode);
 
-		for(idx=0; idx<_species.size(); idx++)
-			_species[idx]->UpdateFormulaInXMLNode(formulaListNode, speciesListNode);
+      for (idx = 0; idx < _species.size(); idx++)
+      {
+         _species[idx]->UpdateFormulaInXMLNode(formulaListNode, speciesListNode);
+         //also update the scale factor in the XML node.
+         _species[idx]->UpdateScaleFactorInXMLNode(speciesListNode);
+      }
 
 		XMLNode outputSchemaNode = oSimNode.GetChildNode(XMLConstants::OutputSchema);
 		
