@@ -14,7 +14,7 @@
 #include <numeric>
 #include <iterator>
 
-const bool REDUCESPECIES = false; // false for BCS
+const bool REDUCESPECIES = false; // TODO define as user option
 
 // precision should be 17 for double: http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html
 // defined as dbl::max_digits10 in C++11

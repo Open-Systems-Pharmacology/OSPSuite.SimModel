@@ -241,7 +241,8 @@ namespace SimModelNative
 				Observer *o = sim->Observers()[i];
 
 				//ossBufferExport << std::endl << "#####" << o->GetId() << "   " << o->GetFormulaId() << "   " << o->GetFullName() << std::endl;
-				if (o->GetId()) { //TODO WArum diese Abfrage
+				// TODO: why this if
+				if (o->GetId()) {
 					o->AppendUsedVariables(usedIDs, empty);
 					obs.push_back(o);
 				}
@@ -256,7 +257,6 @@ namespace SimModelNative
 					o->AppendUsedVariables(usedIDs, empty);
 					obs.push_back(o);
 				}
-				//			else // TODO: error
 			}
 		}
 
@@ -265,7 +265,7 @@ namespace SimModelNative
 		{
 			// optionally reduce number of states, this may alter the number of states -> restore afterwards and in catch
 			const int size = sim->GetODENumUnknowns();
-			if (REDUCESPECIES) //TODO als parameter einführen
+			if (REDUCESPECIES)
 			{
 				for (int i = 0; i < size; i++)
 					sim->GetDEVariableFromIndex(i)->CacheRHSUsedVariables(empty);
@@ -313,9 +313,9 @@ namespace SimModelNative
 			for (int i = 0; i < sim->Parameters().size(); i++)
 			{
 				Parameter * p = sim->Parameters()[i];
-				if (!(p->IsFixed() || p->IsChangedBySwitch() || p->IsTable())) //TODO
+				if (!(p->IsFixed() || p->IsChangedBySwitch() || p->IsTable()))
 					++dimFreeParams;
-				if (p->IsChangedBySwitch()) //
+				if (p->IsChangedBySwitch())
 				{
 					if (!p->IsFormulaEqualTo(NULL)) {
 						Formula * f = p->GetFormula();
@@ -430,8 +430,8 @@ namespace SimModelNative
 						// local parameter pool
 						static int no = 0;
 						std::set<int> dep;
-						param->AppendUsedVariables(dep, empty);
-						bool global = dep.empty(); //TODO check was if von der Zeit abhängig
+						param->AppendUsedVariables(dep, empty); // TODO: check
+						bool global = dep.empty();
 						if (global) {
 							dep.clear();
 							param->AppendUsedParameters(dep);
@@ -659,6 +659,9 @@ namespace SimModelNative
 				++no;
 			}
 		}
+		// workaround for Visual Studio to prevent empty arrays
+		if (no == 0)
+			os << "-1 /* workaround for Visual Studio to prevent empty arrays */";
 		os << "}; return positiveStateIndices; }" << endl;
 		os << "const unsigned int _dimPositiveStateIndices() { static const unsigned int dimPositiveStateIndices = " << no << "; return dimPositiveStateIndices; }" << endl << endl;
 
@@ -739,6 +742,9 @@ namespace SimModelNative
 				os << endl << "                                                           ";
 			os << ", 0.0";
 		}
+		// workaround for Visual Studio to prevent empty arrays
+		if (vecParameters.empty())
+			os << "NAN /* workaround for Visual Studio to prevent empty arrays */";
 		os << "}; return P_init; }" << endl;
 
 		// TODO: use real map instead to improve ODEParamValues?
@@ -752,6 +758,10 @@ namespace SimModelNative
 					os << endl << "                                                  ";
 			}
 		}
+		else {
+			// workaround for Visual Studio to prevent empty arrays
+			os << "-1 /* workaround for Visual Studio to prevent empty arrays */";
+		}
 		os << "}; return P_map; }" << endl << endl;
 
 		os << "const unsigned int *_O_map() { static const unsigned int O_map[] = {";
@@ -762,6 +772,10 @@ namespace SimModelNative
 				if (i % 100 == 0)
 					os << endl << "                                                  ";
 			}
+		}
+		else {
+			// workaround for Visual Studio to prevent empty arrays
+			os << "-1 /* workaround for Visual Studio to prevent empty arrays */";
 		}
 		os << "}; return O_map; }" << endl << endl;
 
@@ -778,6 +792,10 @@ namespace SimModelNative
 					os << endl << "                                                  ";
 			}
 		}
+		else {
+			// workaround for Visual Studio to prevent empty arrays
+			os << "-1 /* workaround for Visual Studio to prevent empty arrays */";
+		}
 		os << "}; return Y_map; }" << endl << endl;
 
 		os << "const double *_Y_sca() { static const double Y_sca[] = {";
@@ -792,6 +810,10 @@ namespace SimModelNative
 				if ((++i) % 100 == 0)
 					os << endl << "                                                  ";
 			}
+		}
+		else {
+			// workaround for Visual Studio to prevent empty arrays
+			os << "NAN /* workaround for Visual Studio to prevent empty arrays */";
 		}
 		os << "}; return Y_sca; }" << endl << endl;
 
@@ -810,6 +832,9 @@ namespace SimModelNative
 		{
 			os << ", " << iter->second.initialIndex;
 		}
+		// workaround for Visual Studio to prevent empty arrays
+		if(sim->Switches().size() == 0 && formulaParameterIDs.empty())
+			os << "-1 /* workaround for Visual Studio to prevent empty arrays */";
 		os << "}; return S_init; }" << endl << endl;
 
 		//os << "// " << vecParameters.size() << "   " << offsetNewP << endl;
@@ -1009,9 +1034,85 @@ namespace SimModelNative
 		
 		// nzz structure, write rows directly, use ossFormula to cache column positions
 		WriteSparseStructure("_fp", usedIDs, vecJacFormulas, noRows, noCols, dense, sparse, osConsts);
+		/*
+		// ox
+		ossFormula.clear();
+		ossFormula.str("");
+		vecJacFormulas.clear();
+		noCols = mapSpecies.size();
+		noRows = obs.size();
+		vecJacFormulas.reserve(noCols*noRows);
+		usedIDs.clear();
 
+		for (size_t col = 0; col < noCols; col++) // ! col wise !
+		{
+			int row = 0;
+			for (size_t j = 0; j < obs.size(); j++)
+			{
+				Formula *f = obs[j]->DE_Jacobian(col);
+
+				f = f->RecursiveSimplify();
+
+				bool isZero = f->IsZero();
+				// even the dense Jacobian needs non-zero elements only
+				if (!isZero) {
+					f->AppendUsedParameters(usedIDs);
+					//if (CheckNewParameter(&f, mapNewP))
+					//	f->InsertNewParameters(mapNewP);
+
+					ossFormula.clear();
+					ossFormula.str("");
+					f->WriteCppCode(ossFormula);
+					vecJacFormulas.push_back(JacFormula(row, col, ossFormula.str()));
+				}
+				++row;
+
+				// clean up
+				delete f;
+			}
+		}
+		*/
 		// nzz structure, write rows directly, use ossFormula to cache column positions
 		WriteSparseStructure("_ox", usedIDs, vecJacFormulas, noRows, noCols, dense, sparse, osConsts);
+
+		/*
+		// op
+		ossFormula.clear();
+		ossFormula.str("");
+		vecJacFormulas.clear();
+		noCols = dimFreeParams;
+		noRows = obs.size();
+		vecJacFormulas.reserve(noCols*noRows);
+		usedIDs.clear();
+
+		for (size_t col = 0; col < noCols; col++) // ! col wise !
+		{
+			int row = 0;
+			for (size_t j = 0; j < obs.size(); j++)
+			{
+				Formula *f = obs[j]->DE_Jacobian(-vecParameters[col]);
+
+				f = f->RecursiveSimplify();
+
+				bool isZero = f->IsZero();
+				// even the dense Jacobian need non-zero elements only
+				if (!isZero) {
+					f->AppendUsedParameters(usedIDs);
+					//if (CheckNewParameter(&f, mapNewP))
+					//	f->InsertNewParameters(mapNewP);
+
+					ossFormula.clear();
+					ossFormula.str("");
+					f->WriteCppCode(ossFormula);
+					vecJacFormulas.push_back(JacFormula(row, col, ossFormula.str()));
+				}
+				++row;
+
+				// clean up
+				delete f;
+			}
+		}
+		*/
 
 		// nzz structure, write rows directly, use ossFormula to cache column positions
 		WriteSparseStructure("_op", usedIDs, vecJacFormulas, noRows, noCols, dense, sparse, osConsts);
