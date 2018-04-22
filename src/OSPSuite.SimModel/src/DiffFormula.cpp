@@ -5,6 +5,7 @@
 #include "SimModel/DiffFormula.h"
 #include "SimModel/FormulaFactory.h"
 #include "SimModel/GlobalConstants.h"
+#include "SimModel/ConstantFormula.h"
 #include <assert.h>
 
 #ifdef _WINDOWS_PRODUCTION
@@ -97,6 +98,54 @@ void DiffFormula::DE_Jacobian (double * * jacobian, const double * y, const doub
 	m_SubtrahendFormula->DE_Jacobian(jacobian, y, time, iEquation, -preFactor);
 }
 
+Formula* DiffFormula::DE_Jacobian(const int iEquation)
+{
+	DiffFormula* f = new DiffFormula();
+	f->m_MinuendFormula = m_MinuendFormula->DE_Jacobian(iEquation);
+	f->m_SubtrahendFormula = m_SubtrahendFormula->DE_Jacobian(iEquation);
+	return f;
+}
+
+Formula* DiffFormula::clone()
+{
+	DiffFormula* f = new DiffFormula();
+	f->m_MinuendFormula = m_MinuendFormula->clone();
+	f->m_SubtrahendFormula = m_SubtrahendFormula->clone();
+	return f;
+}
+
+Formula * DiffFormula::RecursiveSimplify()
+{
+	m_MinuendFormula = m_MinuendFormula->RecursiveSimplify();
+	m_SubtrahendFormula = m_SubtrahendFormula->RecursiveSimplify();
+	bool minConst = m_MinuendFormula->IsConstant(CONSTANT_CURRENT_RUN);
+	bool subConst = m_SubtrahendFormula->IsConstant(CONSTANT_CURRENT_RUN);
+	if (minConst && subConst)
+	{
+		ConstantFormula * f = new ConstantFormula(DE_Compute(NULL, 0.0, USE_SCALEFACTOR));
+		delete this;
+		return f;
+	}
+	else if (subConst && m_SubtrahendFormula->IsZero())
+	{
+		Formula * f = m_MinuendFormula;
+		m_MinuendFormula = NULL;  // prevent destructor to delete it
+		delete this;
+		return f;
+	}
+	
+	return this;
+}
+
+void DiffFormula::setFormula(Formula* minuend, Formula* subrahend)
+{
+	if (m_MinuendFormula != NULL) delete m_MinuendFormula;
+	if (m_SubtrahendFormula != NULL) delete m_SubtrahendFormula;
+
+	m_MinuendFormula = minuend;
+	m_SubtrahendFormula = subrahend;
+}
+
 void DiffFormula::Finalize()
 {
 	m_MinuendFormula->Finalize();
@@ -110,10 +159,23 @@ void DiffFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 	m_SubtrahendFormula->WriteMatlabCode(mrOut);
 }
 
+void DiffFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	m_MinuendFormula->WriteCppCode(mrOut);
+	mrOut << "-";
+	m_SubtrahendFormula->WriteCppCode(mrOut);
+}
+
 void DiffFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
 {
 	m_MinuendFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
 	m_SubtrahendFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+}
+
+void DiffFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	m_MinuendFormula->AppendUsedParameters(usedParameterIDs);
+	m_SubtrahendFormula->AppendUsedParameters(usedParameterIDs);
 }
 
 void DiffFormula::UpdateIndicesOfReferencedVariables()

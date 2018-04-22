@@ -11,6 +11,7 @@
 #include "XMLWrapper/XMLHelper.h"
 #include "SimModel/Simulation.h"
 #include "SimModel/Parameter.h"
+#include "SimModel/ConstantFormula.h"
 
 #ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
@@ -196,6 +197,13 @@ void QuantityReference::DE_Jacobian (double * * jacobian, const double * y, cons
 	_quantity->DE_Jacobian(jacobian, y, time, iEquation, preFactor);
 }
 
+Formula* QuantityReference::DE_Jacobian(const int iEquation)
+{
+	if (_isTime)
+		return new ConstantFormula(0.0);
+	return _quantity->DE_Jacobian(iEquation);
+}
+
 int QuantityReference::GetODEIndex () const
 {
     Species * species = GetSpecies();
@@ -234,6 +242,22 @@ void QuantityReference::AppendUsedVariables(set<int> & usedVariblesIndices, cons
 		return;
 
 	_quantity->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+}
+
+void QuantityReference::AppendUsedParameters(set<int> & usedParameterIDs)
+{
+	if (_isTime)
+		usedParameterIDs.insert(0);
+
+	if (_quantity == NULL)
+		return;
+
+	if (!_isParameter)
+		return;
+	else
+		usedParameterIDs.insert(_quantityId);
+
+	_quantity->AppendUsedParameters(usedParameterIDs);
 }
 
 void QuantityReference::UpdateIndicesOfReferencedVariables()

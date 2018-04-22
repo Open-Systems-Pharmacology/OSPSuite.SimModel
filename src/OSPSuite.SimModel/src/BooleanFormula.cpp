@@ -4,6 +4,8 @@
 
 #include "SimModel/BooleanFormula.h"
 #include "SimModel/FormulaFactory.h"
+#include "SimModel/ConstantFormula.h"
+#include "SimModel/ParameterFormula.h"
 #include <assert.h>
 
 #ifdef _WINDOWS_PRODUCTION
@@ -97,9 +99,45 @@ void BooleanFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const s
 		m_SecondOperandFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
 }
 
+void BooleanFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	m_FirstOperandFormula->AppendUsedParameters(usedParameterIDs);
+
+	//second operand is not mandatory (e.g. NOT Formula)
+	if (m_SecondOperandFormula)
+		m_SecondOperandFormula->AppendUsedParameters(usedParameterIDs);
+}
+
 void BooleanFormula::DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor)
 {
 	//no contribution to jacobian matrix by boolean functions
+}
+
+Formula* BooleanFormula::DE_Jacobian(const int iEquation)
+{
+	// should not occur in ODE RHS
+	throw ErrorData(ErrorData::ED_ERROR, "BooleanFormula::DE_Jacobian", "Boolean formulas should not occur in ODE RHS.");
+}
+
+Formula * BooleanFormula::RecursiveSimplify()
+{
+	m_FirstOperandFormula = m_FirstOperandFormula->RecursiveSimplify();
+	if (m_SecondOperandFormula != NULL) m_SecondOperandFormula = m_SecondOperandFormula->RecursiveSimplify();
+	if (m_FirstOperandFormula->IsConstant(CONSTANT_CURRENT_RUN)
+		&& (m_SecondOperandFormula == NULL || m_SecondOperandFormula->IsConstant(CONSTANT_CURRENT_RUN)))
+	{
+		ConstantFormula * f = new ConstantFormula( DE_Compute(NULL, 0.0, USE_SCALEFACTOR) );
+		delete this;
+		return f;
+	}
+
+	return this;
+}
+
+void BooleanFormula::setFormula(Formula* FirstOperandFormula, Formula* SecondOperandFormula)
+{
+	m_FirstOperandFormula = FirstOperandFormula;
+	m_SecondOperandFormula = SecondOperandFormula;
 }
 
 void BooleanFormula::Finalize()
@@ -171,6 +209,52 @@ vector <double> BooleanFormula::SwitchTimePoints()
 	return firstOpTimePoints;
 }
 
+// check if the formula has form "Time OP Formula" or "Formula OP Time",
+// where OP is one of boolean operations ==, >=, ...
+// afterwards try to differentiate between explicit and implicit switches
+// and store formula pointers in corresponding vectors
+void BooleanFormula::SwitchFormulaFromComparisonFormula(std::vector<Formula*> &vecExplicit, std::vector<Formula*> &vecImplicit)
+{
+	Formula * formulaWithSwitchTimePoints = NULL;
+
+	if (m_FirstOperandFormula->IsTime())
+	{
+		//comparison formula is "Time OP <Formula>", where OP is boolean operator
+		//(e.g. "Time == P1+P2"). In this case, try to get potential
+		//switch time point from the second operand
+		formulaWithSwitchTimePoints = m_SecondOperandFormula;
+	}
+	else if (m_SecondOperandFormula->IsTime())
+	{
+		//comparison formula is "<Formula> OP Time", where OP is boolean operator
+		//(e.g. "P1+P2 == TIME"). In this case, try to get potential
+		//switch time point from the first operand
+		formulaWithSwitchTimePoints = m_FirstOperandFormula;
+	}
+
+	if (formulaWithSwitchTimePoints != NULL)
+	{
+		//try to evaluate formula without variables. If formula is dependent
+		//on the ODE variables it will fail and no switch time point will be added
+		//otherwise, the value of the formula will be added as potential switch time point
+		try
+		{
+			double switchTime = formulaWithSwitchTimePoints->DE_Compute(NULL, 0.0, USE_SCALEFACTOR);
+			vecExplicit.push_back(formulaWithSwitchTimePoints);
+		}
+		catch (...)
+		{
+			//formula is ODE-variable(s) dependent.
+			vecImplicit.push_back(formulaWithSwitchTimePoints);
+		}
+	}
+	else
+	{
+		// too complicated to identify as explcit switch
+		vecImplicit.push_back(formulaWithSwitchTimePoints);
+	}
+}
+
 void BooleanFormula::UpdateIndicesOfReferencedVariables()
 {
 	m_FirstOperandFormula->UpdateIndicesOfReferencedVariables();
@@ -189,11 +273,28 @@ double AndFormula::DE_Compute (const double * y, const double time, ScaleFactorU
 	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) && m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
 }
 
+Formula* AndFormula::clone()
+{
+	AndFormula * f = new AndFormula();
+
+	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
+	f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
+
+	return f;
+}
+
 void AndFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 {
 	m_FirstOperandFormula->WriteMatlabCode(mrOut);
 	mrOut<<" & ";
 	m_SecondOperandFormula->WriteMatlabCode(mrOut);
+}
+
+void AndFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	m_FirstOperandFormula->WriteCppCode(mrOut);
+	mrOut << " && ";
+	m_SecondOperandFormula->WriteCppCode(mrOut);
 }
 
 bool AndFormula::IsZero(void)
@@ -224,11 +325,29 @@ double EqualFormula::DE_Compute (const double * y, const double time, ScaleFacto
 	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) == m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
 }
 
+Formula* EqualFormula::clone()
+{
+	EqualFormula * f = new EqualFormula();
+
+	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
+	f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
+
+	return f;
+}
+
 void EqualFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 {
 	m_FirstOperandFormula->WriteMatlabCode(mrOut);
 	mrOut<<" == ";
 	m_SecondOperandFormula->WriteMatlabCode(mrOut);
+}
+
+void EqualFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	// potentially unsafe equality comparison for floating point numbers, but in line with direct evaluation and Matlab export
+	m_FirstOperandFormula->WriteCppCode(mrOut);
+	mrOut << " == ";
+	m_SecondOperandFormula->WriteCppCode(mrOut);
 }
 
 vector <double> EqualFormula::SwitchTimePoints()
@@ -245,11 +364,28 @@ double GreaterEqualFormula::DE_Compute (const double * y, const double time, Sca
 	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) >= m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
 }
 
+Formula* GreaterEqualFormula::clone()
+{
+	GreaterEqualFormula * f = new GreaterEqualFormula();
+
+	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
+	f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
+
+	return f;
+}
+
 void GreaterEqualFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 {
 	m_FirstOperandFormula->WriteMatlabCode(mrOut);
 	mrOut<<" >= ";
 	m_SecondOperandFormula->WriteMatlabCode(mrOut);
+}
+
+void GreaterEqualFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	m_FirstOperandFormula->WriteCppCode(mrOut);
+	mrOut << " >= ";
+	m_SecondOperandFormula->WriteCppCode(mrOut);
 }
 
 vector <double> GreaterEqualFormula::SwitchTimePoints()
@@ -266,11 +402,28 @@ double GreaterFormula::DE_Compute (const double * y, const double time, ScaleFac
 	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) > m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
 }
 
+Formula* GreaterFormula::clone()
+{
+	GreaterFormula * f = new GreaterFormula();
+
+	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
+	f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
+
+	return f;
+}
+
 void GreaterFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 {
 	m_FirstOperandFormula->WriteMatlabCode(mrOut);
 	mrOut<<" > ";
 	m_SecondOperandFormula->WriteMatlabCode(mrOut);
+}
+
+void GreaterFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	m_FirstOperandFormula->WriteCppCode(mrOut);
+	mrOut << " > ";
+	m_SecondOperandFormula->WriteCppCode(mrOut);
 }
 
 vector <double> GreaterFormula::SwitchTimePoints()
@@ -287,11 +440,28 @@ double LessEqualFormula::DE_Compute (const double * y, const double time, ScaleF
 	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) <= m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
 }
 
+Formula* LessEqualFormula::clone()
+{
+	LessEqualFormula * f = new LessEqualFormula();
+
+	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
+	f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
+
+	return f;
+}
+
 void LessEqualFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 {
 	m_FirstOperandFormula->WriteMatlabCode(mrOut);
 	mrOut<<" <= ";
 	m_SecondOperandFormula->WriteMatlabCode(mrOut);
+}
+
+void LessEqualFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	m_FirstOperandFormula->WriteCppCode(mrOut);
+	mrOut << " <= ";
+	m_SecondOperandFormula->WriteCppCode(mrOut);
 }
 
 vector <double> LessEqualFormula::SwitchTimePoints()
@@ -308,11 +478,28 @@ double LessFormula::DE_Compute (const double * y, const double time, ScaleFactor
 	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) < m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
 }
 
+Formula* LessFormula::clone()
+{
+	LessFormula * f = new LessFormula();
+
+	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
+	f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
+
+	return f;
+}
+
 void LessFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 {
 	m_FirstOperandFormula->WriteMatlabCode(mrOut);
 	mrOut<<" < ";
 	m_SecondOperandFormula->WriteMatlabCode(mrOut);
+}
+
+void LessFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	m_FirstOperandFormula->WriteCppCode(mrOut);
+	mrOut << " < ";
+	m_SecondOperandFormula->WriteCppCode(mrOut);
 }
 
 vector <double> LessFormula::SwitchTimePoints()
@@ -329,10 +516,25 @@ double NotFormula::DE_Compute (const double * y, const double time, ScaleFactorU
 	return  !m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode);
 }
 
+Formula* NotFormula::clone()
+{
+	NotFormula * f = new NotFormula();
+
+	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
+
+	return f;
+}
+
 void NotFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 {
 	mrOut<<"~";
 	m_FirstOperandFormula->WriteMatlabCode(mrOut);
+}
+
+void NotFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	mrOut << "!";
+	m_FirstOperandFormula->WriteCppCode(mrOut);
 }
 
 //-------------------------------------------------------------------
@@ -345,11 +547,28 @@ double OrFormula::DE_Compute (const double * y, const double time, ScaleFactorUs
 	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) || m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
 }
 
+Formula* OrFormula::clone()
+{
+	OrFormula * f = new OrFormula();
+
+	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
+	f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
+
+	return f;
+}
+
 void OrFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 {
 	m_FirstOperandFormula->WriteMatlabCode(mrOut);
 	mrOut<<" | ";
 	m_SecondOperandFormula->WriteMatlabCode(mrOut);
+}
+
+void OrFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	m_FirstOperandFormula->WriteCppCode(mrOut);
+	mrOut << " || ";
+	m_SecondOperandFormula->WriteCppCode(mrOut);
 }
 
 //-------------------------------------------------------------------
@@ -361,11 +580,29 @@ double UnequalFormula::DE_Compute (const double * y, const double time, ScaleFac
 	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) != m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
 }
 
+Formula* UnequalFormula::clone()
+{
+	UnequalFormula * f = new UnequalFormula();
+
+	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
+	f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
+
+	return f;
+}
+
 void UnequalFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 {
 	m_FirstOperandFormula->WriteMatlabCode(mrOut);
 	mrOut<<" ~= ";
 	m_SecondOperandFormula->WriteMatlabCode(mrOut);
+}
+
+void UnequalFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	// potentially unsafe unequality comparison for floating point numbers, but in line with direct evaluation and Matlab export
+	m_FirstOperandFormula->WriteCppCode(mrOut);
+	mrOut << " != ";
+	m_SecondOperandFormula->WriteCppCode(mrOut);
 }
 
 vector <double> UnequalFormula::SwitchTimePoints()

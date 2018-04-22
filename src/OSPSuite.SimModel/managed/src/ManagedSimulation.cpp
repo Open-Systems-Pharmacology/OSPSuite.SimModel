@@ -4,6 +4,7 @@
 #include "SimModelManaged/ExceptionHelper.h"
 #include "SimModelManaged/XMLSchemaCache.h"
 #include "SimModel/MatlabODEExporter.h"
+#include "SimModel/CppODEExporter.h"
 #include "SimModel/MathHelper.h"
 #include "XMLWrapper/XMLDocument.h"
 #include "SimModel/ParameterSensitivity.h"
@@ -194,6 +195,30 @@ namespace SimModelNET
 			throw;
 		}
 		catch(...)
+		{
+			ExceptionHelper::ThrowExceptionFromUnknown();
+		}
+	}
+
+	///Export simulation to C++ 
+	void Simulation::WriteCppCode(System::String^ outDir, MatlabCodeWriteMode writeMode, ParameterNamesWriteMode parameterNamesWriteMode)
+	{
+		try
+		{
+			SimModelNative::CppODEExporter cppExporter;
+			cppExporter.WriteCppCode(_simulation,
+				NETToCPPConversions::MarshalString(outDir),
+				writeMode == MatlabCodeWriteMode::Formula);
+		}
+		catch (ErrorData & ED)
+		{
+			ExceptionHelper::ThrowExceptionFrom(ED);
+		}
+		catch (System::Exception^)
+		{
+			throw;
+		}
+		catch (...)
 		{
 			ExceptionHelper::ThrowExceptionFromUnknown();
 		}

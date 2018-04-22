@@ -5,6 +5,9 @@
 #include "SimModel/ProductFormula.h"
 #include "SimModel/FormulaFactory.h"
 #include "XMLWrapper/XMLNode.h"
+#include "SimModel/SimModelTypeDefs.h"
+#include "SimModel/SumFormula.h"
+#include "SimModel/ConstantFormula.h"
 #include <assert.h>
 
 #ifdef _WINDOWS_PRODUCTION
@@ -130,6 +133,130 @@ void ProductFormula::DE_Jacobian (double * * jacobian, const double * y, const d
 	}
 }
 
+Formula* ProductFormula::DE_Jacobian(const int iEquation)
+{
+	SumFormula * s = new SumFormula();
+
+	Formula * * mult = new Formula*[_noOfMultipliers];
+	Formula * * sum  = new Formula*[_noOfMultipliers];
+
+	for (int iFormula = 0; iFormula < _noOfMultipliers; iFormula++)
+	{
+		ProductFormula *p = new ProductFormula();
+
+		for (int nr = 0; nr < _noOfMultipliers; nr++)
+		{
+			if (nr != iFormula)
+				mult[nr] = _multiplierFormulas[nr]->clone();
+			else
+				mult[nr] = _multiplierFormulas[nr]->DE_Jacobian(iEquation);
+		}
+		p->setFormula(_noOfMultipliers, mult);
+
+		sum[iFormula] = p;
+	}
+
+	s->setFormula(_noOfMultipliers, sum);
+
+	delete[] mult;
+	delete[] sum;
+
+	return s;
+}
+
+Formula * ProductFormula::clone()
+{
+	ProductFormula * f = new ProductFormula();
+	f->_noOfMultipliers = _noOfMultipliers;
+	f->_multiplierFormulas = new Formula*[_noOfMultipliers];
+	for (int iFormula = 0; iFormula < _noOfMultipliers; iFormula++)
+		f->_multiplierFormulas[iFormula] = _multiplierFormulas[iFormula]->clone();
+	return f;
+}
+
+Formula * ProductFormula::RecursiveSimplify()
+{
+	bool isConstant = true;
+	int ones = 0;
+	for (int iFormula = 0; iFormula < _noOfMultipliers; iFormula++) {
+		_multiplierFormulas[iFormula] = _multiplierFormulas[iFormula]->RecursiveSimplify();
+		if (_multiplierFormulas[iFormula]->IsConstant(CONSTANT_CURRENT_RUN))
+		{
+			if (_multiplierFormulas[iFormula]->IsZero())
+			{
+				ConstantFormula * f = new ConstantFormula(0.0);
+				delete this;
+				return f;
+			}
+			else if (_multiplierFormulas[iFormula]->DE_Compute(NULL, 0.0, USE_SCALEFACTOR)==1.0)
+			{
+				++ones;
+			}
+		}
+		else
+			isConstant = false;
+	}
+
+	if (isConstant)
+	{
+		ConstantFormula * f = new ConstantFormula(DE_Compute(NULL, 0.0, USE_SCALEFACTOR));
+		delete this;
+		return f;
+	}
+	else if (ones) {
+		int newIndex = 0;
+
+		if (_noOfMultipliers - ones == 1) {
+			for (int iFormula = 0; iFormula < _noOfMultipliers; iFormula++)
+				if ( !_multiplierFormulas[iFormula]->IsConstant(CONSTANT_CURRENT_RUN) ||
+					  _multiplierFormulas[iFormula]->DE_Compute(NULL, 0.0, USE_SCALEFACTOR) != 1.0)
+					newIndex = iFormula;
+
+			Formula * f = _multiplierFormulas[newIndex];
+			_multiplierFormulas[newIndex] = NULL;
+			delete this;
+			return f;
+		}
+
+		Formula * * newMultiplierFormulas = new Formula *[_noOfMultipliers - ones];
+		for (int iFormula = 0; iFormula < _noOfMultipliers; iFormula++) {
+			if (_multiplierFormulas[iFormula]->IsConstant(CONSTANT_CURRENT_RUN) &&
+				_multiplierFormulas[iFormula]->DE_Compute(NULL, 0.0, USE_SCALEFACTOR) == 1.0)
+			{
+				delete _multiplierFormulas[iFormula];
+				_multiplierFormulas[iFormula] = NULL;
+			}
+			else
+			{
+				newMultiplierFormulas[newIndex] = _multiplierFormulas[iFormula];
+				++newIndex;
+			}
+		}
+		_noOfMultipliers = _noOfMultipliers - ones;
+		delete[] _multiplierFormulas;
+		_multiplierFormulas = newMultiplierFormulas;
+	}
+
+	return this;
+}
+
+void ProductFormula::setFormula(int noOfMultipliers, Formula * * multiplierFormulas)
+{
+	// free old memory if necessary
+	if (_multiplierFormulas)
+	{
+		for (int i = 0; i<_noOfMultipliers; i++)
+			delete _multiplierFormulas[i];
+		delete[] _multiplierFormulas;
+	}
+
+	// set new pointers
+	_noOfMultipliers = noOfMultipliers;
+	_multiplierFormulas = new Formula *[noOfMultipliers];
+	for (int i = 0; i < noOfMultipliers; i++)
+		_multiplierFormulas[i] = multiplierFormulas[i];
+}
+
 void ProductFormula::Finalize()
 {
 	for (int iFormula = 0;iFormula != _noOfMultipliers;iFormula++) 
@@ -143,6 +270,16 @@ void ProductFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 		if(iFormula!=0) 
 			mrOut<<"*";
 		_multiplierFormulas[iFormula]->WriteMatlabCode(mrOut);
+	}
+}
+
+void ProductFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	for (int iFormula = 0; iFormula != _noOfMultipliers; iFormula++)
+	{
+		if (iFormula != 0)
+			mrOut << "*";
+		_multiplierFormulas[iFormula]->WriteCppCode(mrOut);
 	}
 }
 
@@ -162,6 +299,14 @@ void ProductFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const s
 	for (int iFormula = 0;iFormula != _noOfMultipliers;iFormula++)
 	{
 		_multiplierFormulas[iFormula]->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+	}
+}
+
+void ProductFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	for (int iFormula = 0; iFormula != _noOfMultipliers; iFormula++)
+	{
+		_multiplierFormulas[iFormula]->AppendUsedParameters(usedParameterIDs);
 	}
 }
 

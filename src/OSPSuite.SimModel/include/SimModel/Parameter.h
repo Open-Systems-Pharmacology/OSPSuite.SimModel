@@ -38,10 +38,13 @@ public:
 
 	double GetValue (const double * y, double time, ScaleFactorUsageMode scaleFactorMode);
 	virtual void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor);
+	virtual Formula* DE_Jacobian(const int iEquation);
+	virtual Formula* clone();
 
 	std::string GetShortUniqueName ();
 	void SetShortUniqueNameForDESystem (const std::string & uniqueName);
 	void WriteMatlabCode (std::ostream & mrOut, bool forInitialValue = false);
+	void WriteCppCode (std::ostream & mrOut, bool declaration);
 
 	//will be called between Load and Finalize of the parent simulation
 	void InitialFillInfo(ParameterInfo & info);
@@ -64,6 +67,7 @@ public:
 
 	//writes the table function in matlab code
 	void WriteTableFunctionForMatlab(std::ostream & mrOut);
+	void WriteTableFunctionForCpp(std::ostream & mrOut);
 };
 
 }//.. end "namespace SimModelNative"

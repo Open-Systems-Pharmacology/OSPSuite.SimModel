@@ -103,7 +103,7 @@ namespace SimModelCompTests
 
 		virtual void Context() override
 		{
-			_simulationFilePath = SpecsHelper::TestFileFrom("PersistableOutputsTest.xml");
+			_simulationFilePath = SpecsHelper::TestFileFrom("PersistableOutputsTest");
 			concern_for_simmodelcomp::Context();
 		}
 
@@ -155,7 +155,7 @@ namespace SimModelCompTests
 
 		virtual void Context() override
 		{
-			_simulationFilePath = SpecsHelper::TestFileFrom("PersistableOutputsTest.xml");
+			_simulationFilePath = SpecsHelper::TestFileFrom("PersistableOutputsTest");
 			concern_for_simmodelcomp::Context();
 		}
 
@@ -210,7 +210,7 @@ namespace SimModelCompTests
 
 		virtual void Context() override
 		{
-			_simulationFilePath=SpecsHelper::TestFileFrom("PKSim_Input_04_MultiApp.xml");
+			_simulationFilePath=SpecsHelper::TestFileFrom("PKSim_Input_04_MultiApp");
 			concern_for_simmodelcomp::Context();
 		}
 
@@ -261,7 +261,7 @@ namespace SimModelCompTests
 
 		virtual void Context() override
 		{
-			_simulationFilePath=SpecsHelper::TestFileFrom("SimModel4_ExampleInput06.xml");
+			_simulationFilePath=SpecsHelper::TestFileFrom("SimModel4_ExampleInput06");
 			concern_for_simmodelcomp::Context();
 		}
 
@@ -283,7 +283,7 @@ namespace SimModelCompTests
 				y2Orig   = CPPToNETConversions::DoubleVectorToArray(helper->GetOutputValues("TopContainer/y2"));
 				y3Orig   = CPPToNETConversions::DoubleVectorToArray(helper->GetOutputValues("TopContainer/y3"));
 
-				String ^ savedFile = SpecsHelper::TestFileFrom("saved_ExampleInput06.xml");
+				String ^ savedFile = SpecsHelper::TestFileFrom("saved_ExampleInput06");
 				helper->SaveSimulationToXML(NETToCPPConversions::MarshalString(savedFile));
 
 				SimModelCompWrapper^ reloadedSim=gcnew SimModelCompWrapper(SpecsHelper::SimModelCompConfigFilePath());
@@ -339,7 +339,7 @@ public:
 
 		virtual void Context() override
 		{
-			_simulationFilePath=SpecsHelper::TestFileFrom("AdultPopulation.xml");
+			_simulationFilePath=SpecsHelper::TestFileFrom("AdultPopulation");
 			concern_for_simmodelcomp::Context();
 		}
 
@@ -388,7 +388,7 @@ public:
 
 		virtual void Context() override
 		{
-			_simulationFilePath=SpecsHelper::TestFileFrom("POPsim.xml");
+			_simulationFilePath=SpecsHelper::TestFileFrom("POPsim");
 			concern_for_simmodelcomp::Context();
 		}
 
@@ -407,7 +407,7 @@ public:
 				//get time and output variable values
 				timeOrig = CPPToNETConversions::DoubleVectorToArray(helper->GetOutputTime());
 
-				String ^ savedFile = SpecsHelper::TestFileFrom("saved_POPsim.xml");
+				String ^ savedFile = SpecsHelper::TestFileFrom("saved_POPsim");
 				helper->SaveSimulationToXML(NETToCPPConversions::MarshalString(savedFile));
 
 				SimModelCompWrapper^ reloadedSim=gcnew SimModelCompWrapper(SpecsHelper::SimModelCompConfigFilePath());
@@ -457,7 +457,7 @@ public:
 
 		virtual void Context() override
 		{
-			_simulationFilePath=SpecsHelper::TestFileFrom("TableParametersViaDCI_Test01.xml");
+			_simulationFilePath=SpecsHelper::TestFileFrom("TableParametersViaDCI_Test01");
 			concern_for_simmodelcomp::Context();
 		}
 
@@ -513,7 +513,7 @@ public:
 
 		virtual void Context() override
 		{
-			_simulationFilePath = SpecsHelper::TestFileFrom("cvsRoberts_FSA_dns.xml");
+			_simulationFilePath = SpecsHelper::TestFileFrom("cvsRoberts_FSA_dns");
 			concern_for_simmodelcomp::Context();
 		}
 
@@ -699,7 +699,7 @@ public:
 
 		virtual void Context() override
 		{
-			_simulationFilePath=SpecsHelper::TestFileFrom("PersistableParams.xml");
+			_simulationFilePath=SpecsHelper::TestFileFrom("PersistableParams");
 			concern_for_simmodelcomp::Context();
 		}
 

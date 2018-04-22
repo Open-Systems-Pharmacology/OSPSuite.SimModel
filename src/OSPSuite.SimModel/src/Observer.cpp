@@ -95,6 +95,17 @@ void Observer::DE_Jacobian (double * * jacobian, const double * y, const double 
 	throw ErrorData(ErrorData::ED_ERROR, "Observer::DE_Jacobian", "Jacobian of observer may not be called!");
 }
 
+Formula* Observer::DE_Jacobian(const int iEquation)
+{
+	return _valueFormula->DE_Jacobian(iEquation);
+	//may not be called (unless observers are allowed in RHS formulas)
+	//throw ErrorData(ErrorData::ED_ERROR, "Observer::DE_Jacobian", "Jacobian of observer may not be called!");
+}
+
+Formula* Observer::getValueFormula() {
+	return _valueFormula;
+}
+
 bool Observer::IsConstantDuringCalculation()
 {
 	bool forCurrentRunOnly = true;

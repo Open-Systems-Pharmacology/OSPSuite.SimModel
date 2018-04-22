@@ -36,11 +36,16 @@ public:
 	std::vector <double> SwitchTimePoints();
 
 	void WriteMatlabCode (std::ostream & mrOut);
+	void WriteCppCode(int switchIndex, const std::map<int, formulaParameterInfo > & formulaParameterIDs, const std::set<int> & usedIDs, std::ostream & mrOut);
+
 	void MarkQuantitiesDirectlyUsedBy(void); //required for Matlab code generation only
 
 	void ResetState();
 
 	void AppendUsedVariables(std::set<int> & usedVariblesIndices);
+	void AppendUsedParameters(std::set<int> & usedParameterIDs);
+	void AppendFormulaParameters(std::map<int, formulaParameterInfo > & formulaParameterIDs);
+	void SwitchFormulaFromComparisonFormula(std::vector<Formula*> &vecExplicit, std::vector<Formula*> &vecImplicit);
 
 	//Update the index of the target species 
 	void UpdateDEIndexOfTargetSpecies();

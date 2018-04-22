@@ -257,6 +257,7 @@
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\BandwidthReduction.cpp" />
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\BooleanFormula.cpp" />
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\ConstantFormula.cpp" />
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\CppODEExporter.cpp" />
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\DESolver.cpp" />
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\DESolverProperties.cpp" />
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\DiffFormula.cpp" />
@@ -335,6 +336,7 @@
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\BandwidthReduction.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\BooleanFormula.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\ConstantFormula.h" />
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\CppODEExporter.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\DESolver.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\DESolverProperties.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\DiffFormula.h" />

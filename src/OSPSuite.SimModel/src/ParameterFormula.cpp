@@ -81,6 +81,23 @@ void ParameterFormula::DE_Jacobian (double * * jacobian, const double * y, const
 	_quantityRef.DE_Jacobian(jacobian, y, time, iEquation, preFactor);
 }
 
+Formula* ParameterFormula::DE_Jacobian(const int iEquation)
+{
+	return _quantityRef.DE_Jacobian(iEquation);
+}
+
+Formula* ParameterFormula::clone()
+{
+	ParameterFormula* f = new ParameterFormula();
+	f->_quantityRef = _quantityRef;
+	return f;
+}
+
+Formula * ParameterFormula::RecursiveSimplify()
+{
+	return this; // TODO: check
+}
+
 void ParameterFormula::Finalize()
 {
 	//nothing to do 
@@ -136,6 +153,32 @@ void ParameterFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 	}
 }
 
+void ParameterFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	if (_quantityRef.IsTime())
+		mrOut << csTime;
+	else if (_quantityRef.IsParameter())
+	{
+		Parameter * param = dynamic_cast<Parameter *>(_quantityRef.GetHierarchicalFormulaObject());
+		assert(param != NULL);
+
+		mrOut << param->GetShortUniqueName();
+	}
+
+	else if (_quantityRef.IsSpecies())
+	{
+		Species * species = dynamic_cast<Species *>(_quantityRef.GetHierarchicalFormulaObject());
+		assert(species != NULL);
+
+		species->GetInitialFormula()->WriteCppCode(mrOut);
+	}
+
+	else
+	{
+		throw ErrorData(ErrorData::ED_ERROR, "ParameterFormula::WriteFormulaCppCode", "Cannot write C++ code for " + _quantityRef.GetHierarchicalFormulaObject()->GetFullName());
+	}
+}
+
 bool ParameterFormula::UseBracketsForODESystemGeneration ()
 {
 	return false;
@@ -163,6 +206,16 @@ void ParameterFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const
 		usedVariblesIndices.insert(variblesIndicesUsedInSwitchAssignments.begin(), 
 			                       variblesIndicesUsedInSwitchAssignments.end());
 	}
+}
+
+void ParameterFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	_quantityRef.AppendUsedParameters(usedParameterIDs);
+}
+
+void ParameterFormula::InsertNewParameters(std::map<std::string, ParameterFormula *> & mapNewP)
+{
+	// nothing to do
 }
 
 void ParameterFormula::UpdateIndicesOfReferencedVariables()

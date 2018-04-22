@@ -5,6 +5,7 @@
 #include "SimModel/SumFormula.h"
 #include "SimModel/FormulaFactory.h"
 #include "XMLWrapper/XMLNode.h"
+#include "SimModel/ConstantFormula.h"
 #include <assert.h>
 
 #ifdef _WINDOWS_PRODUCTION
@@ -119,6 +120,100 @@ void SumFormula::DE_Jacobian (double * * jacobian, const double * y, const doubl
 		_summandFormulas[iFormula] -> DE_Jacobian(jacobian, y, time, iEquation, preFactor);
 }
 
+Formula* SumFormula::DE_Jacobian(const int iEquation)
+{
+	SumFormula * s = new SumFormula();
+
+	Formula * * sum = new Formula*[_noOfSummands];
+	for (int iFormula = 0; iFormula != _noOfSummands; iFormula++)
+		sum[iFormula] = _summandFormulas[iFormula]->DE_Jacobian(iEquation);
+
+	s->setFormula(_noOfSummands, sum);
+
+	delete[] sum;
+	return s;
+}
+
+Formula * SumFormula::clone()
+{
+	SumFormula * f = new SumFormula();
+
+	f->_noOfSummands = _noOfSummands;
+	f->_summandFormulas = new Formula*[_noOfSummands];
+	for (int iFormula = 0; iFormula != _noOfSummands; iFormula++)
+		f->_summandFormulas[iFormula] = _summandFormulas[iFormula]->clone();
+
+	return f;
+}
+
+Formula * SumFormula::RecursiveSimplify()
+{
+	bool isConstant = true;
+	int zeros = 0;
+	for (int iFormula = 0; iFormula < _noOfSummands; iFormula++) {
+		_summandFormulas[iFormula] = _summandFormulas[iFormula]->RecursiveSimplify();
+		isConstant &= _summandFormulas[iFormula]->IsConstant(CONSTANT_CURRENT_RUN);
+		zeros += _summandFormulas[iFormula]->IsZero();
+	}
+
+	if (isConstant)
+	{
+		ConstantFormula * f = new ConstantFormula(DE_Compute(NULL, 0.0, USE_SCALEFACTOR));
+		delete this;
+		return f;
+	}
+	else if (zeros) {
+		int newIndex = 0;
+
+		if (_noOfSummands - zeros == 1) {
+			for (int iFormula = 0; iFormula < _noOfSummands; iFormula++)
+				if (!_summandFormulas[iFormula]->IsZero())
+					newIndex = iFormula;
+
+			Formula * f = _summandFormulas[newIndex];
+			_summandFormulas[newIndex] = NULL; // prevent deletion by destructor
+			delete this;
+			return f;
+		}
+
+		Formula * * newSummandFormulas = new Formula * [_noOfSummands - zeros];
+		for (int iFormula = 0; iFormula < _noOfSummands; iFormula++) {
+			if (_summandFormulas[iFormula]->IsZero())
+			{
+				delete _summandFormulas[iFormula];
+				_summandFormulas[iFormula] = NULL; // prevent deletion by destructor
+			}
+			else
+			{
+				newSummandFormulas[newIndex] = _summandFormulas[iFormula];
+				++newIndex;
+			}
+		}
+		_noOfSummands = _noOfSummands - zeros;
+		delete[] _summandFormulas;
+		_summandFormulas = newSummandFormulas;
+	}
+
+	return this;
+}
+
+void SumFormula::setFormula(int noOfSummands, Formula * * summandFormulas)
+{
+	// free old memory if necessary
+	if (_summandFormulas)
+	{
+		for (int i = 0; i<_noOfSummands; i++)
+			delete _summandFormulas[i];
+		delete[] _summandFormulas;
+	}
+
+	// set new pointers
+	_noOfSummands = noOfSummands;
+	_summandFormulas = new Formula *[noOfSummands];
+	for (int i = 0; i < noOfSummands; i++)
+		_summandFormulas[i] = summandFormulas[i];
+}
+
 void SumFormula::Finalize()
 {
 	for (int iFormula = 0;iFormula != _noOfSummands;iFormula++) 
@@ -135,11 +230,29 @@ void SumFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 	}
 }
 
+void SumFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	for (int iFormula = 0; iFormula != _noOfSummands; iFormula++)
+	{
+		if (iFormula != 0)
+			mrOut << "+";
+		_summandFormulas[iFormula]->WriteCppCode(mrOut);
+	}
+}
+
 void SumFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
 {
 	for (int iFormula = 0;iFormula != _noOfSummands;iFormula++)
 	{
 		_summandFormulas[iFormula]->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+	}
+}
+
+void SumFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	for (int iFormula = 0; iFormula != _noOfSummands; iFormula++)
+	{
+		_summandFormulas[iFormula]->AppendUsedParameters(usedParameterIDs);
 	}
 }
 

@@ -110,6 +110,7 @@ public:
 
 	virtual double GetValue (const double * y, double time, ScaleFactorUsageMode scaleFactorMode) = 0;
 	virtual void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor)=0;
+	virtual Formula* DE_Jacobian(const int iEquation) = 0;
 
 	virtual bool Simplify (bool forCurrentRunOnly);
 
@@ -128,6 +129,7 @@ public:
 
 	bool IsFormulaEqualTo(Formula * formula);
 	void SetFormula(Formula * formula);
+	Formula * GetFormula();
 
 	bool IsUsedBySwitch(void);
 	void SetIsUsedBySwitch(void);
@@ -145,6 +147,7 @@ public:
 	long GetFormulaId(void);
 
 	void AppendUsedVariables(std::set<int> & usedVariblesIndices, const std::set<int> & variblesIndicesUsedInSwitchAssignments);
+	void AppendUsedParameters(std::set<int> & usedParameterIDs);
 
 	virtual void UpdateIndicesOfReferencedVariables();
 };

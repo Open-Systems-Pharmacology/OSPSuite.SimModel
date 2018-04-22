@@ -14,6 +14,7 @@
 #include "SimModel/ParameterFormula.h"
 #include "SimModel/BandwidthReduction.h"
 #include "../../OSPSuite.SimModel/version.h"
+#include "SimModel/SimulationTask.h"
 
 #ifdef _WINDOWS
 #include <atlbase.h>
@@ -1486,6 +1487,31 @@ int Simulation::GetXMLVersion()
 vector<Species *> & Simulation::DE_Variables()
 {
 	return _DE_Variables;
+}
+
+std::set<double> Simulation::GetSwitchTimes()
+{
+	std::set<double> switchTimes;
+
+	switchTimes.emplace(GetStartTime());
+
+	vector <OutputTimePoint> outputTimePoints = SimulationTask::OutputTimePoints(this);
+
+	for (unsigned int timeStepIdx = 0; timeStepIdx<outputTimePoints.size(); timeStepIdx++)
+	{
+		OutputTimePoint outTimePoint = outputTimePoints[timeStepIdx];
+
+		if (outTimePoint.IsSwitchTimePoint())
+			switchTimes.emplace_hint(switchTimes.end(), outTimePoint.Time());
+	}
+
+	return switchTimes;
+}
+
+void Simulation::MarkQuantitiesUsedBySwitches()
+{
+	for (int i = 0; i<_switches.size(); i++)
+		_switches[i]->MarkQuantitiesDirectlyUsedBy();
 }
 
 }//.. end "namespace SimModelNative"

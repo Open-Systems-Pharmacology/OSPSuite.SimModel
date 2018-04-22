@@ -41,6 +41,7 @@ protected:
 								   bool simplifyParameter);
 	
 	void WriteFormulaMatlabCode (std::ostream & mrOut);
+	void WriteFormulaCppCode (std::ostream & mrOut);
 	bool UseBracketsForODESystemGeneration ();
 
 public:
@@ -56,6 +57,9 @@ public:
 
 	double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
 	void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor);
+	virtual Formula * DE_Jacobian(const int iEquation);
+	virtual Formula * clone();
+	virtual Formula * RecursiveSimplify();
 	void SetQuantityReference (const QuantityReference & quantityReference);
 
 	//returns true for formulas like "2.5" or "2*sin(pi/3)"
@@ -71,6 +75,7 @@ public:
 	std::string Equation();
 
 	virtual void AppendUsedVariables(std::set<int> & usedVariblesIndices, const std::set<int> & variblesIndicesUsedInSwitchAssignments);
+	virtual void AppendUsedParameters(std::set<int> & usedParameterIDs);
 
 	virtual void UpdateIndicesOfReferencedVariables();
 };

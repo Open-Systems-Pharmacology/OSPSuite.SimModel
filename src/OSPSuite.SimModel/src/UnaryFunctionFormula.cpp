@@ -5,6 +5,12 @@
 #include "SimModel/UnaryFunctionFormula.h"
 #include "SimModel/FormulaFactory.h"
 #include "SimModel/GlobalConstants.h"
+#include "SimModel/DiffFormula.h"
+#include "SimModel/ProductFormula.h"
+#include "SimModel/DivFormula.h"
+#include "SimModel/SumFormula.h"
+#include "SimModel/ConstantFormula.h"
+#include "SimModel/PowerFormula.h"
 #include <assert.h>
 #include <algorithm>
 
@@ -98,6 +104,37 @@ void UnaryFunctionFormula::DE_Jacobian (double * * jacobian, const double * y, c
 
 }
 
+Formula* UnaryFunctionFormula::DE_Jacobian(const int iEquation)
+{
+	ProductFormula* p = new ProductFormula();
+
+	Formula* mult[2] = { GetJacobianMultiplier(m_ArgumentFormula), m_ArgumentFormula->DE_Jacobian(iEquation) };
+	p->setFormula(2, mult);
+
+	return p;
+}
+
+Formula * UnaryFunctionFormula::RecursiveSimplify()
+{
+	m_ArgumentFormula = m_ArgumentFormula->RecursiveSimplify();
+	if (m_ArgumentFormula->IsConstant(CONSTANT_CURRENT_RUN))
+	{
+		ConstantFormula * f = new ConstantFormula(DE_Compute(NULL, 0.0, USE_SCALEFACTOR));
+		delete this;
+		return f;
+	}
+
+	return this;
+}
+
+void UnaryFunctionFormula::setFormula(Formula* argumentFormula)
+{
+	if (m_ArgumentFormula != NULL)
+		delete m_ArgumentFormula;
+
+	m_ArgumentFormula = argumentFormula;
+}
+
 void UnaryFunctionFormula::Finalize()
 {
 	assert(m_ArgumentFormula != NULL);
@@ -113,9 +150,23 @@ void UnaryFunctionFormula::WriteFormulaMatlabCode (ostream & mrOut)
 	mrOut<<")";
 }
 
+void UnaryFunctionFormula::WriteFormulaCppCode(ostream & mrOut)
+{
+	string funcName = m_FunctionName;
+	transform(funcName.begin(), funcName.end(), funcName.begin(), ::tolower);
+	mrOut << funcName.c_str() << "(";
+	m_ArgumentFormula->WriteCppCode(mrOut);
+	mrOut << ")";
+}
+
 void UnaryFunctionFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
 {
 	m_ArgumentFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+}
+
+void UnaryFunctionFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	m_ArgumentFormula->AppendUsedParameters(usedParameterIDs);
 }
 
 void UnaryFunctionFormula::UpdateIndicesOfReferencedVariables()
@@ -147,6 +198,29 @@ double AcosFormula::GetJacobianMultiplier (double arg)
 	return -1.0 / sqrt(1.0 - arg * arg);
 }
 
+Formula* AcosFormula::GetJacobianMultiplier(Formula *m_ArgumentFormula)
+{
+	DivFormula* d = new DivFormula();
+	SqrtFormula* sqrt = new SqrtFormula();
+	DiffFormula* diff = new DiffFormula();
+	ProductFormula* p = new ProductFormula();
+
+	Formula *m[2] = { m_ArgumentFormula->clone(), m_ArgumentFormula->clone() };
+	p->setFormula(2, m);
+	diff->setFormula(new ConstantFormula(1.0), p);
+	sqrt->setFormula(diff);
+	d->setFormula(new ConstantFormula(-1.0), sqrt);
+
+	return d;
+}
+
+Formula * AcosFormula::clone()
+{
+	AcosFormula * f = new AcosFormula();
+	f->m_ArgumentFormula = m_ArgumentFormula->clone();
+	return f;
+}
+
 //-------------------------------------------------------------------
 //---- arcsin
 //-------------------------------------------------------------------
@@ -168,6 +242,30 @@ double AsinFormula::GetJacobianMultiplier (double arg)
 	//(s. Comment in UnaryFunctionFormula::DE_Jacobian)
 	
 	return 1.0 / sqrt(1.0 - arg * arg);
+}
+
+Formula* AsinFormula::GetJacobianMultiplier(Formula *m_ArgumentFormula)
+{
+	DivFormula* d = new DivFormula();
+	SqrtFormula* sqrt = new SqrtFormula();
+	DiffFormula* diff = new DiffFormula();
+	ProductFormula* p = new ProductFormula();
+
+	Formula *m[2] = { m_ArgumentFormula->clone(), m_ArgumentFormula->clone() };
+	p->setFormula(2, m);
+	diff->setFormula(new ConstantFormula(1.0), p);
+
+	sqrt->setFormula(diff);
+	d->setFormula(new ConstantFormula(1.0), sqrt);
+
+	return d;
+}
+
+Formula * AsinFormula::clone()
+{
+	AsinFormula * f = new AsinFormula();
+	f->m_ArgumentFormula = m_ArgumentFormula->clone();
+	return f;
 }
 
 //-------------------------------------------------------------------
@@ -193,6 +291,32 @@ double AtanFormula::GetJacobianMultiplier (double arg)
 	return 1.0 / (1.0 + arg * arg);
 }
 
+Formula* AtanFormula::GetJacobianMultiplier(Formula *m_ArgumentFormula)
+{
+	DivFormula* d = new DivFormula();
+	SqrtFormula* sqrt = new SqrtFormula();
+	SumFormula* s = new SumFormula();
+	ProductFormula* p = new ProductFormula();
+
+	Formula *m[2] = { m_ArgumentFormula->clone(), m_ArgumentFormula->clone() };
+	p->setFormula(2, m);
+
+	Formula* sum[2] = { new ConstantFormula(1.0), p };
+	s->setFormula(2, sum);
+
+	sqrt->setFormula(s);
+	d->setFormula(new ConstantFormula(1.0), sqrt);
+
+	return d;
+}
+
+Formula * AtanFormula::clone()
+{
+	AtanFormula * f = new AtanFormula();
+	f->m_ArgumentFormula = m_ArgumentFormula->clone();
+	return f;
+}
+
 //-------------------------------------------------------------------
 //---- cosh
 //-------------------------------------------------------------------
@@ -213,6 +337,20 @@ double CoshFormula::GetJacobianMultiplier (double arg)
 	//(s. Comment in UnaryFunctionFormula::DE_Jacobian)
 	
 	return sinh(arg);
+}
+
+Formula* CoshFormula::GetJacobianMultiplier(Formula *m_ArgumentFormula)
+{
+	SinhFormula* s = new SinhFormula();
+	s->setFormula(m_ArgumentFormula->clone());
+	return s;
+}
+
+Formula * CoshFormula::clone()
+{
+	CoshFormula * f = new CoshFormula();
+	f->m_ArgumentFormula = m_ArgumentFormula->clone();
+	return f;
 }
 
 //-------------------------------------------------------------------
@@ -238,6 +376,26 @@ double CosFormula::GetJacobianMultiplier (double arg)
 	return -sin(arg);
 }
 
+Formula* CosFormula::GetJacobianMultiplier(Formula *m_ArgumentFormula)
+{
+	ProductFormula* p = new ProductFormula();
+	SinFormula* s = new SinFormula();
+
+	s->setFormula(m_ArgumentFormula->clone());
+
+	Formula* mult[2] = { new ConstantFormula(-1.0), s };
+	p->setFormula(2, mult);
+
+	return p;
+}
+
+Formula * CosFormula::clone()
+{
+	CosFormula * f = new CosFormula();
+	f->m_ArgumentFormula = m_ArgumentFormula->clone();
+	return f;
+}
+
 //-------------------------------------------------------------------
 //---- exp
 //-------------------------------------------------------------------
@@ -259,6 +417,20 @@ double ExpFormula::GetJacobianMultiplier (double arg)
 	//(s. Comment in UnaryFunctionFormula::DE_Jacobian)
 	
 	return exp(arg);
+}
+
+Formula* ExpFormula::GetJacobianMultiplier(Formula *m_ArgumentFormula)
+{
+	ExpFormula* e = new ExpFormula();
+	e->setFormula(m_ArgumentFormula->clone());
+	return e;
+}
+
+Formula * ExpFormula::clone()
+{
+	ExpFormula * f = new ExpFormula();
+	f->m_ArgumentFormula = m_ArgumentFormula->clone();
+	return f;
 }
 
 //-------------------------------------------------------------------
@@ -284,6 +456,21 @@ double LnFormula::GetJacobianMultiplier (double arg)
 	return 1.0 / arg;
 }
 
+Formula* LnFormula::GetJacobianMultiplier(Formula *m_ArgumentFormula)
+{
+	DivFormula* d = new DivFormula();
+
+	d->setFormula(new ConstantFormula(1.0), m_ArgumentFormula->clone());
+	return d;
+}
+
+Formula * LnFormula::clone()
+{
+	LnFormula * f = new LnFormula(m_FunctionName);
+	f->m_ArgumentFormula = m_ArgumentFormula->clone();
+	return f;
+}
+
 //-------------------------------------------------------------------
 //---- log10
 //-------------------------------------------------------------------
@@ -305,6 +492,22 @@ double Log10Formula::GetJacobianMultiplier (double arg)
 	//(s. Comment in UnaryFunctionFormula::DE_Jacobian)
 	
 	return 1.0 / (arg * log(10.0));
+}
+
+Formula* Log10Formula::GetJacobianMultiplier(Formula *m_ArgumentFormula)
+{
+	DivFormula* d = new DivFormula();
+
+	d->setFormula(new ConstantFormula(1.0 / log(10.0)), m_ArgumentFormula->clone());
+
+	return d;
+}
+
+Formula * Log10Formula::clone()
+{
+	Log10Formula * f = new Log10Formula();
+	f->m_ArgumentFormula = m_ArgumentFormula->clone();
+	return f;
 }
 
 //-------------------------------------------------------------------
@@ -330,6 +533,20 @@ double SinhFormula::GetJacobianMultiplier (double arg)
 	return cosh(arg);
 }
 
+Formula* SinhFormula::GetJacobianMultiplier(Formula *m_ArgumentFormula)
+{
+	CoshFormula* c = new CoshFormula();
+	c->setFormula(m_ArgumentFormula->clone());
+	return c;
+}
+
+Formula * SinhFormula::clone()
+{
+	SinhFormula * f = new SinhFormula();
+	f->m_ArgumentFormula = m_ArgumentFormula->clone();
+	return f;
+}
+
 //-------------------------------------------------------------------
 //---- sin
 //-------------------------------------------------------------------
@@ -353,6 +570,20 @@ double SinFormula::GetJacobianMultiplier (double arg)
 	return cos(arg);
 }
 
+Formula* SinFormula::GetJacobianMultiplier(Formula *m_ArgumentFormula)
+{
+	CosFormula* c = new CosFormula();
+	c->setFormula(m_ArgumentFormula->clone());
+	return c;
+}
+
+Formula * SinFormula::clone()
+{
+	SinFormula * f = new SinFormula();
+	f->m_ArgumentFormula = m_ArgumentFormula->clone();
+	return f;
+}
+
 //-------------------------------------------------------------------
 //---- sqrt
 //-------------------------------------------------------------------
@@ -374,6 +605,25 @@ double SqrtFormula::GetJacobianMultiplier (double arg)
 	//(s. Comment in UnaryFunctionFormula::DE_Jacobian)
 	
 	return 1.0 / (2.0 * sqrt(arg));
+}
+
+Formula* SqrtFormula::GetJacobianMultiplier(Formula *m_ArgumentFormula)
+{
+	DivFormula* d = new DivFormula();
+	SqrtFormula* s = new SqrtFormula();
+
+	s->setFormula(m_ArgumentFormula->clone());
+
+	d->setFormula(new ConstantFormula(1.0/2.0), s);
+
+	return d;
+}
+
+Formula * SqrtFormula::clone()
+{
+	SqrtFormula * f = new SqrtFormula();
+	f->m_ArgumentFormula = m_ArgumentFormula->clone();
+	return f;
 }
 
 //-------------------------------------------------------------------
@@ -400,6 +650,27 @@ double TanhFormula::GetJacobianMultiplier (double arg)
 	return 1.0 / (coshValue * coshValue);
 }
 
+Formula* TanhFormula::GetJacobianMultiplier(Formula *m_ArgumentFormula)
+{
+	DivFormula* d = new DivFormula();
+	ProductFormula* p = new ProductFormula();
+	CoshFormula* c = new CoshFormula();
+
+	c->setFormula(m_ArgumentFormula->clone());
+	Formula *m[2] = { m_ArgumentFormula->clone(), m_ArgumentFormula->clone() };
+	p->setFormula(2, m);
+	d->setFormula(new ConstantFormula(1.0), p);
+
+	return d;
+}
+
+Formula * TanhFormula::clone()
+{
+	TanhFormula * f = new TanhFormula();
+	f->m_ArgumentFormula = m_ArgumentFormula->clone();
+	return f;
+}
+
 //-------------------------------------------------------------------
 //---- tan
 //-------------------------------------------------------------------
@@ -424,6 +695,25 @@ double TanFormula::GetJacobianMultiplier (double arg)
 	return 1.0 / (cosValue * cosValue);
 }
 
+Formula* TanFormula::GetJacobianMultiplier(Formula *m_ArgumentFormula)
+{
+	DivFormula* d = new DivFormula();
+	ProductFormula* p = new ProductFormula();
+	CosFormula* c = new CosFormula();
 
+	c->setFormula(m_ArgumentFormula->clone());
+	Formula *m[2] = { m_ArgumentFormula->clone(), m_ArgumentFormula->clone() };
+	p->setFormula(2, m);
+	d->setFormula(new ConstantFormula(1.0), p);
+
+	return d;
+}
+
+Formula * TanFormula::clone()
+{
+	TanFormula * f = new TanFormula();
+	f->m_ArgumentFormula = m_ArgumentFormula->clone();
+	return f;
+}
 
 }//.. end "namespace SimModelNative"

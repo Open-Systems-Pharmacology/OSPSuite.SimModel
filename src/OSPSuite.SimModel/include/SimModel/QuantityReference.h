@@ -57,6 +57,7 @@ public:
 
 	double GetValue (const double * y, double time, ScaleFactorUsageMode scaleFactorMode);
 	void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor);
+	Formula* DE_Jacobian(const int iEquation);
 
 	//return reference quantity as hierarchical formula object
 	// (returns NULL if it's not a HFObject)
@@ -70,6 +71,7 @@ public:
 	bool IsChangedBySwitch(void);
 
 	void AppendUsedVariables(std::set<int> & usedVariblesIndices, const std::set<int> & variblesIndicesUsedInSwitchAssignments);
+	void AppendUsedParameters(std::set<int> & usedParameterIDs);
 
 	virtual void UpdateIndicesOfReferencedVariables();
 };

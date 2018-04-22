@@ -12,6 +12,7 @@
 #include "XMLWrapper/XMLHelper.h"
 #include "SimModel/SimulationTask.h"
 #include "SimModel/ParameterSensitivity.h"
+#include "SimModel/SumFormula.h"
 #include <map>
 
 #ifdef _WINDOWS_PRODUCTION
@@ -227,6 +228,23 @@ void Species::DE_Jacobian (double * * jacobian, const double * y, const double t
 		_rhsFormulaList[i]->DE_Jacobian(jacobian, y, time, m_ODEIndex, _DEScaleFactorInv);
 }
 
+Formula* Species::DE_Jacobian(const int iEquation)
+{
+	SumFormula * s = new SumFormula();
+
+	Formula * * sum = new Formula*[_rhsFormulaListSize];
+	for (int i = 0; i < _rhsFormulaListSize; i++) {
+		//Formula *f = _rhsFormulaList[i]->clone();
+		//f = f->RecursiveSimplify();
+		//sum[i] = f->DE_Jacobian(iEquation);
+		sum[i] = _rhsFormulaList[i]->DE_Jacobian(iEquation);
+	}
+
+	s->setFormula(_rhsFormulaListSize, sum);
+
+	delete[] sum;
+	return s;
+}
 
 bool Species::RHSDependsOn(int DE_VariableIndex)
 {
@@ -297,6 +315,27 @@ void Species::WriteMatlabCode (std::ostream & mrOut)
 		_rhsFormulaList[i]->WriteMatlabCode(mrOut);
 	}
 	mrOut<<";"<<endl;
+}
+
+void Species::WriteCppCode(std::ostream & mrOut)
+{
+	mrOut << "    dy[" << m_ODEIndex << "] = ";
+
+	for (int i = 0; i<_rhsFormulaListSize; i++)
+	{
+		mrOut << endl << "            ";
+
+		if (i != 0)
+			mrOut << "+";
+
+		_rhsFormulaList[i]->WriteCppCode(mrOut);
+	}
+	mrOut << ";" << endl;
+}
+
+Formula * Species::GetInitialFormula()
+{
+	return  _valueFormula;
 }
 
 //will be called between Load and Finalize of the parent simulation
@@ -380,6 +419,11 @@ vector<bool> Species::RHSDependencyVector(int numberOfVariables)
 void Species::SetODEIndex(int newIndex)
 {
 	m_ODEIndex = newIndex;
+}
+
+void Species::AppendUsedParameters(std::set<int> & usedParameterIDs) {
+	for (int i = 0; i<_rhsFormulaListSize; i++)
+		_rhsFormulaList[i]->AppendUsedParameters(usedParameterIDs);
 }
 
 //indexMap contains the mapping (<Old DE index>, <New DE index>)

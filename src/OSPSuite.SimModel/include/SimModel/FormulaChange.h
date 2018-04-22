@@ -4,12 +4,22 @@
 #include "SimModel/XMLLoader.h"
 #include <string>
 #include <set>
+#include <map>
+#include <vector>
 
 namespace SimModelNative
 {
 
 class Quantity;
 class Formula;
+
+struct formulaParameterInfo {
+	int switchIndex;
+	int valueIndex;
+	int initialIndex;
+	std::vector<Formula *> vecFormulas;
+	formulaParameterInfo(Formula * f, int _init=0) : switchIndex(-1), valueIndex(-1), initialIndex(_init), vecFormulas(1, f) {}
+};
 
 class FormulaChange : 
 	public XMLLoader
@@ -39,10 +49,14 @@ public:
 	bool PerformSwitchUpdate (double * y, double time);
 
 	void WriteMatlabCode (std::ostream & mrOut);
+	void WriteCppCode(const std::map<int, formulaParameterInfo > & formulaParameterIDs, const std::set<int> & usedIDs, std::ostream & mrOut);
+
 	void MarkQuantitiesDirectlyUsedBy(void); //required for Matlab code generation only
 
 	//used variables are only added into the list if UseAsValue=false
 	void AppendVariablesUsedInNewFormula(std::set<int> & usedVariblesIndices, const std::set<int> & variblesIndicesUsedInSwitchAssignments);
+	void AppendUsedParameters(std::set<int> & usedParameterIDs);
+	void AppendFormulaParameters(std::map<int, formulaParameterInfo > & formulaParameterIDs);
 
 	//update the index of the target species (if any)
 	void UpdateDEIndexOfTargetSpecies();

@@ -44,6 +44,22 @@ namespace SimModelNative
 		//nothing to do for constant formula
 	}
 
+	Formula* ConstantFormula::DE_Jacobian(const int iEquation)
+	{
+		return new ConstantFormula(0.0);
+	}
+
+	Formula* ConstantFormula::clone()
+	{
+		return new ConstantFormula(m_Value);
+	}
+
+	Formula * ConstantFormula::RecursiveSimplify()
+	{
+		// nothing to do
+		return this;
+	}
+
 	void ConstantFormula::LoadFromXMLNode (const XMLNode & pNode)
 	{
 		// Partial XML
@@ -86,12 +102,22 @@ namespace SimModelNative
 		mrOut<<MathHelper::ToString(m_Value);
 	}
 
+	void ConstantFormula::WriteFormulaCppCode(std::ostream & mrOut)
+	{
+		mrOut << MathHelper::ToString(m_Value);
+	}
+
 	bool ConstantFormula::UseBracketsForODESystemGeneration ()
 	{
 		return (m_Value < 0.0);
 	}
 
 	void ConstantFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+	{
+		//nothing to do so far
+	}
+
+	void ConstantFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
 	{
 		//nothing to do so far
 	}
