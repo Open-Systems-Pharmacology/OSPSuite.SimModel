@@ -83,7 +83,7 @@ void MatlabODEExporter::WriteMatlabCode (Simulation * sim, const string & OutDir
 	
 	CheckIfSimulationCanBeExported(sim);
 
-	MarkQuantitiesUsedBySwitches(sim);
+	sim->MarkQuantitiesUsedBySwitches();
 
 	////simplify parameters that could not be simplified earlier (in Finalize)
 	////(e.g. parameters that depend on not fixed constant parameters)
@@ -386,7 +386,7 @@ void MatlabODEExporter::WriteODEMainFile (Simulation * sim, const string & ODEMa
 	try
 	{
 		//get unique application start times for the simulation
-		DoubleQueue switchTimes = GetSwitchTimes(sim);
+		std::set<double> switchTimes = sim->GetSwitchTimes();
 
 		outfile.open(ODEMainFile.c_str());
 		outfile.precision(16);
@@ -434,10 +434,9 @@ void MatlabODEExporter::WriteODEMainFile (Simulation * sim, const string & ODEMa
 		//write application start AND end times vector
 		outfile<<"    global switchtimes;"<<endl;
 		outfile<<"    switchtimes = [ ";
-		while(!switchTimes.empty())
+		for (auto sIter = switchTimes.begin(); sIter != switchTimes.end(); ++sIter)
 		{
-			outfile<<switchTimes.top()<<" ";
-			switchTimes.pop();
+			outfile << *sIter << " ";
 		}
 		outfile<<"];"<<endl<<endl;
 
@@ -564,31 +563,6 @@ string MatlabODEExporter::GetShortUniqueParameterName (int parameterIdx)
 	sprintf(name,"P_%d",parameterIdx);
 	
 	return name;
-}
-
-DoubleQueue MatlabODEExporter::GetSwitchTimes (Simulation * sim)
-{
-	DoubleQueue switchTimes;
-
-	switchTimes.push(sim->GetStartTime());
-
-	vector <OutputTimePoint> outputTimePoints = SimulationTask::OutputTimePoints(sim);
-
-	for(unsigned int timeStepIdx=0; timeStepIdx<outputTimePoints.size(); timeStepIdx++)
-	{
-		OutputTimePoint outTimePoint = outputTimePoints[timeStepIdx];
-
-		if(outTimePoint.IsSwitchTimePoint())
-			switchTimes.push(outTimePoint.Time());
-	}
-
-	return switchTimes;
-}
-
-void MatlabODEExporter::MarkQuantitiesUsedBySwitches(Simulation * sim)
-{
-	for (int i=0; i<sim->Switches().size(); i++)
-		sim->Switches()[i]->MarkQuantitiesDirectlyUsedBy();
 }
 
 }//.. end "namespace SimModelNative"

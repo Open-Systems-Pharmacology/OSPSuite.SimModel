@@ -5,6 +5,11 @@
 #include "SimModel/PowerFormula.h"
 #include "SimModel/FormulaFactory.h"
 #include "SimModel/GlobalConstants.h"
+#include "SimModel/ProductFormula.h"
+#include "SimModel/DivFormula.h"
+#include "SimModel/SumFormula.h"
+#include "SimModel/UnaryFunctionFormula.h"
+#include "SimModel/ConstantFormula.h"
 #include <assert.h>
 
 #ifdef _WINDOWS_PRODUCTION
@@ -104,6 +109,92 @@ void PowerFormula::DE_Jacobian (double * * jacobian, const double * y, const dou
 	m_ExponentFormula->DE_Jacobian(jacobian, y, time, iEquation, preFactor * log(m_Base)*R);
 }
 
+Formula* PowerFormula::DE_Jacobian(const int iEquation)
+{
+	// d/dx(f(x)^(g(x))) = f(x)^(g(x)-1) (g(x) f'(x)+f(x) log(f(x)) g'(x))
+
+	//PowerFormula * pf = new PowerFormula();
+	//LnFormula * l = new LnFormula(string("Log"));
+	//l->setFormula(m_BaseFormula->clone());
+
+	//ProductFormula * p1 = new ProductFormula();
+	//ProductFormula * p2 = new ProductFormula();
+	//ProductFormula * p3 = new ProductFormula();
+
+	//SumFormula * s = new SumFormula();
+	//DiffFormula * d = new DiffFormula();
+
+	//d->setFormula(m_ExponentFormula->clone(), new ConstantFormula(1.0));
+	//pf->setFormula(m_BaseFormula->clone(), d);
+	//
+	//Formula * mult1[2] = { m_ExponentFormula->clone(), m_BaseFormula->DE_Jacobian(iEquation) };
+	//p1->setFormula(2, mult1);
+
+	//Formula * mult2[3] = { m_BaseFormula->clone(), l, m_ExponentFormula->DE_Jacobian(iEquation) };
+	//p2->setFormula(3, mult2);
+
+	//Formula * sum[2] = { p1, p2 };
+	//s->setFormula(2, sum);
+
+	//Formula * mult3[2] = { pf, s };
+	//p3->setFormula(2, mult3);
+
+	//return p3;
+
+	LnFormula* l = new LnFormula(string("Log"));
+	ProductFormula* p1 = new ProductFormula();
+	ProductFormula* p2 = new ProductFormula();
+	DivFormula* div = new DivFormula();
+	SumFormula* sum = new SumFormula();
+
+	//Derivative (R)' = (ln(m_Base)*R)*(m_Exp)' + (m_Exp*R/m_Base) *(m_Base)'
+	l->setFormula(m_BaseFormula->clone());
+
+	Formula* m1[3] = { l, this->clone(), m_ExponentFormula->DE_Jacobian(iEquation) };
+	p1->setFormula(3, m1);
+
+	Formula* m2[3] = { m_ExponentFormula->clone(), this->clone(), m_BaseFormula->DE_Jacobian(iEquation) };
+	p2->setFormula(3, m2);
+
+	div->setFormula(p2, m_BaseFormula->clone());
+
+	Formula* s[2] = { p1, div };
+	sum->setFormula(2, s);
+
+	return sum;
+}
+
+Formula * PowerFormula::clone()
+{
+	PowerFormula * f = new PowerFormula();
+	f->m_BaseFormula = m_BaseFormula->clone();
+	f->m_ExponentFormula = m_ExponentFormula->clone();
+	return f;
+}
+
+Formula * PowerFormula::RecursiveSimplify()
+{
+	m_BaseFormula = m_BaseFormula->RecursiveSimplify();
+	m_ExponentFormula = m_ExponentFormula->RecursiveSimplify();
+	if (m_BaseFormula->IsConstant(CONSTANT_CURRENT_RUN) && m_ExponentFormula->IsConstant(CONSTANT_CURRENT_RUN))
+	{
+		ConstantFormula * f = new ConstantFormula(DE_Compute(NULL, 0.0, USE_SCALEFACTOR));
+		delete this;
+		return f;
+	}
+
+	return this;
+}
+
+void PowerFormula::setFormula(Formula* base, Formula* exponent)
+{
+	if (m_BaseFormula != NULL) delete m_BaseFormula;
+	if (m_ExponentFormula != NULL) delete m_ExponentFormula;
+
+	m_BaseFormula = base;
+	m_ExponentFormula = exponent;
+}
+
 void PowerFormula::Finalize()
 {
 	m_BaseFormula->Finalize();
@@ -117,10 +208,25 @@ void PowerFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 	m_ExponentFormula->WriteMatlabCode(mrOut);
 }
 
+void PowerFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	mrOut << "pow(";
+	m_BaseFormula->WriteCppCode(mrOut);
+	mrOut << ",";
+	m_ExponentFormula->WriteCppCode(mrOut);
+	mrOut << ")";
+}
+
 void PowerFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
 {
 	m_BaseFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
 	m_ExponentFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+}
+
+void PowerFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	m_BaseFormula->AppendUsedParameters(usedParameterIDs);
+	m_ExponentFormula->AppendUsedParameters(usedParameterIDs);
 }
 
 void PowerFormula::UpdateIndicesOfReferencedVariables()

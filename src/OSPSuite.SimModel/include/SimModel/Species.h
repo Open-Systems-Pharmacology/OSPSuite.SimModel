@@ -53,6 +53,7 @@ public:
 	double GetInitialValue (const double * y, double time);
 	double GetValue (const double * y, double time, ScaleFactorUsageMode scaleFactorMode);
 	virtual void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor);
+	virtual Formula * DE_Jacobian(const int iEquation);
 
 	//simplify right hand side of ODE equations
 	bool SimplifyRHSList();
@@ -76,6 +77,8 @@ public:
 	void SetValuesBelowAbsTolLevelToZero(double absTol);
 
 	void WriteMatlabCode (std::ostream & mrOut);
+	void WriteCppCode (std::ostream & mrOut);
+	Formula * GetInitialFormula();
 
 	//will be called between Load and Finalize of the parent simulation
 	void InitialFillInfo(SpeciesInfo & info);
@@ -95,6 +98,8 @@ public:
 	std::vector<bool> RHSDependencyVector(int numberOfVariables);
 
 	void SetODEIndex(int newIndex);
+
+	virtual void AppendUsedParameters(std::set<int> & usedParameterIDs);
 
 	//Change indices of variables used in the RHS formula according to the given indices permutation
 	void ChangeIndicesOfRHSUsedVariables(std::map<unsigned int, unsigned int> & indexMap);

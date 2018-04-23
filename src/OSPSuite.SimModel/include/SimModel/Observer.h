@@ -28,6 +28,8 @@ public:
 	// can be used in another observers
 	double GetValue (const double * y, double time, ScaleFactorUsageMode scaleFactorMode);
 	virtual void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor);
+	virtual Formula * DE_Jacobian(const int iEquation);
+	Formula* getValueFormula();
 
 	//CalculateValue uses observer FORMULA to calculate its actual value
 	double CalculateValue(const double * y, double time, ScaleFactorUsageMode scaleFactorMode);

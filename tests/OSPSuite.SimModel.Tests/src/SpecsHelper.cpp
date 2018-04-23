@@ -23,7 +23,7 @@ namespace UnitTests
 
 	String^ SpecsHelper::TestFileFrom(String^ fileName)
 	{
-		String^ relPath = (gcnew String("..\\..\\..\\tests\\TestData\\")) + fileName;
+		String^ relPath = (gcnew String("..\\..\\..\\tests\\TestData\\")) + fileName +".xml";
 		return Path::Combine(SpecsHelper::BaseDirectory(), relPath);
 	}
 	

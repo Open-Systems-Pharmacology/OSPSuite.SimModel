@@ -296,6 +296,11 @@ void Quantity::SetFormula(Formula * formula)
 	_valueFormula = formula;
 }
 
+Formula * Quantity::GetFormula()
+{
+	return _valueFormula;
+}
+
 bool Quantity::IsFixed(void)
 {
 	return _isFixed;
@@ -469,6 +474,14 @@ void Quantity::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int
 		return; //nothing to do
 
 	_valueFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+}
+
+void Quantity::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	if (_valueFormula == NULL)
+		return; //nothing to do
+
+	_valueFormula->AppendUsedParameters(usedParameterIDs);
 }
 
 void Quantity::UpdateIndicesOfReferencedVariables()

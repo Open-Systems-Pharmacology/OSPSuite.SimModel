@@ -226,6 +226,9 @@
     <ClCompile Include="src\VariableWithParameterSensitivity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\CppODEExporter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\SimModel\BandwidthReduction.h">
@@ -442,6 +445,9 @@
       <Filter>SolverBase\include</Filter>
     </ClInclude>
     <ClInclude Include="include\SimModel\VariableWithParameterSensitivity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SimModel\CppODEExporter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

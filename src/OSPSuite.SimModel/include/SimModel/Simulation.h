@@ -222,6 +222,10 @@ public:
 
 	std::vector<Species *> & DE_Variables();
 
+	// used by Matlab and cpp exporter
+	std::set<double> GetSwitchTimes();
+	void MarkQuantitiesUsedBySwitches();
+
 	SIM_EXPORT bool UseBandLinearSolver();
 	SIM_EXPORT void SetUseBandLinearSolver(bool useBandLinearSolver);
 

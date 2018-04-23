@@ -5,6 +5,10 @@
 #include "SimModel/DivFormula.h"
 #include "SimModel/FormulaFactory.h"
 #include "SimModel/GlobalConstants.h"
+#include "SimModel/DiffFormula.h"
+#include "SimModel/ProductFormula.h"
+#include "SimModel/PowerFormula.h"
+#include "SimModel/ConstantFormula.h"
 #include <assert.h>
 
 #ifdef _WINDOWS_PRODUCTION
@@ -95,6 +99,83 @@ void DivFormula::DE_Jacobian (double * * jacobian, const double * y, const doubl
 	m_DenominatorFormula->DE_Jacobian(jacobian, y, time, iEquation, preFactor*f2);
 }
 
+Formula* DivFormula::DE_Jacobian(const int iEquation)
+{
+	DivFormula* f = new DivFormula();
+
+	set<int> dep; set<int> empty;
+	m_DenominatorFormula->AppendUsedVariables(dep, empty);
+
+	// check for constant denominator
+	if (dep.count(iEquation)==0) {
+		f->m_NumeratorFormula = m_NumeratorFormula->DE_Jacobian(iEquation);
+		f->m_DenominatorFormula = m_DenominatorFormula->clone();
+		return f;
+	}
+
+	// (dnum * den - num * dden) / den^2
+	ProductFormula* den = new ProductFormula();
+	DiffFormula* num = new DiffFormula();
+	ProductFormula* p1 = new ProductFormula();
+	ProductFormula* p2 = new ProductFormula();
+
+	Formula *m1[2] = { m_NumeratorFormula->DE_Jacobian(iEquation), m_DenominatorFormula->clone() };
+	p1->setFormula(2, m1);
+
+	Formula *m2[2] = { m_NumeratorFormula->clone(), m_DenominatorFormula->DE_Jacobian(iEquation) };
+	p2->setFormula(2, m2);
+
+	num->setFormula(p1, p2);
+
+	Formula *m3[2] = { m_DenominatorFormula->clone(), m_DenominatorFormula->clone() };
+	den->setFormula(2, m3);
+
+	f->m_NumeratorFormula = num;
+	f->m_DenominatorFormula = den;
+
+	return f;
+}
+
+Formula* DivFormula::clone()
+{
+	DivFormula* f = new DivFormula();
+	f->m_NumeratorFormula = m_NumeratorFormula->clone();
+	f->m_DenominatorFormula = m_DenominatorFormula->clone();
+	return f;
+}
+
+Formula * DivFormula::RecursiveSimplify()
+{
+	m_NumeratorFormula = m_NumeratorFormula->RecursiveSimplify();
+	m_DenominatorFormula = m_DenominatorFormula->RecursiveSimplify();
+	if (m_NumeratorFormula->IsConstant(CONSTANT_CURRENT_RUN))
+	{
+		if (m_NumeratorFormula->IsZero())
+		{
+			ConstantFormula * f = new ConstantFormula(0.0);
+			delete this;
+			return f;
+		}
+		if (m_DenominatorFormula->IsConstant(CONSTANT_CURRENT_RUN))
+		{
+			ConstantFormula * f = new ConstantFormula(DE_Compute(NULL, 0.0, USE_SCALEFACTOR));
+			delete this;
+			return f;
+		}
+	}
+
+	return this;
+}
+
+void DivFormula::setFormula(Formula* numeratorFormula, Formula* denominatorFormula)
+{
+	if (m_NumeratorFormula != NULL) delete m_NumeratorFormula;
+	if (m_DenominatorFormula != NULL) delete m_DenominatorFormula;
+
+	m_NumeratorFormula = numeratorFormula;
+	m_DenominatorFormula = denominatorFormula;
+}
+
 void DivFormula::Finalize()
 {
 	m_NumeratorFormula->Finalize();
@@ -108,10 +189,23 @@ void DivFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 	m_DenominatorFormula->WriteMatlabCode(mrOut);
 }
 
+void DivFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	m_NumeratorFormula->WriteCppCode(mrOut);
+	mrOut << "/";
+	m_DenominatorFormula->WriteCppCode(mrOut);
+}
+
 void DivFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
 {
 	m_NumeratorFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
 	m_DenominatorFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+}
+
+void DivFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	m_NumeratorFormula->AppendUsedParameters(usedParameterIDs);
+	m_DenominatorFormula->AppendUsedParameters(usedParameterIDs);
 }
 
 void DivFormula::UpdateIndicesOfReferencedVariables()

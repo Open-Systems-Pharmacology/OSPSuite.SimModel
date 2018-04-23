@@ -315,6 +315,24 @@ void ExplicitFormula::DE_Jacobian (double * * jacobian, const double * y, const 
 	_formula->DE_Jacobian(jacobian, y, time, iEquation, preFactor);
 }
 
+Formula* ExplicitFormula::DE_Jacobian(const int iEquation)
+{
+	return _formula->DE_Jacobian(iEquation);
+}
+
+Formula* ExplicitFormula::clone()
+{
+	ExplicitFormula* f = new ExplicitFormula();
+	f->_formula = _formula->clone();
+	return f;
+}
+
+Formula * ExplicitFormula::RecursiveSimplify()
+{
+	return _formula->RecursiveSimplify();
+	//throw ErrorData(ErrorData::ED_ERROR, "ExplicitFormula::RecusiveSimplify", "This method should not be called.");
+}
+
 void ExplicitFormula::SetQuantityReference (const QuantityReference & quantityReference)
 {
 	_formula->SetQuantityReference(quantityReference);
@@ -388,6 +406,11 @@ void ExplicitFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 	_formula->WriteMatlabCode(mrOut);
 }
 
+void ExplicitFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	_formula->WriteCppCode(mrOut);
+}
+
 //don't use brackets (embedded formula will be bracketed)
 bool ExplicitFormula::UseBracketsForODESystemGeneration ()
 {
@@ -413,6 +436,11 @@ std::string ExplicitFormula::Equation()
 void ExplicitFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
 {
 	_formula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+}
+
+void ExplicitFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	_formula->AppendUsedParameters(usedParameterIDs);
 }
 
 void ExplicitFormula::UpdateIndicesOfReferencedVariables()

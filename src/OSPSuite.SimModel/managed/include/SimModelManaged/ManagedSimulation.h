@@ -42,6 +42,9 @@ namespace SimModelNET
         ///Export simulation to matlab 
         void WriteMatlabCode(System::String^ outDir, MatlabCodeWriteMode writeMode, ParameterNamesWriteMode parameterNamesWriteMode);
 
+		///Export simulation to C++
+		void WriteCppCode(System::String^ outDir, MatlabCodeWriteMode writeMode, ParameterNamesWriteMode parameterNamesWriteMode);
+
         ///list of (initial) properties of ALL parameters of the simulation
 		property IList<IParameterProperties^>^ ParameterProperties
 		{
@@ -230,6 +233,9 @@ namespace SimModelNET
 
         ///Export simulation to matlab 
         virtual void WriteMatlabCode(System::String^ outDir, MatlabCodeWriteMode writeMode, ParameterNamesWriteMode parameterNamesWriteMode);
+
+		///Export simulation to C++
+		virtual void WriteCppCode(System::String^ outDir, MatlabCodeWriteMode writeMode, ParameterNamesWriteMode parameterNamesWriteMode);
 
         ///list of (initial) properties of ALL parameters of the simulation
 		property IList<IParameterProperties^>^ ParameterProperties

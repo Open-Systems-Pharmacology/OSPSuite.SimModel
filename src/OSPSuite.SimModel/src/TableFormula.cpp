@@ -3,6 +3,7 @@
 #endif
 
 #include "SimModel/TableFormula.h"
+#include "SimModel/ConstantFormula.h"
 
 #ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
@@ -251,6 +252,26 @@ void TableFormula::DE_Jacobian (double * * jacobian, const double * y, const dou
 	//nothing to do for the table formula (as long as it is ref independent)
 }
 
+Formula* TableFormula::DE_Jacobian(const int iEquation)
+{
+	return new ConstantFormula(0.0);
+}
+
+Formula * TableFormula::clone()
+{
+	return new ConstantFormula(0.0);
+	TableFormula * f = new TableFormula();
+
+	// TODO: fix
+
+	return f;
+}
+
+Formula * TableFormula::RecursiveSimplify()
+{
+	return this;
+}
+
 void TableFormula::SetQuantityReference (const QuantityReference & quantityReference)
 {
 	//nothing to do for the table formula (as long as it is ref independent)
@@ -311,6 +332,36 @@ void TableFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 
 	mrOut<<"    yout =  interp1(X_Values, Y_Values, Time);"<<endl;
 
+}
+
+void TableFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	// support for explicit (no non-constant parameter/variables dependend tables only so far)
+	// static map allows fast search, nearest extrapolation
+	// might be improved by using static vector with cached access hint
+	mrOut << "double T_" << GetId() << "(double Time) {" << endl; // , const double *y
+	mrOut << "   static const map<double, double> XY_Values = {";
+	if (_useDerivedValues) { // use _derivedValues instead of _Y_
+		mrOut << "{" << _X_values[0] << "," << 0.0 << "}";
+		for (int i = 1; i<_numberOfValuePoints; i++)
+			mrOut << ",{" << _X_values[i] << "," << _derivedValues[i-1] << "}";
+	}
+	else {
+		mrOut << "{" << _X_values[0] << "," << _Y_values[0] << "}";
+		for(int i=1; i<_numberOfValuePoints; i++)
+			mrOut << ",{" << _X_values[i] << "," << _Y_values[i] << "}";
+	}
+	mrOut << "   };" << endl;
+	mrOut << "   auto iter = XY_Values.lower_bound(Time);" << endl;
+	mrOut << "   if(iter==XY_Values.begin()) return XY_Values.begin()->second;" << endl;
+	mrOut << "   if(iter==XY_Values.end()) return XY_Values.rbegin()->second;" << endl;
+	mrOut << "   double x1 = iter->first;" << endl;
+	mrOut << "   double y1 = iter->second;" << endl;
+	mrOut << "   --iter;" << endl;
+	mrOut << "   double x0 = iter->first;" << endl;
+	mrOut << "   double x0 = iter->second;" << endl;
+	mrOut << "   return y0 + (y1-y0)/(x1-x0)*(Time-x0);" << endl;
+	mrOut << "}" << endl << endl;
 }
 
 bool TableFormula::UseBracketsForODESystemGeneration ()
@@ -375,6 +426,11 @@ void TableFormula::SetTablePoints(const std::vector <ValuePoint> & valuePoints)
 void TableFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
 {
 	//nothing to do so far
+}
+
+void TableFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	// TODO: nothing? check
 }
 
 void TableFormula::UpdateIndicesOfReferencedVariables()

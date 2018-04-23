@@ -14,6 +14,7 @@
 #include "SimModelManaged/Conversions.h"
 #include "SimModel/MathHelper.h"
 #include "SimModel/MatlabODEExporter.h"
+#include "SimModel/CppODEExporter.h"
 #include "XMLWrapper/XMLHelper.h"
 #include <fstream>
 
@@ -54,6 +55,7 @@ namespace SimulationTests
         virtual void Context() override
         {
             sut=gcnew Simulation();
+			sut->GetNativeSimulation()->Options().SetKeepXMLNodeAsString(true); //TODO
         }
 
 		void CheckSolverOutputTimes()
@@ -132,7 +134,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput05.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput05"));
 			}
 			catch(ErrorData & ED)
 			{
@@ -157,7 +159,7 @@ namespace SimulationTests
 
 		virtual void Because() override
         {
-			XMLDocument xmlDoc = XMLDocument::FromFile(NETToCPPConversions::MarshalString(SpecsHelper::TestFileFrom("SimModel4_ExampleInput05.xml")));
+			XMLDocument xmlDoc = XMLDocument::FromFile(NETToCPPConversions::MarshalString(SpecsHelper::TestFileFrom("SimModel4_ExampleInput05")));
 			_string2Load = CPPToNETConversions::MarshalString(xmlDoc.ToString());
         }
 
@@ -198,7 +200,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput05.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput05"));
 				sut->FinalizeSimulation();
 			}
 			catch(ErrorData & ED)
@@ -231,7 +233,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput05.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput05"));
 				sut->FinalizeSimulation();
 
 				sut->RunSimulation();
@@ -269,7 +271,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput05.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput05"));
 				EnableBandLinearSolver();
 				sut->FinalizeSimulation();
 
@@ -301,7 +303,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput04.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput04"));
 				OptionalTasksBeforeFinalize();
 				sut->FinalizeSimulation();
 				sut->RunSimulation();
@@ -479,7 +481,7 @@ namespace SimulationTests
 		[TestAttribute]
 		void should_return_correct_value_for_dependent_parameters_and_initial_value_before_and_after_changing_of_basis_parameter()
 		{
-			sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("TestAllParametersInitialValues.xml"));
+			sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("TestAllParametersInitialValues"));
 
 			//---- set P1 and P2 as variable
 			IList<IParameterProperties^>^ variableParams = gcnew System::Collections::Generic::List<IParameterProperties^>();
@@ -520,7 +522,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06"));
 				
 				DisableBandLinearSolver();
 				sut->FinalizeSimulation();
@@ -583,7 +585,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06"));
 				EnableBandLinearSolver();
 				sut->FinalizeSimulation();
 
@@ -629,7 +631,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06"));
 				
 				DisableBandLinearSolver();
 
@@ -701,7 +703,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06"));
 
 				SimModelNative::Species * y1, * y2, * y3;
 				y1 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y1");
@@ -753,7 +755,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06"));
 				DisableBandLinearSolver();
 
 				SimModelNative::Simulation * sim = sut->GetNativeSimulation();
@@ -803,7 +805,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06"));
 				
 				SimModelNative::Simulation * sim = sut->GetNativeSimulation();
 				
@@ -853,7 +855,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_NewSchema.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_NewSchema"));
 				sut->FinalizeSimulation();
 
 				sut->RunSimulation();
@@ -893,7 +895,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_NewSchema.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_NewSchema"));
 
 				SimModelNative::Species * y1, * y2, * y3;
 				y1 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y1");
@@ -950,7 +952,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_Modified.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_Modified"));
 				
 				//---- set P1 and P2 as variable
 				IList<IParameterProperties^>^ paramProps = sut->ParameterProperties;
@@ -1026,7 +1028,7 @@ namespace SimulationTests
         {
 			try
 			{
-				String^ file = SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_Modified.xml");
+				String^ file = SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_Modified");
 
 				//---- run without parameter modification
 				sut->LoadFromXMLFile(file);
@@ -1144,7 +1146,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_Modified_V4.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_Modified_V4"));
 				
 				//---- set P1 and P2 as variable
 				IList<IParameterProperties^>^ paramProps = sut->ParameterProperties;
@@ -1220,7 +1222,7 @@ namespace SimulationTests
         {
 			try
 			{
-				String^ file = SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_Modified_V4.xml");
+				String^ file = SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_Modified_V4");
 
 				//---- run without parameter modification
 				sut->LoadFromXMLFile(file);
@@ -1331,7 +1333,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_NewSchema.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_NewSchema"));
 				
 				SimModelNative::Simulation * sim = sut->GetNativeSimulation();
 				
@@ -1378,16 +1380,20 @@ namespace SimulationTests
 		String^ _inputFile;
 		String^ _venPlsId;
 		String^ _debugOutputFile;
-		String^ _matlabCodeOutputFolder;
+		String^ _matlabOrCppCodeOutputFolder;
 		bool   _writeDebugFile;
 		bool   _writeMatlabCode;
-		bool   _matlabCodeFullMode;
+		bool   _writeCppCode;
+		bool   _exportFullMode;
 
 		when_running_pksim_input()
 		{
 			_writeDebugFile = false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_writeCppCode = false;
+			_exportFullMode = true;
+			_matlabOrCppCodeOutputFolder = "C:\\Temp\\SimModelExport";
+			_debugOutputFile = "C:\\Temp\\SimModelExport\\SimModelResult_VenPls.txt";
 		}
 
 		 virtual void Because() override
@@ -1438,13 +1444,28 @@ namespace SimulationTests
 
 				OptionalTasksBeforeFinalize();
 
-				if (_writeMatlabCode)
+				if (_writeMatlabCode || _writeCppCode)
 				{
-					//will finalize simulation
-					SimModelNative::MatlabODEExporter odeExporter;
-					odeExporter.WriteMatlabCode(sut->GetNativeSimulation(), 
-						NETToCPPConversions::MarshalString(_matlabCodeOutputFolder), 
-						_matlabCodeFullMode);
+					if (_writeMatlabCode)
+					{
+						//will finalize simulation
+						SimModelNative::MatlabODEExporter odeExporter;
+						odeExporter.WriteMatlabCode(sut->GetNativeSimulation(),
+							NETToCPPConversions::MarshalString(_matlabOrCppCodeOutputFolder),
+							_exportFullMode);
+					}
+
+					if (_writeCppCode)
+					{
+						sut->GetNativeSimulation()->Options().SetKeepXMLNodeAsString(true);
+						//will finalize simulation
+						SimModelNative::CppODEExporter odeExporter;
+						std::string exportFileName = NETToCPPConversions::MarshalString(_inputFile);
+						odeExporter.WriteCppCode(sut->GetNativeSimulation(),
+							NETToCPPConversions::MarshalString(_matlabOrCppCodeOutputFolder),
+							_exportFullMode, exportFileName);
+					}
+
 				}
 				else
 					sut->FinalizeSimulation();
@@ -1511,13 +1532,12 @@ namespace SimulationTests
         {
 			when_running_pksim_input::Because();
 
-			_inputFile = "PKSim_Input_01.xml";
+			_inputFile = "PKSim_Input_01";
 			_venPlsId = "727457644";
-			_debugOutputFile = "D:\\Out\\SM4\\SimModelResult_VenPls.txt";
-			_matlabCodeOutputFolder = "D:\\Out\\SM4";
 			_writeDebugFile =false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_writeCppCode = true;
+			_exportFullMode = true;
         }
 
     public:
@@ -1539,13 +1559,12 @@ namespace SimulationTests
         {
 			when_running_pksim_input::Because();
 
-			_inputFile = "PKSim_Input_04_MultiApp.xml";
+			_inputFile = "PKSim_Input_04_MultiApp";
 			_venPlsId = "25cee37d-434a-4dd0-a91a-96e0c8952339";
-			_debugOutputFile = "C:\\VSS\\SimModel\\branches\\4.0\\Test\\SimModelResult_VenPls.txt";
-			_matlabCodeOutputFolder = "D:\\Out\\SM4";
 			_writeDebugFile =false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_writeCppCode = false;
+			_exportFullMode = true;
         }
 		
 		virtual void OptionalTasksBeforeFinalize() override
@@ -1576,13 +1595,11 @@ namespace SimulationTests
         {
 			when_running_pksim_input::Because();
 
-			_inputFile = "PKSim_Input_04_MultiApp.xml";
+			_inputFile = "PKSim_Input_04_MultiApp";
 			_venPlsId = "25cee37d-434a-4dd0-a91a-96e0c8952339";
-			_debugOutputFile = "C:\\VSS\\SimModel\\branches\\4.0\\Test\\SimModelResult_VenPls_band.txt";
-			_matlabCodeOutputFolder = "D:\\Out\\SM4";
 			_writeDebugFile =false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_exportFullMode = true;
         }
 
     public:
@@ -1603,13 +1620,12 @@ namespace SimulationTests
         {
 			when_running_pksim_input::Because();
 
-			_inputFile = "PKModelCoreCaseStudy_01.xml";
+			_inputFile = "PKModelCoreCaseStudy_01";
 			_venPlsId = "66d0f1d8-b644-4cd6-874c-a2a9b079d702";
-			_debugOutputFile = "D:\\Out\\SM4\\SimModelResult_VenPls.txt";
-			_matlabCodeOutputFolder = "D:\\Out\\SM4";
 			_writeDebugFile =false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_writeCppCode = false; //TODO cpp generation fails here
+			_exportFullMode = true;
 
 			SimpleRunTestResult();
         }
@@ -1691,13 +1707,12 @@ namespace SimulationTests
         {
 			when_running_pksim_input::Because();
 
-			_inputFile = "PKModelCoreCaseStudy_01.xml";
+			_inputFile = "PKModelCoreCaseStudy_01";
 			_venPlsId = "66d0f1d8-b644-4cd6-874c-a2a9b079d702";
-			_debugOutputFile = "D:\\Out\\SM4\\SimModelResult_VenPls.txt";
-			_matlabCodeOutputFolder = "D:\\Out\\SM4";
 			_writeDebugFile =false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_writeCppCode = false; //TODO cpp generation fails here
+			_exportFullMode = true;
 
 			SimpleRunTestResult();
         }
@@ -1773,13 +1788,12 @@ namespace SimulationTests
         {
 			when_running_pksim_input::Because();
 
-			_inputFile = "PKModelCoreCaseStudy_02.xml";
+			_inputFile = "PKModelCoreCaseStudy_02";
 			_venPlsId = "e6bc43ed-5acd-4457-bc22-560c8f44ab38";
-			_debugOutputFile = "D:\\Out\\SM4\\SimModelResult_VenPls.txt";
-			_matlabCodeOutputFolder = "D:\\Out\\SM4";
 			_writeDebugFile =false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_writeCppCode = false; //TODO cpp generation fails here
+			_exportFullMode = true;
 
 			SimpleRunTestResult();
         }
@@ -1826,13 +1840,12 @@ namespace SimulationTests
         {
 			when_running_pksim_input::Because();
 
-			_inputFile = "Test4Model_Reduced03.xml";
+			_inputFile = "Test4Model_Reduced03";
 			_venPlsId = "0beab802-84f5-4bed-ae57-a4afeb96737c";
-			_debugOutputFile = "C:\\VSS\\SimModel\\trunk\\Test\\ML_TestOutput\\SimModelResult_VenPls.txt";
-			_matlabCodeOutputFolder = "C:\\VSS\\SimModel\\trunk\\Test\\ML_TestOutput";
 			_writeDebugFile =false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true; 
+			_writeCppCode = true;
+			_exportFullMode = true; 
         }
 
     public:
@@ -1881,7 +1894,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("PKSim_Input_NewSchema_01.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("PKSim_Input_NewSchema_01"));
 			}
 			catch(ErrorData & ED)
 			{
@@ -1906,13 +1919,12 @@ namespace SimulationTests
         {
 			when_running_pksim_input::Because();
 
-			_inputFile = "PKSim_Input_BelowAbsTol.xml";
+			_inputFile = "PKSim_Input_BelowAbsTol";
 			_venPlsId = "XRhXIrsshU2zWFavqRn7yQ";
-			_debugOutputFile = SpecsHelper::TestFileFrom("SimModelResult_VenPls.txt");
-			_matlabCodeOutputFolder = "D:\\Out\\SM4";
 			_writeDebugFile =false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_writeCppCode = false;
+			_exportFullMode = true;
 
 			SimpleRunTestResult();
         }
@@ -1950,13 +1962,12 @@ namespace SimulationTests
         {
 			when_running_pksim_input::Because();
 
-			_inputFile = "AdultPopulation.xml";
+			_inputFile = "AdultPopulation";
 			_venPlsId = "o4iFZUU4dUSypxgqm3y7HQ";
-			_debugOutputFile = "D:\\Out\\SM4\\SimModelResult_VenPls.txt";
-			_matlabCodeOutputFolder = "D:\\Out\\SM4";
 			_writeDebugFile =false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_writeCppCode = false;
+			_exportFullMode = true;
         }
 
     public:
@@ -1975,13 +1986,12 @@ namespace SimulationTests
         {
 			when_running_pksim_input::Because();
 
-			_inputFile = "OralTable01.xml";
+			_inputFile = "OralTable01";
 			_venPlsId = "qpogYIvjOE-lRts7NtmaJw";
-			_debugOutputFile = "D:\\Out\\SM4\\SimModelResult_VenPls.txt";
-			_matlabCodeOutputFolder = "D:\\Out\\SM4";
 			_writeDebugFile =false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_writeCppCode = false;
+			_exportFullMode = true;
         }
 
     public:
@@ -2005,7 +2015,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("InfinityTest.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("InfinityTest"));
 			}
 			catch(ErrorData & ED)
 			{
@@ -2030,13 +2040,12 @@ namespace SimulationTests
         {
 			when_running_pksim_input::Because();
 
-			_inputFile = "Theophyline_2.xml";
+			_inputFile = "Theophyline_2";
 			_venPlsId = "n0k31nUqU0CIQJSGWuBzUw";
-			_debugOutputFile = "C:\\VSS\\SimModel\\trunk\\Test\\TestData\\SM4\\SimModelResult_VenPls.txt";
-			_matlabCodeOutputFolder = "C:\\VSS\\SimModel\\trunk\\Test\\TestData\\SM4";
 			_writeDebugFile =false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_writeCppCode = false;
+			_exportFullMode = true;
         }
 
     public:
@@ -2066,13 +2075,12 @@ namespace SimulationTests
         {
 			when_running_pksim_input::Because();
 
-			_inputFile = "GrowConst.xml";
+			_inputFile = "GrowConst";
 			_venPlsId = "fnpcgAdXBES9jRiYGarWMQ";
-			_debugOutputFile = "C:\\VSS\\SimModel\\trunk\\Test\\TestData\\SM4\\SimModelResult_VenPls.txt";
-			_matlabCodeOutputFolder = "C:\\VSS\\SimModel\\trunk\\Test\\TestData\\SM4";
 			_writeDebugFile =false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_writeCppCode = false;
+			_exportFullMode = true;
         }
 
     public:
@@ -2090,13 +2098,12 @@ namespace SimulationTests
         {
 			when_running_pksim_input::Because();
 
-			_inputFile = "PersistableParams.xml";
+			_inputFile = "PersistableParams";
 			_venPlsId = "74fe8982-69cd-41be-9dc6-7fd8020f2ed4";
-			_debugOutputFile = "C:\\VSS\\SimModel\\trunk\\Test\\TestData\\SM4\\SimModelResult_VenPls.txt";
-			_matlabCodeOutputFolder = "C:\\VSS\\SimModel\\trunk\\Test\\TestData\\SM4";
 			_writeDebugFile =false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_writeCppCode = true;
+			_exportFullMode = true;
         }
 
     public:
@@ -2150,7 +2157,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("TableParametersViaDCI_Test01.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("TableParametersViaDCI_Test01"));
 
 				SimModelNative::Simulation * sim = sut->GetNativeSimulation();
 
@@ -2188,13 +2195,11 @@ namespace SimulationTests
         {
 			when_running_pksim_input::Because();
 
-			_inputFile = "SolverError01.xml";
+			_inputFile = "SolverError01";
 			_venPlsId = "d8040e14-fd37-4130-b897-548d73312911";
-			_debugOutputFile = "C:\\VSS\\SimModel\\trunk\\Test\\TestData\\SM4\\SimModelResult_VenPls.txt";
-			_matlabCodeOutputFolder = "C:\\VSS\\SimModel\\trunk\\Test\\TestData\\SM4";
 			_writeDebugFile =false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_exportFullMode = true;
         }
 
     public:
@@ -2218,13 +2223,12 @@ namespace SimulationTests
         {
 			when_running_pksim_input::Because();
 
-			_inputFile = "POP_EHC_StartTime.xml";
+			_inputFile = "POP_EHC_StartTime";
 			_venPlsId = "7260856f-e266-4db3-90b6-bda1ac1ba6d2";
-			_debugOutputFile = "C:\\VSS\\SimModel\\trunk\\Test\\TestData\\SM4\\SimModelResult_VenPls.txt";
-			_matlabCodeOutputFolder = "C:\\VSS\\SimModel\\trunk\\Test\\TestData\\SM4";
 			_writeDebugFile =false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_writeCppCode = false;
+			_exportFullMode = true;
         }
 
 		virtual void OptionalTasksBeforeFinalize() override
@@ -2285,7 +2289,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("PersistableParams.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("PersistableParams"));
 
 				double version = (double)sut->GetNativeSimulation()->GetXMLVersion();
 				BDDExtensions::ShouldBeEqualTo(version, (double)SimModelNative::OLD_SIMMODEL_XML_VERSION);
@@ -2319,7 +2323,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("VersionTest.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("VersionTest"));
 				
 				double version = (double)sut->GetNativeSimulation()->GetXMLVersion();
 				
@@ -2364,7 +2368,7 @@ namespace SimulationTests
 				SimModelNative::Simulation * sim = sut->GetNativeSimulation();
 				sim->Options().SetKeepXMLNodeAsString(true);
 
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("Test4SavingSpeciesInitialValues.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("Test4SavingSpeciesInitialValues"));
 
 				SimModelNative::Species * y1, * y2;
 
@@ -2454,7 +2458,7 @@ namespace SimulationTests
         {
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("BCM_Platelet6Lit.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("BCM_Platelet6Lit"));
 				
 				SimModelNative::MatlabODEExporter odeExporter;
 				odeExporter.WriteMatlabCode(sut->GetNativeSimulation(), "C:\\Temp\\", true);
@@ -2492,7 +2496,7 @@ namespace SimulationTests
 		{
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("InvalidSimmodelXML.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("InvalidSimmodelXML"));
 
 				ExceptionHelper::ThrowExceptionFrom("Loading invalid file did not throw any exception");
 			}
@@ -2521,7 +2525,7 @@ namespace SimulationTests
 		{
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("IfFormulaInSwitchCondition.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("IfFormulaInSwitchCondition"));
 				sut->FinalizeSimulation();
 
 				sut->RunSimulation();
@@ -2559,7 +2563,7 @@ namespace SimulationTests
 		{
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("NegativeValuesTestSimple.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("NegativeValuesTestSimple"));
 				
 				sut->FinalizeSimulation();
 
@@ -2624,7 +2628,7 @@ namespace SimulationTests
 		{
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("TestSimultanEvents.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("TestSimultanEvents"));
 				sut->FinalizeSimulation();
 
 				sut->RunSimulation();
@@ -2676,7 +2680,7 @@ namespace SimulationTests
 		{
 			_expectedSensitivities = FillExpectedSensitivities();
 
-			sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("cvsRoberts_FSA_dns.xml"));
+			sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("cvsRoberts_FSA_dns"));
 
 			IList<IParameterProperties^>^ params = sut->ParameterProperties;
 			IList<IParameterProperties^>^ variableParams = gcnew System::Collections::Generic::List<IParameterProperties^>();
@@ -2903,7 +2907,7 @@ namespace SimulationTests
 		{
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("NonMonotoneBasegridTest.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("NonMonotoneBasegridTest"));
 				sut->FinalizeSimulation();
 
 				//first, run simulation using (default) float comparison for user output points
@@ -2976,7 +2980,7 @@ namespace SimulationTests
 		{
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_Modified.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_Modified"));
 				sut->FinalizeSimulation();
 
 				IOutputSchema^ outputSchema = sut->OutputSchema;
@@ -3028,7 +3032,7 @@ namespace SimulationTests
 		{
 			try
 			{
-				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_Modified.xml"));
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SimModel4_ExampleInput06_Modified"));
 				sut->FinalizeSimulation();
 
 				IOutputSchema^ outputSchema = gcnew OutputSchema();
@@ -3083,7 +3087,7 @@ namespace SimulationTests
 
 		virtual void Because() override
 		{
-			sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("S3_reduced.xml"));
+			sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("S3_reduced"));
 
 			IList<IParameterProperties^>^ params = sut->ParameterProperties;
 			IList<IParameterProperties^>^ variableParams = gcnew System::Collections::Generic::List<IParameterProperties^>();
@@ -3163,7 +3167,7 @@ namespace SimulationTests
 	protected:
 		virtual void Because() override
 		{
-			sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SensitivityOfPersistableParameter.xml"));
+			sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("SensitivityOfPersistableParameter"));
 
 			IList<IParameterProperties^>^ params = sut->ParameterProperties;
 			IList<IParameterProperties^>^ variableParams = gcnew System::Collections::Generic::List<IParameterProperties^>();
@@ -3219,13 +3223,11 @@ namespace SimulationTests
 		{
 			when_running_pksim_input::Because();
 
-			_inputFile = "GIM_Table_01.xml";
+			_inputFile = "GIM_Table_01";
 			_venPlsId = "84457059-8660-4b5e-8810-9c6fbefcdd2d";
-			_debugOutputFile = "C:\\VSS\\SimModel\\trunk\\Test\\TestData\\SM4\\GIM_Table_01_VenPlsInsulin.txt";
-			_matlabCodeOutputFolder = "C:\\VSS\\SimModel\\trunk\\Test\\TestData\\SM4";
 			_writeDebugFile = false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_exportFullMode = true;
 		}
 
 		virtual void OptionalTasksBeforeFinalize() override
@@ -3255,13 +3257,11 @@ namespace SimulationTests
 		{
 			when_running_pksim_input::Because();
 
-			_inputFile = "GIM_Table_01.xml";
+			_inputFile = "GIM_Table_01";
 			_venPlsId = "84457059-8660-4b5e-8810-9c6fbefcdd2d";
-			_debugOutputFile = "C:\\VSS\\SimModel\\trunk\\Test\\TestData\\SM4\\GIM_Table_01_VenPlsInsulin.txt";
-			_matlabCodeOutputFolder = "C:\\VSS\\SimModel\\trunk\\Test\\TestData\\SM4";
 			_writeDebugFile = false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_exportFullMode = true;
 		}
 
 	public:
@@ -3280,13 +3280,11 @@ namespace SimulationTests
 		{
 			when_running_pksim_input::Because();
 
-			_inputFile = "Neg_t_TimeSinceMeal.xml";
+			_inputFile = "Neg_t_TimeSinceMeal";
 			_venPlsId = "815e3581-54b3-4c1c-a6b6-72a4e4709510";
-			_debugOutputFile = "C:\\VSS\\SimModel\\trunk\\Test\\TestData\\SM4\\SimModelResult_VenPls.txt";
-			_matlabCodeOutputFolder = "C:\\VSS\\SimModel\\trunk\\Test\\TestData\\SM4";
 			_writeDebugFile = false;
 			_writeMatlabCode = false;
-			_matlabCodeFullMode = true;
+			_exportFullMode = true;
 		}
 
 	public:
@@ -3317,8 +3315,8 @@ namespace SimulationTests
 				SimModelNative::Simulation * sim = new SimModelNative::Simulation();
 				sim->Options().SetKeepXMLNodeAsString(true);
 
-				//sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml"));
-				sim->LoadFromXMLFile(NETToCPPConversions::MarshalString(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml")));
+				//sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml"));
+				sim->LoadFromXMLFile(NETToCPPConversions::MarshalString(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml")));
 
 				SimModelNative::OutputSchema & timeSchema = sim->GetOutputSchema();
 
@@ -3387,8 +3385,8 @@ namespace SimulationTests
 				SimModelNative::Simulation * sim = new SimModelNative::Simulation();
 				sim->Options().SetKeepXMLNodeAsString(true);
 
-				//sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml"));
-				sim->LoadFromXMLFile(NETToCPPConversions::MarshalString( SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml")));
+				//sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml"));
+				sim->LoadFromXMLFile(NETToCPPConversions::MarshalString( SpecsHelper::TestFileFrom("OutputSchemaSaveToXml")));
 
 				std::string simXMLString = sim->GetSimulationXMLString();
 			}
@@ -3415,8 +3413,8 @@ namespace SimulationTests
 				SimModelNative::Simulation * sim = new SimModelNative::Simulation();
 				sim->Options().SetKeepXMLNodeAsString(false);
 
-				//sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml"));
-				sim->LoadFromXMLFile(NETToCPPConversions::MarshalString(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml.xml")));
+				//sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml"));
+				sim->LoadFromXMLFile(NETToCPPConversions::MarshalString(SpecsHelper::TestFileFrom("OutputSchemaSaveToXml")));
 
 				try
 				{

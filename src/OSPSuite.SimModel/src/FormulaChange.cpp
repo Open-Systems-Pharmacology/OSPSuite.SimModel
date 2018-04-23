@@ -166,7 +166,72 @@ void FormulaChange::WriteMatlabCode (std::ostream & mrOut)
 		mrOut<<"                "<<paramName<<" = newFormula;"<<endl;
 		mrOut<<"                switchUpdate = true;"<<endl;
 		mrOut<<"            end"<<endl;
-		mrOut<<"        end"<<endl<<endl;;
+		mrOut<<"        end"<<endl<<endl;
+	}
+}
+
+void FormulaChange::WriteCppCode(const std::map<int, formulaParameterInfo > & formulaParameterIDs, const set<int> & usedIDs, std::ostream & mrOut)
+{
+	if (_speciesDEIndex != DE_INVALID_INDEX)
+	{
+		//object to change is a species
+//		mrOut << "        oldValue = y[" << _speciesDEIndex << "];" << endl;
+		mrOut << "        y[" << _speciesDEIndex << "] = ";
+		_newFormula->WriteCppCode(mrOut);
+		mrOut << ";" << endl;
+		//mrOut << ")/" << _speciesScaleFactor << ";" << endl;
+//		mrOut << "        switchUpdate = switchUpdate || (oldValue!=y[" << _speciesDEIndex << "]);" << endl;
+	}
+
+	else
+	{
+		//check if parameter; only parameters and species are supported by C++ code
+		Parameter * param = dynamic_cast <Parameter *>(_quantity);
+
+		if (param == NULL)
+			throw ErrorData(ErrorData::ED_ERROR, "Switch", "Unsupported switch type for C++ export.");
+
+		// TODO: add warning if new formula depends on y regarding jacobian
+		map<int, formulaParameterInfo>::const_iterator iter = formulaParameterIDs.find(param->GetId());
+		if (iter == formulaParameterIDs.end())
+		{
+			string paramName = param->GetShortUniqueName();
+
+			//---- write new parameter function handle into a string
+			//mrOut << "        oldValue = " << paramName << ";" << endl;
+
+			mrOut << "        " << paramName << " = ";
+			_newFormula->WriteCppCode(mrOut);
+			mrOut << ";" << std::endl;
+		}
+		else
+		{
+			if (_useAsValue || _newFormula->IsConstant(CONSTANT_CURRENT_RUN))
+			{
+				mrOut << "        S[" << iter->second.switchIndex << "] = 0;" << endl;
+				mrOut << "        P[" << iter->second.valueIndex << "] = ";
+				_newFormula->WriteCppCode(mrOut);
+				mrOut << ";" << endl;
+			}
+			else
+			{
+				vector<Formula*>::const_iterator viter = find(iter->second.vecFormulas.begin(), iter->second.vecFormulas.end(), _newFormula);
+				if (viter == iter->second.vecFormulas.end())
+					throw ErrorData(ErrorData::ED_ERROR, "Switch", "Formula not found.");
+				size_t caseIndex = viter - iter->second.vecFormulas.begin() + 1;
+				mrOut << "        S[" << iter->second.switchIndex << "] = " << caseIndex << ";" << endl;
+				// if param is used in switch functions, update value immediatly
+				if (usedIDs.find(param->GetId()) != usedIDs.end())
+				{
+					mrOut << "        " << param->GetShortUniqueName() << " = ";
+					_newFormula->WriteCppCode(mrOut);
+					mrOut << ";" << endl;
+				}
+			}
+		}
+
+		//mrOut << ";" << endl;
+		//mrOut << "        switchUpdate = switchUpdate || (oldValue!=" << paramName << ");" << endl;
 	}
 }
 
@@ -188,6 +253,36 @@ void FormulaChange::AppendVariablesUsedInNewFormula(set<int> & usedVariblesIndic
 	_newFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
 }
 
+void FormulaChange::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	// if NOT usedAsValue it is contained in switch statement
+	if (!_useAsValue)
+		return;
+
+	_newFormula->AppendUsedParameters(usedParameterIDs);
+}
+
+void FormulaChange::AppendFormulaParameters(std::map<int, formulaParameterInfo > & formulaParameterIDs)
+{
+	if (_useAsValue)
+		return;
+
+	Parameter * param = dynamic_cast <Parameter *>(_quantity);
+	if (param == NULL)
+		return;
+
+	if (_newFormula->IsConstant(CONSTANT_CURRENT_RUN))
+		return;
+
+	//if (param->IsFormulaEqualTo(NULL))
+	//	return;
+
+	map<int, formulaParameterInfo >::iterator iter = formulaParameterIDs.find(param->GetId());
+	if (iter==formulaParameterIDs.end())
+		formulaParameterIDs.insert(pair<int, formulaParameterInfo >(param->GetId(), formulaParameterInfo(_newFormula)));
+	else
+		iter->second.vecFormulas.push_back(_newFormula);
+}
 
 void FormulaChange::UpdateDEIndexOfTargetSpecies()
 {

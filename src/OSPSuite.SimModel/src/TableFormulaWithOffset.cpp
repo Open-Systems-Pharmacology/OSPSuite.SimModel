@@ -5,6 +5,7 @@
 #include "SimModel/TableFormulaWithOffset.h"
 #include "SimModel/Simulation.h"
 #include "XMLWrapper/XMLHelper.h"
+#include "SimModel/ConstantFormula.h"
 
 #ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
@@ -104,6 +105,26 @@ void TableFormulaWithOffset::DE_Jacobian (double * * jacobian, const double * y,
 	_tableObject->DE_Jacobian(jacobian, y, time - offset, iEquation, preFactor);
 }
 
+Formula* TableFormulaWithOffset::DE_Jacobian(const int iEquation)
+{
+	return _tableObject->DE_Jacobian(iEquation); // TODO: fix
+}
+
+Formula * TableFormulaWithOffset::clone()
+{
+	return new ConstantFormula(0.0);
+	TableFormulaWithOffset * f = new TableFormulaWithOffset();
+
+	// TODO: fix
+
+	return f;
+}
+
+Formula * TableFormulaWithOffset::RecursiveSimplify()
+{
+	return this;
+}
+
 void TableFormulaWithOffset::SetQuantityReference (const QuantityReference & quantityReference)
 {
 	assert ((_tableObject != NULL) && (_offsetObject != NULL));
@@ -175,12 +196,24 @@ void TableFormulaWithOffset::WriteFormulaMatlabCode (ostream & mrOut)
 	throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Table formulas with offset not supported by matlab export" + FormulaInfoForErrorMessage()); 
 }
 
+void TableFormulaWithOffset::WriteFormulaCppCode(ostream & mrOut)
+{
+	const char * ERROR_SOURCE = "TableFormulaWithOffset::WriteFormulaCppCode";
+
+	throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Table formulas with offset not supported by C++ export" + FormulaInfoForErrorMessage());
+}
+
 void TableFormulaWithOffset::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
 {
 	_tableObject->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
 	_offsetObject->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
 }
 
+void TableFormulaWithOffset::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	_tableObject->AppendUsedParameters(usedParameterIDs);
+	_offsetObject->AppendUsedParameters(usedParameterIDs);
+}
 
 void TableFormulaWithOffset::UpdateIndicesOfReferencedVariables()
 {

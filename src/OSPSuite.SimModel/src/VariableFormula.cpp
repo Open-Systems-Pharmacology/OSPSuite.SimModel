@@ -3,6 +3,7 @@
 #endif
 
 #include "SimModel/VariableFormula.h"
+#include "SimModel/ConstantFormula.h"
 #include <assert.h>
 
 #ifdef _WINDOWS_PRODUCTION
@@ -91,10 +92,38 @@ void VariableFormula::DE_Jacobian (double * * jacobian, const double * y, const 
 	MATRIX_ELEM(jacobian,iEquation,m_ODEVariableIndex) +=  preFactor * m_ODEVariableScaleFactor;
 }
 
+Formula* VariableFormula::DE_Jacobian(const int iEquation)
+{
+	if (iEquation == m_ODEVariableIndex)
+		return new ConstantFormula(m_ODEVariableScaleFactor);
+	else
+		return new ConstantFormula(0.0);
+}
+
+Formula * VariableFormula::clone()
+{
+	VariableFormula * f = new VariableFormula();
+	f->m_ODEVariableIndex = m_ODEVariableIndex;
+	f->m_ODEVariableScaleFactor = m_ODEVariableScaleFactor;
+	f->_quantityRef = _quantityRef;
+	f->m_Name = m_Name;
+	return f;
+}
+
+Formula * VariableFormula::RecursiveSimplify()
+{
+	return this;
+}
+
 void VariableFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 {
 	//Simmodel indexing starts at 0, matlab indexing at 1 (!)
 	mrOut<<"y("<< _quantityRef.GetODEIndex()+1<<")";
+}
+
+void VariableFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	mrOut << "y[" << _quantityRef.GetODEIndex() << "]";
 }
 
 bool VariableFormula::UseBracketsForODESystemGeneration ()
@@ -105,6 +134,11 @@ bool VariableFormula::UseBracketsForODESystemGeneration ()
 void VariableFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
 {
 	usedVariblesIndices.insert(m_ODEVariableIndex);
+}
+
+void VariableFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	// nothing to do
 }
 
 void VariableFormula::UpdateIndicesOfReferencedVariables()

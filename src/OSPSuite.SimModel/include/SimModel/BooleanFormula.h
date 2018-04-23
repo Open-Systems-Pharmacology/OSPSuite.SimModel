@@ -24,6 +24,10 @@ class BooleanFormula :
 		virtual void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim);
 		virtual void SetQuantityReference (const QuantityReference & quantityReference);
 		virtual void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor);
+		virtual Formula * DE_Jacobian(const int iEquation);
+		virtual Formula * clone() = 0;
+		virtual Formula * RecursiveSimplify();
+		void setFormula(Formula* FirstOperandFormula, Formula* SecondOperandFormula);
 
 		virtual void Finalize();
 
@@ -32,6 +36,8 @@ class BooleanFormula :
 		virtual bool IsZero(void);
 
 		virtual void AppendUsedVariables(std::set<int> & usedVariblesIndices, const std::set<int> & variblesIndicesUsedInSwitchAssignments);
+		virtual void AppendUsedParameters(std::set<int> & usedParameterIDs);
+		void BooleanFormula::SwitchFormulaFromComparisonFormula(std::vector<Formula*> &vecExplicit, std::vector<Formula*> &vecImplicit);
 
 		virtual void UpdateIndicesOfReferencedVariables();
 };
@@ -41,10 +47,12 @@ class AndFormula :
 {
 	public:
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
+		virtual Formula* clone();
 		virtual bool IsZero(void); //special treatment for the AND-formula
 
 	protected:
 		virtual void WriteFormulaMatlabCode (std::ostream & mrOut);
+		virtual void WriteFormulaCppCode (std::ostream & mrOut);
 };
 
 class EqualFormula : 	
@@ -52,10 +60,12 @@ class EqualFormula :
 {
 	public:
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
+		virtual Formula* clone();
 		virtual std::vector <double> SwitchTimePoints();
 
 	protected:
 		virtual void WriteFormulaMatlabCode (std::ostream & mrOut);
+		virtual void WriteFormulaCppCode (std::ostream & mrOut);
 };
 
 class GreaterEqualFormula : 	
@@ -63,10 +73,12 @@ class GreaterEqualFormula :
 {
 	public:
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
+		virtual Formula* clone();
 		virtual std::vector <double> SwitchTimePoints();
 
 	protected:
 		virtual void WriteFormulaMatlabCode (std::ostream & mrOut);
+		virtual void WriteFormulaCppCode (std::ostream & mrOut);
 };
 
 class GreaterFormula : 	
@@ -74,10 +86,12 @@ class GreaterFormula :
 {
 	public:
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
+		virtual Formula* clone();
 		virtual std::vector <double> SwitchTimePoints();
 
 	protected:
 		virtual void WriteFormulaMatlabCode (std::ostream & mrOut);
+		virtual void WriteFormulaCppCode (std::ostream & mrOut);
 };
 
 class LessEqualFormula : 	
@@ -85,10 +99,12 @@ class LessEqualFormula :
 {
 	public:
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
+		virtual Formula* clone();
 		virtual std::vector <double> SwitchTimePoints();
 
 	protected:
 		virtual void WriteFormulaMatlabCode (std::ostream & mrOut);
+		virtual void WriteFormulaCppCode (std::ostream & mrOut);
 };
 
 class LessFormula : 	
@@ -96,10 +112,12 @@ class LessFormula :
 {
 	public:
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
+		virtual Formula* clone();
 		virtual std::vector <double> SwitchTimePoints();
 
 	protected:
 		virtual void WriteFormulaMatlabCode (std::ostream & mrOut);
+		virtual void WriteFormulaCppCode (std::ostream & mrOut);
 };
 
 class NotFormula : 	
@@ -107,9 +125,11 @@ class NotFormula :
 {
 	public:
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
+		virtual Formula* clone();
 
 	protected:
 		virtual void WriteFormulaMatlabCode (std::ostream & mrOut);
+		virtual void WriteFormulaCppCode (std::ostream & mrOut);
 };
 
 class OrFormula : 	
@@ -117,9 +137,11 @@ class OrFormula :
 {
 	public:
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
+		virtual Formula* clone();
 
 	protected:
 		virtual void WriteFormulaMatlabCode (std::ostream & mrOut);
+		virtual void WriteFormulaCppCode (std::ostream & mrOut);
 };
 
 class UnequalFormula : 	
@@ -127,10 +149,12 @@ class UnequalFormula :
 {
 	public:
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
+		virtual Formula* clone();
 		virtual std::vector <double> SwitchTimePoints();
 
 	protected:
 		virtual void WriteFormulaMatlabCode (std::ostream & mrOut);
+		virtual void WriteFormulaCppCode (std::ostream & mrOut);
 };
 
 }//.. end "namespace SimModelNative"

@@ -11,6 +11,7 @@
 #include "SimModel/FormulaChange.h"
 #include "SimModel/GlobalConstants.h"
 #include "SimModel/Simulation.h"
+#include "SimModel/BooleanFormula.h"
 
 #ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
@@ -126,6 +127,29 @@ void Switch::WriteMatlabCode (std::ostream & mrOut)
 	mrOut<<"    end"<<endl<<endl;
 }
 
+void Switch::WriteCppCode(int switchIndex, const std::map<int, formulaParameterInfo > & formulaParameterIDs, const set<int> & usedIDs, std::ostream & mrOut)
+{
+	// TODO: check usage in combination with switchIndex
+	//if (_conditionFormula->IsZero())
+	//	return; //switch will never fire
+
+	mrOut << "    if(";
+	if (_oneTime)
+		mrOut << "S[" << switchIndex << "] && ";
+	_conditionFormula->WriteCppCode(mrOut);
+	mrOut << ") {" << endl;
+	
+	for (int i = 0; i<_formulaChangeVector.size(); i++)
+		_formulaChangeVector[i]->WriteCppCode(formulaParameterIDs, usedIDs, mrOut);
+
+	if (_oneTime)
+		mrOut << "        S[" << switchIndex << "] = 0;" << endl;
+
+	mrOut << "        switchUpdate = true;" << endl;
+	//mrOut << "        writelog(Time," << switchIndex << ");" << endl;
+	mrOut << "    }" << endl << endl;
+}
+
 void Switch::MarkQuantitiesDirectlyUsedBy(void) //required for Matlab code generation only
 {
 	//mark quantities used by condition formula
@@ -152,6 +176,32 @@ void Switch::AppendUsedVariables(set<int> & usedVariblesIndices)
 
 	for(int i=0; i<_formulaChangeVector.size(); i++)
 		_formulaChangeVector[i]->AppendVariablesUsedInNewFormula(usedVariblesIndices, emptySet);
+}
+
+void Switch::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	if (_conditionFormula->IsZero())
+		return; //switch will never fire
+
+	_conditionFormula->AppendUsedParameters(usedParameterIDs);
+	for (int i = 0; i<_formulaChangeVector.size(); i++)
+		_formulaChangeVector[i]->AppendUsedParameters(usedParameterIDs);
+}
+
+void Switch::AppendFormulaParameters(std::map<int, formulaParameterInfo > & formulaParameterIDs)
+{
+	if (_conditionFormula->IsZero())
+		return; //switch will never fire
+
+	for (int i = 0; i<_formulaChangeVector.size(); i++)
+		_formulaChangeVector[i]->AppendFormulaParameters(formulaParameterIDs);
+}
+
+void Switch::SwitchFormulaFromComparisonFormula(std::vector<Formula*> &vecExplicit, std::vector<Formula*> &vecImplicit)
+{
+	BooleanFormula * f = dynamic_cast<BooleanFormula*>(_conditionFormula);
+	if(f)
+		SwitchFormulaFromComparisonFormula(vecExplicit, vecImplicit);
 }
 
 void Switch::UpdateDEIndexOfTargetSpecies()

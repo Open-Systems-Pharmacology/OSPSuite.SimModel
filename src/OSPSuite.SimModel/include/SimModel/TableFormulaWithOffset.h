@@ -23,6 +23,7 @@ private:
 
 protected:
 	void WriteFormulaMatlabCode (std::ostream & mrOut);
+	void WriteFormulaCppCode (std::ostream & mrOut);
 
 	//Referenced table object
 	Quantity * _tableObject;
@@ -46,6 +47,9 @@ public:
 
 	double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
 	void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor);
+	virtual Formula * DE_Jacobian(const int iEquation);
+	virtual Formula * clone();
+	virtual Formula * RecursiveSimplify();
 	void SetQuantityReference (const QuantityReference & quantityReference);
 
 	virtual bool IsZero(void);
@@ -56,6 +60,7 @@ public:
 	std::vector <double> RestartTimePoints();
 
 	virtual void AppendUsedVariables(std::set<int> & usedVariblesIndices, const std::set<int> & variblesIndicesUsedInSwitchAssignments);
+	virtual void AppendUsedParameters(std::set<int> & usedParameterIDs);
 
 	virtual void UpdateIndicesOfReferencedVariables();
 };

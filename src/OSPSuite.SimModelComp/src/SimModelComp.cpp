@@ -8,6 +8,7 @@
 #include "SimModel/OutputSchema.h"
 #include "SimModelComp/SimModelComp_HelpFunctions.h"
 #include "SimModel/MatlabODEExporter.h"
+#include "SimModel/CppODEExporter.h"
 #include "../../OSPSuite.SimModelComp/version.h"
 
 using namespace SimModelNative;
@@ -1343,6 +1344,31 @@ DCI::String SimModelComp::Invoke(const DCI::String &fncName, const DCI::String &
 			string folder = Trim((const char*)args);
 			MatlabODEExporter odeExporter;
 			odeExporter.WriteMatlabCode(m_Sim, folder, false);
+		}
+		else if (fncName == "WriteCppCode")
+		{
+			UpdateSimulationSettings();
+			std::stringstream sstrArgs( Trim((const char*)args) );
+			
+			string folder;
+			getline(sstrArgs, folder, ';');
+
+			string name;
+			getline(sstrArgs, name, ';');
+
+			vector<int> ids;
+			string item;
+			while (getline(sstrArgs, item, ';'))
+			{
+				try
+				{
+					ids.push_back(stoi(item));
+				}
+				catch (exception e) {}
+			}
+
+			CppODEExporter odeExporter;
+			odeExporter.WriteCppCode(m_Sim, folder, false, name, ids);
 		}
 		else if (fncName == "DisableLogFile")
 		{

@@ -9,6 +9,8 @@
 #include "SimModel/SimpleProductFormula.h"
 #include "SimModel/GlobalConstants.h"
 #include "SimModel/MathHelper.h"
+#include "SimModel/ProductFormula.h"
+#include "SimModel/ConstantFormula.h"
 #include <assert.h>
 
 #ifdef _WINDOWS_PRODUCTION
@@ -175,6 +177,68 @@ void SimpleProductFormula::DE_Jacobian (double * * jacobian, const double * y, c
 
 }
 
+Formula* SimpleProductFormula::DE_Jacobian(const int iEquation)
+{
+	int * pos = std::find(m_ODEIndexVector, m_ODEIndexVector + m_ODEIndexVectorSize, iEquation);
+	if ( pos == m_ODEIndexVector + m_ODEIndexVectorSize )
+	{
+		// not dependent
+		return new ConstantFormula(0.0);
+	}
+	else if (m_ODEIndexVectorSize == 1)
+	{
+		// constant remaining
+		return new ConstantFormula(m_K);
+	}
+	else
+	{
+		// remove factor iEquation
+		SimpleProductFormula* p = new SimpleProductFormula();
+		p->m_ODEIndexVectorSize = m_ODEIndexVectorSize - 1;
+		p->m_K = m_K;
+		p->m_ODEIndexVector = new int[m_ODEIndexVectorSize - 1];
+		p->m_ODEScaleFactorVector = new double[m_ODEIndexVectorSize - 1];
+
+		int last = pos - m_ODEIndexVector - 1;
+		for (int i = 0; i < last; i++) {
+			p->m_ODEIndexVector[i] = m_ODEIndexVector[i];
+			p->m_ODEScaleFactorVector[i] = m_ODEScaleFactorVector[i];
+		}
+		for (int i = last+1; i < m_ODEIndexVectorSize; i++) {
+			p->m_ODEIndexVector[i-1] = m_ODEIndexVector[i];
+			p->m_ODEScaleFactorVector[i-1] = m_ODEScaleFactorVector[i];
+		}
+		return p;
+	}
+}
+
+Formula * SimpleProductFormula::clone()
+{
+	SimpleProductFormula * f = new SimpleProductFormula();
+	f->m_ODEIndexVectorSize = m_ODEIndexVectorSize;
+	f->m_K = m_K;
+
+	f->m_ODEIndexVector = new int[m_ODEIndexVectorSize];
+	std::copy(m_ODEIndexVector, m_ODEIndexVector + m_ODEIndexVectorSize, f->m_ODEIndexVector);
+
+	f->m_ODEScaleFactorVector = new double[m_ODEIndexVectorSize];
+	std::copy(m_ODEScaleFactorVector, m_ODEScaleFactorVector + m_ODEIndexVectorSize, f->m_ODEScaleFactorVector);
+
+	return f;
+}
+
+Formula * SimpleProductFormula::RecursiveSimplify()
+{
+	if (IsZero())
+	{
+		Formula * f = new ConstantFormula(0.0);
+		delete this;
+		return f;
+	}
+
+	return this;
+}
+
 void SimpleProductFormula::Finalize()
 {
 	//nothing to do so far
@@ -187,12 +251,24 @@ void SimpleProductFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 		mrOut<<"*"<<"y("<< m_ODEIndexVector[i]+1<<")"; //SimModel indexing starts at 0, Matlab-indexing at 1 
 }
 
+void SimpleProductFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	mrOut << MathHelper::ToString(m_K);
+	for (int i = 0; i < m_ODEIndexVectorSize; i++)
+		mrOut << "*" << "y[" << m_ODEIndexVector[i] << "]";
+}
+
 void SimpleProductFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
 {
 	for(int i=0;i<m_ODEIndexVectorSize;i++)
 	{
 		usedVariblesIndices.insert(m_ODEIndexVector[i]);
 	}
+}
+
+void SimpleProductFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	// DE variables only involved -> nothing to do here
 }
 
 void SimpleProductFormula::UpdateIndicesOfReferencedVariables()

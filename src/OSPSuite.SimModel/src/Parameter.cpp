@@ -12,6 +12,8 @@
 #include "SimModel/MathHelper.h"
 #include "SimModel/Observer.h"
 #include <SimModel/TableFormula.h>
+#include "SimModel/ConstantFormula.h"
+#include "SimModel/ExplicitFormula.h"
 
 #ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
@@ -109,6 +111,25 @@ void Parameter::DE_Jacobian (double * * jacobian, const double * y, const double
 	_valueFormula->DE_Jacobian(jacobian, y, time, iEquation, preFactor);
 }
 
+Formula* Parameter::DE_Jacobian(const int iEquation)
+{
+	if (GetId()==-iEquation)
+		return new ConstantFormula(1.0);
+
+	if (!_valueFormula)
+		return new ConstantFormula(0.0);
+
+	return _valueFormula->DE_Jacobian(iEquation);
+}
+
+Formula* Parameter::clone()
+{
+	if (!_valueFormula)
+		return new ConstantFormula(_value);
+	
+	return _valueFormula->clone();
+}
+
 std::string Parameter::GetShortUniqueName ()
 {
     return _shortUniqueName;
@@ -159,6 +180,40 @@ void Parameter::WriteMatlabCode (std::ostream & mrOut, bool forInitialValue)
 		}
 		mrOut<<";  % "<<GetFullName()<<std::endl;
 	}
+}
+
+void Parameter::WriteCppCode(std::ostream & mrOut, bool declaration)
+{
+	if (IsChangedBySwitch())
+	{
+		if (!_valueFormula)
+			mrOut << MathHelper::ToString(_value);
+		else
+			_valueFormula->WriteCppCode(mrOut);
+		return;
+	}
+
+	if (!_valueFormula)
+	{
+		if (declaration)
+		{
+			// check if integer, TODO: necessary?
+			if (std::floor(_value) == _value && std::abs(_value) < INT_MAX)
+				mrOut << "    " << "constexpr int ";
+			else
+				mrOut << "    " << "constexpr double ";
+		}
+		mrOut << _shortUniqueName + " = ";
+		mrOut << MathHelper::ToString(_value);
+	}
+	else
+	{
+		if (declaration)
+			mrOut << "    " << "const double ";
+		mrOut << _shortUniqueName + " = ";
+		_valueFormula->WriteCppCode(mrOut);
+	}
+	mrOut << ";" << "  // " << GetFullName() << endl;
 }
 
 //will be called between Load and Finalize of the parent simulation
@@ -258,6 +313,20 @@ void Parameter::WriteTableFunctionForMatlab(ostream & mrOut)
 
 	mrOut<<"function yout = "+TableFunctionNameForMatlab()+"(Time, y)"<<endl<<endl;
 	tableFormula->WriteMatlabCode(mrOut);
+}
+
+//writes the table function in C++ code
+void Parameter::WriteTableFunctionForCpp(ostream & mrOut)
+{
+	const char * ERROR_SOURCE = "Parameter::WriteTableFunctionForCpp";
+
+	TableFormula *tableFormula = dynamic_cast<TableFormula *>(_valueFormula);
+
+	if (tableFormula == NULL)
+		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE,
+		"Trying to export non-table parameter (" + _fullName + ") as a table");
+
+	tableFormula->WriteCppCode(mrOut);
 }
 
 }//.. end "namespace SimModelNative"

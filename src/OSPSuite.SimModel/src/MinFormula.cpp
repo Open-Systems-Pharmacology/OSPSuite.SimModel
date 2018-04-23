@@ -5,6 +5,9 @@
 #include "SimModel/MinFormula.h"
 #include "SimModel/FormulaFactory.h"
 #include "SimModel/GlobalConstants.h"
+#include "SimModel/ConstantFormula.h"
+#include "SimModel/IfFormula.h"
+#include "SimModel/BooleanFormula.h"
 #include <assert.h>
 
 #ifdef _WINDOWS_PRODUCTION
@@ -123,6 +126,39 @@ void MinFormula::DE_Jacobian (double * * jacobian, const double * y, const doubl
 		m_SecondArgument->DE_Jacobian(jacobian, y, time, iEquation, preFactor);
 }
 
+Formula* MinFormula::DE_Jacobian(const int iEquation)
+{
+	IfFormula * f = new IfFormula();
+	GreaterFormula * g = new GreaterFormula();
+
+	g->setFormula(m_FirstArgument->clone(), m_SecondArgument->clone());
+	f->setFormula(g, m_SecondArgument->DE_Jacobian(iEquation), m_FirstArgument->DE_Jacobian(iEquation));
+
+	return f;
+}
+
+Formula* MinFormula::clone()
+{
+	MinFormula* f = new MinFormula();
+	f->m_FirstArgument = m_FirstArgument->clone();
+	f->m_SecondArgument = m_SecondArgument->clone();
+	return f;
+}
+
+Formula * MinFormula::RecursiveSimplify()
+{
+	m_FirstArgument = m_FirstArgument->RecursiveSimplify();
+	m_SecondArgument = m_SecondArgument->RecursiveSimplify();
+	if (m_FirstArgument->IsConstant(CONSTANT_CURRENT_RUN) && m_SecondArgument->IsConstant(CONSTANT_CURRENT_RUN))
+	{
+		ConstantFormula * f = new ConstantFormula(DE_Compute(NULL, 0.0, USE_SCALEFACTOR));
+		delete this;
+		return f;
+	}
+
+	return this;
+}
+
 void MinFormula::Finalize()
 {
 	m_FirstArgument->Finalize();
@@ -138,10 +174,26 @@ void MinFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 	mrOut<<")";
 }
 
+void MinFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	// TODO: change to ? operator to prevent template problems?
+	mrOut << "min(";
+	m_FirstArgument->WriteCppCode(mrOut);
+	mrOut << ",";
+	m_SecondArgument->WriteCppCode(mrOut);
+	mrOut << ")";
+}
+
 void MinFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
 {
 	m_FirstArgument->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
 	m_SecondArgument->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+}
+
+void MinFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	m_FirstArgument->AppendUsedParameters(usedParameterIDs);
+	m_SecondArgument->AppendUsedParameters(usedParameterIDs);
 }
 
 void MinFormula::UpdateIndicesOfReferencedVariables()

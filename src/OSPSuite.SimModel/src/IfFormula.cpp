@@ -5,6 +5,8 @@
 #include "SimModel/IfFormula.h"
 #include "SimModel/FormulaFactory.h"
 #include "SimModel/GlobalConstants.h"
+#include "SimModel/BooleanFormula.h"
+#include "SimModel/ConstantFormula.h"
 #include <assert.h>
 
 #ifdef _WINDOWS_PRODUCTION
@@ -175,6 +177,67 @@ void IfFormula::DE_Jacobian (double * * jacobian, const double * y, const double
 		m_ElseStatement->DE_Jacobian(jacobian, y, time, iEquation, preFactor);
 }
 
+Formula* IfFormula::DE_Jacobian(const int iEquation)
+{
+	IfFormula* f = new IfFormula();
+	f->m_IfStatement = m_IfStatement->clone();
+	f->m_ThenStatement = m_ThenStatement->DE_Jacobian(iEquation);
+	f->m_ElseStatement = m_ElseStatement->DE_Jacobian(iEquation);
+	return f;
+}
+
+Formula* IfFormula::clone()
+{
+	IfFormula* f = new IfFormula();
+	f->m_IfStatement = m_IfStatement->clone();
+	f->m_ThenStatement = m_ThenStatement->clone();
+	f->m_ElseStatement = m_ElseStatement->clone();
+	return f;
+}
+
+Formula * IfFormula::RecursiveSimplify()
+{
+	m_IfStatement = m_IfStatement->RecursiveSimplify();
+	m_ThenStatement = m_ThenStatement->RecursiveSimplify();
+	m_ElseStatement = m_ElseStatement->RecursiveSimplify();
+
+	if (m_IfStatement->IsConstant(CONSTANT_CURRENT_RUN))
+	{
+		if (m_IfStatement->IsZero())
+		{
+			// careful: members may not be accessed after object suicide
+			Formula * elseStatement = m_ElseStatement;
+			m_ElseStatement = NULL; // prevent destructor to delete it
+			delete this;
+			return elseStatement;
+		}
+		else
+		{
+			Formula * thenStatement = m_ThenStatement;
+			m_ThenStatement = NULL; // prevent destructor to delete it
+			delete this;
+			return thenStatement;
+		}
+	}
+	if (m_ThenStatement->IsConstant(CONSTANT_CURRENT_RUN) && m_ElseStatement->IsConstant(CONSTANT_CURRENT_RUN)
+		&& ( m_ThenStatement->DE_Compute(NULL, 0.0, USE_SCALEFACTOR) == m_ElseStatement->DE_Compute(NULL, 0.0, USE_SCALEFACTOR) ) )
+	{
+		Formula * f = new ConstantFormula(m_ThenStatement->DE_Compute(NULL, 0.0, USE_SCALEFACTOR));
+		delete this;
+		return f;
+	}
+
+
+	return this;
+}
+
+void IfFormula::setFormula(Formula * IfStatement, Formula * ThenStatement, Formula * ElseStatement)
+{
+	m_IfStatement = IfStatement;
+	m_ThenStatement = ThenStatement;
+	m_ElseStatement = ElseStatement;
+}
+
 void IfFormula::Finalize()
 {
 	m_IfStatement->Finalize();
@@ -193,11 +256,29 @@ void IfFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 	mrOut<<")";
 }
 
+void IfFormula::WriteFormulaCppCode(std::ostream & mrOut)
+{
+	mrOut << "( ";
+	m_IfStatement->WriteCppCode(mrOut);
+	mrOut << " ? ";
+	m_ThenStatement->WriteCppCode(mrOut);
+	mrOut << " : ";
+	m_ElseStatement->WriteCppCode(mrOut);
+	mrOut << " )";
+}
+
 void IfFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
 {
 	m_IfStatement->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
 	m_ThenStatement->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
 	m_ElseStatement->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+}
+
+void IfFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
+{
+	m_IfStatement->AppendUsedParameters(usedParameterIDs);
+	m_ThenStatement->AppendUsedParameters(usedParameterIDs);
+	m_ElseStatement->AppendUsedParameters(usedParameterIDs);
 }
 
 void IfFormula::UpdateIndicesOfReferencedVariables()

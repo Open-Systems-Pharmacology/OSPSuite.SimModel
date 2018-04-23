@@ -3,6 +3,7 @@
 #endif
 
 #include "SimModel/Formula.h"
+#include "SimModel/FormulaChange.h"
 #include <ErrorData.h>
 
 #ifdef _WINDOWS_PRODUCTION
@@ -70,6 +71,20 @@ namespace SimModelNative
 		if (bracketRate)
 			mrOut<<")";
 	}
+
+	void Formula::WriteCppCode(std::ostream & mrOut)
+	{
+		bool bracketRate = UseBracketsForODESystemGeneration();
+
+		if (bracketRate)
+			mrOut << "(";
+
+		WriteFormulaCppCode(mrOut);
+
+		if (bracketRate)
+			mrOut << ")";
+	}
+
 
 	bool Formula::IsTime()
 	{
