@@ -103,15 +103,18 @@ double TableFormulaWithXArgument::DE_Compute (const double * y, const double tim
 
 void TableFormulaWithXArgument::DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor)
 {
+	const char * ERROR_SOURCE = "TableFormulaWithXArgument::DE_Jacobian";
+
 	assert ((_tableObject != NULL) && (_XArgumentObject != NULL));
 
 	if (preFactor == 0.0)
 		return;
 
-	double argument = _XArgumentObject->GetValue(y, time, USE_SCALEFACTOR);
+	bool forCurrentRunOnly = true;
+	if (_XArgumentObject->IsConstant(forCurrentRunOnly))
+		return;
 
-	//<argument> passed as time (s. comment in TableFormulaWithXArgument::DE_Compute)
-	_tableObject->DE_Jacobian(jacobian, y, argument, iEquation, preFactor);
+	throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Table formula with X argument does not support time dependent argument objects");
 }
 
 Formula* TableFormulaWithXArgument::DE_Jacobian(const int iEquation)
@@ -185,27 +188,15 @@ void TableFormulaWithXArgument::Finalize()
 
 vector <double> TableFormulaWithXArgument::RestartTimePoints()
 {
-	//TODO check implementation
-
-	assert ((_tableObject != NULL) && (_XArgumentObject != NULL));
-
-	double offset = 0.0;
-
-	const bool forCurrentRunOnly = false;
-	if(_XArgumentObject->IsConstant(forCurrentRunOnly))
-	{
-		offset = _XArgumentObject->GetValue(NULL, 0.0, USE_SCALEFACTOR);
-	}
-	
-	vector <double> tableObjectRestartTimes = _tableFormula->RestartTimePoints();
+	assert((_tableObject != NULL) && (_XArgumentObject != NULL));
 
 	vector <double> restartTimes;
+	
+	const bool forCurrentRunOnly = false;
+	if (_XArgumentObject->IsConstant(forCurrentRunOnly))
+		return restartTimes; //argument const=>formula will always be const=>no need to restart
 
-	for(size_t i=0; i<tableObjectRestartTimes.size(); i++)
-	{
-		restartTimes.push_back(tableObjectRestartTimes[i] + offset);
-	}
-
+	//TODO fix non-constant argument
 	return restartTimes;
 }
 

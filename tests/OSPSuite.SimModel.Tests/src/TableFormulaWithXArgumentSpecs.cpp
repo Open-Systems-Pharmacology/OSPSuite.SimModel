@@ -140,18 +140,38 @@ namespace UnitTests
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
         }
-		
-		//[TestAttribute]
-  //      void should_set_restart_timepoints()
-		//{
-		//	std::vector<double> & restartTimePoints = sut->Formula->RestartTimePoints();
 
-		//	BDDExtensions::ShouldBeTrue(restartTimePoints.size()==3);
+		[TestAttribute]
+		void should_calculate_correct_values_in_derived_mode()
+		{
+			try
+			{
+				sut->UseDerivedValues(true);
+				sut->TableFormula->CallCacheValues();
 
-		//	BDDExtensions::ShouldBeEqualTo(restartTimePoints[0], 0.0+_XArgument);
-		//	BDDExtensions::ShouldBeEqualTo(restartTimePoints[1], 5.0+_XArgument);
-		//	BDDExtensions::ShouldBeEqualTo(restartTimePoints[2], 40.0+_XArgument);
-		//}
+				checkValue(-1, 0.0);
+				checkValue(0, 2.0);
+				checkValue(0.5, 2.0);
+				checkValue(1, 0.25);
+				checkValue(3, 0.25);
+				checkValue(20, 0.0);
+				checkValue(30, 0.0);
+				checkValue(40.5, 2.0);
+				checkValue(41, 0.0);
+				checkValue(50, 0.0);
+			}
+			catch (ErrorData & ED)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ED);
+			}
+		}
+
+		[TestAttribute]
+        void should_return_empty_restart_timepoints_set()
+		{
+			std::vector<double> & restartTimePoints = sut->Formula->RestartTimePoints();
+			BDDExtensions::ShouldBeTrue(restartTimePoints.size()==0);
+		}
     };
 
 }

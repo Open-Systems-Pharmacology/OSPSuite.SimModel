@@ -145,6 +145,7 @@ public:
 	static const std::string ExplicitFormula; 
 	static const std::string TableFormula; 
 	static const std::string TableFormulaWithOffset;
+	static const std::string TableFormulaWithXArgument;
 	static const std::string Min; 
 	static const std::string Max; 
 	static const std::string IF; 

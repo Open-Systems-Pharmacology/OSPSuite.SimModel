@@ -159,6 +159,7 @@ const string FormulaName::SimpleProduct="SimpleProduct";
 const string FormulaName::ExplicitFormula="ExplicitFormula"; 
 const string FormulaName::TableFormula="TableFormula"; 
 const string FormulaName::TableFormulaWithOffset="TableFormulaWithOffset"; 
+const string FormulaName::TableFormulaWithXArgument = "TableFormulaWithXArgument";
 const string FormulaName::Min="Min"; 
 const string FormulaName::Max="Max"; 
 const string FormulaName::IF="IF"; 

@@ -3442,4 +3442,52 @@ namespace SimulationTests
 			}
 		}
 	};
+
+	public ref class when_running_simulation_with_ph_solubility_table : public when_running_pksim_input
+	{
+	protected:
+		virtual void Because() override
+		{
+			when_running_pksim_input::Because();
+
+			_inputFile = "pH_Solubility_Table";
+			_venPlsId = "tH4ucab_aUib7yTJoRIUFg";
+			_writeDebugFile = false;
+			_writeMatlabCode = false;
+			_writeCppCode = true;
+			_exportFullMode = true;
+		}
+
+	public:
+		[TestAttribute]
+		[Ignore("TODO")]
+		void should_perform_simulation_run()
+		{
+			SimpleRunTestResult();
+		}
+	};
+
+	public ref class when_running_simulation_with_ph_solubility_table_zero : public when_running_pksim_input
+	{
+	protected:
+		virtual void Because() override
+		{
+			when_running_pksim_input::Because();
+
+			_inputFile = "pH_Solubility_Table_Zero";
+			_venPlsId = "51mBr8GnNUqUpUBPfAAohg";
+			_writeDebugFile = false;
+			_writeMatlabCode = false;
+			_writeCppCode = true;
+			_exportFullMode = true;
+		}
+
+	public:
+		[TestAttribute]
+		[Ignore("TODO")]
+		void should_perform_simulation_run()
+		{
+			SimpleRunTestResult();
+		}
+	};
 }
