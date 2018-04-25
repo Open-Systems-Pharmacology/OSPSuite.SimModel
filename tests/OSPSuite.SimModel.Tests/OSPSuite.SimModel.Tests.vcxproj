@@ -299,6 +299,7 @@
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\SwitchTask.cpp" />
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\TableFormula.cpp" />
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\TableFormulaWithOffset.cpp" />
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\TableFormulaWithXArgument.cpp" />
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\UnaryFunctionFormula.cpp" />
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\Variable.cpp" />
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\VariableFormula.cpp" />
@@ -323,6 +324,7 @@
     <ClCompile Include="Src\SpecsHelper.cpp" />
     <ClCompile Include="Src\TableFormulaSpecs.cpp" />
     <ClCompile Include="Src\TableFormulaWithOffsetSpecs.cpp" />
+    <ClCompile Include="src\TableFormulaWithXArgumentSpecs.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\OSPSuite.SimModelComp\include\SimModelComp\SimModelComp.h" />
@@ -380,6 +382,7 @@
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\SwitchTask.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\TableFormula.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\TableFormulaWithOffset.h" />
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\TableFormulaWithXArgument.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\TObjectList.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\TObjectVector.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\UnaryFunctionFormula.h" />

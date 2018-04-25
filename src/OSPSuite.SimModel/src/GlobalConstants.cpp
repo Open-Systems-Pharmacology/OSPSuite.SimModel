@@ -142,6 +142,8 @@ const string XMLConstants::TableWithOffsetFormula="TableFormulaWithOffset";
 const string XMLConstants::TableObject="Table";
 const string XMLConstants::OffsetObject="Offset";
 
+const string XMLConstants::TableWithXArgumentFormula = "TableFormulaWithXArgument";
+const string XMLConstants::XArgumentObject = "XArgument";
 
 //---- Formula names
 const string FormulaName::Constant="Constant";

@@ -514,6 +514,7 @@ copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
     </ClCompile>
+    <ClCompile Include="src\TableFormulaWithXArgument.cpp" />
     <ClCompile Include="Src\UnaryFunctionFormula.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
@@ -592,6 +593,7 @@ copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)
     <ClInclude Include="Include\SimModel\SwitchTask.h" />
     <ClInclude Include="Include\SimModel\TableFormula.h" />
     <ClInclude Include="Include\SimModel\TableFormulaWithOffset.h" />
+    <ClInclude Include="include\SimModel\TableFormulaWithXArgument.h" />
     <ClInclude Include="Include\SimModel\TObjectList.h" />
     <ClInclude Include="Include\SimModel\TObjectVector.h" />
     <ClInclude Include="Include\SimModel\UnaryFunctionFormula.h" />

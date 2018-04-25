@@ -229,6 +229,9 @@
     <ClCompile Include="src\CppODEExporter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\TableFormulaWithXArgument.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\SimModel\BandwidthReduction.h">
@@ -448,6 +451,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\SimModel\CppODEExporter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SimModel\TableFormulaWithXArgument.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
