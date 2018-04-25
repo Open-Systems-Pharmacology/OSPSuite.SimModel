@@ -47,6 +47,7 @@ namespace UnitTests
 		{
 			return Formula->DE_Compute(NULL, x, SimModelNative::USE_SCALEFACTOR);
 		}
+		void UseDerivedValues(bool useDerivedValues) { Formula->GetTableFormula()->SetUseDerivedValues(useDerivedValues);}
 	};
 
 	public ref class concern_for_table_with_xargument_formula abstract : ContextSpecification<TableFormulaWithXArgumentWrapper^>
@@ -104,7 +105,7 @@ namespace UnitTests
 			_tableObject->SetFormula(sut->TableFormula);
 			sut->Formula->SetTableObject(_tableObject);
 
-			sut->Formula->GetTableFormula()->SetUseDerivedValues(false);
+			//sut->Formula->GetTableFormula()->SetUseDerivedValues(false);
         }
 
 		void checkValue(double xargument, double expectedValue)
@@ -117,10 +118,12 @@ namespace UnitTests
 
     public:
         [TestAttribute]
-        void should_calculate_correct_value()
+        void should_calculate_correct_values_in_direct_mode()
         {
 			try
 			{
+				sut->UseDerivedValues(false);
+
 				checkValue(-1, 0.0);
 				checkValue(0, 0.0);
 				checkValue(0.5, 1.0);
