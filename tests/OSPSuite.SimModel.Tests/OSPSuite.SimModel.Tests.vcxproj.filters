@@ -291,6 +291,12 @@
     <ClCompile Include="..\..\src\OSPSuite.SimModel\src\CppODEExporter.cpp">
       <Filter>SimModel\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SimModel\src\TableFormulaWithXArgument.cpp">
+      <Filter>SimModel\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TableFormulaWithXArgumentSpecs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\OSPSuite.SimModel\managed\include\SimModelManaged\AdjustableEntityProperties.h">
@@ -525,6 +531,9 @@
       <Filter>SolverBase\include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\CppODEExporter.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\TableFormulaWithXArgument.h">
       <Filter>SimModel\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

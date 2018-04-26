@@ -25,6 +25,7 @@
 #include "SimModel/SimpleProductFormula.h"
 #include "SimModel/TableFormula.h"
 #include "SimModel/TableFormulaWithOffset.h"
+#include "SimModel/TableFormulaWithXArgument.h"
 
 #ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
@@ -153,6 +154,9 @@ Formula * FormulaFactory::CreateFormula(std::string formulaName)
 	
 	if (formulaName == FormulaName::TableFormulaWithOffset)
 		return new TableFormulaWithOffset();
+
+	if (formulaName == FormulaName::TableFormulaWithXArgument)
+		return new TableFormulaWithXArgument();
 
 	//Formula not found
 	throw ErrorData(ErrorData::ED_ERROR, "FormulaFactory::CreateFormula", "Formula type '"+ formulaName+"' is unknown");

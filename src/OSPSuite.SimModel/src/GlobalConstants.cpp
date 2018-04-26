@@ -142,6 +142,8 @@ const string XMLConstants::TableWithOffsetFormula="TableFormulaWithOffset";
 const string XMLConstants::TableObject="Table";
 const string XMLConstants::OffsetObject="Offset";
 
+const string XMLConstants::TableWithXArgumentFormula = "TableFormulaWithXArgument";
+const string XMLConstants::XArgumentObject = "XArgument";
 
 //---- Formula names
 const string FormulaName::Constant="Constant";
@@ -157,6 +159,7 @@ const string FormulaName::SimpleProduct="SimpleProduct";
 const string FormulaName::ExplicitFormula="ExplicitFormula"; 
 const string FormulaName::TableFormula="TableFormula"; 
 const string FormulaName::TableFormulaWithOffset="TableFormulaWithOffset"; 
+const string FormulaName::TableFormulaWithXArgument = "TableFormulaWithXArgument";
 const string FormulaName::Min="Min"; 
 const string FormulaName::Max="Max"; 
 const string FormulaName::IF="IF"; 

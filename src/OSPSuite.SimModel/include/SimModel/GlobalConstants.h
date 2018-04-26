@@ -124,6 +124,9 @@ public:
 	static const std::string TableWithOffsetFormula;
 	static const std::string TableObject;
 	static const std::string OffsetObject;
+
+	static const std::string TableWithXArgumentFormula;
+	static const std::string XArgumentObject;
 };
 
 class FormulaName
@@ -142,6 +145,7 @@ public:
 	static const std::string ExplicitFormula; 
 	static const std::string TableFormula; 
 	static const std::string TableFormulaWithOffset;
+	static const std::string TableFormulaWithXArgument;
 	static const std::string Min; 
 	static const std::string Max; 
 	static const std::string IF; 
