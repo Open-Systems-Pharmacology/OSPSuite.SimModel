@@ -82,6 +82,9 @@ bool TableFormulaWithXArgument::Simplify(bool forCurrentRunOnly)
 	//any parameters/variables
 	//Thus if the X argument object can be simplified (will be constant): 
 	//table formula with X argument can be simplified too
+	if (_XArgumentObject->IsConstant(forCurrentRunOnly))
+		return true;
+
 	return  _XArgumentObject->Simplify(forCurrentRunOnly);
 }
 

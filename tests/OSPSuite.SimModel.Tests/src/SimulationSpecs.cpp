@@ -3454,13 +3454,12 @@ namespace SimulationTests
 			_venPlsId = "tH4ucab_aUib7yTJoRIUFg";
 			_writeDebugFile = false;
 			_writeMatlabCode = false;
-			_writeCppCode = true;
+			_writeCppCode = false;
 			_exportFullMode = true;
 		}
 
 	public:
 		[TestAttribute]
-		[Ignore("TODO")]
 		void should_perform_simulation_run()
 		{
 			SimpleRunTestResult();
@@ -3478,13 +3477,12 @@ namespace SimulationTests
 			_venPlsId = "51mBr8GnNUqUpUBPfAAohg";
 			_writeDebugFile = false;
 			_writeMatlabCode = false;
-			_writeCppCode = true;
+			_writeCppCode = false;
 			_exportFullMode = true;
 		}
 
 	public:
 		[TestAttribute]
-		[Ignore("TODO")]
 		void should_perform_simulation_run()
 		{
 			SimpleRunTestResult();
