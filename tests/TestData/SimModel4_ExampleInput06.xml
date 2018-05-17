@@ -1,7 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Simulation objectPathDelimiter="/" xmlns="http://www.systems-biology.com">
 	<EventList/>
 	<VariableList>
-		<V id="1" name="y1" path="TopContainer" unit="L" initialValueFormulaId="10" entityId="y1">
+		<V id="1" name="y1" path="TopContainer" unit="µmol" initialValueFormulaId="10" entityId="y1">
 			<ScaleFactor>1</ScaleFactor>
 			<RHSFormulaList>
 				<RHSFormula id="11"/>
@@ -28,8 +29,8 @@
 		<Observer id="300" entityId="Obs1" name="Obs1" path="TopContainer" unit="" formulaId="3000"/>
 	</ObserverList>	
 	<ParameterList>
-		<P id="111" name="P1" path="TopContainer" unit="L" formulaId="1110" canBeVaried="1" entityId="P1"/>
-		<P id="112" name="P2" path="TopContainer" unit="L" formulaId="1120" canBeVaried="1" entityId="P2"/>
+		<P id="111" name="P1" path="TopContainer" unit="m²" formulaId="1110" canBeVaried="1" entityId="P1"/>
+		<P id="112" name="P2" path="TopContainer" unit="m³" formulaId="1120" canBeVaried="1" entityId="P2"/>
 		<P id="113" name="P3" path="TopContainer" unit="L" formulaId="1130" canBeVaried="1" entityId="P3"/>
 		<P id="114" name="P4" path="TopContainer" unit="L" formulaId="1140" canBeVaried="1" entityId="P4"/>
 		<P id="80" name="AbsTol" path="No" unit="" formulaId="90" canBeVaried="1" entityId="AbsTol"/>
