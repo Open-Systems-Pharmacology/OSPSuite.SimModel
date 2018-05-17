@@ -252,6 +252,7 @@ void SimModelComp_XMLHelper::SaveStringToFile(const std::string & str, const str
       string utf8string = to_utf8(outW);
       outf << utf8string;
 
+      delete[] outW;
       outf.close();
    }
    else
