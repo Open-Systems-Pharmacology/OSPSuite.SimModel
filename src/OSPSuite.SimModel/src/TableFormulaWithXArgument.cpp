@@ -117,7 +117,12 @@ void TableFormulaWithXArgument::DE_Jacobian (double * * jacobian, const double *
 	if (_XArgumentObject->IsConstant(forCurrentRunOnly))
 		return;
 
-	throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Table formula with X argument does not support time dependent argument objects");
+	//TODO if X-argument is time dependent but not ODE-variables-dependent, 
+	//     everything is OK
+	// If it's ODE-variables-dependent: either an exception must be thrown or
+	// the Jacobian-Calculation must take it into account
+
+	//throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Table formula with X argument does not support time dependent argument objects");
 }
 
 Formula* TableFormulaWithXArgument::DE_Jacobian(const int iEquation)
