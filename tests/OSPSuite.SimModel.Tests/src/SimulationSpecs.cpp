@@ -3476,7 +3476,30 @@ namespace SimulationTests
 			_inputFile = "pH_Solubility_Table_Zero";
 			_venPlsId = "51mBr8GnNUqUpUBPfAAohg";
 			_writeDebugFile = false;
-			_writeMatlabCode = false;
+			_writeMatlabCode = true;
+			_writeCppCode = false;
+			_exportFullMode = true;
+		}
+
+	public:
+		[TestAttribute]
+		void should_perform_simulation_run()
+		{
+			SimpleRunTestResult();
+		}
+	};
+
+	public ref class when_running_simulation_with_ph_solubility_table_const : public when_running_pksim_input
+	{
+	protected:
+		virtual void Because() override
+		{
+			when_running_pksim_input::Because();
+
+			_inputFile = "pH_Solubility_Table_Const";
+			_venPlsId = "I12p-yKZkUeTXunWI07Qyw";
+			_writeDebugFile = false;
+			_writeMatlabCode = true;
 			_writeCppCode = false;
 			_exportFullMode = true;
 		}

@@ -448,4 +448,11 @@ bool TableFormula::UseDerivedValues()
 	return _useDerivedValues;
 }
 
+double TableFormula::GetValue(double argument)
+{
+	//currently table formula y values are just numerical, 
+	//so we can pass NULL instead of ODE-variable (and scale mode does not matter, so pass any)
+	return DE_Compute(NULL, argument, USE_SCALEFACTOR);
+}
+
 }//.. end "namespace SimModelNative"
