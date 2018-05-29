@@ -6,6 +6,7 @@
 #include "SimModel/Simulation.h"
 #include "XMLWrapper/XMLHelper.h"
 #include "SimModel/ConstantFormula.h"
+#include "SimModel/MathHelper.h"
 
 #ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
@@ -212,7 +213,31 @@ void TableFormulaWithXArgument::WriteFormulaMatlabCode (ostream & mrOut)
 {
 	const char * ERROR_SOURCE = "TableFormulaWithXArgument::WriteFormulaMatlabCode";
 
-	throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Table formulas with offset not supported by matlab export" + FormulaInfoForErrorMessage()); 
+	const bool forCurrentRunOnly = true;
+
+	//---- case #1: table formula is constant. Just write it's constant value into Matlab code
+	if (_tableObject->IsConstant(forCurrentRunOnly))
+	{
+		//calculate value e.g. at 0 (argument value does not matter because formula is const) and write to Matlab code
+		mrOut << MathHelper::ToString(_tableObject->GetValue(NULL, 0.0, USE_SCALEFACTOR));
+		return; 
+	}
+
+	//---- case #2: table formula is not constant but x-Argument is constant
+	if (_XArgumentObject->IsConstant(forCurrentRunOnly))
+	{
+		//workaround for now: export table formula value for the current value of x-Argument
+		//Exported matlab code will reproduce the current state of the model;
+		//however if Matlab user would CHANGE x-Argument - simulated results might be wrong
+
+		double argument = _XArgumentObject->GetValue(NULL, 0.0, USE_SCALEFACTOR);
+		mrOut << MathHelper::ToString(_tableFormula->GetValue(argument));
+
+		//TODO produce "Full" table formula export
+	}
+
+	//both table formula and x-Argument are not const ==> cannot be handled now
+	throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Nonconatant table formulas with X argument not supported by matlab export" + FormulaInfoForErrorMessage()); 
 }
 
 void TableFormulaWithXArgument::WriteFormulaCppCode(ostream & mrOut)

@@ -71,6 +71,9 @@ public:
 
 	void SetUseDerivedValues(bool useDerivedValues);
 	bool UseDerivedValues();
+
+	//get table formula value for the argument passed
+	double GetValue(double argument);
 };
 
 }//.. end "namespace SimModelNative"
