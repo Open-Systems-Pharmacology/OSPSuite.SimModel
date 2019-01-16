@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Simulation objectPathDelimiter="|" version="4" xmlns="http://www.systems-biology.com">
+  <ObserverList>
+    <Observer id="29" entityId="O-PN56xgU0OuQkzHnyfEDA" name="Obs1" path="TestExportUsedParameters02|Organism|y1|Obs1" persistable="1" formulaId="30" />
+  </ObserverList>
+  <EventList>
+    <Event conditionFormulaId="38" id="37" entityId="waAxCBo4i0yqePHGm9CsgQ" oneTime="0">
+      <AssignmentList>
+        <Assignment objectId="6" newFormulaId="39" useAsValue="0" />
+      </AssignmentList>
+    </Event>
+    <Event conditionFormulaId="41" id="40" entityId="8mYRzR-fh0uzyxNfCiiHcw" oneTime="0">
+      <AssignmentList>
+        <Assignment objectId="31" newFormulaId="42" useAsValue="0" />
+      </AssignmentList>
+    </Event>
+  </EventList>
+  <FormulaList>
+    <ExplicitFormula id="10">
+      <Equation>P6</Equation>
+      <ReferenceList>
+        <R alias="P6" id="3" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="12">
+      <Equation>P12</Equation>
+      <ReferenceList>
+        <R alias="P12" id="11" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="15">
+      <Equation>y1*P4+P5</Equation>
+      <ReferenceList>
+        <R alias="P4" id="9" />
+        <R alias="P5" id="2" />
+        <R alias="y1" id="14" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="17">
+      <Equation>P3+2</Equation>
+      <ReferenceList>
+        <R alias="P3" id="13" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="19">
+      <Equation>P2</Equation>
+      <ReferenceList>
+        <R alias="P2" id="16" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="22">
+      <Equation>P14</Equation>
+      <ReferenceList>
+        <R alias="P14" id="20" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="24">
+      <Equation>y1</Equation>
+      <ReferenceList>
+        <R alias="y1" id="14" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="26">
+      <Equation>y1</Equation>
+      <ReferenceList>
+        <R alias="y1" id="14" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="28">
+      <Equation>V&gt;0 ? M/V : 0</Equation>
+      <ReferenceList>
+        <R alias="M" id="14" />
+        <R alias="V" id="1" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="30">
+      <Equation>P13*y1</Equation>
+      <ReferenceList>
+        <R alias="y1" id="14" />
+        <R alias="P13" id="21" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="32">
+      <Equation>P3</Equation>
+      <ReferenceList>
+        <R alias="P3" id="13" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="34">
+      <Equation>V&gt;0 ? M/V : 0</Equation>
+      <ReferenceList>
+        <R alias="M" id="31" />
+        <R alias="V" id="1" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="35">
+      <Equation>-(P7+P8)</Equation>
+      <ReferenceList>
+        <R alias="P7" id="4" />
+        <R alias="P8" id="5" />
+        <R alias="y1" id="14" />
+        <R alias="y2" id="31" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="36">
+      <Equation>P7+P8</Equation>
+      <ReferenceList>
+        <R alias="P7" id="4" />
+        <R alias="P8" id="5" />
+        <R alias="y1" id="14" />
+        <R alias="y2" id="31" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="38">
+      <Equation>y1&gt;0</Equation>
+      <ReferenceList>
+        <R alias="y1" id="14" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="39">
+      <Equation>P10</Equation>
+      <ReferenceList>
+        <R alias="P10" id="7" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="41">
+      <Equation>P11&gt;0</Equation>
+      <ReferenceList>
+        <R alias="P11" id="8" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="42">
+      <Equation>y2+1</Equation>
+      <ReferenceList>
+        <R alias="y2" id="31" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="43">
+      <Equation>1E-09</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="45">
+      <Equation>0.0001</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="47">
+      <Equation>1E-10</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="49">
+      <Equation>0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="51">
+      <Equation>60</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="53">
+      <Equation>100000</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="55">
+      <Equation>1</Equation>
+    </ExplicitFormula>
+  </FormulaList>
+  <VariableList>
+    <V id="9" entityId="d_-6cWH97U6tHYJ1gAVF1g" name="P4" path="TestExportUsedParameters02|Organism|P4" persistable="0" initialValueFormulaId="10">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="12" />
+      </RHSFormulaList>
+    </V>
+    <V id="14" entityId="itsBwVWE_kO2dgqGAj2Rgg" name="y1" path="TestExportUsedParameters02|Organism|y1" unit="µmol" persistable="1" value="0">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="35" />
+      </RHSFormulaList>
+    </V>
+    <V id="31" entityId="ZOm4FAvJK0eQr_rIC9IN-A" name="y2" path="TestExportUsedParameters02|Organism|y2" unit="µmol" persistable="1" initialValueFormulaId="32">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="36" />
+      </RHSFormulaList>
+    </V>
+  </VariableList>
+  <ParameterList>
+    <P id="1" entityId="IQo72_Qi2U-QekRTIxN3Sw" name="Volume" path="TestExportUsedParameters02|Organism|Volume" unit="l" persistable="0" value="1" />
+    <P id="2" entityId="47HMG3qwd0aylwsNBuV_Pw" name="P5" path="TestExportUsedParameters02|Organism|P5" persistable="0" value="1" />
+    <P id="3" entityId="3tTJNYvarUG7Kaztt4zqZA" name="P6" path="TestExportUsedParameters02|Organism|P6" persistable="0" value="1" />
+    <P id="4" entityId="yfEwxKiBbk-8JFt2lvShOQ" name="P7" path="TestExportUsedParameters02|Organism|P7" persistable="0" value="1" />
+    <P id="5" entityId="cvffUeWJ5EufB6V-sszINg" name="P8" path="TestExportUsedParameters02|Organism|P8" persistable="0" value="1" />
+    <P id="6" entityId="oYzxNfFwU0e31mdrlZI5kA" name="P9" path="TestExportUsedParameters02|Organism|P9" persistable="0" value="1" />
+    <P id="7" entityId="8PBXtrBENkSPokshmQNEiA" name="P10" path="TestExportUsedParameters02|Organism|P10" persistable="0" value="1" />
+    <P id="8" entityId="r7STGNXZx0mq9j2Pnrs4ew" name="P11" path="TestExportUsedParameters02|Organism|P11" persistable="0" value="1" />
+    <P id="13" entityId="-iFmwkxSzEu2rDnAw_J9EA" name="P3" path="TestExportUsedParameters02|Organism|P3" persistable="0" formulaId="15" />
+    <P id="11" entityId="MqxJ0cAh6USZKnzGkRdyMA" name="P12" path="TestExportUsedParameters02|Organism|P12" persistable="0" value="1" />
+    <P id="16" entityId="8h18GBAOKkGPzL2J5elfiw" name="P2" path="TestExportUsedParameters02|Organism|P2" persistable="0" formulaId="17" />
+    <P id="18" entityId="7t__GvTalkuRkydJr5ID2w" name="P1" path="TestExportUsedParameters02|Organism|P1" persistable="0" formulaId="19" />
+    <P id="20" entityId="Tjjbs1KehUC9cwFwWmS8fQ" name="P14" path="TestExportUsedParameters02|Organism|P14" persistable="0" value="1" />
+    <P id="21" entityId="rCCq9b_pKEuOQ7GTj8HvWw" name="P13" path="TestExportUsedParameters02|Organism|P13" persistable="0" formulaId="22" />
+    <P id="23" entityId="qLZvmfOJaUKrFRAso-Msdw" name="P15" path="TestExportUsedParameters02|Organism|P15" persistable="0" formulaId="24" />
+    <P id="25" entityId="gB80LXZhGESWwlfSPQukLg" name="P16" path="TestExportUsedParameters02|Organism|P16" persistable="1" formulaId="26" />
+    <P id="27" entityId="JfT49qgox0mD3ngIH7ftJg" name="Concentration" path="TestExportUsedParameters02|Organism|y1|Concentration" unit="µmol/l" persistable="0" formulaId="28" />
+    <P id="33" entityId="nibVF53NMkiYJKcao7x1oQ" name="Concentration" path="TestExportUsedParameters02|Organism|y2|Concentration" unit="µmol/l" persistable="0" formulaId="34" />
+    <P id="44" entityId="AbsTol" name="AbsTol" path="AbsTol" persistable="0" formulaId="43" />
+    <P id="46" entityId="RelTol" name="RelTol" path="RelTol" persistable="0" formulaId="45" />
+    <P id="48" entityId="H0" name="H0" path="H0" persistable="0" formulaId="47" />
+    <P id="50" entityId="HMin" name="HMin" path="HMin" persistable="0" formulaId="49" />
+    <P id="52" entityId="HMax" name="HMax" path="HMax" persistable="0" formulaId="51" />
+    <P id="54" entityId="MxStep" name="MxStep" path="MxStep" persistable="0" formulaId="53" />
+    <P id="56" entityId="UseJacobian" name="UseJacobian" path="UseJacobian" persistable="0" formulaId="55" />
+  </ParameterList>
+  <Solver name="CVODES_282">
+    <H0 id="48" />
+    <HMax id="52" />
+    <HMin id="50" />
+    <AbsTol id="44" />
+    <MxStep id="54" />
+    <RelTol id="46" />
+    <UseJacobian id="56" />
+  </Solver>
+  <OutputSchema>
+    <OutputIntervalList>
+      <OutputInterval distribution="Uniform">
+        <StartTime>0</StartTime>
+        <EndTime>1440</EndTime>
+        <NumberOfTimePoints>97</NumberOfTimePoints>
+      </OutputInterval>
+    </OutputIntervalList>
+  </OutputSchema>
+</Simulation>

@@ -438,6 +438,8 @@ void Simulation::LoadFromXMLDocument(void)
 		_allQuantities.Add(_observers[i]);
 
 	XMLFinalizeInstance(m_SimNode, this); //2nd pass (resolve references etc.)
+
+	SimulationTask::MarkUsedParameters(this);
 }
 
 //estimate and save hierarchy level of each HFObject and 

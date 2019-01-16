@@ -2,7 +2,6 @@
 #pragma warning( disable : 4691)
 #endif
 
-
 #include "SimModelManaged/ExceptionHelper.h"
 #include "SimModelSpecs/SpecsHelper.h"
 #include "SimModelManaged/Conversions.h"
@@ -11,6 +10,7 @@
 #include "XMLWrapper/XMLHelper.h"
 #include <string>
 #include "SimModelComp/SimModelComp.h"
+#include "DCI/Manager.h"
 
 namespace SimModelCompTests
 {
@@ -19,6 +19,22 @@ namespace SimModelCompTests
     using namespace NUnit::Framework;
 	using namespace SimModelNET;
 	using namespace UnitTests;
+
+	ref class SimModelCompWrapperOptions
+	{
+	public:
+		bool StopOnWarnings;
+		double ExecutionTimeLimit;
+		bool ValidateWithSchema;
+		bool IdentifyUsedParameters;
+		SimModelCompWrapperOptions()
+		{
+			StopOnWarnings = true;
+			ExecutionTimeLimit = 0.0;
+			ValidateWithSchema = false;
+			IdentifyUsedParameters = false;
+		}
+	};
 
 	ref class SimModelCompWrapper
 	{
@@ -30,11 +46,13 @@ namespace SimModelCompTests
 		}
 		~SimModelCompWrapper(){delete SMCSpecsHelper;}
 		String^ DCILastError() {return CPPToNETConversions::MarshalString(SMCSpecsHelper->DCILastError());}
-		void ConfigureFrom(String^ simulationFilePath)
+		void ConfigureFrom(String^ simulationFilePath, SimModelCompWrapperOptions^ options)
 		{
 			SMCSpecsHelper->ConfigureFrom(
 					NETToCPPConversions::MarshalString(SpecsHelper::SchemaPath()).c_str(),
-					NETToCPPConversions::MarshalString(simulationFilePath).c_str());
+					NETToCPPConversions::MarshalString(simulationFilePath).c_str(),
+				    options->StopOnWarnings, options->ExecutionTimeLimit, 
+				    options->ValidateWithSchema, options->IdentifyUsedParameters);
 		}
 	};
 
@@ -43,6 +61,7 @@ namespace SimModelCompTests
 	protected:
 		String^ _simulationFilePath;
 		::SimModelComp * _simModelComp;
+		SimModelCompWrapperOptions^ _simModelCompOptions = gcnew SimModelCompWrapperOptions();
 
     public:
 		virtual void GlobalContext() override
@@ -75,7 +94,7 @@ namespace SimModelCompTests
 				sut=gcnew SimModelCompWrapper(SpecsHelper::SimModelCompConfigFilePath());
 				
 				_simModelComp = sut->SMCSpecsHelper->GetInstance();
-				sut->ConfigureFrom(_simulationFilePath);
+				sut->ConfigureFrom(_simulationFilePath, _simModelCompOptions);
 			}
 			catch(const std::string & errMsg)
 			{
@@ -94,7 +113,8 @@ namespace SimModelCompTests
 				ExceptionHelper::ThrowExceptionFromUnknown();
 			}
         }
-    };
+    
+	};
 
 	public ref class when_getting_output_variables_and_observers : public concern_for_simmodelcomp
 	{
@@ -288,7 +308,7 @@ namespace SimModelCompTests
 
 				SimModelCompWrapper^ reloadedSim=gcnew SimModelCompWrapper(SpecsHelper::SimModelCompConfigFilePath());
 				
-				reloadedSim->ConfigureFrom(savedFile);
+				reloadedSim->ConfigureFrom(savedFile, _simModelCompOptions);
 
 				helper = reloadedSim->SMCSpecsHelper;
 				dciRetVal = helper->ProcessMetaData() && helper->ProcessData();
@@ -412,7 +432,7 @@ public:
 
 				SimModelCompWrapper^ reloadedSim=gcnew SimModelCompWrapper(SpecsHelper::SimModelCompConfigFilePath());
 				
-				reloadedSim->ConfigureFrom(savedFile);
+				reloadedSim->ConfigureFrom(savedFile, _simModelCompOptions);
 
 				helper = reloadedSim->SMCSpecsHelper;
 				dciRetVal = helper->ProcessMetaData() && helper->ProcessData();
@@ -779,6 +799,57 @@ public:
 
 				BDDExtensions::ShouldBeTrue(simModelVersion.find_first_of(".") >=0);
 				BDDExtensions::ShouldBeTrue(simModelCompVersion.find_first_of(".") >= 0);
+			}
+			catch (ErrorData & ED)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ED);
+			}
+		}
+	};
+
+	public ref class when_getting_used_parameters_information : public concern_for_simmodelcomp
+	{
+	protected:
+		virtual void Context() override
+		{
+			_simulationFilePath = SpecsHelper::TestFileFrom("TestExportUsedParameters02");
+			_simModelCompOptions->IdentifyUsedParameters = true;
+			concern_for_simmodelcomp::Context();
+		}
+
+		virtual void Because() override
+		{
+		}
+
+		//for explanation, s. SimulationSpecs.cpp
+		//(when_getting_all_used_parameters_when_identify_used_parameters_set_to_true.checkPathsOfUsedParameters)
+		void checkUsedInSimulationFor(DCI::ITableHandle hTab)
+		{
+			std::string prefix = "TestExportUsedParameters02|Organism|";
+
+			std::vector<std::string> expectedPaths{
+				prefix + "P3", prefix + "P5", prefix + "P6", prefix + "P7",
+				prefix + "P8", prefix + "P10", prefix + "P11",
+				prefix + "P12", prefix + "P13", prefix + "P14" };
+
+			for (auto i = 1; i <= hTab->GetRecords()->GetCount(); i++)
+			{
+				const char * path = hTab->GetValue(i, "Path");
+				bool expectedUseInSimulation = std::find(expectedPaths.begin(), expectedPaths.end(), path) != expectedPaths.end();
+
+				bool used = (DCI::Byte)hTab->GetValue(i, "UsedInSimulation") == (DCI::Byte)1;
+				BDDExtensions::ShouldBeEqualTo(used, expectedUseInSimulation, CPPToNETConversions::MarshalString(path));
+			}
+		}
+
+	public:
+		[TestAttribute]
+		void should_set_used_in_simulation_flag_correctly()
+		{
+			try
+			{
+				checkUsedInSimulationFor(_simModelComp->GetInputPorts()->Item(1)->GetTable()); //all parameters table
+				checkUsedInSimulationFor(_simModelComp->GetInputPorts()->Item(2)->GetTable()); //variable parameters table
 			}
 			catch (ErrorData & ED)
 			{

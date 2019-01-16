@@ -100,7 +100,7 @@ public:
 
 	void SetODEIndex(int newIndex);
 
-	virtual void AppendUsedParameters(std::set<int> & usedParameterIDs);
+	virtual void AppendUsedParameters(std::set<int> & usedParameterIDs, bool includeInitialFormula=false);
 
 	//Change indices of variables used in the RHS formula according to the given indices permutation
 	void ChangeIndicesOfRHSUsedVariables(std::map<unsigned int, unsigned int> & indexMap);

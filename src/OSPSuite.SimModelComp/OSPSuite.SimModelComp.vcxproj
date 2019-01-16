@@ -128,7 +128,7 @@ copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"</Comma
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>$(ProjectDir)Include;$(ProjectDir)..\OSPSuite.SysTool\Include;$(ProjectDir)..\OSPSuite.XMLWrapper\Include;$(ProjectDir)..\OSPSuite.SimModel\Include;$(ProjectDir)..\DCI\includes;$(SolverPath)include;$(FuncParserPath)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;SIMMODELCOMP_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;SIMMODELCOMP_EXPORTS;%(PreprocessorDefinitions);ReleaseX64;</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <ExceptionHandling>Async</ExceptionHandling>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -140,7 +140,7 @@ copy "$(SolverPath)bin\native\x86\$(Configuration)\*.dll" "$(OutputPath)"</Comma
     <Link>
       <AdditionalDependencies>OSPSuite.SimModel.lib;DCI6_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(SolutionDir)Build\$(Configuration)\$(Platform);$(SolutionDir)pre\DCI\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Build\$(Configuration)\$(Platform);$(ProjectDir)..\DCI\DCI_6.1\ReleaseX64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
