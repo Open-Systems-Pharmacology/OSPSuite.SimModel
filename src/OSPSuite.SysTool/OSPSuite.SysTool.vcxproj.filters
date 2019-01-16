@@ -43,9 +43,6 @@
     <ClInclude Include="include\FileSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\stdint.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="include\strncasecmp.h">
       <Filter>Header Files</Filter>
     </ClInclude>

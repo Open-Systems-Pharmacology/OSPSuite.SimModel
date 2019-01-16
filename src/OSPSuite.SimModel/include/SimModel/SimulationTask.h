@@ -29,6 +29,9 @@ public:
 	static void SetValuesBelowAbsTolLevelToZero(double * values, int valuesSize, double absTol);
 
 	static void CheckForNegativeValues(Species ** odeVariables, int numberOfVariables, double absTol);
+
+	//mark all parameters which are used in any ODE varaible or observer as unused
+	static void MarkUsedParameters(Simulation * sim);
 };
 
 }//.. end "namespace SimModelNative"

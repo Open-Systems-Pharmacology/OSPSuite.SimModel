@@ -253,10 +253,10 @@ void FormulaChange::AppendVariablesUsedInNewFormula(set<int> & usedVariblesIndic
 	_newFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
 }
 
-void FormulaChange::AppendUsedParameters(std::set<int> & usedParameterIDs)
+void FormulaChange::AppendUsedParameters(std::set<int> & usedParameterIDs, bool alwaysAppend)
 {
 	// if NOT usedAsValue it is contained in switch statement
-	if (!_useAsValue)
+	if (!_useAsValue && !alwaysAppend)
 		return;
 
 	_newFormula->AppendUsedParameters(usedParameterIDs);

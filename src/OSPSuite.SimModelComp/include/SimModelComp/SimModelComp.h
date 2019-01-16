@@ -61,6 +61,9 @@ private:
 	bool m_ProcessDataFirstRun;
 
 	void LoadConfigurationFromParameterTable();
+	bool GetBooleanValueFrom(DCI::ITableHandle & hTab, const std::string & columnName, bool defaultValue);
+	double GetDoubleValueFrom(DCI::ITableHandle & hTab, const std::string & columnName, double defaultValue);
+	std::string GetStringValueFrom(DCI::ITableHandle & hTab, const std::string & columnName, const std::string & defaultValue="");
 
 	void FillParameterInputTable(DCI::IPortHandle hPort, 
                                  std::vector<SimModelNative::ParameterInfo> & simParams,
@@ -78,13 +81,13 @@ private:
 	void FillCurvesOutputSchemaInputTable();
 	void FillObserversInputTable();
 
-	void AddParameterTableColumns(const DCI::ITableHandle hTab);
+	void AddParameterTableColumns(const DCI::ITableHandle hTab, QuantitiesSelectionMode selectionMode);
 	void AddTableParameterTableColumns(const DCI::ITableHandle hTab);
-	void AddSpeciesTableColumns(const DCI::ITableHandle hTab);
+	void AddSpeciesTableColumns(const DCI::ITableHandle hTab, QuantitiesSelectionMode selectionMode);
 	void AddOutputSchemaTableColumns(const DCI::ITableHandle hTab);
 	void AddObserversTableColumns(const DCI::ITableHandle hTab);
 	
-	void AddByteColumn(DCI::ITableHandle hTab, const std::string & columnName);
+	void AddByteColumnFilledWithZeros(DCI::ITableHandle hTab, const std::string & columnName);
 	
 	std::vector<SimModelNative::ParameterInfo> GetVariableParameters(void);
 	void UpdateVariableParameters(void);
@@ -136,6 +139,7 @@ private:
 	const static char * conID;
 	const static char * conPath;
 	const static char * conDescription;
+	const static char * conUsedInSimulation;
 	const static char * conValue;
 	const static char * conInitialValue;
 	const static char * conUnit;

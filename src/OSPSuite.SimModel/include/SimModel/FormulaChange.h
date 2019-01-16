@@ -55,7 +55,7 @@ public:
 
 	//used variables are only added into the list if UseAsValue=false
 	void AppendVariablesUsedInNewFormula(std::set<int> & usedVariblesIndices, const std::set<int> & variblesIndicesUsedInSwitchAssignments);
-	void AppendUsedParameters(std::set<int> & usedParameterIDs);
+	void AppendUsedParameters(std::set<int> & usedParameterIDs, bool alwaysAppend);
 	void AppendFormulaParameters(std::map<int, formulaParameterInfo > & formulaParameterIDs);
 
 	//update the index of the target species (if any)
