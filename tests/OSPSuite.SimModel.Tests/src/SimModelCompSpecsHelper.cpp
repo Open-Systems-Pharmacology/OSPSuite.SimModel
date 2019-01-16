@@ -66,12 +66,19 @@ namespace UnitTests
 		_simModelComp = NULL;
 	}
 
-	void SimModelCompSpecsHelper::ConfigureFrom(const char *schemaFilePath, const char *simulationFilePath)
+	void SimModelCompSpecsHelper::ConfigureFrom(const char *schemaFilePath, const char *simulationFilePath,
+		                                        bool stopOnWarnings, double executionTimeLimit,
+		                                        bool validateWithSchema, bool identifyUsedParameters)
 	{
 		ITableHandle configTab=_simModelComp->GetParameterPorts()->Item(1)->GetTable();
 		
 		configTab->SetValue(1,1,schemaFilePath);
 		configTab->SetValue(1,2,simulationFilePath);
+
+		configTab->SetValue(1, 3, stopOnWarnings ? 1 : 0);
+		configTab->SetValue(1, 4, executionTimeLimit);
+		configTab->SetValue(1, 5, validateWithSchema ? 1 : 0);
+		configTab->SetValue(1, 6, identifyUsedParameters ? 1 : 0);
 
 		if (!_simModelComp->Configure())
 			throw std::string((const char *)DCI::Error::GetDescription());

@@ -22,6 +22,8 @@ namespace SimModelNative
 		bool _keepXMLNodeAsString; //original xml is required only for saving the simulation to XML
 		bool _useFloatComparisonInUserOutputTimePoints; //if set to true, float comparison will be used
 		                                                //for user output time points.Otherwise: double
+		bool _identifyUsedParameters; //if set to false: ALL parameters will be marked as used in ODE variables/observes
+		                              //otherwise: only parameters really used will be marked
 
 	public:
 		SimulationOptions();
@@ -50,8 +52,11 @@ namespace SimModelNative
 		void SetCheckForNegativeValues(bool performCheck);
 		bool CheckForNegativeValues(void);
 
-		void ValidateWithXMLSchema(bool validate);
-		bool ValidateWithXMLSchema(void);
+		SIM_EXPORT void ValidateWithXMLSchema(bool validate);
+		SIM_EXPORT bool ValidateWithXMLSchema(void);
+
+		SIM_EXPORT void IdentifyUsedParameters(bool identifyUsedParameters);
+		SIM_EXPORT bool IdentifyUsedParameters(void);
 
 		SIM_EXPORT bool KeepXMLNodeAsString();
 		SIM_EXPORT void SetKeepXMLNodeAsString(bool);

@@ -448,9 +448,14 @@ void Species::SetODEIndex(int newIndex)
 	m_ODEIndex = newIndex;
 }
 
-void Species::AppendUsedParameters(std::set<int> & usedParameterIDs) {
+void Species::AppendUsedParameters(std::set<int> & usedParameterIDs, bool includeInitialFormula) 
+{
 	for (int i = 0; i<_rhsFormulaListSize; i++)
 		_rhsFormulaList[i]->AppendUsedParameters(usedParameterIDs);
+
+	if (!includeInitialFormula)
+		return;
+	Quantity::AppendUsedParameters(usedParameterIDs);
 }
 
 //indexMap contains the mapping (<Old DE index>, <New DE index>)

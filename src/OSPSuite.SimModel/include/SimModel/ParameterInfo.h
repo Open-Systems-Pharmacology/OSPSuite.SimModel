@@ -14,12 +14,16 @@ protected:
 	bool _canBeVaried;
 	bool _calculateSensitivity;
 	std::vector <ValuePoint> _tablePoints;
+	bool _usedInSimulation;
 
 public:
 	SIM_EXPORT ParameterInfo(void);
 
 	SIM_EXPORT bool CanBeVaried() const;
 	void SetCanBeVaried(bool canBeVaried);
+
+	SIM_EXPORT bool UsedInSimulation() const;
+	void SetUsedInSimulation(bool usedInSimulation);
 
 	SIM_EXPORT bool CalculateSensitivity() const;
 	SIM_EXPORT void SetCalculateSensitivity(bool calculateSensitivity);

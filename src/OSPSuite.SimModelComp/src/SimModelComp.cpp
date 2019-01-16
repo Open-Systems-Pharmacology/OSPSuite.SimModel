@@ -17,6 +17,7 @@ using namespace std;
 const char * SimModelComp::conID = "ID";
 const char * SimModelComp::conPath = "Path";
 const char * SimModelComp::conDescription = "Description";
+const char * SimModelComp::conUsedInSimulation = "UsedInSimulation";
 const char * SimModelComp::conValue = "Value";
 const char * SimModelComp::conInitialValue = "InitialValue";
 const char * SimModelComp::conUnit = "Unit";
@@ -137,9 +138,6 @@ DCI::Bool SimModelComp::Configure()
 		//---- fill VariableParameters-Table
 		FillParameterInputTable(GetInputPorts()->Item(conTabVariableParameter), m_AllParameters, 
 			                    INITIAL_FILL, VARIABLE_QUANTITIES);
-		DCI::ITableHandle hTab = GetInputPorts()->Item(conTabVariableParameter)->GetTable();
-		AddByteColumn(hTab, conIsVariable);
-		AddByteColumn(hTab, conCalculateSensitivity);
 
 		//---- fill AllTableParameters-Table
 		FillTableParameterPointsInputTable(GetInputPorts()->Item(conTabAllTableParameter), m_AllParameters, 
@@ -159,7 +157,6 @@ DCI::Bool SimModelComp::Configure()
 		//---- fill variable species table
 		FillSpeciesInputTable(GetInputPorts()->Item(conTabVariableSpecies), m_AllSpecies, 
 			                  INITIAL_FILL, VARIABLE_QUANTITIES);
-		AddByteColumn(GetInputPorts()->Item(conTabVariableSpecies)->GetTable(), conIsVariable);
 
 		//---- fill observers table
 		FillObserversInputTable();
@@ -183,15 +180,77 @@ DCI::Bool SimModelComp::Configure()
 	return RetVal;
 }
 
+//return boolen value stored in the first value of hTab[columnName]
+//if the column <columnName> is not present or contains no values: return <defaultValue>
+bool SimModelComp::GetBooleanValueFrom(DCI::ITableHandle & hTab, const string & columnName, bool defaultValue)
+{
+	DCI::IVariableHandle hVar;
+	DCI::IntVector lVec;
+
+	hVar = GetVarHandle(hTab, columnName.c_str(), DCI::DT_INT, true);
+	if (!hVar)
+		return defaultValue;
+
+	lVec = hVar->GetValues();
+	if (lVec.Len() == 0)
+		return defaultValue;
+
+	return lVec[0] == 1;
+}
+
+//return double value stored in the first value of hTab[columnName]
+//if the column <columnName> is not present or contains no values: return <defaultValue>
+double SimModelComp::GetDoubleValueFrom(DCI::ITableHandle & hTab, const std::string & columnName, double defaultValue)
+{
+	DCI::IVariableHandle hVar;
+	DCI::DoubleVector dVec;
+
+	hVar = GetVarHandle(hTab, columnName.c_str(), DCI::DT_DOUBLE, true);
+	if (!hVar)
+		return defaultValue;
+	
+	dVec = hVar->GetValues();
+	if (dVec.Len() == 0)
+		return defaultValue;
+
+	return dVec[0];	
+}
+
+//return string value stored in the first value of hTab[columnName]
+//if the column <columnName> is not present or contains no values: 
+//    - if <defaultValue> is not empty: return <defaultValue>
+//    - otherwise: throw exception
+string SimModelComp::GetStringValueFrom(DCI::ITableHandle & hTab, const string & columnName, const string & defaultValue)
+{
+	DCI::IVariableHandle hVar;
+	DCI::StringVector sVec;
+
+	hVar = GetVarHandle(hTab, columnName.c_str(), DCI::DT_STRING, true);
+	if (!hVar)
+	{
+		if(defaultValue != "")
+			return defaultValue;
+
+		throw "Column \"" + columnName + "\" in the parameter table is absent";
+	}
+
+	sVec = hVar->GetValues();
+	if (sVec.Len() == 0)
+	{
+		if (defaultValue != "")
+			return defaultValue;
+
+		throw "Column \"" + columnName + "\" is empty";
+	}
+
+	return (const char *)(sVec[0]);
+}
+
 //
 //
 void SimModelComp::LoadConfigurationFromParameterTable()
 {
 	DCI::ITableHandle hTab;
-	DCI::IVariableHandle hVar;
-	DCI::StringVector sVec;
-	DCI::IntVector lVec;
-	DCI::DoubleVector dVec;
 
 	hTab = GetParameterPorts()->Item(1)->GetTable();
 	if (!hTab)
@@ -200,47 +259,18 @@ void SimModelComp::LoadConfigurationFromParameterTable()
 	//init Simulation Schema cache if not done yet
 	if (!m_XMLSchemaCache->SchemaInitialized())
 	{
-		hVar = GetVarHandle(hTab, "SimModelSchema", DCI::DT_STRING);
-		sVec = hVar->GetValues();
-		if (sVec.Len() != 1)
-			throw "Parameter column \"SimModelSchema\" must contain exactly one value";
 		m_XMLSchemaCache->SetSchemaNamespace(XMLConstants::GetSchemaNamespace());
-		m_XMLSchemaCache->LoadSchemaFromFile((const char *)(sVec[0]));
+		m_XMLSchemaCache->LoadSchemaFromFile(GetStringValueFrom(hTab, "SimModelSchema"));
 	}
 
 	//get simulation file name
-	hVar = GetVarHandle(hTab, "SimulationFile", DCI::DT_STRING);
-	sVec = hVar->GetValues(); 
-	if (sVec.Len() != 1)
-		throw "Parameter column \"SimulationFile\" must contain exactly one value";
-	m_SimFileName = (const char *)(sVec[0]);
+	m_SimFileName = GetStringValueFrom(hTab, "SimulationFile");
 
-	//read StopOnWarnings-flag if available
-	hVar = GetVarHandle(hTab, "StopOnWarnings", DCI::DT_INT, true);
-	if(hVar)
-	{
-		lVec = hVar->GetValues(); 
-		if (lVec.Len() > 0)
-		{
-			if (lVec[0] == 1)
-				m_Sim->Options().SetStopOnWarnings(true);
-			else
-				m_Sim->Options().SetStopOnWarnings(false);
-		}
-	}
-
-	//read ExecutionTimeLimit-flag if available
-	hVar = GetVarHandle(hTab, "ExecutionTimeLimit", DCI::DT_DOUBLE, true);
-	if(hVar)
-	{
-		dVec = hVar->GetValues(); 
-		if (dVec.Len() > 0)
-		{
-			double ExecutionTimeLimit = dVec[0];
-			if (ExecutionTimeLimit > 0.0)
-				m_Sim->Options().SetExecutionTimeLimit(ExecutionTimeLimit * 1000); //s. -> ms.
-		}
-	}
+	//set simulation options
+	m_Sim->Options().SetStopOnWarnings(GetBooleanValueFrom(hTab, "StopOnWarnings", true));
+	m_Sim->Options().ValidateWithXMLSchema(GetBooleanValueFrom(hTab, "ValidateWithXMLSchema", false));
+	m_Sim->Options().IdentifyUsedParameters(GetBooleanValueFrom(hTab, "IdentifyUsedParameters", false));
+	m_Sim->Options().SetExecutionTimeLimit(GetDoubleValueFrom(hTab, "ExecutionTimeLimit", 0.0));
 }
 
 //---- sets which parameters should be varied and finalizes the simulation
@@ -684,13 +714,17 @@ void SimModelComp::UpdateOutputTimeSchema()
 		double endTime         = hTab->GetValue(intervalIdx, conEndTime);
 		int numberOfTimePoints = hTab->GetValue(intervalIdx, conNoOfTimePoints);
 
-		OutputIntervalDistribution pointsDistribution = IntervalDistributionFromString(
-			                     hTab->GetValue(intervalIdx, conDistribution));
+      //Just a temporal workaround for the problem when hTab->GetRecords()->GetCount();
+      //returns more intervals than present.
+      if (numberOfTimePoints > 0) {
+         OutputIntervalDistribution pointsDistribution = IntervalDistributionFromString(
+            hTab->GetValue(intervalIdx, conDistribution));
 
-		OutputInterval * interval = new OutputInterval
-			(startTime, endTime, numberOfTimePoints, pointsDistribution);
+         OutputInterval * interval = new OutputInterval
+         (startTime, endTime, numberOfTimePoints, pointsDistribution);
 
-		outSchema.OutputIntervals().push_back(interval);
+         outSchema.OutputIntervals().push_back(interval);
+      }
 	}
 }
 
@@ -840,6 +874,7 @@ void SimModelComp::CheckInputTableColumns(const DCI::ITableHandle hTab, unsigned
 		CheckColumn(hTab, conParameterType, DCI::DT_STRING);
 		CheckColumn(hTab, conFormula, DCI::DT_STRING);
 		CheckColumn(hTab, conDescription, DCI::DT_STRING);
+		CheckColumn(hTab, conUsedInSimulation, DCI::DT_BYTE);
 		
 		if (IsVariableColumnPresent)
 		{
@@ -918,7 +953,7 @@ void SimModelComp::FillParameterInputTable(DCI::IPortHandle  hPort,
 		//---- 1st call - setup the table
 		hTab.BindTo(new DCI::Table);
 		hPort->SetTable(hTab);
-		AddParameterTableColumns(hTab);
+		AddParameterTableColumns(hTab, selectionMode);
 	}
 	else
 	{
@@ -960,6 +995,8 @@ void SimModelComp::FillParameterInputTable(DCI::IPortHandle  hPort,
 			
 		hTab->SetValue(LastRowIdx, conFormula, parameterInfo.GetFormulaEquation().c_str());		
 		hTab->SetValue(LastRowIdx, conDescription, parameterInfo.GetDescription().c_str());
+
+		hTab->SetValue(LastRowIdx, conUsedInSimulation, parameterInfo.UsedInSimulation() ? (DCI::Byte)1 : (DCI::Byte)0);
 	}
 
 	//final table redim to (remove unnecessary records)
@@ -1042,7 +1079,7 @@ void SimModelComp::FillSpeciesInputTable(DCI::IPortHandle hPort,
 		//---- 1st call - setup the table
 		hTab.BindTo(new DCI::Table);
 		hPort->SetTable(hTab);
-		AddSpeciesTableColumns(hTab);
+		AddSpeciesTableColumns(hTab, selectionMode);
 	}
 	else
 	{
@@ -1078,7 +1115,7 @@ void SimModelComp::FillSpeciesInputTable(DCI::IPortHandle hPort,
 	hTab->ReDim(LastRowIdx, hTab->GetColumns()->GetCount());
 }
 
-void SimModelComp::AddParameterTableColumns(const DCI::ITableHandle hTab)
+void SimModelComp::AddParameterTableColumns(const DCI::ITableHandle hTab, QuantitiesSelectionMode selectionMode)
 {
 	AddColumn(hTab, conID, DCI::DT_INT);
 	AddColumn(hTab, conPath, DCI::DT_STRING);
@@ -1087,6 +1124,13 @@ void SimModelComp::AddParameterTableColumns(const DCI::ITableHandle hTab)
 	AddColumn(hTab, conParameterType, DCI::DT_STRING);
 	AddColumn(hTab, conFormula, DCI::DT_STRING);
 	AddColumn(hTab, conDescription, DCI::DT_STRING);
+	AddColumn(hTab, conUsedInSimulation, DCI::DT_BYTE);
+
+	if (selectionMode == VARIABLE_QUANTITIES)
+	{
+		AddByteColumnFilledWithZeros(hTab, conIsVariable);
+		AddByteColumnFilledWithZeros(hTab, conCalculateSensitivity);
+	}
 }
 
 void SimModelComp::AddTableParameterTableColumns(const DCI::ITableHandle hTab)
@@ -1106,7 +1150,7 @@ void SimModelComp::AddObserversTableColumns(const DCI::ITableHandle hTab)
 	AddColumn(hTab, conDescription, DCI::DT_STRING);
 }
 
-void SimModelComp::AddSpeciesTableColumns(const DCI::ITableHandle hTab)
+void SimModelComp::AddSpeciesTableColumns(const DCI::ITableHandle hTab, QuantitiesSelectionMode selectionMode)
 {
 	AddColumn(hTab, conID, DCI::DT_INT);
 	AddColumn(hTab, conPath, DCI::DT_STRING);
@@ -1116,14 +1160,19 @@ void SimModelComp::AddSpeciesTableColumns(const DCI::ITableHandle hTab)
 	AddColumn(hTab, conIsFormula, DCI::DT_BYTE);
 	AddColumn(hTab, conFormula, DCI::DT_STRING);
 	AddColumn(hTab, conDescription, DCI::DT_STRING);
+
+	if (selectionMode == VARIABLE_QUANTITIES)
+	{
+		AddByteColumnFilledWithZeros(hTab, conIsVariable);
+	}
 }
 
-void SimModelComp::AddByteColumn(DCI::ITableHandle hTab, const string & columnName)
+void SimModelComp::AddByteColumnFilledWithZeros(DCI::ITableHandle hTab, const string & columnName)
 {
 	AddColumn(hTab, columnName, DCI::DT_BYTE);
 
 	for(int recIdx=1; recIdx<=hTab->GetRecords()->GetCount(); recIdx++)
-		hTab->SetValue(recIdx, conIsVariable, 0);
+		hTab->SetValue(recIdx, columnName.c_str(), 0);
 }
 
 OutputIntervalDistribution SimModelComp::IntervalDistributionFromString(DCI::String distribution)

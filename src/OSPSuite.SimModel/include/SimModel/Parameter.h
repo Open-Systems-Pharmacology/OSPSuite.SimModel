@@ -16,6 +16,7 @@ class Parameter :
 protected:
 	bool _canBeVaried;
 	bool _calculateSensitivity;
+	bool _usedInSimulation;
 
 	std::string _shortUniqueName;
 	std::string getFormulaXMLAttributeName();
@@ -30,6 +31,9 @@ public:
 
 	bool CalculateSensitivity() const;
 	void SetCalculateSensitivity(bool calculateSensitivity);
+
+	bool UsedInSimulation() const;
+	void SetUsedInSimulation(bool usedInSimulation);
 
 	virtual void LoadFromXMLNode (const XMLNode & pNode);
 	virtual void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim);

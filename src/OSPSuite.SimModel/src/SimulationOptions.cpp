@@ -15,13 +15,14 @@ using namespace std;
 
 SimulationOptions::SimulationOptions(void)
 {
-	_validateXMLWithSchema = true;
+	_validateXMLWithSchema = false; //perform schema validation only if explicitly set by user
 	_showProgress = false;
 	_executionTimeLimit = 0.0;    //no limit of simulation execution time
 	_stopOnWarnings = true;       //treat warnings of ODE solver as errors
 	_autoReduceTolerances = true; //automatically reduce solver tolerances
 	_writeLogFile = true;
 	_checkForNegativeValues = true;
+	_identifyUsedParameters = false;
 
 	_keepXMLNodeAsString = false; //not required from PK-Sim/MoBi
 	                              //only required from Matlab/R and can be set = true in SimModelComp
@@ -40,6 +41,7 @@ void SimulationOptions::CopyFrom(SimulationOptions & srcOptions)
 	_checkForNegativeValues = srcOptions.CheckForNegativeValues();
 	_keepXMLNodeAsString = srcOptions.KeepXMLNodeAsString();
 	_useFloatComparisonInUserOutputTimePoints = srcOptions.UseFloatComparisonInUserOutputTimePoints();
+	_identifyUsedParameters = srcOptions.IdentifyUsedParameters();
 }
 
 void SimulationOptions::SetCheckForNegativeValues(bool performCheck)
@@ -70,6 +72,16 @@ void SimulationOptions::ValidateWithXMLSchema(bool validate)
 bool SimulationOptions::ValidateWithXMLSchema(void)
 {
 	return _validateXMLWithSchema;
+}
+
+void SimulationOptions::IdentifyUsedParameters(bool identifyUsedParameters)
+{
+	_identifyUsedParameters = identifyUsedParameters;
+}
+
+bool SimulationOptions::IdentifyUsedParameters(void)
+{
+	return _identifyUsedParameters;
 }
 
 bool SimulationOptions::ShowProgress()
