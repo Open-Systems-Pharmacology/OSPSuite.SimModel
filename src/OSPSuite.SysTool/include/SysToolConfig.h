@@ -126,7 +126,6 @@
 #pragma warning(disable: 4275)
 #pragma warning(disable: 4251)
 #pragma warning(disable: 4786)
-#include "stdint.h"
 #else
 #include <stdint.h>
 #endif

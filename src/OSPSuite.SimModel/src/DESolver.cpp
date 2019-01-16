@@ -195,6 +195,7 @@ namespace SimModelNative
 
 		SimModelSolverBase * pSolver = NULL;  //pointer to new solver instance
 		double * initialvalues = NULL;        //(scaled) initial values of DE variables
+		double * initialvaluesUnscaled = NULL;        //unscaled initial values of DE variables
 		double * solution = NULL;             //solution vector of current problem
 		double * solutionAboveAbsTol = NULL;  //solution vector of current problem where all values in [-AbsTol..AbsTol] are set to zero
 		double ** sensitivityValues = NULL;   //sensitivity values for one time point [NumberOfUnknowns X NumberOfSensitivityParameters] 
@@ -214,7 +215,7 @@ namespace SimModelNative
 
 			//cache start execution time
 			//used to check if execution time limit exceeded (if applies)
-			double executionStartTime = clock() / CLOCKS_PER_SEC;
+			double executionStartTime = clock() / (double)CLOCKS_PER_SEC;
 
 			//output time points of the simulation
 			vector <OutputTimePoint> outputTimePoints = SimulationTask::OutputTimePoints(_parentSim);
@@ -224,9 +225,12 @@ namespace SimModelNative
 			//get scaled initial values for DE variables
 			initialvalues = _parentSim->GetDEInitialValuesScaled();
 
+			//get unscaled initial values
+			initialvaluesUnscaled = _parentSim->GetDEInitialValues();
+
 			//redim species/observers/time array of the simulation
 			_parentSim->RedimAndInitValues(numberOfSimulatedTimeSteps+1,
-				                           initialvalues); //+1 because of sim start time, 
+				                           initialvalues, initialvaluesUnscaled); //+1 because of sim start time, 
 			                                                       //which is not included in outputTimePoints
 
 			//---- cache DE variables arranged by their ODE Index
@@ -281,7 +285,7 @@ namespace SimModelNative
 				//check if execution time limit exceeded (if applies)
 				if (executionTimeLimit > 0.0)
 				{
-					double currentTime = clock() / CLOCKS_PER_SEC;
+					double currentTime = clock() / (double)CLOCKS_PER_SEC;
 					if ((currentTime - executionStartTime) > executionTimeLimit)
 						throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Simulation execution time limit exceeded");
 				}
@@ -401,6 +405,8 @@ namespace SimModelNative
 			//---- clean up
 			delete[] initialvalues; 
 			initialvalues = NULL;
+			delete[] initialvaluesUnscaled;
+			initialvaluesUnscaled = NULL;
 			delete[] solution;
 			solution = NULL;
 			delete[] solutionAboveAbsTol;
@@ -420,7 +426,8 @@ namespace SimModelNative
 		}
 		catch(...)
 		{
-			if (initialvalues) delete[] initialvalues; 
+			if (initialvalues) delete[] initialvalues;
+			if (initialvaluesUnscaled) delete[] initialvaluesUnscaled;
 			if (solution) delete[] solution;
 			if(solutionAboveAbsTol) delete[] solutionAboveAbsTol;
 			if (m_ODEVariables) delete[] m_ODEVariables;

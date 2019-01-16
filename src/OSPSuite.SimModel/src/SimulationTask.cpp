@@ -222,6 +222,54 @@ void SimulationTask::CheckForNegativeValues(Species ** odeVariables, int numberO
 
 }
 
+void SimulationTask::MarkUsedParameters(Simulation * sim)
+{
+	TObjectList<Parameter> & parameters = sim->Parameters();
+	int idx;
+
+	if (!sim->Options().IdentifyUsedParameters())
+	{
+		for (idx = 0; idx < parameters.size(); idx++)
+		{
+			parameters[idx]->SetUsedInSimulation(true);
+		}
+
+		return;
+	}
+
+	set<int> allUsedParameterIds;
+
+	//collect all parameter ids used in RHS and start formulas of variables
+	TObjectList<Species> & species = sim->SpeciesList();
+	for (idx = 0; idx < species.size(); idx++)
+	{
+		species[idx]->AppendUsedParameters(allUsedParameterIds, true);
+	}
+
+	//add all parameter ids used in observers
+	TObjectList<Observer> & observers = sim->Observers();
+	for (idx = 0; idx < observers.size(); idx++)
+	{
+		observers[idx]->AppendUsedParameters(allUsedParameterIds);
+	}
+
+	//add all parameter ids used in switches
+	TObjectList<Switch> & switches = sim->Switches();
+	for (idx = 0; idx < switches.size(); idx++)
+	{
+		switches[idx]->AppendUsedParameters(allUsedParameterIds, true);
+	}
+
+	//now mark all parameters as used/unused in simulation
+	for (idx = 0; idx < parameters.size(); idx++)
+	{
+		Parameter * parameter = parameters[idx];
+
+		bool used = allUsedParameterIds.find(parameter->GetId()) != allUsedParameterIds.end();
+		parameter->SetUsedInSimulation(used);
+	}
+}
+
 string SimulationTask::GetErrorMessageForNegativeVaribales(const vector<string> & positiveVariablesWithNegativeValues)
 {
 	string msg;

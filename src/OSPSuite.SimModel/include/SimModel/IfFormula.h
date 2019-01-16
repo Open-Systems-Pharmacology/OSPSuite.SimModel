@@ -38,6 +38,8 @@ class IfFormula :
 		virtual void AppendUsedParameters(std::set<int> & usedParameterIDs);
 
 		virtual void UpdateIndicesOfReferencedVariables();
+		//Update the value to ODEScaleFactor of the scale factor of the variable with the id referenced by this formula.
+		virtual void UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor);
 	
 	protected:
 		virtual void WriteFormulaMatlabCode (std::ostream & mrOut);

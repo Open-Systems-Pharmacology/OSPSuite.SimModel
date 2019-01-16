@@ -40,6 +40,8 @@ class BooleanFormula :
 		void BooleanFormula::SwitchFormulaFromComparisonFormula(std::vector<Formula*> &vecExplicit, std::vector<Formula*> &vecImplicit);
 
 		virtual void UpdateIndicesOfReferencedVariables();
+		//Update the value to ODEScaleFactor of the scale factor of the variable with the id referenced by this formula.
+		virtual void UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor);
 };
 
 class AndFormula : 	

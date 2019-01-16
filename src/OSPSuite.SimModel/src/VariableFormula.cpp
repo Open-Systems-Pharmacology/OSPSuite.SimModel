@@ -4,6 +4,7 @@
 
 #include "SimModel/VariableFormula.h"
 #include "SimModel/ConstantFormula.h"
+#include "SimModel/Species.h"
 #include <assert.h>
 
 #ifdef _WINDOWS_PRODUCTION
@@ -55,6 +56,13 @@ void VariableFormula::SetQuantityReference (const QuantityReference & quantityRe
 
 void VariableFormula::Finalize()
 {
+	//If the quantity is a species, add this formula to the list of formulas that use the species.
+	//Used for updating scale factors.
+	if (_quantityRef.IsSpecies())
+	{
+		SimModelNative::Species * species = _quantityRef.GetSpecies();
+		species->AddFormulaReference(this);
+	}
 }
 
 double VariableFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
@@ -144,6 +152,12 @@ void VariableFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
 void VariableFormula::UpdateIndicesOfReferencedVariables()
 {
 	m_ODEVariableIndex = _quantityRef.GetODEIndex();
+}
+
+void VariableFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
+{
+	if (m_ODEVariableIndex == quantity_id)
+		m_ODEVariableScaleFactor = ODEScaleFactor;
 }
 
 }//.. end "namespace SimModelNative"
