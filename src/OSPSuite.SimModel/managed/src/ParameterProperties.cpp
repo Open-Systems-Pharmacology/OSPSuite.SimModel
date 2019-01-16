@@ -14,6 +14,7 @@ namespace SimModelNET
 		_tablePoints = gcnew List <IValuePoint^ >();
 		_canBeVaried = parameterInfo.CanBeVaried();
 		_calculateSensitivity = parameterInfo.CalculateSensitivity();
+		_usedInSimulation = parameterInfo.UsedInSimulation();
 
 		std::vector <SimModelNative::ValuePoint> tablePoints = parameterInfo.GetTablePoints();
 		for(size_t i=0; i<tablePoints.size(); i++)
@@ -33,6 +34,16 @@ namespace SimModelNET
 	void ParameterProperties::CanBeVaried::set(bool canBeVaried)
 	{
 		_canBeVaried = canBeVaried;
+	}
+
+	bool ParameterProperties::UsedInSimulation::get()
+	{
+		return _usedInSimulation;
+	}
+
+	void ParameterProperties::UsedInSimulation::set(bool usedInSimulation)
+	{
+		_usedInSimulation = usedInSimulation;
 	}
 
 	bool ParameterProperties::CalculateSensitivity::get()

@@ -67,4 +67,14 @@ void ParameterInfo::SetValue(double value)
 	QuantityInfo::SetValue(value);
 }
 
+bool ParameterInfo::UsedInSimulation() const
+{
+	return _usedInSimulation;
+}
+
+void ParameterInfo::SetUsedInSimulation(bool isUsedInSimulation)
+{
+	_usedInSimulation = isUsedInSimulation;
+}
+
 }//.. end "namespace SimModelNative"

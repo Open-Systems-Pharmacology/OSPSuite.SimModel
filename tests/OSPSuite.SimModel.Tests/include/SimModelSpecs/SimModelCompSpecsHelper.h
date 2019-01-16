@@ -16,7 +16,9 @@ namespace UnitTests
 	public:
 		::SimModelComp * GetInstance();
 		SimModelCompSpecsHelper(const char * simModelCompConfigFilePath);
-		void ConfigureFrom(const char * schemaFilePath, const char * simulationFilePath);
+		void ConfigureFrom(const char * schemaFilePath, const char * simulationFilePath,
+                           bool stopOnWarnings, double executionTimeLimit,
+			               bool validateWithSchema, bool identifyUsedParameters);
 		bool ProcessMetaData();
 		bool ProcessData();
 		virtual ~SimModelCompSpecsHelper();

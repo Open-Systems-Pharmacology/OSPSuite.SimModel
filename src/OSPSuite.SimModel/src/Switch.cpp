@@ -178,14 +178,14 @@ void Switch::AppendUsedVariables(set<int> & usedVariblesIndices)
 		_formulaChangeVector[i]->AppendVariablesUsedInNewFormula(usedVariblesIndices, emptySet);
 }
 
-void Switch::AppendUsedParameters(std::set<int> & usedParameterIDs)
+void Switch::AppendUsedParameters(std::set<int> & usedParameterIDs, bool alwaysAppendInFormulaChange)
 {
 	if (_conditionFormula->IsZero())
 		return; //switch will never fire
 
 	_conditionFormula->AppendUsedParameters(usedParameterIDs);
 	for (int i = 0; i<_formulaChangeVector.size(); i++)
-		_formulaChangeVector[i]->AppendUsedParameters(usedParameterIDs);
+		_formulaChangeVector[i]->AppendUsedParameters(usedParameterIDs, alwaysAppendInFormulaChange);
 }
 
 void Switch::AppendFormulaParameters(std::map<int, formulaParameterInfo > & formulaParameterIDs)
