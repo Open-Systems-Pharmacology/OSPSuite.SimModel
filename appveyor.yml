@@ -3,7 +3,7 @@ image: Visual Studio 2017
 environment:
   major: 3
   minor: 0
-  release: 0
+  release: 1
   app_version: '$(major).$(minor).$(release).$(APPVEYOR_BUILD_NUMBER)'
 
 version: '$(major).$(minor).$(release).{build}'
@@ -11,6 +11,7 @@ version: '$(major).$(minor).$(release).{build}'
 build_script:
   - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Debug;Platform=Win32 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Release;Platform=Win32 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Debug;Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Release;Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
 cache:
