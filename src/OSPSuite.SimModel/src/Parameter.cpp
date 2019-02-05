@@ -265,6 +265,8 @@ void Parameter::FillInfoWithParameterSpecificProperties(ParameterInfo & info)
 
 	if (IsTable())
 		info.SetTablePoints(_valueFormula->GetTablePoints());
+
+	info.SetUsedInSimulation(_usedInSimulation);
 }
 
 void Parameter::SetTablePoints(const std::vector <ValuePoint> & valuePoints)

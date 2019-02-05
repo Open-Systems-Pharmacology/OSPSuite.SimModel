@@ -17,6 +17,7 @@ using namespace std;
 const char * SimModelComp::conID = "ID";
 const char * SimModelComp::conPath = "Path";
 const char * SimModelComp::conDescription = "Description";
+const char * SimModelComp::conUsedInSimulation = "UsedInSimulation";
 const char * SimModelComp::conValue = "Value";
 const char * SimModelComp::conInitialValue = "InitialValue";
 const char * SimModelComp::conUnit = "Unit";
@@ -137,9 +138,6 @@ DCI::Bool SimModelComp::Configure()
 		//---- fill VariableParameters-Table
 		FillParameterInputTable(GetInputPorts()->Item(conTabVariableParameter), m_AllParameters, 
 			                    INITIAL_FILL, VARIABLE_QUANTITIES);
-		DCI::ITableHandle hTab = GetInputPorts()->Item(conTabVariableParameter)->GetTable();
-		AddByteColumn(hTab, conIsVariable);
-		AddByteColumn(hTab, conCalculateSensitivity);
 
 		//---- fill AllTableParameters-Table
 		FillTableParameterPointsInputTable(GetInputPorts()->Item(conTabAllTableParameter), m_AllParameters, 
@@ -159,7 +157,6 @@ DCI::Bool SimModelComp::Configure()
 		//---- fill variable species table
 		FillSpeciesInputTable(GetInputPorts()->Item(conTabVariableSpecies), m_AllSpecies, 
 			                  INITIAL_FILL, VARIABLE_QUANTITIES);
-		AddByteColumn(GetInputPorts()->Item(conTabVariableSpecies)->GetTable(), conIsVariable);
 
 		//---- fill observers table
 		FillObserversInputTable();
@@ -873,6 +870,7 @@ void SimModelComp::CheckInputTableColumns(const DCI::ITableHandle hTab, unsigned
 		CheckColumn(hTab, conParameterType, DCI::DT_STRING);
 		CheckColumn(hTab, conFormula, DCI::DT_STRING);
 		CheckColumn(hTab, conDescription, DCI::DT_STRING);
+		CheckColumn(hTab, conUsedInSimulation, DCI::DT_BYTE);
 		
 		if (IsVariableColumnPresent)
 		{
@@ -951,7 +949,7 @@ void SimModelComp::FillParameterInputTable(DCI::IPortHandle  hPort,
 		//---- 1st call - setup the table
 		hTab.BindTo(new DCI::Table);
 		hPort->SetTable(hTab);
-		AddParameterTableColumns(hTab);
+		AddParameterTableColumns(hTab, selectionMode);
 	}
 	else
 	{
@@ -993,6 +991,8 @@ void SimModelComp::FillParameterInputTable(DCI::IPortHandle  hPort,
 			
 		hTab->SetValue(LastRowIdx, conFormula, parameterInfo.GetFormulaEquation().c_str());		
 		hTab->SetValue(LastRowIdx, conDescription, parameterInfo.GetDescription().c_str());
+
+		hTab->SetValue(LastRowIdx, conUsedInSimulation, parameterInfo.UsedInSimulation());
 	}
 
 	//final table redim to (remove unnecessary records)
@@ -1075,7 +1075,7 @@ void SimModelComp::FillSpeciesInputTable(DCI::IPortHandle hPort,
 		//---- 1st call - setup the table
 		hTab.BindTo(new DCI::Table);
 		hPort->SetTable(hTab);
-		AddSpeciesTableColumns(hTab);
+		AddSpeciesTableColumns(hTab, selectionMode);
 	}
 	else
 	{
@@ -1111,7 +1111,7 @@ void SimModelComp::FillSpeciesInputTable(DCI::IPortHandle hPort,
 	hTab->ReDim(LastRowIdx, hTab->GetColumns()->GetCount());
 }
 
-void SimModelComp::AddParameterTableColumns(const DCI::ITableHandle hTab)
+void SimModelComp::AddParameterTableColumns(const DCI::ITableHandle hTab, QuantitiesSelectionMode selectionMode)
 {
 	AddColumn(hTab, conID, DCI::DT_INT);
 	AddColumn(hTab, conPath, DCI::DT_STRING);
@@ -1120,6 +1120,13 @@ void SimModelComp::AddParameterTableColumns(const DCI::ITableHandle hTab)
 	AddColumn(hTab, conParameterType, DCI::DT_STRING);
 	AddColumn(hTab, conFormula, DCI::DT_STRING);
 	AddColumn(hTab, conDescription, DCI::DT_STRING);
+	AddColumn(hTab, conUsedInSimulation, DCI::DT_BYTE);
+
+	if (selectionMode == VARIABLE_QUANTITIES)
+	{
+		AddByteColumnFilledWithZeros(hTab, conIsVariable);
+		AddByteColumnFilledWithZeros(hTab, conCalculateSensitivity);
+	}
 }
 
 void SimModelComp::AddTableParameterTableColumns(const DCI::ITableHandle hTab)
@@ -1139,7 +1146,7 @@ void SimModelComp::AddObserversTableColumns(const DCI::ITableHandle hTab)
 	AddColumn(hTab, conDescription, DCI::DT_STRING);
 }
 
-void SimModelComp::AddSpeciesTableColumns(const DCI::ITableHandle hTab)
+void SimModelComp::AddSpeciesTableColumns(const DCI::ITableHandle hTab, QuantitiesSelectionMode selectionMode)
 {
 	AddColumn(hTab, conID, DCI::DT_INT);
 	AddColumn(hTab, conPath, DCI::DT_STRING);
@@ -1149,14 +1156,19 @@ void SimModelComp::AddSpeciesTableColumns(const DCI::ITableHandle hTab)
 	AddColumn(hTab, conIsFormula, DCI::DT_BYTE);
 	AddColumn(hTab, conFormula, DCI::DT_STRING);
 	AddColumn(hTab, conDescription, DCI::DT_STRING);
+
+	if (selectionMode == VARIABLE_QUANTITIES)
+	{
+		AddByteColumnFilledWithZeros(hTab, conIsVariable);
+	}
 }
 
-void SimModelComp::AddByteColumn(DCI::ITableHandle hTab, const string & columnName)
+void SimModelComp::AddByteColumnFilledWithZeros(DCI::ITableHandle hTab, const string & columnName)
 {
 	AddColumn(hTab, columnName, DCI::DT_BYTE);
 
 	for(int recIdx=1; recIdx<=hTab->GetRecords()->GetCount(); recIdx++)
-		hTab->SetValue(recIdx, conIsVariable, 0);
+		hTab->SetValue(recIdx, columnName.c_str(), 0);
 }
 
 OutputIntervalDistribution SimModelComp::IntervalDistributionFromString(DCI::String distribution)

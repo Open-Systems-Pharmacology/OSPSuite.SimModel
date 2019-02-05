@@ -786,4 +786,40 @@ public:
 			}
 		}
 	};
+
+	public ref class when_getting_used_parameters_information : public concern_for_simmodelcomp
+	{
+	protected:
+		bool dciRetVal;
+
+		virtual void Context() override
+		{
+			_simulationFilePath = SpecsHelper::TestFileFrom("TestExportUsedParameters02");
+			concern_for_simmodelcomp::Context();
+		}
+
+		virtual void Because() override
+		{
+		}
+
+	public:
+		[TestAttribute]
+		void should_save_only_persistable_variables_and_observers_into_output_table()
+		{
+			try
+			{
+				BDDExtensions::ShouldBeEqualTo(dciRetVal, true, sut->DCILastError());
+
+				//get values Table
+				DCI::ITableHandle hTab = _simModelComp->GetOutputPorts()->Item(2)->GetTable();
+
+				//test model contains 1 pers. and 1. non-pers. observer and 1 pers. and 1. non-pers. variable
+				BDDExtensions::ShouldBeEqualTo((int)hTab->GetColumns()->GetCount(), 2);
+			}
+			catch (ErrorData & ED)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ED);
+			}
+		}
+	};
 }
