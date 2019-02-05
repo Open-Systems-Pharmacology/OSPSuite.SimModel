@@ -60,6 +60,38 @@ SimulationOptions & Simulation::Options()
 	return _options;
 }
 
+vector<string> Simulation::GetPathsOfUsedParameters(void)
+{
+	set<int> allUsedParameterIds;
+	int idx;
+
+	//collect all parameter ids used in RHS and start formulas of variables
+	for (idx = 0; idx < _species.size(); idx++)
+	{
+		_species[idx]->AppendUsedParameters(allUsedParameterIds, true);
+	}
+
+	//add all parameter ids used in observers
+	for (idx = 0; idx < _observers.size(); idx++)
+	{
+		_observers[idx]->AppendUsedParameters(allUsedParameterIds);
+	}
+
+	//add all parameter ids used in switches
+	for (idx = 0; idx < _switches.size(); idx++)
+	{
+		_switches[idx]->AppendUsedParameters(allUsedParameterIds, true);
+	}
+
+	vector<string> paths;
+	for (auto iter = allUsedParameterIds.begin(); iter!= allUsedParameterIds.end(); iter++)
+	{
+		paths.push_back(_parameters.GetObjectById(*iter)->GetFullName());
+	}
+
+	return paths;
+}
+
 bool Simulation::UseBandLinearSolver()
 {
 	return m_Solver.UseBandLinearSolver();
@@ -438,6 +470,8 @@ void Simulation::LoadFromXMLDocument(void)
 		_allQuantities.Add(_observers[i]);
 
 	XMLFinalizeInstance(m_SimNode, this); //2nd pass (resolve references etc.)
+
+	SimulationTask::MarkUsedParameters(this);
 }
 
 //estimate and save hierarchy level of each HFObject and 

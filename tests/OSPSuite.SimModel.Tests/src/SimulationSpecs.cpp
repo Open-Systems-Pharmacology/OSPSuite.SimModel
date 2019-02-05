@@ -3511,4 +3511,137 @@ namespace SimulationTests
 			SimpleRunTestResult();
 		}
 	};
+
+	public ref class when_getting_all_used_parameters_when_identify_used_parameters_set_to_true : public concern_for_simulation
+	{
+	protected:
+		virtual void Because() override
+		{
+		}
+
+	public:
+		[TestAttribute]
+		void should_return_only_used_parameters_when_identify_used_parameters_set_to_true()
+		{
+			// test simulation constructed as following
+			//---------------- Parameter -----------------
+			//
+			// P1 = P2
+			// P2 = P3 + 2
+			// P3 = y1*P4 + P5
+			// P4 = P6 AND dP4/dt = P12 (Parameter has RHS)
+			// P5 = 1
+			// P6 = 1
+			// P7 = 1
+			// P8 = 1
+			// P9 = 1
+			// P10 = 1
+			// P11 = 1
+			// P12 = 1
+			// P13 = P14
+			// P14 = 1
+			// P15 = y1
+			// P16 = y1 (additionally parameter is defined as plotable)
+			// --------------- Variables --------------------------
+			// y1(0) = 0
+			// y2(0) = P3
+			// dy1/dt = -P7 - P8
+			// dy2/dt = P7 + P8
+			//--------------- Events --------------------
+			// IF (y1 > 0) THEN P9 = P10
+			// IF (P11 > 0) THEN y2 = y2 + 1
+			//--------------- Observers -----------------
+			// Obs1: P13*y1
+			//--------------------------------------------------------
+			//Expected parameters used:
+			// P3 (used in start formula of y2)
+			// P5 (used in P3)
+			// P6 (used in P4) (because P4 has RHS it becomes ODE variable in SimModel-XML!)
+			// P7 (used in RHS of y1, y2)
+			// P8 (used in RHS of y1, y2)
+			// P10 (used in Event assignemnet)
+			// P11 (used in Event condition)
+			// P12 (used in RHS of P4)
+			// P13 (used in Observer)
+			// P14 (used in P13)
+			try
+			{
+				std::vector<std::string> paths;
+
+				sut->GetNativeSimulation()->Options().IdentifyUsedParameters(true);
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("TestExportUsedParameters02"));
+				auto parameters = sut->GetNativeSimulation()->Parameters();
+				for (auto idx = 0; idx < parameters.size(); idx++)
+				{
+					if (parameters[idx]->UsedInSimulation())
+						paths.push_back(parameters[idx]->GetFullName());
+				}
+
+				//auto paths = sut->GetNativeSimulation()->GetPathsOfUsedParameters();
+
+				std::string prefix = "TestExportUsedParameters02|Organism|";
+				std::vector<std::string> expectedPaths {
+					prefix+"P3", prefix+"P5", prefix+"P6", prefix+"P7",
+					prefix+"P8", prefix+"P10", prefix+"P11",
+					prefix+"P12", prefix+"P13", prefix+"P14"};
+
+				for (size_t idx = 0; idx < expectedPaths.size(); idx++)
+				{
+					auto path = expectedPaths[idx];
+					BDDExtensions::ShouldBeTrue(std::find(paths.begin(), paths.end(), path) != paths.end(),
+						CPPToNETConversions::MarshalString(path + " not found in the list of used parameters"));
+				}
+
+				BDDExtensions::ShouldBeEqualTo(paths.size(), expectedPaths.size());
+			}
+			catch (ErrorData & ED)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ED);
+			}
+			catch (System::Exception^)
+			{
+				throw;
+			}
+			catch (...)
+			{
+				ExceptionHelper::ThrowExceptionFromUnknown();
+			}
+		}
+	};
+
+	public ref class when_getting_all_used_parameters_when_identify_used_parameters_set_to_false : public concern_for_simulation
+	{
+	protected:
+		virtual void Because() override
+		{
+		}
+
+	public:
+		[TestAttribute]
+		void should_return_all_parameters_when_identify_used_parameters_set_to_false()
+		{
+			try
+			{
+				sut->GetNativeSimulation()->Options().IdentifyUsedParameters(false);
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("TestExportUsedParameters02"));
+				auto parameters = sut->GetNativeSimulation()->Parameters();
+				for (auto idx = 0; idx < parameters.size(); idx++)
+				{
+					BDDExtensions::ShouldBeTrue(parameters[idx]->UsedInSimulation());
+				}
+			}
+			catch (ErrorData & ED)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ED);
+			}
+			catch (System::Exception^)
+			{
+				throw;
+			}
+			catch (...)
+			{
+				ExceptionHelper::ThrowExceptionFromUnknown();
+			}
+		}
+	};
 }

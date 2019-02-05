@@ -29,6 +29,7 @@ Parameter::Parameter(void)
 	_canBeVaried = true;
 	_isPersistable = false;
 	_calculateSensitivity = false;
+	_usedInSimulation = false;
 }
 
 Parameter::~Parameter(void)
@@ -53,6 +54,16 @@ bool Parameter::CalculateSensitivity() const
 void Parameter::SetCalculateSensitivity(bool calculateSensitivity)
 {
 	_calculateSensitivity = calculateSensitivity;
+}
+
+bool Parameter::UsedInSimulation() const
+{
+	return _usedInSimulation;
+}
+
+void Parameter::SetUsedInSimulation(bool usedInSimulation)
+{
+	_usedInSimulation = usedInSimulation;
 }
 
 void Parameter::LoadFromXMLNode (const XMLNode & pNode)

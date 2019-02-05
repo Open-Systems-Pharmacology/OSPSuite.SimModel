@@ -61,6 +61,9 @@ private:
 	bool m_ProcessDataFirstRun;
 
 	void LoadConfigurationFromParameterTable();
+	bool GetBooleanValueFrom(DCI::ITableHandle & hTab, const std::string & columnName, bool defaultValue);
+	double GetDoubleValueFrom(DCI::ITableHandle & hTab, const std::string & columnName, double defaultValue);
+	std::string GetStringValueFrom(DCI::ITableHandle & hTab, const std::string & columnName, const std::string & defaultValue="");
 
 	void FillParameterInputTable(DCI::IPortHandle hPort, 
                                  std::vector<SimModelNative::ParameterInfo> & simParams,

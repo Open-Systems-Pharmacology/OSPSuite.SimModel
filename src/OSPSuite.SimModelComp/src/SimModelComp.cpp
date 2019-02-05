@@ -183,15 +183,77 @@ DCI::Bool SimModelComp::Configure()
 	return RetVal;
 }
 
+//return boolen value stored in the first value of hTab[columnName]
+//if the column <columnName> is not present or contains no values: return <defaultValue>
+bool SimModelComp::GetBooleanValueFrom(DCI::ITableHandle & hTab, const string & columnName, bool defaultValue)
+{
+	DCI::IVariableHandle hVar;
+	DCI::IntVector lVec;
+
+	hVar = GetVarHandle(hTab, columnName.c_str(), DCI::DT_INT, true);
+	if (!hVar)
+		return defaultValue;
+
+	lVec = hVar->GetValues();
+	if (lVec.Len() == 0)
+		return defaultValue;
+
+	return lVec[0] == 1;
+}
+
+//return double value stored in the first value of hTab[columnName]
+//if the column <columnName> is not present or contains no values: return <defaultValue>
+double SimModelComp::GetDoubleValueFrom(DCI::ITableHandle & hTab, const std::string & columnName, double defaultValue)
+{
+	DCI::IVariableHandle hVar;
+	DCI::DoubleVector dVec;
+
+	hVar = GetVarHandle(hTab, columnName.c_str(), DCI::DT_DOUBLE, true);
+	if (!hVar)
+		return defaultValue;
+	
+	dVec = hVar->GetValues();
+	if (dVec.Len() == 0)
+		return defaultValue;
+
+	return dVec[0];	
+}
+
+//return string value stored in the first value of hTab[columnName]
+//if the column <columnName> is not present or contains no values: 
+//    - if <defaultValue> is not empty: return <defaultValue>
+//    - otherwise: throw exception
+string SimModelComp::GetStringValueFrom(DCI::ITableHandle & hTab, const string & columnName, const string & defaultValue)
+{
+	DCI::IVariableHandle hVar;
+	DCI::StringVector sVec;
+
+	hVar = GetVarHandle(hTab, columnName.c_str(), DCI::DT_STRING, true);
+	if (!hVar)
+	{
+		if(defaultValue != "")
+			return defaultValue;
+
+		throw "Column \"" + columnName + "\" in the parameter table is absent";
+	}
+
+	sVec = hVar->GetValues();
+	if (sVec.Len() == 0)
+	{
+		if (defaultValue != "")
+			return defaultValue;
+
+		throw "Column \"" + columnName + "\" is empty";
+	}
+
+	return (const char *)(sVec[0]);
+}
+
 //
 //
 void SimModelComp::LoadConfigurationFromParameterTable()
 {
 	DCI::ITableHandle hTab;
-	DCI::IVariableHandle hVar;
-	DCI::StringVector sVec;
-	DCI::IntVector lVec;
-	DCI::DoubleVector dVec;
 
 	hTab = GetParameterPorts()->Item(1)->GetTable();
 	if (!hTab)
@@ -200,47 +262,18 @@ void SimModelComp::LoadConfigurationFromParameterTable()
 	//init Simulation Schema cache if not done yet
 	if (!m_XMLSchemaCache->SchemaInitialized())
 	{
-		hVar = GetVarHandle(hTab, "SimModelSchema", DCI::DT_STRING);
-		sVec = hVar->GetValues();
-		if (sVec.Len() != 1)
-			throw "Parameter column \"SimModelSchema\" must contain exactly one value";
 		m_XMLSchemaCache->SetSchemaNamespace(XMLConstants::GetSchemaNamespace());
-		m_XMLSchemaCache->LoadSchemaFromFile((const char *)(sVec[0]));
+		m_XMLSchemaCache->LoadSchemaFromFile(GetStringValueFrom(hTab, "SimModelSchema"));
 	}
 
 	//get simulation file name
-	hVar = GetVarHandle(hTab, "SimulationFile", DCI::DT_STRING);
-	sVec = hVar->GetValues(); 
-	if (sVec.Len() != 1)
-		throw "Parameter column \"SimulationFile\" must contain exactly one value";
-	m_SimFileName = (const char *)(sVec[0]);
+	m_SimFileName = GetStringValueFrom(hTab, "SimulationFile");
 
-	//read StopOnWarnings-flag if available
-	hVar = GetVarHandle(hTab, "StopOnWarnings", DCI::DT_INT, true);
-	if(hVar)
-	{
-		lVec = hVar->GetValues(); 
-		if (lVec.Len() > 0)
-		{
-			if (lVec[0] == 1)
-				m_Sim->Options().SetStopOnWarnings(true);
-			else
-				m_Sim->Options().SetStopOnWarnings(false);
-		}
-	}
-
-	//read ExecutionTimeLimit-flag if available
-	hVar = GetVarHandle(hTab, "ExecutionTimeLimit", DCI::DT_DOUBLE, true);
-	if(hVar)
-	{
-		dVec = hVar->GetValues(); 
-		if (dVec.Len() > 0)
-		{
-			double ExecutionTimeLimit = dVec[0];
-			if (ExecutionTimeLimit > 0.0)
-				m_Sim->Options().SetExecutionTimeLimit(ExecutionTimeLimit * 1000); //s. -> ms.
-		}
-	}
+	//set simulation options
+	m_Sim->Options().SetStopOnWarnings(GetBooleanValueFrom(hTab, "StopOnWarnings", true));
+	m_Sim->Options().ValidateWithXMLSchema(GetBooleanValueFrom(hTab, "ValidateWithXMLSchema", false));
+	m_Sim->Options().IdentifyUsedParameters(GetBooleanValueFrom(hTab, "IdentifyUsedParameters", false));
+	m_Sim->Options().SetExecutionTimeLimit(GetDoubleValueFrom(hTab, "ExecutionTimeLimit", 0.0) * 1000); //s. -> ms.
 }
 
 //---- sets which parameters should be varied and finalizes the simulation
