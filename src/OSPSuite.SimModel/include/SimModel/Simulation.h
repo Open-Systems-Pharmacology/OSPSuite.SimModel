@@ -232,8 +232,6 @@ public:
 	SIM_EXPORT void ReleaseMemory();
 
 	SIM_EXPORT SimulationOptions & Options();
-
-	SIM_EXPORT std::vector<std::string> GetPathsOfUsedParameters(void);
 };
 
 }//.. end "namespace SimModelNative"
