@@ -992,7 +992,7 @@ void SimModelComp::FillParameterInputTable(DCI::IPortHandle  hPort,
 		hTab->SetValue(LastRowIdx, conFormula, parameterInfo.GetFormulaEquation().c_str());		
 		hTab->SetValue(LastRowIdx, conDescription, parameterInfo.GetDescription().c_str());
 
-		hTab->SetValue(LastRowIdx, conUsedInSimulation, parameterInfo.UsedInSimulation());
+		hTab->SetValue(LastRowIdx, conUsedInSimulation, parameterInfo.UsedInSimulation() ? (DCI::Byte)1 : (DCI::Byte)0);
 	}
 
 	//final table redim to (remove unnecessary records)
