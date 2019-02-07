@@ -12,6 +12,7 @@
 #include "SimModel/ProductFormula.h"
 #include "SimModel/ConstantFormula.h"
 #include <assert.h>
+#include <algorithm>
 
 #ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
