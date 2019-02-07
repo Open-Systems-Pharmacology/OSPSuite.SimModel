@@ -141,7 +141,8 @@ Formula* PowerFormula::DE_Jacobian(const int iEquation)
 
 	//return p3;
 
-	LnFormula* l = new LnFormula(string("Log"));
+	string sLog = string("Log");
+	LnFormula* l = new LnFormula(sLog);
 	ProductFormula* p1 = new ProductFormula();
 	ProductFormula* p2 = new ProductFormula();
 	DivFormula* div = new DivFormula();
