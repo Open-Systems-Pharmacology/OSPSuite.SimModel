@@ -11,6 +11,7 @@
 #include "SimModel/Simulation.h"
 #include "XMLWrapper/XMLHelper.h"
 #include <sstream>
+#include <algorithm>
 
 #ifdef _WINDOWS_PRODUCTION
 #pragma managed(pop)
