@@ -270,7 +270,7 @@ void SimModelComp::LoadConfigurationFromParameterTable()
 	m_Sim->Options().SetStopOnWarnings(GetBooleanValueFrom(hTab, "StopOnWarnings", true));
 	m_Sim->Options().ValidateWithXMLSchema(GetBooleanValueFrom(hTab, "ValidateWithXMLSchema", false));
 	m_Sim->Options().IdentifyUsedParameters(GetBooleanValueFrom(hTab, "IdentifyUsedParameters", false));
-	m_Sim->Options().SetExecutionTimeLimit(GetDoubleValueFrom(hTab, "ExecutionTimeLimit", 0.0) * 1000); //s. -> ms.
+	m_Sim->Options().SetExecutionTimeLimit(GetDoubleValueFrom(hTab, "ExecutionTimeLimit", 0.0));
 }
 
 //---- sets which parameters should be varied and finalizes the simulation

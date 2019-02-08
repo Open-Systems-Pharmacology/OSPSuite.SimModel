@@ -26,8 +26,8 @@
 						<Values>0</Values>
 					</Variable>
 					<Variable Key="IdentifyUsedParameters">
-						<FieldDef Name="IdentifyUsedParameters" DataType="Int" Description="Mark parameters used in ODE variables/observers" DefaultValue="0"/>
-						<Values>0</Values>
+						<FieldDef Name="IdentifyUsedParameters" DataType="Int" Description="Mark parameters used in ODE variables/observers" DefaultValue="1"/>
+						<Values>1</Values>
 					</Variable>
 				</Variables>
 			</Table>

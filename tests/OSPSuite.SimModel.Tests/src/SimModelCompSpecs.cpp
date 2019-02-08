@@ -32,7 +32,7 @@ namespace SimModelCompTests
 			StopOnWarnings = true;
 			ExecutionTimeLimit = 0.0;
 			ValidateWithSchema = false;
-			IdentifyUsedParameters = false;
+			IdentifyUsedParameters = true;
 		}
 	};
 
@@ -850,6 +850,56 @@ public:
 			{
 				checkUsedInSimulationFor(_simModelComp->GetInputPorts()->Item(1)->GetTable()); //all parameters table
 				checkUsedInSimulationFor(_simModelComp->GetInputPorts()->Item(2)->GetTable()); //variable parameters table
+			}
+			catch (ErrorData & ED)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ED);
+			}
+		}
+	};
+
+	public ref class when_exceeding_execution_time_limit : public concern_for_simmodelcomp
+	{
+	protected:
+		bool dciRetVal;
+
+		virtual void Context() override
+		{
+			_simulationFilePath = SpecsHelper::TestFileFrom("Theophyline_2");
+			_simModelCompOptions->ExecutionTimeLimit = 0.01;
+			concern_for_simmodelcomp::Context();
+		}
+
+		virtual void Because() override
+		{
+			try
+			{
+				dciRetVal = _simModelComp->ProcessMetaData();
+			}
+			catch (ErrorData & ED)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ED);
+			}
+			catch (System::Exception^)
+			{
+				throw;
+			}
+			catch (...)
+			{
+				ExceptionHelper::ThrowExceptionFromUnknown();
+			}
+		}
+
+	public:
+		[TestAttribute]
+		void should_throw_exception()
+		{
+			try
+			{
+				BDDExtensions::ShouldBeEqualTo(dciRetVal, true, sut->DCILastError());
+
+				dciRetVal = _simModelComp->ProcessData();
+				BDDExtensions::ShouldBeEqualTo(dciRetVal, false);
 			}
 			catch (ErrorData & ED)
 			{
