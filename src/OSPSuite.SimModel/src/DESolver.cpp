@@ -214,7 +214,7 @@ namespace SimModelNative
 
 			//cache start execution time
 			//used to check if execution time limit exceeded (if applies)
-			double executionStartTime = clock() / CLOCKS_PER_SEC;
+			double executionStartTime = clock() / (double)CLOCKS_PER_SEC;
 
 			//output time points of the simulation
 			vector <OutputTimePoint> outputTimePoints = SimulationTask::OutputTimePoints(_parentSim);
@@ -281,7 +281,7 @@ namespace SimModelNative
 				//check if execution time limit exceeded (if applies)
 				if (executionTimeLimit > 0.0)
 				{
-					double currentTime = clock() / CLOCKS_PER_SEC;
+					double currentTime = clock() / (double)CLOCKS_PER_SEC;
 					if ((currentTime - executionStartTime) > executionTimeLimit)
 						throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Simulation execution time limit exceeded");
 				}
