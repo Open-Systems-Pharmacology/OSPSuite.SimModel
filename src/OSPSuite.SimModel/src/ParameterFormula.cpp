@@ -157,6 +157,7 @@ void ParameterFormula::WriteFormulaCppCode(std::ostream & mrOut)
 {
 	if (_quantityRef.IsTime())
 		mrOut << csTime;
+
 	else if (_quantityRef.IsParameter())
 	{
 		Parameter * param = dynamic_cast<Parameter *>(_quantityRef.GetHierarchicalFormulaObject());
@@ -171,6 +172,21 @@ void ParameterFormula::WriteFormulaCppCode(std::ostream & mrOut)
 		assert(species != NULL);
 
 		species->GetInitialFormula()->WriteCppCode(mrOut);
+	}
+
+	else if (_quantityRef.IsObserver())
+	{
+		Observer * observer = dynamic_cast<Observer *>(_quantityRef.GetHierarchicalFormulaObject());
+
+		if (observer == NULL) // no formula available, e.g. removed during optimization --> getValue
+			mrOut << _quantityRef.GetValue(NULL, 0.0, IGNORE_SCALEFACTOR);
+		else {
+			Formula *f = observer->getValueFormula();
+			if (f == NULL) // TODO: check: redundant with above?
+				mrOut << observer->GetValue(NULL, 0.0, IGNORE_SCALEFACTOR);
+			else
+				f->WriteCppCode(mrOut);
+		}
 	}
 
 	else
