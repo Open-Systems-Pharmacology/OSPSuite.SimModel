@@ -9,8 +9,6 @@ environment:
 version: '$(major).$(minor).$(release).{build}'
 
 build_script:
-  - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Debug;Platform=Win32 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Release;Platform=Win32 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Debug;Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Release;Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 
@@ -35,7 +33,6 @@ after_build:
 
 test:
   assemblies:
-  - '**\*.Tests.Release.Win32.dll'
   - '**\*.Tests.Release.x64.dll'
 
 branches:
