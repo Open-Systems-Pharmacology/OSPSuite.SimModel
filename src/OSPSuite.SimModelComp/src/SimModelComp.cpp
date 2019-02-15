@@ -714,13 +714,17 @@ void SimModelComp::UpdateOutputTimeSchema()
 		double endTime         = hTab->GetValue(intervalIdx, conEndTime);
 		int numberOfTimePoints = hTab->GetValue(intervalIdx, conNoOfTimePoints);
 
-		OutputIntervalDistribution pointsDistribution = IntervalDistributionFromString(
-			                     hTab->GetValue(intervalIdx, conDistribution));
+      //Just a temporal workaround for the problem when hTab->GetRecords()->GetCount();
+      //returns more intervals than present.
+      if (numberOfTimePoints > 0) {
+         OutputIntervalDistribution pointsDistribution = IntervalDistributionFromString(
+            hTab->GetValue(intervalIdx, conDistribution));
 
-		OutputInterval * interval = new OutputInterval
-			(startTime, endTime, numberOfTimePoints, pointsDistribution);
+         OutputInterval * interval = new OutputInterval
+         (startTime, endTime, numberOfTimePoints, pointsDistribution);
 
-		outSchema.OutputIntervals().push_back(interval);
+         outSchema.OutputIntervals().push_back(interval);
+      }
 	}
 }
 
