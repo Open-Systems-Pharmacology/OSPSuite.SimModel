@@ -207,7 +207,6 @@
     <ClInclude Include="include\DynamicLibrary.h" />
     <ClInclude Include="include\ErrorData.h" />
     <ClInclude Include="include\FileSystem.h" />
-    <ClInclude Include="include\stdint.h" />
     <ClInclude Include="include\strncasecmp.h" />
     <ClInclude Include="include\SysToolConfig.h" />
   </ItemGroup>
