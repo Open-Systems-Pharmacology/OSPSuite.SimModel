@@ -40,7 +40,7 @@ public:
 	bool IsUsedInFormulas() const;
 	void SetIsUsedInFormulas(bool usedInFormulas);
 
-	bool UsedInSimulation() const;
+	bool IsUsedInSimulation() const;
 };
 
 }//.. end "namespace SimModelNative"

@@ -124,7 +124,7 @@ void Observer::SetIsUsedInFormulas(bool usedInFormulas)
 	_isUsedInFormulas = usedInFormulas;
 }
 
-bool Observer::UsedInSimulation() const
+bool Observer::IsUsedInSimulation() const
 {
 	return _isPersistable || _isChangedBySwitch || _isUsedInFormulas;
 }

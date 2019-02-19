@@ -231,7 +231,7 @@ void SimulationTask::MarkUsedParameters(Simulation * sim)
 	{
 		for (idx = 0; idx < parameters.size(); idx++)
 		{
-			parameters[idx]->SetUsedInSimulation(true);
+			parameters[idx]->SetIsUsedInSimulation(true);
 		}
 
 		return;
@@ -266,7 +266,7 @@ void SimulationTask::MarkUsedParameters(Simulation * sim)
 		Parameter * parameter = parameters[idx];
 
 		bool used = allUsedParameterIds.find(parameter->GetId()) != allUsedParameterIds.end();
-		parameter->SetUsedInSimulation(used);
+		parameter->SetIsUsedInSimulation(used);
 	}
 }
 

@@ -675,7 +675,7 @@ void Simulation::RedimAndInitValues (int numberOfTimePoints,
 	for(i=0; i<_observers.size(); i++)
 	{
 		Observer * observer = _observers[i];
-		if (!observer->UsedInSimulation())
+		if (!observer->IsUsedInSimulation())
 			continue;
 
 		numberOfSensitivityTimePoints = numberOfTimePoints;
@@ -901,7 +901,7 @@ void Simulation::SetObserverSensitivityValues(int index, const double time, doub
 		for (observerIdx = 0; observerIdx<observersSize; observerIdx++)
 		{
 			auto observer = _observers[observerIdx];
-			if (observer->IsConstantDuringCalculation() || !observer->UsedInSimulation())
+			if (observer->IsConstantDuringCalculation() || !observer->IsUsedInSimulation())
 				continue;
 
 			//---- set sensitivity values for all parameters
@@ -958,7 +958,7 @@ void Simulation::SetObserverValues(int index, const double * y, const double tim
 		for (i=0; i<observersSize; i++)
 		{
 			observer = _observers[i];
-			if (observer->IsConstantDuringCalculation() || !observer->UsedInSimulation())
+			if (observer->IsConstantDuringCalculation() || !observer->IsUsedInSimulation())
 				continue;
 
 			newObserverValues[i] = observer->CalculateValue(y, time, USE_SCALEFACTOR);
@@ -967,7 +967,7 @@ void Simulation::SetObserverValues(int index, const double * y, const double tim
 		for (i=0; i<observersSize; i++)
 		{
 			observer = _observers[i];
-			if (observer->IsConstantDuringCalculation() || !observer->UsedInSimulation())
+			if (observer->IsConstantDuringCalculation() || !observer->IsUsedInSimulation())
 				continue;
 
 			//for non-persistable observers: overwrite the (only) value with the new one
@@ -1144,7 +1144,7 @@ void Simulation::FillObserverProperties(std::vector<QuantityInfo> & observerProp
 
 	for(int idx=0; idx<_observers.size(); idx++)
 	{
-		if (!_observers[idx]->UsedInSimulation())
+		if (!_observers[idx]->IsUsedInSimulation())
 			continue;
 
 		QuantityInfo quantityInfo;

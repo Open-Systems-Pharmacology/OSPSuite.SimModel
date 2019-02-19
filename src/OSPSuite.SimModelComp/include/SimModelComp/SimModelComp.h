@@ -139,7 +139,7 @@ private:
 	const static char * conID;
 	const static char * conPath;
 	const static char * conDescription;
-	const static char * conUsedInSimulation;
+	const static char * conIsUsedInSimulation;
 	const static char * conValue;
 	const static char * conInitialValue;
 	const static char * conUnit;

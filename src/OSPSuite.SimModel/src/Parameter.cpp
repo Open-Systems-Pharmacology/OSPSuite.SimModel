@@ -29,7 +29,7 @@ Parameter::Parameter(void)
 	_canBeVaried = true;
 	_isPersistable = false;
 	_calculateSensitivity = false;
-	_usedInSimulation = false;
+	_isUsedInSimulation = false;
 }
 
 Parameter::~Parameter(void)
@@ -56,14 +56,14 @@ void Parameter::SetCalculateSensitivity(bool calculateSensitivity)
 	_calculateSensitivity = calculateSensitivity;
 }
 
-bool Parameter::UsedInSimulation() const
+bool Parameter::IsUsedInSimulation() const
 {
-	return _usedInSimulation;
+	return _isUsedInSimulation;
 }
 
-void Parameter::SetUsedInSimulation(bool usedInSimulation)
+void Parameter::SetIsUsedInSimulation(bool isUsedInSimulation)
 {
-	_usedInSimulation = usedInSimulation;
+	_isUsedInSimulation = isUsedInSimulation;
 }
 
 void Parameter::LoadFromXMLNode (const XMLNode & pNode)
@@ -266,7 +266,7 @@ void Parameter::FillInfoWithParameterSpecificProperties(ParameterInfo & info)
 	if (IsTable())
 		info.SetTablePoints(_valueFormula->GetTablePoints());
 
-	info.SetUsedInSimulation(_usedInSimulation);
+	info.SetIsUsedInSimulation(_isUsedInSimulation);
 }
 
 void Parameter::SetTablePoints(const std::vector <ValuePoint> & valuePoints)
