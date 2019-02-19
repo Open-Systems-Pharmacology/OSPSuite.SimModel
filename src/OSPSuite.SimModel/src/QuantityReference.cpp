@@ -107,6 +107,8 @@ void QuantityReference::LoadFromXMLNode (const XMLNode & pNode)
 	_alias      = pNode.GetAttribute(XMLConstants::Alias);
 		
 	//Set Type of object reference
+	//-------------------------------------------------------------------------------------------------
+	//TODO this corresponds to the very old simmodel-xml format. probably can be deleted
 	if (pNode.HasName(XMLConstants::Parameter))
 	{
 		if (_quantityId == TIME_QUANTITY_ID) 
@@ -118,6 +120,7 @@ void QuantityReference::LoadFromXMLNode (const XMLNode & pNode)
 		_isObserver = true;
 	else if (pNode.HasName(XMLConstants::Variable))
 		_isSpecies = true;
+	//-------------------------------------------------------------------------------------------------
 	else if (pNode.HasName(XMLConstants::Reference))
 	{
 		if (_quantityId == TIME_QUANTITY_ID)
@@ -134,38 +137,53 @@ void QuantityReference::XMLFinalizeInstance (const XMLNode & pNode, Simulation *
 {
 	const char * ERROR_SOURCE = "QuantityReference::XMLFinalizeInstance";
 
-	if (!IsTime()) // "Time" is not a real quantity
+	if (IsTime()) // "Time" is not a real quantity
+		return;
+
+	_quantity = sim->AllQuantities().GetObjectById(_quantityId);
+
+	if (_quantity == NULL)
+		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, _parentFormulaInfo+": object with id="+XMLHelper::ToString(_quantityId)+" not found");
+
+	if (_isReference) //quantity comes from the general <ReferenceList>
 	{
-		_quantity = sim->AllQuantities().GetObjectById(_quantityId);
-
-		if (_quantity == NULL)
-			throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, _parentFormulaInfo+": object with id="+XMLHelper::ToString(_quantityId)+" not found");
-
-		if (_isReference) //quantity comes from the general <ReferenceList>
-		{
-			if (dynamic_cast<Species *>(_quantity) != NULL)
-				_isSpecies = true;
-			else if (dynamic_cast<Parameter *>(_quantity) != NULL)
-				_isParameter = true;
-			else if (dynamic_cast<Observer *>(_quantity) != NULL)
-				_isObserver = true;
-			else
-				throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, _parentFormulaInfo+": object with id="+XMLHelper::ToString(_quantityId)+" has invalid type");
-
-			_isReference = false;
-		}
+		if (dynamic_cast<Species *>(_quantity) != NULL)
+			_isSpecies = true;
+		else if (dynamic_cast<Parameter *>(_quantity) != NULL)
+			_isParameter = true;
 		else
 		{
-			if (_isSpecies && (dynamic_cast<Species *>(_quantity) == NULL))
-				throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, _parentFormulaInfo+": object with id="+XMLHelper::ToString(_quantityId)+" should be a species");
+			//last possible case: observer
+			auto observer = dynamic_cast<Observer *>(_quantity);
+			if (observer == NULL)
+				throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, _parentFormulaInfo + ": object with id=" + XMLHelper::ToString(_quantityId) + " has invalid type");
 
-			if (_isParameter && (dynamic_cast<Parameter *>(_quantity) == NULL))
-				throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, _parentFormulaInfo+": object with id="+XMLHelper::ToString(_quantityId)+" should be a parameter");
-
-			if (_isObserver && (dynamic_cast<Observer *>(_quantity) == NULL))
-				throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, _parentFormulaInfo+": object with id="+XMLHelper::ToString(_quantityId)+" should be a observer");
+			observer->SetIsUsedInFormulas(true);
+			_isObserver = true;
 		}
+
+		_isReference = false;
+
+		return;
 	}
+
+	//-------------------------------------------------------------------------------------------------
+	//TODO this corresponds to the very old simmodel-xml format. probably can be deleted
+	if (_isSpecies && (dynamic_cast<Species *>(_quantity) == NULL))
+		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, _parentFormulaInfo+": object with id="+XMLHelper::ToString(_quantityId)+" should be a species");
+
+	if (_isParameter && (dynamic_cast<Parameter *>(_quantity) == NULL))
+		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, _parentFormulaInfo+": object with id="+XMLHelper::ToString(_quantityId)+" should be a parameter");
+
+	if (_isObserver)
+	{
+		auto observer = dynamic_cast<Observer *>(_quantity);
+		if (observer == NULL)
+			throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, _parentFormulaInfo + ": object with id=" + XMLHelper::ToString(_quantityId) + " should be a observer");
+
+		observer->SetIsUsedInFormulas(true);
+	}
+	//-------------------------------------------------------------------------------------------------
 }
 
 HierarchicalFormulaObject * QuantityReference::GetHierarchicalFormulaObject(void)
