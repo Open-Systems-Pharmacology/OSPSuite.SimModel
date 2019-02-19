@@ -40,6 +40,7 @@ Observer::Observer(long objectId, const string & name, const string & fullName,
 	_entityId = entityId;
 	_isPersistable = true;
 	_pathWithoutRoot = pathWithoutRoot;
+	_isUsedInFormulas = false;
 }
 
 
@@ -111,6 +112,21 @@ bool Observer::IsConstantDuringCalculation()
 	bool forCurrentRunOnly = true;
 
 	return IsConstant(forCurrentRunOnly);
+}
+
+bool Observer::IsUsedInFormulas() const
+{
+	return _isUsedInFormulas;
+}
+
+void Observer::SetIsUsedInFormulas(bool usedInFormulas)
+{
+	_isUsedInFormulas = usedInFormulas;
+}
+
+bool Observer::UsedInSimulation() const
+{
+	return _isPersistable || _isChangedBySwitch || _isUsedInFormulas;
 }
 
 }//.. end "namespace SimModelNative"

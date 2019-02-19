@@ -13,6 +13,7 @@ class Observer :
 {
 protected:
 	std::string getFormulaXMLAttributeName();
+	bool _isUsedInFormulas;
 	
 public:
 	Observer(void);
@@ -36,6 +37,10 @@ public:
 
 	bool IsConstantDuringCalculation();
 
+	bool IsUsedInFormulas() const;
+	void SetIsUsedInFormulas(bool usedInFormulas);
+
+	bool UsedInSimulation() const;
 };
 
 }//.. end "namespace SimModelNative"
