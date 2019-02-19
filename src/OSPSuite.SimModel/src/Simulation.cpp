@@ -125,6 +125,8 @@ void Simulation::Finalize ()
 
 	CreateObserversForPersistableParameters();
 
+	SimulationTask::CacheRHSUsedVariables(this);
+
 	//Setup band linear solver. Band solver will only be used if
 	// m_Solver.UseBandLinearSolver() = true
 	//
