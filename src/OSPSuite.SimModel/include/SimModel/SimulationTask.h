@@ -32,6 +32,13 @@ public:
 
 	//mark all parameters which are used in any ODE varaible or observer as unused
 	static void MarkUsedParameters(Simulation * sim);
+
+	//cache DE variables indices used in the RHS equations
+	//in order to speed up the jacobian calculation
+	static void CacheRHSUsedVariables(Simulation * sim);
+
+	//for debug only: write out RHS dependency matrix
+	static void WriteRHSDependencyMatrix(Simulation * sim, const std::string & filename);
 };
 
 }//.. end "namespace SimModelNative"
