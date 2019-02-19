@@ -3613,7 +3613,7 @@ namespace SimulationTests
 				auto parameters = sut->GetNativeSimulation()->Parameters();
 				for (auto idx = 0; idx < parameters.size(); idx++)
 				{
-					if (parameters[idx]->UsedInSimulation())
+					if (parameters[idx]->IsUsedInSimulation())
 						paths.push_back(parameters[idx]->GetFullName());
 				}
 
@@ -3644,7 +3644,7 @@ namespace SimulationTests
 				auto parameterProperties = sut->ParameterProperties;
 				for each (IParameterProperties^ param in parameterProperties)
 				{
-					if (param->UsedInSimulation)
+					if (param->IsUsedInSimulation)
 						paths.push_back(NETToCPPConversions::MarshalString(param->Path));
 				}
 
@@ -3703,7 +3703,7 @@ namespace SimulationTests
 				auto parameters = sut->GetNativeSimulation()->Parameters();
 				for (auto idx = 0; idx < parameters.size(); idx++)
 				{
-					BDDExtensions::ShouldBeTrue(parameters[idx]->UsedInSimulation());
+					BDDExtensions::ShouldBeTrue(parameters[idx]->IsUsedInSimulation());
 				}
 			}
 			catch (ErrorData & ED)
@@ -3728,7 +3728,7 @@ namespace SimulationTests
 				auto parameterProperties = sut->ParameterProperties;
 				for each (IParameterProperties^ param in parameterProperties)
 				{
-					BDDExtensions::ShouldBeTrue(param->UsedInSimulation);
+					BDDExtensions::ShouldBeTrue(param->IsUsedInSimulation);
 				}
 			}
 			catch (ErrorData & ED)

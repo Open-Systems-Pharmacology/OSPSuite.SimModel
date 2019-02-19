@@ -52,7 +52,7 @@ namespace SimModelNET
 			void set(IList <IValuePoint^ >^);
 		}
 
-		property bool UsedInSimulation
+		property bool IsUsedInSimulation
 		{
 			bool get();
 		}
@@ -92,7 +92,7 @@ namespace SimModelNET
 		bool _canBeVaried;
 		bool _calculateSensitivity;
 		IList <IValuePoint^ >^ _tablePoints;
-		bool _usedInSimulation;
+		bool _isUsedInSimulation;
 		
 	internal:
 		ParameterProperties(SimModelNative::ParameterInfo & parameterInfo, const std::string & objectPathDelimiter);
@@ -106,11 +106,11 @@ namespace SimModelNET
 			void set(bool canBeVaried);
 		}
 
-		property bool UsedInSimulation
+		property bool IsUsedInSimulation
 		{
 			virtual bool get();
 		internal:
-			void set(bool usedInSimulation);
+			void set(bool isUsedInSimulation);
 		}
 
 		property bool CalculateSensitivity

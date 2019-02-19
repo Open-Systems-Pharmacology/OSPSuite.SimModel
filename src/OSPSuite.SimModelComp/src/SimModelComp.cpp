@@ -17,7 +17,7 @@ using namespace std;
 const char * SimModelComp::conID = "ID";
 const char * SimModelComp::conPath = "Path";
 const char * SimModelComp::conDescription = "Description";
-const char * SimModelComp::conUsedInSimulation = "UsedInSimulation";
+const char * SimModelComp::conIsUsedInSimulation = "UsedInSimulation";
 const char * SimModelComp::conValue = "Value";
 const char * SimModelComp::conInitialValue = "InitialValue";
 const char * SimModelComp::conUnit = "Unit";
@@ -874,7 +874,7 @@ void SimModelComp::CheckInputTableColumns(const DCI::ITableHandle hTab, unsigned
 		CheckColumn(hTab, conParameterType, DCI::DT_STRING);
 		CheckColumn(hTab, conFormula, DCI::DT_STRING);
 		CheckColumn(hTab, conDescription, DCI::DT_STRING);
-		CheckColumn(hTab, conUsedInSimulation, DCI::DT_BYTE);
+		CheckColumn(hTab, conIsUsedInSimulation, DCI::DT_BYTE);
 		
 		if (IsVariableColumnPresent)
 		{
@@ -996,7 +996,7 @@ void SimModelComp::FillParameterInputTable(DCI::IPortHandle  hPort,
 		hTab->SetValue(LastRowIdx, conFormula, parameterInfo.GetFormulaEquation().c_str());		
 		hTab->SetValue(LastRowIdx, conDescription, parameterInfo.GetDescription().c_str());
 
-		hTab->SetValue(LastRowIdx, conUsedInSimulation, parameterInfo.UsedInSimulation() ? (DCI::Byte)1 : (DCI::Byte)0);
+		hTab->SetValue(LastRowIdx, conIsUsedInSimulation, parameterInfo.IsUsedInSimulation() ? (DCI::Byte)1 : (DCI::Byte)0);
 	}
 
 	//final table redim to (remove unnecessary records)
@@ -1124,7 +1124,7 @@ void SimModelComp::AddParameterTableColumns(const DCI::ITableHandle hTab, Quanti
 	AddColumn(hTab, conParameterType, DCI::DT_STRING);
 	AddColumn(hTab, conFormula, DCI::DT_STRING);
 	AddColumn(hTab, conDescription, DCI::DT_STRING);
-	AddColumn(hTab, conUsedInSimulation, DCI::DT_BYTE);
+	AddColumn(hTab, conIsUsedInSimulation, DCI::DT_BYTE);
 
 	if (selectionMode == VARIABLE_QUANTITIES)
 	{
