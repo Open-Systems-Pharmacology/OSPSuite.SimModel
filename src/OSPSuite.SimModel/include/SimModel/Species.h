@@ -19,12 +19,14 @@ class Species :
 {
 protected:
 	TObjectList<Formula> _rhsFormulaList;
+	//List of all formulas that have a reference to this species.
+	TObjectList<Formula> _allFormulaList;
 	double m_ODEScaleFactor;
 	double _DEScaleFactorInv; //inverse of scale factor
 	int m_ODEIndex;
 	int _rhsFormulaListSize;
 	double _simulationStartTime; //used just for check during getting species value
-	
+	int _allFormulaListSize;
 	std::string getFormulaXMLAttributeName();
 	
 	//number of DE-Variables used in the RHS of given variable
@@ -69,7 +71,7 @@ public:
 
 	//set all species values = species initial value
 	//(for species constant during simulation)
-	void FillWithInitialValue(const double * speciesInitialValuesScaled);
+	void FillWithInitialValue(const double * speciesInitialValuesUnscaled);
 
 	//rescale back (division by DE scale factor)
 	void RescaleValues ();
@@ -111,6 +113,11 @@ public:
     // -lowerHalfBandWidth <= j-i <= upperHalfBandWidth
 	// (where i is the ODE index of the current variable)
 	void GetRHSUsedBandRange(int & upperHalfBandWidth, int & lowerHalfBandWidth);
+
+	/*
+	Add the given formula to the list of formulas that use this species.
+	*/
+	void AddFormulaReference(Formula * formula);
 
 	bool NegativeValuesAllowed(void);
 };

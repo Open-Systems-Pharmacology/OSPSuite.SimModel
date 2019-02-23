@@ -318,4 +318,12 @@ void ProductFormula::UpdateIndicesOfReferencedVariables()
 	}
 }
 
+void ProductFormula::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+{
+	for (int iFormula = 0; iFormula != _noOfMultipliers; iFormula++)
+	{
+		_multiplierFormulas[iFormula]->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+	}
+}
+
 }//.. end "namespace SimModelNative"

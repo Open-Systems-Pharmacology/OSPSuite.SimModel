@@ -68,6 +68,8 @@ public:
 	virtual void AppendUsedParameters(std::set<int> & usedParameterIDs);
 
 	virtual void UpdateIndicesOfReferencedVariables();
+	//Update the value to ODEScaleFactor of the scale factor of the variable with the id referenced by this formula.
+	virtual void UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor);
 
 	void SetUseDerivedValues(bool useDerivedValues);
 	bool UseDerivedValues();

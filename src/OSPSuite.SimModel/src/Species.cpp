@@ -31,6 +31,7 @@ Species::Species(void)
 	m_ODEIndex = DE_INVALID_INDEX;
 	_simulationStartTime = 0.0;
 	_rhsFormulaListSize = 0;
+	_allFormulaListSize = 0;
 	_RHS_noOfUsedVariables = 0;
 	_RHS_UsedVariablesIndices = NULL;
 	
@@ -40,6 +41,7 @@ Species::Species(void)
 Species::~Species(void)
 {
 	_rhsFormulaList.FreeVector();
+	_allFormulaList.FreeVector();
 	if (_RHS_UsedVariablesIndices != NULL)
 	{
 		delete[] _RHS_UsedVariablesIndices;
@@ -58,8 +60,18 @@ void Species::SetODEScaleFactor (double p_ODEScaleFactor)
 	if (p_ODEScaleFactor <= 0.0)
 		throw ErrorData(ErrorData::ED_ERROR, "Species::SetODEScaleFactor", "Species id="+_idAsString+": Scale factor must be > 0");
 
-    m_ODEScaleFactor=p_ODEScaleFactor;
+    m_ODEScaleFactor = p_ODEScaleFactor;
 	_DEScaleFactorInv = 1.0 / m_ODEScaleFactor;
+
+	//Also set the new scale factor in all formulas that use this species.
+	if (_allFormulaListSize > 0)
+	{
+		for (int i = 0; i < _allFormulaListSize; i++)
+		{
+			Formula * rhsFormula = _allFormulaList[i];
+			rhsFormula->UpdateScaleFactorOfReferencedVariable(GetODEIndex(), m_ODEScaleFactor);
+		}
+	}
 }
 
 void Species::LoadFromXMLNode (const XMLNode & pNode)
@@ -291,12 +303,12 @@ bool Species::RHSDependsOn(int DE_VariableIndex)
 	return false;
 }
 
-void Species::FillWithInitialValue(const double * speciesInitialValuesScaled)
+void Species::FillWithInitialValue(const double * speciesInitialValuesUnscaled)
 {
-	double initialValue = GetInitialValue(speciesInitialValuesScaled, _simulationStartTime); //GetValue(NULL, 0.0, IGNORE_SCALEFACTOR);
+	double initialValue = GetInitialValue(speciesInitialValuesUnscaled, _simulationStartTime); //GetValue(NULL, 0.0, IGNORE_SCALEFACTOR);
 
-	//---- set value as unscaled for constant species!!!
-	initialValue *= m_ODEScaleFactor;
+	//According to specification, GetInitialValue must ignore scale factor - no need to scale back!
+	//initialValue *= m_ODEScaleFactor;
 
 	//---- set initial formula to NULL and set initial value instead
 	SetConstantValue(initialValue);
@@ -498,6 +510,12 @@ void Species::GetRHSUsedBandRange(int & upperHalfBandWidth, int & lowerHalfBandW
 		upperHalfBandWidth = max(upperHalfBandWidth, diff);
 		lowerHalfBandWidth = max(lowerHalfBandWidth, -diff);
 	}
+}
+
+void Species::AddFormulaReference(Formula * formula)
+{
+	_allFormulaList.Add(formula);
+	_allFormulaListSize = _allFormulaList.size();
 }
 
 bool Species::NegativeValuesAllowed(void)

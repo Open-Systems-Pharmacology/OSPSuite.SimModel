@@ -438,6 +438,11 @@ void TableFormula::UpdateIndicesOfReferencedVariables()
 	//nothing to do so far
 }
 
+void TableFormula::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+{
+	//nothing to do so far
+}
+
 void TableFormula::SetUseDerivedValues(bool useDerivedValues)
 {
 	_useDerivedValues = useDerivedValues;

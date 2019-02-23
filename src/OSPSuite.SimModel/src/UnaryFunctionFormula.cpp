@@ -174,6 +174,11 @@ void UnaryFunctionFormula::UpdateIndicesOfReferencedVariables()
 	m_ArgumentFormula->UpdateIndicesOfReferencedVariables();
 }
 
+void UnaryFunctionFormula::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+{
+	m_ArgumentFormula->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+}
+
 
 //-------------------------------------------------------------------
 //---- arccos

@@ -263,6 +263,14 @@ void BooleanFormula::UpdateIndicesOfReferencedVariables()
 		m_SecondOperandFormula->UpdateIndicesOfReferencedVariables();
 }
 
+void BooleanFormula::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+{
+	m_FirstOperandFormula->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+
+	if (m_SecondOperandFormula)
+		m_SecondOperandFormula->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+}
+
 //-------------------------------------------------------------------
 //---- And (A&&B)
 //-------------------------------------------------------------------

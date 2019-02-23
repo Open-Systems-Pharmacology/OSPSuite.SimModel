@@ -221,4 +221,10 @@ void TableFormulaWithOffset::UpdateIndicesOfReferencedVariables()
 	_offsetObject->UpdateIndicesOfReferencedVariables();
 }
 
+void TableFormulaWithOffset::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+{
+	_tableObject->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+	_offsetObject->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+}
+
 }//.. end "namespace SimModelNative"

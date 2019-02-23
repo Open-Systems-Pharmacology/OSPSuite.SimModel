@@ -103,6 +103,8 @@ public:
 
 	//Change indices of referenced variables according to the given indices permutation
 	virtual void UpdateIndicesOfReferencedVariables() = 0;
+	//Update the value to ODEScaleFactor of the scale factor of the variable with the id referenced by this formula.
+	virtual void UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor) = 0;
 
 protected:
 	virtual bool UseBracketsForODESystemGeneration ();

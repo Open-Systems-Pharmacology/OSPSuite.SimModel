@@ -265,4 +265,10 @@ void TableFormulaWithXArgument::UpdateIndicesOfReferencedVariables()
 	_XArgumentObject->UpdateIndicesOfReferencedVariables();
 }
 
+void TableFormulaWithXArgument::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+{
+	_tableObject->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+	_XArgumentObject->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+}
+
 }//.. end "namespace SimModelNative"

@@ -288,4 +288,11 @@ void IfFormula::UpdateIndicesOfReferencedVariables()
 	m_ElseStatement->UpdateIndicesOfReferencedVariables();
 }
 
+void IfFormula::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+{
+	m_IfStatement->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+	m_ThenStatement->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+	m_ElseStatement->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+}
+
 }//.. end "namespace SimModelNative"
