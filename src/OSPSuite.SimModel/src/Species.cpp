@@ -41,7 +41,7 @@ Species::Species(void)
 Species::~Species(void)
 {
 	_rhsFormulaList.FreeVector();
-	_allFormulaList.FreeVector();
+	_allFormulaVector.~vector();
 	if (_RHS_UsedVariablesIndices != NULL)
 	{
 		delete[] _RHS_UsedVariablesIndices;
@@ -68,7 +68,7 @@ void Species::SetODEScaleFactor (double p_ODEScaleFactor)
 	{
 		for (int i = 0; i < _allFormulaListSize; i++)
 		{
-			Formula * rhsFormula = _allFormulaList[i];
+			Formula * rhsFormula = _allFormulaVector[i];
 			rhsFormula->UpdateScaleFactorOfReferencedVariable(GetODEIndex(), m_ODEScaleFactor);
 		}
 	}
@@ -514,8 +514,8 @@ void Species::GetRHSUsedBandRange(int & upperHalfBandWidth, int & lowerHalfBandW
 
 void Species::AddFormulaReference(Formula * formula)
 {
-	_allFormulaList.Add(formula);
-	_allFormulaListSize = _allFormulaList.size();
+	_allFormulaVector.push_back(formula);
+	_allFormulaListSize = _allFormulaVector.size();
 }
 
 bool Species::NegativeValuesAllowed(void)

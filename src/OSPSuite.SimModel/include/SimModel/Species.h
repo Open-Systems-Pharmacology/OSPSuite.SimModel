@@ -19,8 +19,8 @@ class Species :
 {
 protected:
 	TObjectList<Formula> _rhsFormulaList;
-	//List of all formulas that have a reference to this species.
-	TObjectList<Formula> _allFormulaList;
+	//A vector of all formulas that have a reference to this species.
+	std::vector<Formula*> _allFormulaVector;
 	double m_ODEScaleFactor;
 	double _DEScaleFactorInv; //inverse of scale factor
 	int m_ODEIndex;
