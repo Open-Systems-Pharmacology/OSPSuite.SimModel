@@ -245,9 +245,9 @@ void ParameterFormula::UpdateIndicesOfReferencedVariables()
 	_quantityRef.UpdateIndicesOfReferencedVariables();
 }
 
-void ParameterFormula::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+void ParameterFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
 {
-	_quantityRef.UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+	_quantityRef.UpdateScaleFactorOfReferencedVariable(quantity_id, ODEScaleFactor);
 }
 
 }//.. end "namespace SimModelNative"

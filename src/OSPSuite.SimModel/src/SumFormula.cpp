@@ -264,11 +264,11 @@ void SumFormula::UpdateIndicesOfReferencedVariables()
 	}
 }
 
-void SumFormula::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+void SumFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
 {
 	for (int iFormula = 0; iFormula != _noOfSummands; iFormula++)
 	{
-		_summandFormulas[iFormula]->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+		_summandFormulas[iFormula]->UpdateScaleFactorOfReferencedVariable(quantity_id, ODEScaleFactor);
 	}
 }
 

@@ -318,11 +318,11 @@ void ProductFormula::UpdateIndicesOfReferencedVariables()
 	}
 }
 
-void ProductFormula::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+void ProductFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
 {
 	for (int iFormula = 0; iFormula != _noOfMultipliers; iFormula++)
 	{
-		_multiplierFormulas[iFormula]->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+		_multiplierFormulas[iFormula]->UpdateScaleFactorOfReferencedVariable(quantity_id, ODEScaleFactor);
 	}
 }
 

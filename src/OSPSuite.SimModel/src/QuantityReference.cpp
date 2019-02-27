@@ -271,7 +271,7 @@ void QuantityReference::UpdateIndicesOfReferencedVariables()
 	_quantity->UpdateIndicesOfReferencedVariables();
 }
 
-void QuantityReference::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+void QuantityReference::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
 {
 	if (_quantity == NULL)
 		return;
@@ -279,7 +279,7 @@ void QuantityReference::UpdateScaleFactorOfReferencedVariable(const int id, cons
 	if (!_isParameter)
 		return;
 
-	_quantity->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+	_quantity->UpdateScaleFactorOfReferencedVariable(quantity_id, ODEScaleFactor);
 }
 
 }//.. end "namespace SimModelNative"

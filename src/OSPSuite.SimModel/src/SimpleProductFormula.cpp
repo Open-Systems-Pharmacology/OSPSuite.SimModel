@@ -288,10 +288,10 @@ void SimpleProductFormula::UpdateIndicesOfReferencedVariables()
 		UpdateFromQuantityReference(_quantityRefs[i]);
 }
 
-void SimpleProductFormula::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+void SimpleProductFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
 {
 	for (unsigned int i = 0; i < m_ODEIndexVectorSize; i++) {
-		if (m_ODEIndexVector[i] == id) {
+		if (m_ODEIndexVector[i] == quantity_id) {
 			m_ODEScaleFactorVector[i] = ODEScaleFactor;
 		}
 	}

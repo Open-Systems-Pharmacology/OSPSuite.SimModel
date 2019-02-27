@@ -456,10 +456,10 @@ void ExplicitFormula::UpdateIndicesOfReferencedVariables()
 		_formula->UpdateIndicesOfReferencedVariables();
 }
 
-void ExplicitFormula::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+void ExplicitFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
 {
 	if (_formula != NULL)
-		_formula->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+		_formula->UpdateScaleFactorOfReferencedVariable(quantity_id, ODEScaleFactor);
 }
 
 }//.. end "namespace SimModelNative"

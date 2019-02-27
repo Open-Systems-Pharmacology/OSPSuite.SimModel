@@ -235,10 +235,10 @@ void PowerFormula::UpdateIndicesOfReferencedVariables()
 	m_ExponentFormula->UpdateIndicesOfReferencedVariables();
 }
 
-void PowerFormula::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+void PowerFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
 {
-	m_BaseFormula->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
-	m_ExponentFormula->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+	m_BaseFormula->UpdateScaleFactorOfReferencedVariable(quantity_id, ODEScaleFactor);
+	m_ExponentFormula->UpdateScaleFactorOfReferencedVariable(quantity_id, ODEScaleFactor);
 }
 
 }//.. end "namespace SimModelNative"

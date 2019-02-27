@@ -214,10 +214,10 @@ void DivFormula::UpdateIndicesOfReferencedVariables()
 	m_DenominatorFormula->UpdateIndicesOfReferencedVariables();
 }
 
-void DivFormula::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+void DivFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
 {
-	m_NumeratorFormula->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
-	m_DenominatorFormula->UpdateScaleFactorOfReferencedVariable(id, ODEScaleFactor);
+	m_NumeratorFormula->UpdateScaleFactorOfReferencedVariable(quantity_id, ODEScaleFactor);
+	m_DenominatorFormula->UpdateScaleFactorOfReferencedVariable(quantity_id, ODEScaleFactor);
 }
 
 }//.. end "namespace SimModelNative"

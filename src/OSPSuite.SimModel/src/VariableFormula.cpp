@@ -154,9 +154,9 @@ void VariableFormula::UpdateIndicesOfReferencedVariables()
 	m_ODEVariableIndex = _quantityRef.GetODEIndex();
 }
 
-void VariableFormula::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+void VariableFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
 {
-	if (m_ODEVariableIndex == id)
+	if (m_ODEVariableIndex == quantity_id)
 		m_ODEVariableScaleFactor = ODEScaleFactor;
 }
 

@@ -438,7 +438,7 @@ void TableFormula::UpdateIndicesOfReferencedVariables()
 	//nothing to do so far
 }
 
-void TableFormula::UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor)
+void TableFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
 {
 	//nothing to do so far
 }

@@ -151,7 +151,7 @@ public:
 
 	virtual void UpdateIndicesOfReferencedVariables();
 	//Update the value to ODEScaleFactor of the scale factor of the variable with the id referenced by this quantity.
-	virtual void UpdateScaleFactorOfReferencedVariable(const int id, const double ODEScaleFactor);
+	virtual void UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor);
 };
 
 }//.. end "namespace SimModelNative"
