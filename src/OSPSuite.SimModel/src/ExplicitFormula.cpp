@@ -363,6 +363,13 @@ void ExplicitFormula::Finalize()
 	for(int i =0; i<_quantityRefs.size(); i++)
 	{
 		QuantityReference * quantityRef = _quantityRefs[i];
+		//If the quantity is a species, add this formula to the list of formulas that use the species.
+		//Used for updating scale factors.
+		if (quantityRef->IsSpecies())
+		{
+			SimModelNative::Species * species = quantityRef->GetSpecies();
+			species->AddFormulaReference(this);
+		}
 
 		bool isDEVariable = (quantityRef->IsSpecies() && 
 			                !quantityRef->GetSpecies()->IsConstantDuringCalculation());
@@ -447,6 +454,12 @@ void ExplicitFormula::UpdateIndicesOfReferencedVariables()
 {
 	if (_formula != NULL)
 		_formula->UpdateIndicesOfReferencedVariables();
+}
+
+void ExplicitFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
+{
+	if (_formula != NULL)
+		_formula->UpdateScaleFactorOfReferencedVariable(quantity_id, ODEScaleFactor);
 }
 
 }//.. end "namespace SimModelNative"

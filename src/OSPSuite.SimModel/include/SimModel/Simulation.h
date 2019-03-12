@@ -149,7 +149,7 @@ public:
 
 	SIM_EXPORT OutputSchema & GetOutputSchema();
 
-	void RedimAndInitValues (int numberOfTimePoints, double * speciesInitialValuesScaled);
+	void RedimAndInitValues(int numberOfTimePoints, double * speciesInitialValuesScaled, double * speciesInitialValuesUnscaled);
 
 	//replace formulas with values where possible
 	void SimplifyObjects(bool forCurrentRunOnly);

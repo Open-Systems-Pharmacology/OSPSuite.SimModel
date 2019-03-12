@@ -11,6 +11,7 @@
 #include "SimModel/MathHelper.h"
 #include "SimModel/ProductFormula.h"
 #include "SimModel/ConstantFormula.h"
+#include "SimModel/Species.h"
 #include <assert.h>
 
 #ifdef _WINDOWS_PRODUCTION
@@ -241,7 +242,17 @@ Formula * SimpleProductFormula::RecursiveSimplify()
 
 void SimpleProductFormula::Finalize()
 {
-	//nothing to do so far
+	//If the quantity is a species, add this formula to the list of formulas that use the species.
+	//Used for updating scale factors.
+	for (unsigned int i = 0; i < _quantityRefs.size(); i++)
+	{
+		QuantityReference quantityRef = _quantityRefs[i];
+		if (quantityRef.IsSpecies())
+		{
+			SimModelNative::Species * species = quantityRef.GetSpecies();
+			species->AddFormulaReference(this);
+		}
+	}
 }
 
 void SimpleProductFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
@@ -275,6 +286,15 @@ void SimpleProductFormula::UpdateIndicesOfReferencedVariables()
 {
 	for(unsigned int i=0; i<_quantityRefs.size(); i++)
 		UpdateFromQuantityReference(_quantityRefs[i]);
+}
+
+void SimpleProductFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
+{
+	for (unsigned int i = 0; i < m_ODEIndexVectorSize; i++) {
+		if (m_ODEIndexVector[i] == quantity_id) {
+			m_ODEScaleFactorVector[i] = ODEScaleFactor;
+		}
+	}
 }
 
 }//.. end "namespace SimModelNative"

@@ -2355,7 +2355,7 @@ namespace SimulationTests
 
     public:
         [TestAttribute]
-		[Ignore("This test should be investigated and completed after the bugfix")]
+//		[Ignore("This test should be investigated and completed after the bugfix")]
         void should_update_species_initial_values_in_the_simulation_xml_node()
         {
 			//initial system is:
@@ -2421,8 +2421,8 @@ namespace SimulationTests
 				BDDExtensions::ShouldBeEqualTo(y2_startvalue, 4.0);
 
 				//check new scale factor //TODO enable test as soon as saving scale factor bug is fixed
-				//BDDExtensions::ShouldBeEqualTo(y1->GetODEScaleFactor(), 5.0);
-				//BDDExtensions::ShouldBeEqualTo(y2->GetODEScaleFactor(), 6.0);
+				BDDExtensions::ShouldBeEqualTo(y1->GetODEScaleFactor(), 5.0);
+				BDDExtensions::ShouldBeEqualTo(y2->GetODEScaleFactor(), 6.0);
 			}
 			catch(ErrorData & ED)
 			{

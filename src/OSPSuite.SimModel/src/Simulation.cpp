@@ -619,7 +619,7 @@ OutputSchema & Simulation::GetOutputSchema()
 }
 
 void Simulation::RedimAndInitValues (int numberOfTimePoints, 
-									 double * speciesInitialValuesScaled)
+									 double * speciesInitialValuesScaled, double * speciesInitialValuesUnscaled)
 {
 	const char * ERROR_SOURCE = "Simulation::RedimValues";
 
@@ -653,7 +653,10 @@ void Simulation::RedimAndInitValues (int numberOfTimePoints,
 
 		if (species->IsConstantDuringCalculation())
 		{
-			species->FillWithInitialValue(speciesInitialValuesScaled);
+			/*
+			The method must receive the unscaled values - otherwise the sub-sequential "GetInitialValue" might return the scaled value of a formula.
+			*/
+			species->FillWithInitialValue(speciesInitialValuesUnscaled);
 
 			//for constant species, fill with initial sensitivity value for all parameters
 			numberOfSensitivityTimePoints = 1;

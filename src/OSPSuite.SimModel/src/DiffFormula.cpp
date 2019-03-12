@@ -184,5 +184,10 @@ void DiffFormula::UpdateIndicesOfReferencedVariables()
 	m_SubtrahendFormula->UpdateIndicesOfReferencedVariables();
 }
 
+void DiffFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
+{
+	m_MinuendFormula->UpdateScaleFactorOfReferencedVariable(quantity_id, ODEScaleFactor);
+	m_SubtrahendFormula->UpdateScaleFactorOfReferencedVariable(quantity_id, ODEScaleFactor);
+}
 
 }//.. end "namespace SimModelNative"

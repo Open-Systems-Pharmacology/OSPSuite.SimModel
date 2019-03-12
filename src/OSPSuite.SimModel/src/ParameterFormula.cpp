@@ -100,7 +100,13 @@ Formula * ParameterFormula::RecursiveSimplify()
 
 void ParameterFormula::Finalize()
 {
-	//nothing to do 
+	//If the quantity is a species, add this formula to the list of formulas that use the species.
+	//Used for updating scale factors.
+	if (_quantityRef.IsSpecies())
+	{
+		SimModelNative::Species * species = _quantityRef.GetSpecies();
+		species->AddFormulaReference(this);
+	}
 }
 
 bool ParameterFormula::IsTime()
@@ -237,6 +243,11 @@ void ParameterFormula::InsertNewParameters(std::map<std::string, ParameterFormul
 void ParameterFormula::UpdateIndicesOfReferencedVariables()
 {
 	_quantityRef.UpdateIndicesOfReferencedVariables();
+}
+
+void ParameterFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
+{
+	_quantityRef.UpdateScaleFactorOfReferencedVariable(quantity_id, ODEScaleFactor);
 }
 
 }//.. end "namespace SimModelNative"
