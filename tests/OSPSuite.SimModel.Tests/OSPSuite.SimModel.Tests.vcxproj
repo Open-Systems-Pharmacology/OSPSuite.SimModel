@@ -343,6 +343,7 @@
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\DESolverProperties.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\DiffFormula.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\DivFormula.h" />
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\EntityWithCachedScaleFactor.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\ExplicitFormula.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\Formula.h" />
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\FormulaChange.h" />

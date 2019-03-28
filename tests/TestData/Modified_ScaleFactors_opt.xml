@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Simulation objectPathDelimiter="|" version="4" xmlns="http://www.systems-biology.com">
+  <FormulaList>
+    <ExplicitFormula id="6">
+      <Equation>-(a * k_a)</Equation>
+      <ReferenceList>
+        <R alias="a" id="2" />
+        <R alias="k_a" id="5" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="9">
+      <Equation>-(Vmax * a / (Km + a))</Equation>
+      <ReferenceList>
+        <R alias="a" id="2" />
+        <R alias="Km" id="7" />
+        <R alias="Vmax" id="8" />
+      </ReferenceList>
+    </ExplicitFormula>
+  </FormulaList>
+  <VariableList>
+    <V id="2" entityId="kT9zgtUWDk2oASA80FmUQA" name="a" path="Modified_ScaleFactors_opt|Organism|a" unit="µmol" persistable="1" value="1E-06" negativeValuesAllowed="0">
+      <ScaleFactor>1E-06</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="6" />
+        <RHSFormula id="9" />
+      </RHSFormulaList>
+    </V>
+  </VariableList>
+  <ParameterList>
+    <P id="5" entityId="TYjJzKjuyU2uHE0I52GPRA" name="k_a" path="Modified_ScaleFactors_opt|reactA|k_a" unit="1/min" persistable="0" value="0" />
+    <P id="8" entityId="fvHDAe5ZLkCWcgkQSjFTtQ" name="Vmax" path="Modified_ScaleFactors_opt|reactB|Vmax" unit="µmol/min" persistable="0" value="1E-06" />
+    <P id="7" entityId="jsb5GEUNyEGXgWep8rrSZQ" name="Km" path="Modified_ScaleFactors_opt|reactB|Km" unit="µmol/l" persistable="0" value="1E-10" />
+    <P id="11" entityId="AbsTol" name="AbsTol" path="AbsTol" persistable="0" value="1E-15" />
+    <P id="13" entityId="RelTol" name="RelTol" path="RelTol" persistable="0" value="0.0001" />
+    <P id="15" entityId="H0" name="H0" path="H0" persistable="0" value="1E-10" />
+    <P id="17" entityId="HMin" name="HMin" path="HMin" persistable="0" value="0" />
+    <P id="19" entityId="HMax" name="HMax" path="HMax" persistable="0" value="60" />
+    <P id="21" entityId="MxStep" name="MxStep" path="MxStep" persistable="0" value="100000" />
+    <P id="23" entityId="UseJacobian" name="UseJacobian" path="UseJacobian" persistable="0" value="1" />
+  </ParameterList>
+  <Solver name="CVODE1002_2">
+    <H0 id="15" />
+    <HMax id="19" />
+    <HMin id="17" />
+    <AbsTol id="11" />
+    <MxStep id="21" />
+    <RelTol id="13" />
+    <UseJacobian id="23" />
+  </Solver>
+  <OutputSchema>
+    <OutputIntervalList>
+      <OutputInterval distribution="Uniform">
+        <StartTime>0</StartTime>
+        <EndTime>10</EndTime>
+        <NumberOfTimePoints>601</NumberOfTimePoints>
+      </OutputInterval>
+    </OutputIntervalList>
+  </OutputSchema>
+</Simulation>

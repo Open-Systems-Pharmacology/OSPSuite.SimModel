@@ -203,10 +203,4 @@ void MaxFormula::UpdateIndicesOfReferencedVariables()
 	m_SecondArgument->UpdateIndicesOfReferencedVariables();
 }
 
-void MaxFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
-{
-	m_FirstArgument->UpdateScaleFactorOfReferencedVariable(quantity_id, ODEScaleFactor);
-	m_SecondArgument->UpdateScaleFactorOfReferencedVariable(quantity_id, ODEScaleFactor);
-}
-
 }//.. end "namespace SimModelNative"

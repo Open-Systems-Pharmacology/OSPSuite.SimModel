@@ -536,5 +536,8 @@
     <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\TableFormulaWithXArgument.h">
       <Filter>SimModel\Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\OSPSuite.SimModel\include\SimModel\EntityWithCachedScaleFactor.h">
+      <Filter>SimModel\Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -289,4 +289,10 @@ void FormulaChange::UpdateDEIndexOfTargetSpecies()
 	Finalize();
 }
 
+void FormulaChange::UpdateScaleFactorOfReferencedVariable(const int odeIndex, const double ODEScaleFactor)
+{
+	if (_speciesDEIndex == odeIndex)
+		_speciesScaleFactor = ODEScaleFactor;
+}
+
 }//.. end "namespace SimModelNative"

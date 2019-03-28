@@ -55,22 +55,22 @@ void QuantityReference::SetParentFormulaInfo(const string & parentFormulaInfo)
 	_parentFormulaInfo = parentFormulaInfo;
 }
 
-bool QuantityReference::IsTime()
+bool QuantityReference::IsTime() const
 {
 	return _isTime;
 }
 
-bool QuantityReference::IsParameter()
+bool QuantityReference::IsParameter() const
 {
 	return _isParameter;
 }
 
-bool QuantityReference::IsObserver()
+bool QuantityReference::IsObserver() const
 {
 	return _isObserver;
 }
 
-bool QuantityReference::IsSpecies()
+bool QuantityReference::IsSpecies() const
 {
 	return _isSpecies;
 }
@@ -287,17 +287,6 @@ void QuantityReference::UpdateIndicesOfReferencedVariables()
 		return;
 
 	_quantity->UpdateIndicesOfReferencedVariables();
-}
-
-void QuantityReference::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
-{
-	if (_quantity == NULL)
-		return;
-
-	if (!_isParameter)
-		return;
-
-	_quantity->UpdateScaleFactorOfReferencedVariable(quantity_id, ODEScaleFactor);
 }
 
 }//.. end "namespace SimModelNative"
