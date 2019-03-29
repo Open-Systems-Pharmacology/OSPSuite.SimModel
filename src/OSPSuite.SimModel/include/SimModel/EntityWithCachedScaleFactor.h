@@ -6,7 +6,7 @@ namespace SimModelNative
 	class EntityWithCachedScaleFactor
 	{
 	public:
-		//Update the value to ODEScaleFactor of the scale factor of the variable with the id referenced by this formula.
+		//Update cached scale factor of the ODE variable given by <odeIndex> to the new value given by <ODEScaleFactor>
 		virtual void UpdateScaleFactorOfReferencedVariable(const int odeIndex, const double ODEScaleFactor) = 0;
 	};
 
