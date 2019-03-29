@@ -18,7 +18,7 @@
     </ExplicitFormula>
   </FormulaList>
   <VariableList>
-    <V id="2" entityId="kT9zgtUWDk2oASA80FmUQA" name="a" path="Modified_ScaleFactors_opt|Organism|a" unit="µmol" persistable="1" value="1E-06" negativeValuesAllowed="0">
+    <V id="2" entityId="a" name="a" path="Modified_ScaleFactors_opt|Organism|a" unit="µmol" persistable="1" value="1E-06" negativeValuesAllowed="0">
       <ScaleFactor>1E-06</ScaleFactor>
       <RHSFormulaList>
         <RHSFormula id="6" />

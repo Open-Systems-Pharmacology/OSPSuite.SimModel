@@ -3763,9 +3763,9 @@ namespace SimulationTests
 
 				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("Modified_ScaleFactors_opt"));
 
-				SimModelNative::Species * a;
-
-				a = sim->SpeciesList().GetObjectByEntityId("kT9zgtUWDk2oASA80FmUQA");
+				auto * a = sim->SpeciesList().GetObjectByEntityId("a");
+				if (a == NULL)
+					throw "Variable a not found";
 
 				a->SetIsFixed(false);
 
