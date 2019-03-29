@@ -59,6 +59,12 @@ void FormulaChange::XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim
 
 	//mark quantity as one (potentially) changed by switch(es)
 	_quantity->SetIsChangedBySwitch(true);
+
+	//If the quantity is a species, add this formula change to the list of entities that cache its scale factor (used for updating scale factors)
+	Species * species = dynamic_cast<Species*>(_quantity);
+	if (species == NULL) //changed quantity is not a species
+		return;
+	species->AddEntityWithCachedScaleFactor(this);
 }
 
 void FormulaChange::SetParentSwitchInfo(const std::string & switchInfo)

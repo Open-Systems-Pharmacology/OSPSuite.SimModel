@@ -53,8 +53,7 @@ void VariableFormula::SetQuantityReference (const QuantityReference & quantityRe
 	m_ODEVariableIndex = _quantityRef.GetODEIndex();
 	m_ODEVariableScaleFactor = _quantityRef.GetODEScaleFactor();
 
-	//If the quantity is a species, add this formula to the list of formulas that use the species.
-	//Used for updating scale factors.
+	//If the quantity is a species, add this formula to the list of entities that cache its scale factor (used for updating scale factors)
 	if (_quantityRef.IsSpecies())
 	{
 		SimModelNative::Species * species = _quantityRef.GetSpecies();

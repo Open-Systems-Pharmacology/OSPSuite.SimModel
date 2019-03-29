@@ -111,8 +111,7 @@ void SimpleProductFormula::SetQuantityReference (const QuantityReference & quant
 	_quantityRefs.push_back(quantityReference);
 	UpdateFromQuantityReference(quantityReference);
 
-	//If the quantity is a species, add this formula to the list of formulas that use the species.
-	//Used for updating scale factors.
+	//If the quantity is a species, add this formula to the list of entities that cache its scale factor (used for updating scale factors)
 	if (quantityReference.IsSpecies())
 	{
 		Species * species = quantityReference.GetSpecies();
