@@ -13,6 +13,7 @@ namespace SimModelNET
 		static void ThrowExceptionFrom(const std::string message);
 		static void ThrowExceptionFromUnknown(std::string source);
 		static void ThrowExceptionFromUnknown();
+		static void ThrowExceptionFrom(System::Exception^ ex);
 	};
 }
 

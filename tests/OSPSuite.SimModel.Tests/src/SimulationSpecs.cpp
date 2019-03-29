@@ -40,9 +40,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -140,9 +140,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -175,9 +175,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -207,9 +207,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -246,9 +246,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -285,9 +285,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -316,9 +316,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -537,9 +537,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -599,9 +599,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -655,9 +655,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -727,9 +727,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -777,9 +777,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -827,9 +827,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -868,9 +868,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -918,9 +918,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -995,9 +995,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -1086,9 +1086,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -1189,9 +1189,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -1279,9 +1279,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -1354,9 +1354,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -1513,9 +1513,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -1900,9 +1900,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -2021,9 +2021,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -2177,9 +2177,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -2298,9 +2298,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -2334,9 +2334,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -2431,9 +2431,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -2471,9 +2471,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -2537,9 +2537,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -2602,9 +2602,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -2654,9 +2654,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -2834,9 +2834,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -2881,9 +2881,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -2954,9 +2954,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3006,9 +3006,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3064,9 +3064,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3148,9 +3148,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3203,9 +3203,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3356,9 +3356,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3393,9 +3393,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3431,9 +3431,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3529,9 +3529,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3623,9 +3623,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3654,9 +3654,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3683,9 +3683,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3709,9 +3709,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3734,9 +3734,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3788,9 +3788,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{

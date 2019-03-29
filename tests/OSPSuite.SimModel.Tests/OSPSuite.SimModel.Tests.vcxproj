@@ -209,6 +209,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <TargetMachine>MachineX64</TargetMachine>
+      <AssemblyDebug>true</AssemblyDebug>
     </Link>
     <PostBuildEvent>
       <Command>copy "$(ProjectDir)..\..\src\DCI\DCI_6.1\ReleaseX64\*.dll" "$(OutputPath)"</Command>
