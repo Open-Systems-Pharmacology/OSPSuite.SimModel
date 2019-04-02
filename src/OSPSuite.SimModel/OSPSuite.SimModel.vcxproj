@@ -554,6 +554,7 @@ copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)
     <ClInclude Include="Include\SimModel\DESolverProperties.h" />
     <ClInclude Include="Include\SimModel\DiffFormula.h" />
     <ClInclude Include="Include\SimModel\DivFormula.h" />
+    <ClInclude Include="include\SimModel\EntityWithCachedScaleFactor.h" />
     <ClInclude Include="Include\SimModel\ExplicitFormula.h" />
     <ClInclude Include="Include\SimModel\Formula.h" />
     <ClInclude Include="Include\SimModel\FormulaChange.h" />

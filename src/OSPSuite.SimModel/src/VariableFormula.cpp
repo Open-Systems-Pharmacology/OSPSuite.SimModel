@@ -52,17 +52,18 @@ void VariableFormula::SetQuantityReference (const QuantityReference & quantityRe
 
 	m_ODEVariableIndex = _quantityRef.GetODEIndex();
 	m_ODEVariableScaleFactor = _quantityRef.GetODEScaleFactor();
+
+	//If the quantity is a species, add this formula to the list of entities that cache its scale factor (used for updating scale factors)
+	if (_quantityRef.IsSpecies())
+	{
+		SimModelNative::Species * species = _quantityRef.GetSpecies();
+		species->AddEntityWithCachedScaleFactor(this);
+	}
 }
 
 void VariableFormula::Finalize()
 {
-	//If the quantity is a species, add this formula to the list of formulas that use the species.
-	//Used for updating scale factors.
-	if (_quantityRef.IsSpecies())
-	{
-		SimModelNative::Species * species = _quantityRef.GetSpecies();
-		species->AddFormulaReference(this);
-	}
+	//nothing to do
 }
 
 double VariableFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
@@ -154,9 +155,9 @@ void VariableFormula::UpdateIndicesOfReferencedVariables()
 	m_ODEVariableIndex = _quantityRef.GetODEIndex();
 }
 
-void VariableFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
+void VariableFormula::UpdateScaleFactorOfReferencedVariable(const int odeIndex, const double ODEScaleFactor)
 {
-	if (m_ODEVariableIndex == quantity_id)
+	if (m_ODEVariableIndex == odeIndex)
 		m_ODEVariableScaleFactor = ODEScaleFactor;
 }
 

@@ -111,6 +111,9 @@ namespace SimModelNET
 	{
 		try
 		{
+			if(!System::IO::File::Exists(file))
+				throw gcnew OSPSuite::Utility::Exceptions::OSPSuiteException("File "+file+" does not exist");
+
 			XMLDocument XMLDoc = XMLDocument::FromFile(NETToCPPConversions::MarshalString(file));
 			std::string xmlString = XMLDoc.ToString();
 			XMLDoc.Release();

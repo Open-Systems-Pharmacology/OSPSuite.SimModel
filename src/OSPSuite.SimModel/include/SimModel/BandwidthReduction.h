@@ -24,14 +24,8 @@ namespace SimModelNative
 
 		int GetLowerHalfBandWidth();
 		int GetUpperHalfBandWidth();
+
 	protected:
-		//cache DE variables indices used in the RHS equations
-		//in order to speed up the jacobian calculation
-		void CacheRHSUsedVariables();
-
-		//for debug only: write out RHS dependency matrix
-		void WriteRHSDependencyMatrix(const std::string & filename);
-
 		std::vector<std::vector<bool> > getDependencyMatrix();
 
 		//Reorder DE variables according to the given permutation

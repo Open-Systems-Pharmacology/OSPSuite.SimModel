@@ -2,6 +2,7 @@
 #define _FormulaChange_H_
 
 #include "SimModel/XMLLoader.h"
+#include "SimModel/EntityWithCachedScaleFactor.h"
 #include <string>
 #include <set>
 #include <map>
@@ -22,7 +23,8 @@ struct formulaParameterInfo {
 };
 
 class FormulaChange : 
-	public XMLLoader
+	public XMLLoader,
+	public EntityWithCachedScaleFactor
 {
 protected:
 	std::string _parentSwitchInfo;
@@ -60,6 +62,8 @@ public:
 
 	//update the index of the target species (if any)
 	void UpdateDEIndexOfTargetSpecies();
+
+	virtual void UpdateScaleFactorOfReferencedVariable(const int odeIndex, const double ODEScaleFactor);
 };
 
 }//.. end "namespace SimModelNative"

@@ -7,6 +7,7 @@
 #include "SimModel/TObjectList.h"
 #include "SimModel/SpeciesInfo.h"
 #include "SimModel/VariableWithParameterSensitivity.h"
+#include "SimModel/EntityWithCachedScaleFactor.h"
 #include <set>
 #include <map>
 
@@ -19,14 +20,12 @@ class Species :
 {
 protected:
 	TObjectList<Formula> _rhsFormulaList;
-	//A vector of all formulas that have a reference to this species.
-	std::vector<Formula*> _allFormulaVector;
+	std::vector<EntityWithCachedScaleFactor *> _entitiesWithCachedScaleFactor; //all entities with cached scale factor of THIS species.
 	double m_ODEScaleFactor;
 	double _DEScaleFactorInv; //inverse of scale factor
 	int m_ODEIndex;
 	int _rhsFormulaListSize;
 	double _simulationStartTime; //used just for check during getting species value
-	int _allFormulaListSize;
 	std::string getFormulaXMLAttributeName();
 	
 	//number of DE-Variables used in the RHS of given variable
@@ -45,8 +44,8 @@ public:
 	void SetODEScaleFactor (double p_ODEScaleFactor);
 
 	void LoadFromXMLNode (const XMLNode & pNode);
-   void UpdateScaleFactorInXMLNode(const XMLNode & speciesListNode);
-   void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim);
+    void UpdateScaleFactorInXMLNode(const XMLNode & speciesListNode);
+    void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim);
 
 	std::vector < HierarchicalFormulaObject * > GetUsedHierarchicalFormulaObjects ();
 	
@@ -93,8 +92,7 @@ public:
 	//also appends all variables used in ANY switch assignment formula with UseAsValue=false
 	void CacheRHSUsedVariables(const std::set<int> & DEVariblesUsedInSwitchAssignments);
 
-	//checks if RHS of the current variable depends on the DE Variable with given index
-	//(using cached info)
+	//checks if RHS of the current variable depends on the DE Variable with given index (using cached info)
 	bool RHSDependsOn(int DE_VariableIndex);
 
 	//Return dependency info of the RHS of the given variable
@@ -114,10 +112,8 @@ public:
 	// (where i is the ODE index of the current variable)
 	void GetRHSUsedBandRange(int & upperHalfBandWidth, int & lowerHalfBandWidth);
 
-	/*
-	Add the given formula to the list of formulas that use this species.
-	*/
-	void AddFormulaReference(Formula * formula);
+	//Add the given entity to the list of entities with cached scale factor of this species.
+	void AddEntityWithCachedScaleFactor(EntityWithCachedScaleFactor * entityWithCachedScaleFactor);
 
 	bool NegativeValuesAllowed(void);
 };

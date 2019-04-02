@@ -127,9 +127,4 @@ namespace SimModelNative
 		//nothing to do so far
 	}
 
-	void ConstantFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
-	{
-		//nothing to do so far
-	}
-
 }//.. end "namespace SimModelNative"

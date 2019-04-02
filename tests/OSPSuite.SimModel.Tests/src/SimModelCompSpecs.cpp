@@ -74,9 +74,9 @@ namespace SimModelCompTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -104,9 +104,9 @@ namespace SimModelCompTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -137,9 +137,9 @@ namespace SimModelCompTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -191,9 +191,9 @@ namespace SimModelCompTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -247,9 +247,9 @@ namespace SimModelCompTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -328,9 +328,9 @@ namespace SimModelCompTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -374,9 +374,9 @@ public:
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -449,9 +449,9 @@ public:
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -491,9 +491,9 @@ public:
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -700,9 +700,9 @@ public:
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -733,9 +733,9 @@ public:
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -880,9 +880,9 @@ public:
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{

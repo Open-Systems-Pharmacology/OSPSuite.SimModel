@@ -34,4 +34,10 @@ namespace SimModelNET
 	{
 		ExceptionHelper::ThrowExceptionFromUnknown("");
 	}
+
+	void ExceptionHelper::ThrowExceptionFrom(System::Exception^ ex)
+	{
+		auto message = ex->Message+System::Environment::NewLine+ex->StackTrace->ToString();
+		throw gcnew System::Exception(message);// gcnew SimModelException(message);
+	}
 }

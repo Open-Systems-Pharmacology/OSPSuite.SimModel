@@ -31,7 +31,6 @@ Species::Species(void)
 	m_ODEIndex = DE_INVALID_INDEX;
 	_simulationStartTime = 0.0;
 	_rhsFormulaListSize = 0;
-	_allFormulaListSize = 0;
 	_RHS_noOfUsedVariables = 0;
 	_RHS_UsedVariablesIndices = NULL;
 	
@@ -41,13 +40,11 @@ Species::Species(void)
 Species::~Species(void)
 {
 	_rhsFormulaList.FreeVector();
-	_allFormulaVector.~vector();
 	if (_RHS_UsedVariablesIndices != NULL)
 	{
 		delete[] _RHS_UsedVariablesIndices;
 		_RHS_UsedVariablesIndices = NULL;
 	}
-//	_parameterSensitivities.clear();
 }
 
 double Species::GetODEScaleFactor () const
@@ -64,13 +61,10 @@ void Species::SetODEScaleFactor (double p_ODEScaleFactor)
 	_DEScaleFactorInv = 1.0 / m_ODEScaleFactor;
 
 	//Also set the new scale factor in all formulas that use this species.
-	if (_allFormulaListSize > 0)
+	for (int i = 0; i < _entitiesWithCachedScaleFactor.size(); i++)
 	{
-		for (int i = 0; i < _allFormulaListSize; i++)
-		{
-			Formula * rhsFormula = _allFormulaVector[i];
-			rhsFormula->UpdateScaleFactorOfReferencedVariable(GetODEIndex(), m_ODEScaleFactor);
-		}
+		auto entity = _entitiesWithCachedScaleFactor[i];
+		entity->UpdateScaleFactorOfReferencedVariable(GetODEIndex(), m_ODEScaleFactor);
 	}
 }
 
@@ -512,10 +506,9 @@ void Species::GetRHSUsedBandRange(int & upperHalfBandWidth, int & lowerHalfBandW
 	}
 }
 
-void Species::AddFormulaReference(Formula * formula)
+void Species::AddEntityWithCachedScaleFactor(EntityWithCachedScaleFactor * entityWithCachedScaleFactor)
 {
-	_allFormulaVector.push_back(formula);
-	_allFormulaListSize = _allFormulaVector.size();
+	_entitiesWithCachedScaleFactor.push_back(entityWithCachedScaleFactor);
 }
 
 bool Species::NegativeValuesAllowed(void)

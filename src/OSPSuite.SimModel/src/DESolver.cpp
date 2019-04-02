@@ -476,6 +476,8 @@ namespace SimModelNative
 		for (i = 0; i<_parentSim->Observers().size(); i++)
 		{
 			Observer * observer = _parentSim->Observers()[i];
+			if (!observer->IsUsedInSimulation())
+				continue;
 
 			//calculate oberver threshold as f(ODEVariable_Thresholds, 0.0)
 			//(where f(y,t) is the calculation formula of the observer

@@ -41,11 +41,11 @@ public:
 	void LoadFromXMLNode (const XMLNode & pNode);
 	void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim);
 
-	bool IsTime ();
+	bool IsTime () const;
 
-	bool IsParameter ();
-	bool IsObserver ();
-	bool IsSpecies ();
+	bool IsParameter () const;
+	bool IsObserver () const;
+	bool IsSpecies () const;
 
 	bool SimplifyQuantity (bool forCurrentRunOnly);
 
@@ -74,8 +74,6 @@ public:
 	void AppendUsedParameters(std::set<int> & usedParameterIDs);
 
 	virtual void UpdateIndicesOfReferencedVariables();
-	//Update the value to ODEScaleFactor of the scale factor of the variable with the id referenced by this formula.
-	virtual void UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor);
 };
 
 }//.. end "namespace SimModelNative"

@@ -231,7 +231,7 @@ void SimulationTask::MarkUsedParameters(Simulation * sim)
 	{
 		for (idx = 0; idx < parameters.size(); idx++)
 		{
-			parameters[idx]->SetUsedInSimulation(true);
+			parameters[idx]->SetIsUsedInSimulation(true);
 		}
 
 		return;
@@ -266,7 +266,7 @@ void SimulationTask::MarkUsedParameters(Simulation * sim)
 		Parameter * parameter = parameters[idx];
 
 		bool used = allUsedParameterIds.find(parameter->GetId()) != allUsedParameterIds.end();
-		parameter->SetUsedInSimulation(used);
+		parameter->SetIsUsedInSimulation(used);
 	}
 }
 
@@ -290,5 +290,60 @@ string SimulationTask::GetErrorMessageForNegativeVaribales(const vector<string> 
 	return msg;
 }
 
+
+void SimulationTask::CacheRHSUsedVariables(Simulation * sim)
+{
+	int i = 0;
+
+	//---- get DE Variables that might be used after switch assignments
+	//     (is the case if switch assignment hats UseAsValue=false and new formula is
+	//      DE-Variables dependent)
+	set<int> DEVariblesUsedInSwitchAssignments;
+
+	TObjectList<Switch> switches = sim->Switches();
+	for (i = 0; i<switches.size(); i++)
+	{
+		switches[i]->AppendUsedVariables(DEVariblesUsedInSwitchAssignments);
+	}
+
+	vector<Species *> & DE_Variables = sim->DE_Variables();
+	//---- now cache used DE Variables
+	for (size_t j = 0; j<DE_Variables.size(); j++)
+	{
+		DE_Variables[j]->CacheRHSUsedVariables(DEVariblesUsedInSwitchAssignments);
+	}
+
+	////for debug only: write out RHS dependency matrix
+	//WriteRHSDependencyMatrix("C:\\VSS\\SimModel\\trunk\\Test\\TestForPurify\\RHSDepMatrix.txt");
+}
+
+//for debug only: write out RHS dependency matrix
+void SimulationTask::WriteRHSDependencyMatrix(Simulation * sim, const string & filename)
+{
+	try
+	{
+		ofstream outfile;
+		outfile.open(filename.c_str());
+
+		vector<Species *> & DE_Variables = sim->DE_Variables();
+		size_t numberOfVariables = DE_Variables.size();
+
+		for (size_t i = 0; i<numberOfVariables; i++)
+		{
+			for (size_t j = 0; j<numberOfVariables; j++)
+			{
+				// ReSharper disable once CppExpressionStatementsWithoudSideEffects
+				outfile << DE_Variables[i]->RHSDependsOn((unsigned int)j) ? 1 : 0;
+				if (j<numberOfVariables - 1)
+					outfile << ",";
+			}
+			outfile << endl;
+		}
+		outfile.close();
+	}
+	catch (...)
+	{
+	}
+}
 
 }//.. end "namespace SimModelNative"

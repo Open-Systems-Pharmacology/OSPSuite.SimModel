@@ -2,6 +2,7 @@
 #define _SimpleProductFormula_H_
 
 #include "SimModel/Formula.h"
+#include "SimModel/EntityWithCachedScaleFactor.h"
 #include <vector>
 #include <string>
 
@@ -9,7 +10,8 @@ namespace SimModelNative
 {
 
 class SimpleProductFormula : 	
-	public Formula
+	public Formula,
+	public EntityWithCachedScaleFactor
 {
 	private:
 		int m_ODEIndexVectorSize;
@@ -42,8 +44,7 @@ class SimpleProductFormula :
 		virtual void AppendUsedParameters(std::set<int> & usedParameterIDs);
 
 		virtual void UpdateIndicesOfReferencedVariables();
-		//Update the value to ODEScaleFactor of the scale factor of the variable with the id referenced by this formula.
-		virtual void UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor);
+		virtual void UpdateScaleFactorOfReferencedVariable(const int odeIndex, const double ODEScaleFactor);
 
 	protected:
 		virtual void WriteFormulaMatlabCode (std::ostream & mrOut);

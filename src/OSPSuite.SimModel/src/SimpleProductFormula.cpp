@@ -110,6 +110,13 @@ void SimpleProductFormula::SetQuantityReference (const QuantityReference & quant
 {
 	_quantityRefs.push_back(quantityReference);
 	UpdateFromQuantityReference(quantityReference);
+
+	//If the quantity is a species, add this formula to the list of entities that cache its scale factor (used for updating scale factors)
+	if (quantityReference.IsSpecies())
+	{
+		Species * species = quantityReference.GetSpecies();
+		species->AddEntityWithCachedScaleFactor(this);
+	}
 }
 
 bool SimpleProductFormula::IsZero(void)
@@ -242,17 +249,7 @@ Formula * SimpleProductFormula::RecursiveSimplify()
 
 void SimpleProductFormula::Finalize()
 {
-	//If the quantity is a species, add this formula to the list of formulas that use the species.
-	//Used for updating scale factors.
-	for (unsigned int i = 0; i < _quantityRefs.size(); i++)
-	{
-		QuantityReference quantityRef = _quantityRefs[i];
-		if (quantityRef.IsSpecies())
-		{
-			SimModelNative::Species * species = quantityRef.GetSpecies();
-			species->AddFormulaReference(this);
-		}
-	}
+	//nothing to do
 }
 
 void SimpleProductFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
@@ -288,11 +285,14 @@ void SimpleProductFormula::UpdateIndicesOfReferencedVariables()
 		UpdateFromQuantityReference(_quantityRefs[i]);
 }
 
-void SimpleProductFormula::UpdateScaleFactorOfReferencedVariable(const int quantity_id, const double ODEScaleFactor)
+void SimpleProductFormula::UpdateScaleFactorOfReferencedVariable(const int odeIndex, const double ODEScaleFactor)
 {
-	for (unsigned int i = 0; i < m_ODEIndexVectorSize; i++) {
-		if (m_ODEIndexVector[i] == quantity_id) {
+	for (unsigned int i = 0; i < m_ODEIndexVectorSize; i++) 
+	{
+		if (m_ODEIndexVector[i] == odeIndex) 
+		{
 			m_ODEScaleFactorVector[i] = ODEScaleFactor;
+			//theoretically the same ODE variable can appear >1 times; so no break here!
 		}
 	}
 }

@@ -40,9 +40,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -140,9 +140,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -175,9 +175,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -207,9 +207,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -246,9 +246,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -285,9 +285,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -316,9 +316,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -537,9 +537,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -599,9 +599,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -655,9 +655,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -727,9 +727,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -777,9 +777,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -827,9 +827,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -868,9 +868,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -918,9 +918,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -995,9 +995,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -1086,9 +1086,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -1189,9 +1189,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -1279,9 +1279,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -1354,9 +1354,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -1513,9 +1513,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -1900,9 +1900,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -2021,9 +2021,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -2177,9 +2177,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -2298,9 +2298,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -2334,9 +2334,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -2355,7 +2355,6 @@ namespace SimulationTests
 
     public:
         [TestAttribute]
-//		[Ignore("This test should be investigated and completed after the bugfix")]
         void should_update_species_initial_values_in_the_simulation_xml_node()
         {
 			//initial system is:
@@ -2432,9 +2431,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -2472,9 +2471,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch(System::Exception^ )
+			catch(System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch(...)
 			{
@@ -2538,9 +2537,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -2603,9 +2602,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -2655,9 +2654,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -2835,9 +2834,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -2882,9 +2881,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -2955,9 +2954,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3007,9 +3006,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3065,9 +3064,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3149,9 +3148,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3204,9 +3203,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3357,9 +3356,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3394,9 +3393,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3432,9 +3431,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3530,9 +3529,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3613,7 +3612,7 @@ namespace SimulationTests
 				auto parameters = sut->GetNativeSimulation()->Parameters();
 				for (auto idx = 0; idx < parameters.size(); idx++)
 				{
-					if (parameters[idx]->UsedInSimulation())
+					if (parameters[idx]->IsUsedInSimulation())
 						paths.push_back(parameters[idx]->GetFullName());
 				}
 
@@ -3624,9 +3623,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3644,7 +3643,7 @@ namespace SimulationTests
 				auto parameterProperties = sut->ParameterProperties;
 				for each (IParameterProperties^ param in parameterProperties)
 				{
-					if (param->UsedInSimulation)
+					if (param->IsUsedInSimulation)
 						paths.push_back(NETToCPPConversions::MarshalString(param->Path));
 				}
 
@@ -3655,9 +3654,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3684,9 +3683,9 @@ namespace SimulationTests
 			{
 				ExceptionHelper::ThrowExceptionFrom(message);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3703,16 +3702,16 @@ namespace SimulationTests
 				auto parameters = sut->GetNativeSimulation()->Parameters();
 				for (auto idx = 0; idx < parameters.size(); idx++)
 				{
-					BDDExtensions::ShouldBeTrue(parameters[idx]->UsedInSimulation());
+					BDDExtensions::ShouldBeTrue(parameters[idx]->IsUsedInSimulation());
 				}
 			}
 			catch (ErrorData & ED)
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3728,16 +3727,16 @@ namespace SimulationTests
 				auto parameterProperties = sut->ParameterProperties;
 				for each (IParameterProperties^ param in parameterProperties)
 				{
-					BDDExtensions::ShouldBeTrue(param->UsedInSimulation);
+					BDDExtensions::ShouldBeTrue(param->IsUsedInSimulation);
 				}
 			}
 			catch (ErrorData & ED)
 			{
 				ExceptionHelper::ThrowExceptionFrom(ED);
 			}
-			catch (System::Exception^)
+			catch (System::Exception^ ex)
 			{
-				throw;
+				ExceptionHelper::ThrowExceptionFrom(ex);
 			}
 			catch (...)
 			{
@@ -3745,4 +3744,59 @@ namespace SimulationTests
 			}
 		}
 	};
+
+	public ref class when_setting_scale_factor_to_one : public concern_for_simulation
+	{
+	protected:
+		virtual void Because() override
+		{
+		}
+
+	public:
+		[TestAttribute]
+		void should_solve_the_system_correctly()
+		{
+			try
+			{
+				SimModelNative::Simulation * sim = sut->GetNativeSimulation();
+				sim->Options().SetKeepXMLNodeAsString(true);
+
+				sut->LoadFromXMLFile(SpecsHelper::TestFileFrom("Modified_ScaleFactors_opt"));
+
+				auto * a = sim->SpeciesList().GetObjectByEntityId("a");
+				if (a == NULL)
+					throw "Variable a not found";
+
+				a->SetIsFixed(false);
+
+				sut->FinalizeSimulation();
+
+				a->SetODEScaleFactor(1.0);
+				sut->RunSimulation();
+
+				double * a_values = a->GetValues();
+				int valuessize = a->GetValuesSize();
+
+				for (int i = 100; i < valuessize; i++)
+					BDDExtensions::ShouldBeSmallerThan(a_values[i], 1e-15);
+			}
+			catch (ErrorData & ED)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ED);
+			}
+			catch (const char * message)
+			{
+				ExceptionHelper::ThrowExceptionFrom(message);
+			}
+			catch (System::Exception^ ex)
+			{
+				ExceptionHelper::ThrowExceptionFrom(ex);
+			}
+			catch (...)
+			{
+				ExceptionHelper::ThrowExceptionFromUnknown();
+			}
+		}
+	};
+
 }
