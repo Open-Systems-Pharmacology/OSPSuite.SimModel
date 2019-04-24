@@ -4,7 +4,6 @@
 
 #include "SimModelManaged/ExceptionHelper.h"
 #include "SimModelSpecs/ExplicitFormulaSpecsHelper.h"
-#include "SimModelManaged/Conversions.h"
 #include "SimModel/ExplicitFormula.h"
 #include "SimModel/SimModelTypeDefs.h"
 #include "XMLWrapper/XMLHelper.h"
@@ -323,7 +322,6 @@ namespace UnitTests
 			}
 		}
 
-	public:
 	};
 
 	public ref class when_getting_switch_timepoints : public concern_for_explicit_formula
