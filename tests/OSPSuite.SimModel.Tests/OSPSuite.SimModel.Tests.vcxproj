@@ -156,7 +156,9 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)..\..\src\DCI\DCI_6.1\ReleaseX64\*.dll" "$(OutputPath)"</Command>
+      <Command>copy "$(ProjectDir)..\..\src\DCI\DCI_6.1\ReleaseX64\*.dll" "$(OutputPath)"
+copy "$(FuncParserPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"
+copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -212,7 +214,9 @@
       <AssemblyDebug>true</AssemblyDebug>
     </Link>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)..\..\src\DCI\DCI_6.1\ReleaseX64\*.dll" "$(OutputPath)"</Command>
+      <Command>copy "$(ProjectDir)..\..\src\DCI\DCI_6.1\ReleaseX64\*.dll" "$(OutputPath)"
+copy "$(FuncParserPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"
+copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
