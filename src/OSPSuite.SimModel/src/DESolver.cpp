@@ -97,7 +97,7 @@ namespace SimModelNative
 		m_ODE_NumUnknowns = 0;
 
 		m_ODEVariables = NULL;
-		m_UsedSolver = "CVODES282"; //default solver
+		m_UsedSolver = "CVODES"; //default solver
 		
 		m_AbsTolMin = 1e-12;
 		m_RelTolMin = 1e-9;

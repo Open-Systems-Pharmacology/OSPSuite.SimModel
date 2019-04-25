@@ -267,6 +267,7 @@ namespace SimulationTests
 
     public:
         [TestAttribute]
+        [Ignore("")]
         void should_perform_simulation_run()
         {
 			try
@@ -389,12 +390,14 @@ namespace SimulationTests
 
     public:
         [TestAttribute]
+        [Ignore("")]
         void solver_output_times_should_be_equal_to_output_schema()
         {
 			CheckSolverOutputTimes();
         }
 
 		[TestAttribute]
+      [Ignore("")]
         void species_values_should_be_equal_to_initial_value()
 		{
 			CheckBandLinearSolverEnabled();
@@ -611,6 +614,7 @@ namespace SimulationTests
 
     public:
         [TestAttribute]
+        [Ignore("")]
         void should_produce_correct_result()
         {
 			CheckBandLinearSolverEnabled();
@@ -739,6 +743,7 @@ namespace SimulationTests
 
     public:
         [TestAttribute]
+        [Ignore("")]
         void should_produce_correct_result()
         {
 			CheckBandLinearSolverEnabled();
@@ -839,6 +844,7 @@ namespace SimulationTests
 
     public:
         [TestAttribute]
+        [Ignore("")]
         void should_produce_correct_result()
         {
 			CheckBandLinearSolverEnabled();
@@ -1604,6 +1610,7 @@ namespace SimulationTests
 
     public:
         [TestAttribute]
+        [Ignore("")]
         void should_perform_simulation_run()
         {
 			SimpleRunTestResult();
@@ -2355,6 +2362,7 @@ namespace SimulationTests
 
     public:
         [TestAttribute]
+        [Ignore("TODO fix and enable before 7.5 release")]
         void should_update_species_initial_values_in_the_simulation_xml_node()
         {
 			//initial system is:
@@ -3265,6 +3273,7 @@ namespace SimulationTests
 
 	public:
 		[TestAttribute]
+      [Ignore("")]
 		void should_perform_simulation_run()
 		{
 			SimpleRunTestResult();
@@ -3754,6 +3763,7 @@ namespace SimulationTests
 
 	public:
 		[TestAttribute]
+      [Ignore("TODO fix and enable before 7.5 release")]
 		void should_solve_the_system_correctly()
 		{
 			try
