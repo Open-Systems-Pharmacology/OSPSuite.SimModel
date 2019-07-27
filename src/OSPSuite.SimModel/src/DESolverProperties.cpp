@@ -1,13 +1,5 @@
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(push,off)
-#endif
-
 #include "SimModel/DESolverProperties.h"
 #include "SimModel/Simulation.h"
-
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(pop)
-#endif
 
 namespace SimModelNative
 {

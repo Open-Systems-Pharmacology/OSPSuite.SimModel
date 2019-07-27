@@ -1,15 +1,7 @@
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(push,off)
-#endif
-
 #include "SimModel/VariableFormula.h"
 #include "SimModel/ConstantFormula.h"
 #include "SimModel/Species.h"
 #include <assert.h>
-
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(pop)
-#endif
 
 namespace SimModelNative
 {

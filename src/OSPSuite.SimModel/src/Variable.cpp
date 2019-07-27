@@ -1,15 +1,7 @@
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(push,off)
-#endif
-
 #include "SimModel/Variable.h"
 #include "ErrorData.h"
 
 #include <assert.h>
-
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(pop)
-#endif
 
 #ifdef linux
 #include <stdlib.h>

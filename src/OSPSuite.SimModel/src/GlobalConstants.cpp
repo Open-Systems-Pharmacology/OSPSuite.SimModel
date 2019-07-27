@@ -1,13 +1,5 @@
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(push,off)
-#endif
-
 #include "SimModel/GlobalConstants.h"
 #include <string>
-
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(pop)
-#endif
 
 namespace SimModelNative
 {

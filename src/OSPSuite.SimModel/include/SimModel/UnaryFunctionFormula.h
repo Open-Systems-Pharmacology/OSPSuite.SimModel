@@ -22,7 +22,7 @@ class UnaryFunctionFormula :
 		virtual Formula* GetJacobianMultiplier (Formula *m_ArgumentFormula) = 0;
 	
 	public:
-		UnaryFunctionFormula (std::string funcName);
+		UnaryFunctionFormula (const std::string & funcName);
 		virtual ~UnaryFunctionFormula ();
 
 		virtual void LoadFromXMLNode (const XMLNode & pNode);
@@ -40,7 +40,7 @@ class UnaryFunctionFormula :
 
 		virtual bool IsZero(void);
 
-		virtual void AppendUsedVariables(std::set<int> & usedVariblesIndices, const std::set<int> & variblesIndicesUsedInSwitchAssignments);
+		virtual void AppendUsedVariables(std::set<int> & usedVariablesIndices, const std::set<int> & variablesIndicesUsedInSwitchAssignments);
 		virtual void AppendUsedParameters(std::set<int> & usedParameterIDs);
 
 		virtual void UpdateIndicesOfReferencedVariables();
@@ -133,7 +133,7 @@ class LnFormula :
 {
 	public:
 		//	FuncName passed in ctor because both "Ln" and "Log" are accepted
-		LnFormula (std::string & funcName);
+		LnFormula (const std::string & funcName);
 		virtual Formula* clone();
 	
 	protected:

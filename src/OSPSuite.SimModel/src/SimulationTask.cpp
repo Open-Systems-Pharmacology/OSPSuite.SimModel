@@ -1,17 +1,9 @@
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(push,off)
-#endif
-
 #include "SimModel/SimulationTask.h"
 #include "SimModel/SwitchTask.h"
 #include "SimModel/TableFormula.h"
 #include "SimModel/TableFormulaWithOffset.h"
 #include <set>
 #include <map>
-
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(pop)
-#endif
 
 namespace SimModelNative
 {

@@ -1,17 +1,12 @@
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(push,off)
-#endif
-
 #include "SimModel/MathHelper.h"
 #include "XMLWrapper/XMLHelper.h"
 #include <ErrorData.h>
 
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(pop)
-#endif
-
+#include <ymath.h>
+#include <clocale>
 #ifdef linux
 #include <cstring>
+#include <cmath>
 #endif
 
 namespace SimModelNative

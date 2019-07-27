@@ -37,7 +37,7 @@ class BooleanFormula :
 
 		virtual void AppendUsedVariables(std::set<int> & usedVariblesIndices, const std::set<int> & variblesIndicesUsedInSwitchAssignments);
 		virtual void AppendUsedParameters(std::set<int> & usedParameterIDs);
-		void BooleanFormula::SwitchFormulaFromComparisonFormula(std::vector<Formula*> &vecExplicit, std::vector<Formula*> &vecImplicit);
+		void SwitchFormulaFromComparisonFormula(std::vector<Formula*> &vecExplicit, std::vector<Formula*> &vecImplicit);
 
 		virtual void UpdateIndicesOfReferencedVariables();
 };

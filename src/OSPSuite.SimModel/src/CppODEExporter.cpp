@@ -1,7 +1,3 @@
-#ifdef WIN32_PRODUCTION
-#pragma managed(push,off)
-#endif
-
 #include "SimModel/Simulation.h"
 #include "SimModel/DESolver.h"
 #include "SimModel/CppODEExporter.h"
@@ -11,11 +7,7 @@
 #include "XMLWrapper/XMLHelper.h"
 #include "SimModel/TableFormula.h"
 
-#ifdef WIN32_PRODUCTION
-#pragma managed(pop)
-#endif
-
-#ifdef WIN32
+#ifdef _WINDOWS
 #pragma warning(disable:4996)
 #endif
 
@@ -24,7 +16,7 @@ namespace SimModelNative
 
 	using namespace std;
 
-	void CppODEExporter::WriteCppCodeFromFile(const string & sFileName, const string & OutDir, bool FullMode, string &name, const vector<int> &outputIDs)
+	void CppODEExporter::WriteCppCodeFromFile(const string & sFileName, const string & OutDir, bool FullMode, string name, const vector<int> &outputIDs)
 	{
 		Simulation * Sim = NULL;
 
@@ -47,7 +39,7 @@ namespace SimModelNative
 		}
 	}
 
-	void CppODEExporter::WriteCppCode(const string & sSimulationXML, const string & OutDir, bool FullMode, string &name, const vector<int> &outputIDs)
+	void CppODEExporter::WriteCppCode(const string & sSimulationXML, const string & OutDir, bool FullMode, string name, const vector<int> &outputIDs)
 	{
 		Simulation * Sim = NULL;
 
@@ -170,7 +162,7 @@ namespace SimModelNative
 		os << endl;
 	}
 
-	void CppODEExporter::WriteCppCode(Simulation * sim, const string & OutDir, bool FullMode, string &name, const vector<int> &outputIDs)
+	void CppODEExporter::WriteCppCode(Simulation * sim, const string & OutDir, bool FullMode, string name, const vector<int> &outputIDs)
 	{
 		if (name.empty())
 			name.assign("Standard");

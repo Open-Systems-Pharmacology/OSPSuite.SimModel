@@ -1,7 +1,3 @@
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(push,off)
-#endif
-
 #include "SimModel/PowerFormula.h"
 #include "SimModel/FormulaFactory.h"
 #include "SimModel/GlobalConstants.h"
@@ -11,10 +7,6 @@
 #include "SimModel/UnaryFunctionFormula.h"
 #include "SimModel/ConstantFormula.h"
 #include <assert.h>
-
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(pop)
-#endif
 
 namespace SimModelNative
 {
@@ -113,39 +105,11 @@ Formula* PowerFormula::DE_Jacobian(const int iEquation)
 {
 	// d/dx(f(x)^(g(x))) = f(x)^(g(x)-1) (g(x) f'(x)+f(x) log(f(x)) g'(x))
 
-	//PowerFormula * pf = new PowerFormula();
-	//LnFormula * l = new LnFormula(string("Log"));
-	//l->setFormula(m_BaseFormula->clone());
-
-	//ProductFormula * p1 = new ProductFormula();
-	//ProductFormula * p2 = new ProductFormula();
-	//ProductFormula * p3 = new ProductFormula();
-
-	//SumFormula * s = new SumFormula();
-	//DiffFormula * d = new DiffFormula();
-
-	//d->setFormula(m_ExponentFormula->clone(), new ConstantFormula(1.0));
-	//pf->setFormula(m_BaseFormula->clone(), d);
-	//
-	//Formula * mult1[2] = { m_ExponentFormula->clone(), m_BaseFormula->DE_Jacobian(iEquation) };
-	//p1->setFormula(2, mult1);
-
-	//Formula * mult2[3] = { m_BaseFormula->clone(), l, m_ExponentFormula->DE_Jacobian(iEquation) };
-	//p2->setFormula(3, mult2);
-
-	//Formula * sum[2] = { p1, p2 };
-	//s->setFormula(2, sum);
-
-	//Formula * mult3[2] = { pf, s };
-	//p3->setFormula(2, mult3);
-
-	//return p3;
-
 	LnFormula* l = new LnFormula(string("Log"));
-	ProductFormula* p1 = new ProductFormula();
-	ProductFormula* p2 = new ProductFormula();
-	DivFormula* div = new DivFormula();
-	SumFormula* sum = new SumFormula();
+	auto p1 = new ProductFormula();
+   auto p2 = new ProductFormula();
+	auto div = new DivFormula();
+	auto sum = new SumFormula();
 
 	//Derivative (R)' = (ln(m_Base)*R)*(m_Exp)' + (m_Exp*R/m_Base) *(m_Base)'
 	l->setFormula(m_BaseFormula->clone());

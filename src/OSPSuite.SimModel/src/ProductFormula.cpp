@@ -1,7 +1,3 @@
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(push,off)
-#endif
-
 #include "SimModel/ProductFormula.h"
 #include "SimModel/FormulaFactory.h"
 #include "XMLWrapper/XMLNode.h"
@@ -9,10 +5,6 @@
 #include "SimModel/SumFormula.h"
 #include "SimModel/ConstantFormula.h"
 #include <assert.h>
-
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(pop)
-#endif
 
 namespace SimModelNative
 {

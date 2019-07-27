@@ -13,16 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
-    <Filter Include="Managed Code">
-      <UniqueIdentifier>{cb4d9d68-9c46-4770-a008-c8895f8fa577}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Managed Code\Header Files">
-      <UniqueIdentifier>{58f1843b-efb1-43c0-ab5f-c21b67cc0af6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Managed Code\Source Files">
-      <UniqueIdentifier>{83b1ed35-f0d2-4f7c-871d-5d6d5e6dea4d}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
     <Filter Include="SolverBase">
       <UniqueIdentifier>{7e1d9695-cf79-4cf8-bb60-3521deb8997c}</UniqueIdentifier>
     </Filter>
@@ -166,44 +156,8 @@
     <ClCompile Include="Src\VariableFormula.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Managed\Src\AdjustableEntityProperties.cpp">
-      <Filter>Managed Code\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Managed\Src\Conversions.cpp">
-      <Filter>Managed Code\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Managed\Src\EntityProperties.cpp">
-      <Filter>Managed Code\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Managed\Src\ExceptionHelper.cpp">
-      <Filter>Managed Code\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Managed\Src\ManagedSimulation.cpp">
-      <Filter>Managed Code\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Managed\Src\ManagedSolverWarning.cpp">
-      <Filter>Managed Code\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Managed\Src\ParameterProperties.cpp">
-      <Filter>Managed Code\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Managed\Src\SimModelException.cpp">
-      <Filter>Managed Code\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Managed\Src\SpeciesProperties.cpp">
-      <Filter>Managed Code\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Managed\Src\VariableValues.cpp">
-      <Filter>Managed Code\Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Managed\Src\XMLSchemaCache.cpp">
-      <Filter>Managed Code\Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Src\ParameterSensitivity.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Managed\Src\ManagedOutputSchema.cpp">
-      <Filter>Managed Code\Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Src\SimulationOptions.cpp">
       <Filter>Source Files</Filter>
@@ -384,44 +338,8 @@
     <ClInclude Include="Include\SimModel\XMLLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Managed\Include\SimModelManaged\AdjustableEntityProperties.h">
-      <Filter>Managed Code\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Managed\Include\SimModelManaged\Conversions.h">
-      <Filter>Managed Code\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Managed\Include\SimModelManaged\EntityProperties.h">
-      <Filter>Managed Code\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Managed\Include\SimModelManaged\ExceptionHelper.h">
-      <Filter>Managed Code\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Managed\Include\SimModelManaged\ManagedSimulation.h">
-      <Filter>Managed Code\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Managed\Include\SimModelManaged\ParameterProperties.h">
-      <Filter>Managed Code\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Managed\Include\SimModelManaged\SimModelException.h">
-      <Filter>Managed Code\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Managed\Include\SimModelManaged\SolverWarning.h">
-      <Filter>Managed Code\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Managed\Include\SimModelManaged\SpeciesProperties.h">
-      <Filter>Managed Code\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Managed\Include\SimModelManaged\VariableValues.h">
-      <Filter>Managed Code\Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Managed\Include\SimModelManaged\XMLSchemaCache.h">
-      <Filter>Managed Code\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Include\SimModel\ParameterSensitivity.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Managed\Include\SimModelManaged\ManagedOutputSchema.h">
-      <Filter>Managed Code\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Include\SimModel\SimulationOptions.h">
       <Filter>Header Files</Filter>

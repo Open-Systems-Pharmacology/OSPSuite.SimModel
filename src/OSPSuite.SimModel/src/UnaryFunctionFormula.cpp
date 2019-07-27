@@ -1,7 +1,3 @@
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(push,off)
-#endif
-
 #include "SimModel/UnaryFunctionFormula.h"
 #include "SimModel/FormulaFactory.h"
 #include "SimModel/GlobalConstants.h"
@@ -10,13 +6,8 @@
 #include "SimModel/DivFormula.h"
 #include "SimModel/SumFormula.h"
 #include "SimModel/ConstantFormula.h"
-#include "SimModel/PowerFormula.h"
 #include <assert.h>
 #include <algorithm>
-
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(pop)
-#endif
 
 namespace SimModelNative
 {
@@ -27,7 +18,7 @@ using namespace std;
 //---- Unary function formula (base for all unary function formulas)
 //-------------------------------------------------------------------
 
-UnaryFunctionFormula::UnaryFunctionFormula (string funcName)
+UnaryFunctionFormula::UnaryFunctionFormula (const string & funcName)
 {
 	m_FunctionName = funcName;
 	m_ArgumentFormula = NULL;
@@ -42,7 +33,7 @@ UnaryFunctionFormula::~UnaryFunctionFormula ()
 	}
 }
 
-bool UnaryFunctionFormula::IsZero(void)
+bool UnaryFunctionFormula::IsZero()
 {
 	//TODO
 	return false;
@@ -106,7 +97,7 @@ void UnaryFunctionFormula::DE_Jacobian (double * * jacobian, const double * y, c
 
 Formula* UnaryFunctionFormula::DE_Jacobian(const int iEquation)
 {
-	ProductFormula* p = new ProductFormula();
+   auto p = new ProductFormula();
 
 	Formula* mult[2] = { GetJacobianMultiplier(m_ArgumentFormula), m_ArgumentFormula->DE_Jacobian(iEquation) };
 	p->setFormula(2, mult);
@@ -119,7 +110,7 @@ Formula * UnaryFunctionFormula::RecursiveSimplify()
 	m_ArgumentFormula = m_ArgumentFormula->RecursiveSimplify();
 	if (m_ArgumentFormula->IsConstant(CONSTANT_CURRENT_RUN))
 	{
-		ConstantFormula * f = new ConstantFormula(DE_Compute(NULL, 0.0, USE_SCALEFACTOR));
+      auto f = new ConstantFormula(DE_Compute(NULL, 0.0, USE_SCALEFACTOR));
 		delete this;
 		return f;
 	}
@@ -159,9 +150,9 @@ void UnaryFunctionFormula::WriteFormulaCppCode(ostream & mrOut)
 	mrOut << ")";
 }
 
-void UnaryFunctionFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void UnaryFunctionFormula::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
-	m_ArgumentFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+	m_ArgumentFormula->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
 }
 
 void UnaryFunctionFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
@@ -200,10 +191,10 @@ double AcosFormula::GetJacobianMultiplier (double arg)
 
 Formula* AcosFormula::GetJacobianMultiplier(Formula *m_ArgumentFormula)
 {
-	DivFormula* d = new DivFormula();
-	SqrtFormula* sqrt = new SqrtFormula();
-	DiffFormula* diff = new DiffFormula();
-	ProductFormula* p = new ProductFormula();
+   auto d = new DivFormula();
+	auto sqrt = new SqrtFormula();
+	auto diff = new DiffFormula();
+	auto p = new ProductFormula();
 
 	Formula *m[2] = { m_ArgumentFormula->clone(), m_ArgumentFormula->clone() };
 	p->setFormula(2, m);
@@ -263,7 +254,7 @@ Formula* AsinFormula::GetJacobianMultiplier(Formula *m_ArgumentFormula)
 
 Formula * AsinFormula::clone()
 {
-	AsinFormula * f = new AsinFormula();
+   auto f = new AsinFormula();
 	f->m_ArgumentFormula = m_ArgumentFormula->clone();
 	return f;
 }
@@ -437,7 +428,7 @@ Formula * ExpFormula::clone()
 //---- ln
 //-------------------------------------------------------------------
 
-LnFormula::LnFormula (std::string & funcName) : UnaryFunctionFormula(funcName)
+LnFormula::LnFormula (const std::string & funcName) : UnaryFunctionFormula(funcName)
 {
 
 }
@@ -711,7 +702,7 @@ Formula* TanFormula::GetJacobianMultiplier(Formula *m_ArgumentFormula)
 
 Formula * TanFormula::clone()
 {
-	TanFormula * f = new TanFormula();
+   auto f = new TanFormula();
 	f->m_ArgumentFormula = m_ArgumentFormula->clone();
 	return f;
 }

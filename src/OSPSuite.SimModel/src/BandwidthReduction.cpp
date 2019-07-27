@@ -1,15 +1,7 @@
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(push,off)
-#endif
-
 #include "SimModel/BandwidthReduction.h"
 #include "SimModel/Rcm.h"
 #include <set>
 #include <map>
-
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(pop)
-#endif
 
 namespace SimModelNative
 {

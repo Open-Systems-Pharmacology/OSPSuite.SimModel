@@ -55,9 +55,9 @@ struct JacFormula {
 class CppODEExporter
 {
 	public:
-		SIM_EXPORT void WriteCppCodeFromFile(const std::string & sFileName, const std::string & OutDir, bool FullMode, std::string &name = std::string(""), const std::vector<int> &outputIDs = std::vector<int>());
-		SIM_EXPORT void WriteCppCode(const std::string & sSimulationXML, const std::string & OutDir, bool FullMode, std::string &name = std::string(""), const std::vector<int> &outputIDs = std::vector<int>());
-		SIM_EXPORT void WriteCppCode(Simulation * sim, const std::string & OutDir, bool FullMode, std::string &name = std::string(""), const std::vector<int> &outputIDs = std::vector<int>());
+		SIM_EXPORT void WriteCppCodeFromFile(const std::string & sFileName, const std::string & OutDir, bool FullMode, std::string name = std::string(""), const std::vector<int> &outputIDs = std::vector<int>());
+		SIM_EXPORT void WriteCppCode(const std::string & sSimulationXML, const std::string & OutDir, bool FullMode, std::string name = std::string(""), const std::vector<int> &outputIDs = std::vector<int>());
+		SIM_EXPORT void WriteCppCode(Simulation * sim, const std::string & OutDir, bool FullMode, std::string name = std::string(""), const std::vector<int> &outputIDs = std::vector<int>());
 
 	private:
 		size_t dimFreeParams;

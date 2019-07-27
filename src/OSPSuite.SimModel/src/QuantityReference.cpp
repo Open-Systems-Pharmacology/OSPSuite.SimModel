@@ -1,7 +1,3 @@
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(push,off)
-#endif
-
 #ifdef _WINDOWS
 #pragma warning(disable:4786)
 #endif
@@ -12,10 +8,6 @@
 #include "SimModel/Simulation.h"
 #include "SimModel/Parameter.h"
 #include "SimModel/ConstantFormula.h"
-
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(pop)
-#endif
 
 namespace SimModelNative
 {

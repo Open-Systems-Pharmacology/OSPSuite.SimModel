@@ -1,7 +1,3 @@
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(push,off)
-#endif
-
 #include "SimModel/DESolver.h"
 #include "SimModel/Simulation.h"
 #include "SimModel/MathHelper.h"
@@ -13,10 +9,6 @@
 #include <cmath>
 #include <ctime>
 #include <vector>
-
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(pop)
-#endif
 
 namespace SimModelNative
 {

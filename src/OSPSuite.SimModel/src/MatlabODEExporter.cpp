@@ -1,7 +1,3 @@
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(push,off)
-#endif
-
 #include "SimModel/Simulation.h"
 #include "SimModel/DESolver.h"
 #include "SimModel/MatlabODEExporter.h"
@@ -9,10 +5,6 @@
 #include "SimModel/SimulationTask.h"
 #include "SimModel/OutputSchema.h"
 #include "SimModel/TableFormula.h"
-
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(pop)
-#endif
 
 #ifdef _WINDOWS
 #pragma warning(disable:4996)

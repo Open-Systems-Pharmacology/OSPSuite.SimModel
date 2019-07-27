@@ -1,7 +1,3 @@
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(push,off)
-#endif
-
 #include "SimModel/Simulation.h"
 #include "SimModel/MathHelper.h"
 #include "SimModel/FormulaFactory.h"
@@ -18,10 +14,6 @@
 
 #ifdef _WINDOWS
 #include <atlbase.h>
-#endif
-
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(pop)
 #endif
 
 #ifdef _WINDOWS

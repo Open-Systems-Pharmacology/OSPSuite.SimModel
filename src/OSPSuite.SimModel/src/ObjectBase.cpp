@@ -1,7 +1,3 @@
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(push,off)
-#endif
-
 #ifdef _WINDOWS
 #pragma warning(disable:4786)
 #endif
@@ -9,10 +5,6 @@
 #include "SimModel/ObjectBase.h"
 #include "SimModel/Simulation.h"
 #include "XMLWrapper/XMLHelper.h"
-
-#ifdef _WINDOWS_PRODUCTION
-#pragma managed(pop)
-#endif
 
 namespace SimModelNative
 {
