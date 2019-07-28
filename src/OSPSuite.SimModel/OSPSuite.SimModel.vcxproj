@@ -12,11 +12,12 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{50F2D8ED-6615-4079-8D4B-A20253E6ABEA}</ProjectGuid>
-    <RootNamespace>SimModel</RootNamespace>
+    <RootNamespace>SimModelNative</RootNamespace>
     <Keyword>Win32Proj</Keyword>
     <TargetFrameworkVersion>
     </TargetFrameworkVersion>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>OSPSuite.SimModelNative</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
