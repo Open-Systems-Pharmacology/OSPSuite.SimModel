@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		packages.config = packages.config
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSPSuite.SimModel", "src\OSPSuite.SimModel\OSPSuite.SimModel.vcxproj", "{50F2D8ED-6615-4079-8D4B-A20253E6ABEA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSPSuite.SimModelNative", "src\OSPSuite.SimModelNative\OSPSuite.SimModelNative.vcxproj", "{50F2D8ED-6615-4079-8D4B-A20253E6ABEA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSPSuite.SysTool", "src\OSPSuite.SysTool\OSPSuite.SysTool.vcxproj", "{A63D7DCB-51AF-486A-BC1A-E4575F138168}"
 EndProject
@@ -20,7 +20,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSPSuite.XMLWrapper", "src\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{53D0B277-E438-4318-A53A-30B321BC1A37}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSPSuite.SimModel.Tests", "tests\OSPSuite.SimModel.Tests\OSPSuite.SimModel.Tests.csproj", "{9895BDEF-2D1B-4AF9-9B05-0B9EED363057}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSPSuite.SimModel.Tests", "tests\OSPSuite.SimModel.Tests\OSPSuite.SimModel.Tests.csproj", "{9895BDEF-2D1B-4AF9-9B05-0B9EED363057}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A63D7DCB-51AF-486A-BC1A-E4575F138168} = {A63D7DCB-51AF-486A-BC1A-E4575F138168}
+		{7F3710D8-A03B-4FFF-B726-A1012994E32D} = {7F3710D8-A03B-4FFF-B726-A1012994E32D}
+		{50F2D8ED-6615-4079-8D4B-A20253E6ABEA} = {50F2D8ED-6615-4079-8D4B-A20253E6ABEA}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

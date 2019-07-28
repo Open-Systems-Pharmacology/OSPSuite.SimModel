@@ -5,6 +5,7 @@
 
 #ifdef _WINDOWS
 #pragma warning( disable : 4251)
+#pragma warning( disable : 4192)
 #import <msxml6.dll> named_guids
 #include <msxml.h>
 #define XMLWRAPPER_EXPORT __declspec(dllexport)

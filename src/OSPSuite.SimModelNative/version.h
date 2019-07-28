@@ -12,13 +12,13 @@
                                     "." STRINGIZE(RELEASE) \
                                     "." STRINGIZE(BUILD) \
 
-#define COMMENTS "© Open Systems Pharmacology Community 2017"
+#define COMMENTS "© Open Systems Pharmacology Community 2019"
 #define COMPANY_NAME "Open Systems Pharmacology Community"
 #define FILE_DESCRIPTION "SimModel Kernel Calculation"
 #define FILE_VERSION VER_FILE_VERSION_STR
-#define INTERNAL_NAME "SimModel"
-#define LEGAL_COPYRIGHT "Copyright 2017"
+#define INTERNAL_NAME "OSPSuite.SimModelNative"
+#define LEGAL_COPYRIGHT "Copyright 2019"
 #define LEGAL_TRADEMARKS "© Open Systems Pharmacology Community"
-#define ORIGINAL_FILENAME "OSPSuite.SimModel.dll"
-#define PRODUCT_NAME  "SimModel"
+#define ORIGINAL_FILENAME "OSPSuite.SimModelNative.dll"
+#define PRODUCT_NAME  "OSPSuite.SimModelNative"
 #define PRODUCT_VERSION VER_FILE_VERSION_STR

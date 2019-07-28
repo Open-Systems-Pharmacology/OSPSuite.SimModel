@@ -9,7 +9,7 @@
 #include <time.h>
 #include "SimModel/ParameterFormula.h"
 #include "SimModel/BandwidthReduction.h"
-#include "../../OSPSuite.SimModel/version.h"
+#include "../../OSPSuite.SimModelNative/version.h"
 #include "SimModel/SimulationTask.h"
 
 #ifdef _WINDOWS
