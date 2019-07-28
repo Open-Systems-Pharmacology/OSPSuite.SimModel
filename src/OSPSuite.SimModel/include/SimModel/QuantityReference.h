@@ -70,7 +70,7 @@ public:
 	bool IsConstant(bool forCurrentRunOnly);
 	bool IsChangedBySwitch(void);
 
-	void AppendUsedVariables(std::set<int> & usedVariblesIndices, const std::set<int> & variblesIndicesUsedInSwitchAssignments);
+	void AppendUsedVariables(std::set<int> & usedVariablesIndices, const std::set<int> & variablesIndicesUsedInSwitchAssignments);
 	void AppendUsedParameters(std::set<int> & usedParameterIDs);
 
 	virtual void UpdateIndicesOfReferencedVariables();

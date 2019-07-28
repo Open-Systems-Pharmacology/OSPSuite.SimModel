@@ -159,7 +159,7 @@ void Switch::ResetState(void)
 	_wasFired = false;
 }
 
-void Switch::AppendUsedVariables(set<int> & usedVariblesIndices)
+void Switch::AppendUsedVariables(set<int> & usedVariablesIndices)
 {
 	if (_conditionFormula->IsZero())
 		return; //switch will never fire
@@ -167,7 +167,7 @@ void Switch::AppendUsedVariables(set<int> & usedVariblesIndices)
 	const set<int> emptySet;
 
 	for(int i=0; i<_formulaChangeVector.size(); i++)
-		_formulaChangeVector[i]->AppendVariablesUsedInNewFormula(usedVariblesIndices, emptySet);
+		_formulaChangeVector[i]->AppendVariablesUsedInNewFormula(usedVariablesIndices, emptySet);
 }
 
 void Switch::AppendUsedParameters(std::set<int> & usedParameterIDs, bool alwaysAppendInFormulaChange)

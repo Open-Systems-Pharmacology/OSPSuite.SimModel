@@ -181,10 +181,10 @@ void PowerFormula::WriteFormulaCppCode(std::ostream & mrOut)
 	mrOut << ")";
 }
 
-void PowerFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void PowerFormula::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
-	m_BaseFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
-	m_ExponentFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+	m_BaseFormula->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
+	m_ExponentFormula->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
 }
 
 void PowerFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)

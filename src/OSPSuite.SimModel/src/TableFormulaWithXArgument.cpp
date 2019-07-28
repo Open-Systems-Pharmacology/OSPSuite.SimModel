@@ -239,10 +239,10 @@ void TableFormulaWithXArgument::WriteFormulaCppCode(ostream & mrOut)
 	throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Table formulas with offset not supported by C++ export" + FormulaInfoForErrorMessage());
 }
 
-void TableFormulaWithXArgument::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void TableFormulaWithXArgument::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
-	_tableObject->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
-	_XArgumentObject->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+	_tableObject->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
+	_XArgumentObject->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
 }
 
 void TableFormulaWithXArgument::AppendUsedParameters(std::set<int> & usedParameterIDs)

@@ -425,9 +425,9 @@ std::string ExplicitFormula::Equation()
 	return _equation;
 }
 
-void ExplicitFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void ExplicitFormula::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
-	_formula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+	_formula->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
 }
 
 void ExplicitFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)

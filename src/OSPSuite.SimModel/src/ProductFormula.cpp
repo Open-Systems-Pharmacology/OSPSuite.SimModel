@@ -286,11 +286,11 @@ bool ProductFormula::IsZero(void)
 	return false;
 }
 
-void ProductFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void ProductFormula::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
 	for (int iFormula = 0;iFormula != _noOfMultipliers;iFormula++)
 	{
-		_multiplierFormulas[iFormula]->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+		_multiplierFormulas[iFormula]->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
 	}
 }
 

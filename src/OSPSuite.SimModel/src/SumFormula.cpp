@@ -232,11 +232,11 @@ void SumFormula::WriteFormulaCppCode(std::ostream & mrOut)
 	}
 }
 
-void SumFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void SumFormula::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
 	for (int iFormula = 0;iFormula != _noOfSummands;iFormula++)
 	{
-		_summandFormulas[iFormula]->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+		_summandFormulas[iFormula]->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
 	}
 }
 

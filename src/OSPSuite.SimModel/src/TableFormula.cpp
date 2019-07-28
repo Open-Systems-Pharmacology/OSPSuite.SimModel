@@ -415,7 +415,7 @@ void TableFormula::SetTablePoints(const std::vector <ValuePoint> & valuePoints)
 	CacheValues();
 }
 
-void TableFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void TableFormula::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
 	//nothing to do so far
 }

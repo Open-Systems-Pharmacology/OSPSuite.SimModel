@@ -16,7 +16,7 @@ namespace SimModelNative
 		m_Value = value;
 	}
 
-	bool ConstantFormula::IsZero(void)
+	bool ConstantFormula::IsZero()
 	{
 		return (m_Value == 0.0);
 	}
@@ -104,7 +104,7 @@ namespace SimModelNative
 		return (m_Value < 0.0);
 	}
 
-	void ConstantFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+	void ConstantFormula::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 	{
 		//nothing to do so far
 	}

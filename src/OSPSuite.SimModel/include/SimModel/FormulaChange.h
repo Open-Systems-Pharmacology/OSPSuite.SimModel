@@ -56,7 +56,7 @@ public:
 	void MarkQuantitiesDirectlyUsedBy(void); //required for Matlab code generation only
 
 	//used variables are only added into the list if UseAsValue=false
-	void AppendVariablesUsedInNewFormula(std::set<int> & usedVariblesIndices, const std::set<int> & variblesIndicesUsedInSwitchAssignments);
+	void AppendVariablesUsedInNewFormula(std::set<int> & usedVariablesIndices, const std::set<int> & variablesIndicesUsedInSwitchAssignments);
 	void AppendUsedParameters(std::set<int> & usedParameterIDs, bool alwaysAppend);
 	void AppendFormulaParameters(std::map<int, formulaParameterInfo > & formulaParameterIDs);
 

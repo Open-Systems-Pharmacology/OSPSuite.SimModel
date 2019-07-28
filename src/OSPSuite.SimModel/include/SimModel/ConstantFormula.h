@@ -10,7 +10,7 @@ class ConstantFormula :
 	public Formula
 {
 	private:
-		double m_Value;
+		double m_Value{};
 	
 	public:
 		ConstantFormula();
@@ -35,7 +35,7 @@ class ConstantFormula :
 
 		virtual bool IsZero(void);
 
-		virtual void AppendUsedVariables(std::set<int> & usedVariblesIndices, const std::set<int> & variblesIndicesUsedInSwitchAssignments);
+		virtual void AppendUsedVariables(std::set<int> & usedVariablesIndices, const std::set<int> & variablesIndicesUsedInSwitchAssignments);
 		virtual void AppendUsedParameters(std::set<int> & usedParameterIDs);
 
 		virtual void UpdateIndicesOfReferencedVariables();

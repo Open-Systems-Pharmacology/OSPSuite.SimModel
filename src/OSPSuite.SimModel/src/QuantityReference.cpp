@@ -243,7 +243,7 @@ bool QuantityReference::IsChangedBySwitch(void)
 	return _quantity->IsChangedBySwitch();
 }
 
-void QuantityReference::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void QuantityReference::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
 	if (_quantity == NULL)
 		return;
@@ -251,7 +251,7 @@ void QuantityReference::AppendUsedVariables(set<int> & usedVariblesIndices, cons
 	if(!_isParameter)
 		return;
 
-	_quantity->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+	_quantity->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
 }
 
 void QuantityReference::AppendUsedParameters(set<int> & usedParameterIDs)

@@ -158,10 +158,10 @@ void DiffFormula::WriteFormulaCppCode(std::ostream & mrOut)
 	m_SubtrahendFormula->WriteCppCode(mrOut);
 }
 
-void DiffFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void DiffFormula::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
-	m_MinuendFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
-	m_SubtrahendFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+	m_MinuendFormula->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
+	m_SubtrahendFormula->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
 }
 
 void DiffFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)

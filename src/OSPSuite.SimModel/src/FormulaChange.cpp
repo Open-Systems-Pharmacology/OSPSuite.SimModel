@@ -243,12 +243,12 @@ void FormulaChange::MarkQuantitiesDirectlyUsedBy(void)
 }
 
 
-void FormulaChange::AppendVariablesUsedInNewFormula(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void FormulaChange::AppendVariablesUsedInNewFormula(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
 	if (_useAsValue)
 		return; 
 
-	_newFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+	_newFormula->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
 }
 
 void FormulaChange::AppendUsedParameters(std::set<int> & usedParameterIDs, bool alwaysAppend)

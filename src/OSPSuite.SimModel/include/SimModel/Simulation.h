@@ -58,9 +58,9 @@ private:
 	std::string _objectPathDelimiter;
 	XMLDocument m_XMLDoc;
 	XMLNode m_SimNode;
-	void ResetScalarProperties(void);
-	void ResetSimulation(void);
-	void LoadFromXMLDocument(void);
+	void ResetScalarProperties();
+	void ResetSimulation();
+	void LoadFromXMLDocument();
 
 	//version of the SimModel-XML
 	int _XML_Version;
@@ -115,20 +115,20 @@ protected:
 	TObjectVector<SolverWarning> _solverWarnings;
 
 public:
-	SIM_EXPORT Simulation(void);
-	SIM_EXPORT virtual ~Simulation(void);
-	SIM_EXPORT std::string GetVersion(void);
+	SIM_EXPORT Simulation();
+	SIM_EXPORT virtual ~Simulation();
+	SIM_EXPORT std::string GetVersion();
 
-	SIM_EXPORT std::string GetObjectPathDelimiter(void) const;
+	SIM_EXPORT std::string GetObjectPathDelimiter() const;
 
-	TObjectList<Parameter> & Parameters(void);
-	SIM_EXPORT TObjectList<Species>   & SpeciesList(void); //unfortunately, plural von Species is Species :-)
-	SIM_EXPORT TObjectList<Observer>  & Observers(void);
-	TObjectList<Switch>    & Switches(void);
-	TObjectList<Formula>   & Formulas(void);
+	TObjectList<Parameter> & Parameters();
+	SIM_EXPORT TObjectList<Species>   & SpeciesList(); //unfortunately, plural von Species is Species :-)
+	SIM_EXPORT TObjectList<Observer>  & Observers();
+	TObjectList<Switch>    & Switches();
+	TObjectList<Formula>   & Formulas();
 
-	TObjectList<Quantity>  & AllQuantities(void);
-	TObjectList<Parameter> & SensitivityParameters(void);
+	TObjectList<Quantity>  & AllQuantities();
+	TObjectList<Parameter> & SensitivityParameters();
 
 	SIM_EXPORT const TObjectVector<SolverWarning> & SolverWarnings() const;
 

@@ -259,11 +259,11 @@ void IfFormula::WriteFormulaCppCode(std::ostream & mrOut)
 	mrOut << " )";
 }
 
-void IfFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void IfFormula::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
-	m_IfStatement->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
-	m_ThenStatement->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
-	m_ElseStatement->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+	m_IfStatement->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
+	m_ThenStatement->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
+	m_ElseStatement->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
 }
 
 void IfFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)

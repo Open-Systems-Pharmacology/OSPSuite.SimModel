@@ -195,10 +195,10 @@ void TableFormulaWithOffset::WriteFormulaCppCode(ostream & mrOut)
 	throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Table formulas with offset not supported by C++ export" + FormulaInfoForErrorMessage());
 }
 
-void TableFormulaWithOffset::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void TableFormulaWithOffset::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
-	_tableObject->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
-	_offsetObject->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+	_tableObject->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
+	_offsetObject->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
 }
 
 void TableFormulaWithOffset::AppendUsedParameters(std::set<int> & usedParameterIDs)

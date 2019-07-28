@@ -202,17 +202,17 @@ string ParameterFormula::Equation()
 	return m_Name;
 }
 
-void ParameterFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void ParameterFormula::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
 	//---- first, add variables used in parameter formula
-	_quantityRef.AppendUsedVariables(usedVariblesIndices, variblesIndicesUsedInSwitchAssignments);
+	_quantityRef.AppendUsedVariables(usedVariablesIndices, variablesIndicesUsedInSwitchAssignments);
 
 	//---- second: if parameter is changed by switches, add all DE variables
 	//             that can be potentially set into parameter formula
 	if (_quantityRef.IsChangedBySwitch())
 	{
-		usedVariblesIndices.insert(variblesIndicesUsedInSwitchAssignments.begin(), 
-			                       variblesIndicesUsedInSwitchAssignments.end());
+		usedVariablesIndices.insert(variablesIndicesUsedInSwitchAssignments.begin(), 
+			                       variablesIndicesUsedInSwitchAssignments.end());
 	}
 }
 

@@ -96,7 +96,7 @@ public:
 	virtual void SetTablePoints(const std::vector <ValuePoint> & valuePoints);
 
 	//append all DE variables used in the formula into the set
-	virtual void AppendUsedVariables(std::set<int> & usedVariblesIndices, const std::set<int> & variblesIndicesUsedInSwitchAssignments) = 0;
+	virtual void AppendUsedVariables(std::set<int> & usedVariablesIndices, const std::set<int> & variablesIndicesUsedInSwitchAssignments) = 0;
 
 	//append all parameters used in the formula into the set
 	virtual void AppendUsedParameters(std::set<int> & usedParameterIDs) = 0;

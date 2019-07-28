@@ -460,12 +460,12 @@ void Quantity::UpdateFormulaInXMLNode(XMLNode & pFormulaListNode, XMLNode & pQua
 		" not found (quantity id: "+XMLHelper::ToString(_id)+")");
 }
 
-void Quantity::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void Quantity::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
 	if (_valueFormula == NULL)
 		return; //nothing to do
 
-	_valueFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+	_valueFormula->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
 }
 
 void Quantity::AppendUsedParameters(std::set<int> & usedParameterIDs)

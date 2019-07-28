@@ -188,10 +188,10 @@ void DivFormula::WriteFormulaCppCode(std::ostream & mrOut)
 	m_DenominatorFormula->WriteCppCode(mrOut);
 }
 
-void DivFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void DivFormula::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
-	m_NumeratorFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
-	m_DenominatorFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+	m_NumeratorFormula->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
+	m_DenominatorFormula->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
 }
 
 void DivFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)

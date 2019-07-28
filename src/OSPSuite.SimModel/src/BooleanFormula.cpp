@@ -82,13 +82,13 @@ void BooleanFormula::SetQuantityReference (const QuantityReference & quantityRef
 		m_SecondOperandFormula->SetQuantityReference(quantityReference);
 }
 
-void BooleanFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void BooleanFormula::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
-	m_FirstOperandFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+	m_FirstOperandFormula->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
 
 	//second operand is not mandatory (e.g. NOT Formula)
 	if (m_SecondOperandFormula)
-		m_SecondOperandFormula->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+		m_SecondOperandFormula->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
 }
 
 void BooleanFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)

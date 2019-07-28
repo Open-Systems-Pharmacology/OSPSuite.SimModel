@@ -177,10 +177,10 @@ void MaxFormula::WriteFormulaCppCode(std::ostream & mrOut)
 	mrOut << ")";
 }
 
-void MaxFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void MaxFormula::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
-	m_FirstArgument->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
-	m_SecondArgument->AppendUsedVariables(usedVariblesIndices,variblesIndicesUsedInSwitchAssignments);
+	m_FirstArgument->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
+	m_SecondArgument->AppendUsedVariables(usedVariablesIndices,variablesIndicesUsedInSwitchAssignments);
 }
 
 void MaxFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)

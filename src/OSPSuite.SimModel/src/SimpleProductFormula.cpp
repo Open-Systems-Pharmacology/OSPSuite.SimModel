@@ -1,5 +1,6 @@
 #ifdef _WINDOWS
 #pragma warning(disable:4786)
+#pragma warning(disable:4244)
 #endif
 
 #include "SimModel/SimpleProductFormula.h"
@@ -193,7 +194,7 @@ Formula* SimpleProductFormula::DE_Jacobian(const int iEquation)
 	else
 	{
 		// remove factor iEquation
-		SimpleProductFormula* p = new SimpleProductFormula();
+      auto p = new SimpleProductFormula();
 		p->m_ODEIndexVectorSize = m_ODEIndexVectorSize - 1;
 		p->m_K = m_K;
 		p->m_ODEIndexVector = new int[m_ODEIndexVectorSize - 1];
@@ -258,11 +259,11 @@ void SimpleProductFormula::WriteFormulaCppCode(std::ostream & mrOut)
 		mrOut << "*" << "y[" << m_ODEIndexVector[i] << "]";
 }
 
-void SimpleProductFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void SimpleProductFormula::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
 	for(int i=0;i<m_ODEIndexVectorSize;i++)
 	{
-		usedVariblesIndices.insert(m_ODEIndexVector[i]);
+		usedVariablesIndices.insert(m_ODEIndexVector[i]);
 	}
 }
 

@@ -132,9 +132,9 @@ bool VariableFormula::UseBracketsForODESystemGeneration ()
 	return false;
 }
 
-void VariableFormula::AppendUsedVariables(set<int> & usedVariblesIndices, const set<int> & variblesIndicesUsedInSwitchAssignments)
+void VariableFormula::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
 {
-	usedVariblesIndices.insert(m_ODEVariableIndex);
+	usedVariablesIndices.insert(m_ODEVariableIndex);
 }
 
 void VariableFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)

@@ -1,3 +1,7 @@
+#ifdef _WINDOWS
+#pragma warning(disable:4244)
+#endif
+
 #include "SimModel/VariableWithParameterSensitivity.h"
 
 namespace SimModelNative

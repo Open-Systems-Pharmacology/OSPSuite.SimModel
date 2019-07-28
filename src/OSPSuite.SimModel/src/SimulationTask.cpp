@@ -1,3 +1,7 @@
+#ifdef _WINDOWS
+#pragma warning(disable:4244)
+#endif
+
 #include "SimModel/SimulationTask.h"
 #include "SimModel/SwitchTask.h"
 #include "SimModel/TableFormula.h"

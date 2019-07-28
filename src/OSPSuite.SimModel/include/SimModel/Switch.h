@@ -42,7 +42,7 @@ public:
 
 	void ResetState();
 
-	void AppendUsedVariables(std::set<int> & usedVariblesIndices);
+	void AppendUsedVariables(std::set<int> & usedVariablesIndices);
 	void AppendUsedParameters(std::set<int> & usedParameterIDs, bool alwaysAppendInFormulaChange = false);
 	void AppendFormulaParameters(std::map<int, formulaParameterInfo > & formulaParameterIDs);
 	void SwitchFormulaFromComparisonFormula(std::vector<Formula*> &vecExplicit, std::vector<Formula*> &vecImplicit);
