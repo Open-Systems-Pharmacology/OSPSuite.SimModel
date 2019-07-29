@@ -41,7 +41,7 @@ void SimulationOptions::SetCheckForNegativeValues(bool performCheck)
 	_checkForNegativeValues = performCheck;
 }
 
-bool SimulationOptions::CheckForNegativeValues(void)
+bool SimulationOptions::CheckForNegativeValues(void) const
 {
 	return _checkForNegativeValues;
 }
@@ -51,7 +51,7 @@ void SimulationOptions::WriteLogFile(bool writeLogFile)
 	_writeLogFile = writeLogFile;
 }
 
-bool SimulationOptions::WriteLogFile(void)
+bool SimulationOptions::WriteLogFile(void) const
 {
 	return _writeLogFile;
 }
@@ -61,7 +61,7 @@ void SimulationOptions::ValidateWithXMLSchema(bool validate)
 	_validateXMLWithSchema = validate;
 }
 
-bool SimulationOptions::ValidateWithXMLSchema(void)
+bool SimulationOptions::ValidateWithXMLSchema(void) const
 {
 	return _validateXMLWithSchema;
 }
@@ -71,12 +71,12 @@ void SimulationOptions::IdentifyUsedParameters(bool identifyUsedParameters)
 	_identifyUsedParameters = identifyUsedParameters;
 }
 
-bool SimulationOptions::IdentifyUsedParameters(void)
+bool SimulationOptions::IdentifyUsedParameters(void) const
 {
 	return _identifyUsedParameters;
 }
 
-bool SimulationOptions::ShowProgress()
+bool SimulationOptions::ShowProgress() const
 {
 	return _showProgress;
 }
@@ -86,7 +86,7 @@ void SimulationOptions::SetShowProgress(bool showProgress)
 	_showProgress = showProgress;
 }
 
-double SimulationOptions::ExecutionTimeLimit()
+double SimulationOptions::ExecutionTimeLimit() const
 {
 	return _executionTimeLimit;
 }
@@ -96,7 +96,7 @@ void SimulationOptions::SetExecutionTimeLimit(double executionTimeLimit)
 	_executionTimeLimit = executionTimeLimit;
 }
 
-string SimulationOptions::LogFile(void)
+string SimulationOptions::LogFile(void) const
 {
 	return _logFile;
 }
@@ -106,7 +106,7 @@ void SimulationOptions::SetLogFile(const std::string & logFile)
 	_logFile = logFile;
 }
 
-bool SimulationOptions::StopOnWarnings()
+bool SimulationOptions::StopOnWarnings() const
 {
 	return _stopOnWarnings;
 }
@@ -116,7 +116,7 @@ void SimulationOptions::SetStopOnWarnings(bool stopOnWarnings)
 	_stopOnWarnings = stopOnWarnings;
 }
 
-bool SimulationOptions::AutoReduceTolerances()
+bool SimulationOptions::AutoReduceTolerances() const
 {
 	return _autoReduceTolerances;
 }
@@ -126,7 +126,7 @@ void SimulationOptions::SetAutoReduceTolerances(bool autoReduceTolerances)
 	_autoReduceTolerances = autoReduceTolerances;
 }
 
-bool SimulationOptions::KeepXMLNodeAsString()
+bool SimulationOptions::KeepXMLNodeAsString() const
 {
 	return _keepXMLNodeAsString;
 }
@@ -137,7 +137,7 @@ void SimulationOptions::SetKeepXMLNodeAsString(bool keepXMLNodeAsString)
 }
 
 
-bool SimulationOptions::UseFloatComparisonInUserOutputTimePoints()
+bool SimulationOptions::UseFloatComparisonInUserOutputTimePoints() const
 {
 	return _useFloatComparisonInUserOutputTimePoints;
 }

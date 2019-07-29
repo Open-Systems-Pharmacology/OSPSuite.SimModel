@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSPSuite.SimModel.Tests", "
 		{50F2D8ED-6615-4079-8D4B-A20253E6ABEA} = {50F2D8ED-6615-4079-8D4B-A20253E6ABEA}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSPSuite.SimModel", "src\OSPSuite.SimModel\OSPSuite.SimModel.csproj", "{9B3197B0-008F-4BDA-A35E-1EB6328644B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,14 @@ Global
 		{9895BDEF-2D1B-4AF9-9B05-0B9EED363057}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9895BDEF-2D1B-4AF9-9B05-0B9EED363057}.Release|x64.ActiveCfg = Release|Any CPU
 		{9895BDEF-2D1B-4AF9-9B05-0B9EED363057}.Release|x64.Build.0 = Release|Any CPU
+		{9B3197B0-008F-4BDA-A35E-1EB6328644B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B3197B0-008F-4BDA-A35E-1EB6328644B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B3197B0-008F-4BDA-A35E-1EB6328644B0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9B3197B0-008F-4BDA-A35E-1EB6328644B0}.Debug|x64.Build.0 = Debug|Any CPU
+		{9B3197B0-008F-4BDA-A35E-1EB6328644B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B3197B0-008F-4BDA-A35E-1EB6328644B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B3197B0-008F-4BDA-A35E-1EB6328644B0}.Release|x64.ActiveCfg = Release|Any CPU
+		{9B3197B0-008F-4BDA-A35E-1EB6328644B0}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -252,6 +252,8 @@ copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
     </ClCompile>
+    <ClCompile Include="src\PInvokeHelper.cpp" />
+    <ClCompile Include="src\PInvokeSimulation.cpp" />
     <ClCompile Include="Src\PowerFormula.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</CompileAsManaged>
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</CompileAsManaged>
@@ -382,6 +384,8 @@ copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)
     <ClInclude Include="Include\SimModel\ParameterFormula.h" />
     <ClInclude Include="Include\SimModel\ParameterInfo.h" />
     <ClInclude Include="Include\SimModel\ParameterSensitivity.h" />
+    <ClInclude Include="include\SimModel\PInvokeHelper.h" />
+    <ClInclude Include="include\SimModel\PInvokeSimulation.h" />
     <ClInclude Include="Include\SimModel\PowerFormula.h" />
     <ClInclude Include="Include\SimModel\ProductFormula.h" />
     <ClInclude Include="Include\SimModel\Quantity.h" />

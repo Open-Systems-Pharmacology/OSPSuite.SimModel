@@ -22,6 +22,15 @@
     <Filter Include="SolverBase\include">
       <UniqueIdentifier>{769d85d2-b4f9-48b1-88a0-f907b3eb9ea3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PInvoke">
+      <UniqueIdentifier>{e544b5d7-a8d8-494b-a728-e0bc2b3894a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PInvoke\Header Files">
+      <UniqueIdentifier>{4315ea2e-9ed5-4161-82fb-f2652d0ea13b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PInvoke\Source Files">
+      <UniqueIdentifier>{2d894ea3-2ac6-4cd7-b0fc-c473ec72172d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\BandwidthReduction.cpp">
@@ -185,6 +194,12 @@
     </ClCompile>
     <ClCompile Include="src\TableFormulaWithXArgument.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PInvokeHelper.cpp">
+      <Filter>PInvoke\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PInvokeSimulation.cpp">
+      <Filter>PInvoke\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -376,6 +391,12 @@
     </ClInclude>
     <ClInclude Include="include\SimModel\EntityWithCachedScaleFactor.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SimModel\PInvokeHelper.h">
+      <Filter>PInvoke\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SimModel\PInvokeSimulation.h">
+      <Filter>PInvoke\Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

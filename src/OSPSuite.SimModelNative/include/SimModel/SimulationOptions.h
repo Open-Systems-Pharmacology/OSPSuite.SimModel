@@ -28,40 +28,40 @@ namespace SimModelNative
 	public:
 		SimulationOptions();
 
-		bool ShowProgress();
+		bool ShowProgress() const;
 		void SetShowProgress(bool showProgress);
 
-		SIM_EXPORT double ExecutionTimeLimit();
+		SIM_EXPORT double ExecutionTimeLimit() const;
 		SIM_EXPORT void SetExecutionTimeLimit(double executionTimeLimit);
 
-		SIM_EXPORT bool StopOnWarnings();
+		SIM_EXPORT bool StopOnWarnings() const;
 		SIM_EXPORT void SetStopOnWarnings(bool stopOnWarnings);
 
-		SIM_EXPORT bool AutoReduceTolerances();
+		SIM_EXPORT bool AutoReduceTolerances() const;
 		SIM_EXPORT void SetAutoReduceTolerances(bool autoReduceTolerances);
 
 		//if set to true AND logfile name is not empty, log outputs are created
 		SIM_EXPORT void WriteLogFile(bool writeLogFile);
-		bool WriteLogFile(void);
+		bool WriteLogFile(void) const;
 
-		std::string LogFile(void);
+		std::string LogFile(void) const;
 		void SetLogFile(const std::string & logFile);
 
 		//at the moment for tests only. If we get problems with negative values check, this
 		//property should be set via solver options in SimModel-XML (like UseJacobian etc.)
 		void SetCheckForNegativeValues(bool performCheck);
-		bool CheckForNegativeValues(void);
+		bool CheckForNegativeValues(void) const;
 
 		SIM_EXPORT void ValidateWithXMLSchema(bool validate);
-		SIM_EXPORT bool ValidateWithXMLSchema(void);
+		SIM_EXPORT bool ValidateWithXMLSchema(void) const;
 
 		SIM_EXPORT void IdentifyUsedParameters(bool identifyUsedParameters);
-		SIM_EXPORT bool IdentifyUsedParameters(void);
+		SIM_EXPORT bool IdentifyUsedParameters(void) const;
 
-		SIM_EXPORT bool KeepXMLNodeAsString();
+		SIM_EXPORT bool KeepXMLNodeAsString() const;
 		SIM_EXPORT void SetKeepXMLNodeAsString(bool);
 
-		SIM_EXPORT bool UseFloatComparisonInUserOutputTimePoints();
+		SIM_EXPORT bool UseFloatComparisonInUserOutputTimePoints() const;
 		SIM_EXPORT void SetUseFloatComparisonInUserOutputTimePoints(bool);
 
 		void CopyFrom(SimulationOptions & srcOptions);
