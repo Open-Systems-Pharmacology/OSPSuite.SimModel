@@ -3,18 +3,35 @@ using System.Runtime.InteropServices;
 
 namespace OSPSuite.SimModel
 {
-   [StructLayout(LayoutKind.Sequential)]
+   //[StructLayout(LayoutKind.Sequential)]
    internal struct SimulationOptionsStructure
    {
+      [MarshalAs(UnmanagedType.I1)]
       public bool ShowProgress;
+      
       public double ExecutionTimeLimit;
+      [MarshalAs(UnmanagedType.I1)]
       public bool StopOnWarnings;
+
+      [MarshalAs(UnmanagedType.I1)]
       public bool AutoReduceTolerances;
+
+      [MarshalAs(UnmanagedType.I1)]
       public bool WriteLogFile;
+
+      [MarshalAs(UnmanagedType.I1)]
       public bool CheckForNegativeValues;
+
+      [MarshalAs(UnmanagedType.I1)]
       public bool ValidateWithXMLSchema;
+
+      [MarshalAs(UnmanagedType.I1)]
       public bool IdentifyUsedParameters;
+
+      [MarshalAs(UnmanagedType.I1)]
       public bool KeepXMLNodeAsString;
+
+      [MarshalAs(UnmanagedType.I1)]
       public bool UseFloatComparisonInUserOutputTimePoints;
    }
 
@@ -48,7 +65,8 @@ namespace OSPSuite.SimModel
       public static extern string GetObjectPathDelimiter(IntPtr simulation);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern SimulationOptionsStructure GetSimulationOptions(IntPtr simulation);
+      //public static extern SimulationOptionsStructure GetSimulationOptions(IntPtr simulation);
+      public static extern void FillSimulationOptions(IntPtr simulation, ref SimulationOptionsStructure options);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void SetSimulationOptions(IntPtr simulation, SimulationOptionsStructure options);
@@ -105,7 +123,8 @@ namespace OSPSuite.SimModel
       public Simulation()
       {
          _simulation = SimulationImports.CreateSimulation();
-         _simulationOptions = SimulationImports.GetSimulationOptions(_simulation);
+         //_simulationOptions = SimulationImports.GetSimulationOptions(_simulation);
+         SimulationImports.FillSimulationOptions(_simulation,ref _simulationOptions);
 
          _toleranceWasReduced = false;
          _newAbsTol = double.NaN;

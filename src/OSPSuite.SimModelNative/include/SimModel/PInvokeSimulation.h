@@ -36,7 +36,9 @@ namespace SimModelNative
       //SIM_EXPORT char* GetSimModelVersion();
       SIM_EXPORT char* GetObjectPathDelimiter(Simulation* simulation);
 
-      SIM_EXPORT SimulationOptionsStructure GetSimulationOptions(Simulation* simulation);
+      //SIM_EXPORT SimulationOptionsStructure GetSimulationOptions(Simulation* simulation);
+      SIM_EXPORT void FillSimulationOptions(Simulation* simulation, SimulationOptionsStructure * options);
+      
       SIM_EXPORT void SetSimulationOptions(Simulation* simulation, SimulationOptionsStructure options);
 
       SIM_EXPORT void RunSimulation(Simulation* simulation, bool& toleranceWasReduced, double& newAbsTol, double& newRelTol, bool& success, char** errorMessage);

@@ -18,13 +18,13 @@ namespace SimModelNative
 
 using namespace std;
 
-ExplicitFormula::ExplicitFormula(void)
+ExplicitFormula::ExplicitFormula()
 {
 	_formula = NULL;
 	_isGloballySimplified = false;
 }
 
-ExplicitFormula::~ExplicitFormula(void)
+ExplicitFormula::~ExplicitFormula()
 {
 	_quantityRefs.clear();
 	
@@ -104,35 +104,31 @@ void ExplicitFormula::CreateFormulaFromEquation(const vector<string> & variableN
 	 										    const vector<string> & parameterNotToSimplifyNames,
 											    bool simplifyParameter)
 {
+   const char* ERROR_SOURCE = "ExplicitFormula::CreateFormulaFromEquation";
 	ParsedFunction parsedFunc;
-	FuncParserErrorData fpED;
 
-	parsedFunc.SetCaseSensitive(true, fpED); 
-	if (fpED.GetNumber() != FuncParserErrorData::err_OK) throw ErrorData(ErrorData::ED_ERROR, fpED.GetSource(), fpED.GetDescription() + FormulaInfoForErrorMessage());
+   try
+   {
+      parsedFunc.SetCaseSensitive(true);
+      parsedFunc.SetLogicOperatorsAllowed(true);
+      parsedFunc.SetLogicalNumericMixAllowed(true);
+      parsedFunc.SetSimplifyParametersAllowed(simplifyParameter);
 
-	parsedFunc.SetLogicOperatorsAllowed(true, fpED);
-	if (fpED.GetNumber() != FuncParserErrorData::err_OK) throw ErrorData(ErrorData::ED_ERROR, fpED.GetSource(), fpED.GetDescription() + FormulaInfoForErrorMessage());
+      parsedFunc.SetParameterNames(parameterNames);
+      parsedFunc.SetParameterValues(parameterValues);
+      parsedFunc.SetVariableNames(variableNames);
+      parsedFunc.SetParametersNotToSimplify(parameterNotToSimplifyNames);
 
-	parsedFunc.SetLogicalNumericMixAllowed(true, fpED);
-	if (fpED.GetNumber() != FuncParserErrorData::err_OK) throw ErrorData(ErrorData::ED_ERROR, fpED.GetSource(), fpED.GetDescription() + FormulaInfoForErrorMessage());
-
-	parsedFunc.SetSimplifyParametersAllowed(simplifyParameter, fpED); 
-	if (fpED.GetNumber() != FuncParserErrorData::err_OK) throw ErrorData(ErrorData::ED_ERROR, fpED.GetSource(), fpED.GetDescription() + FormulaInfoForErrorMessage());
-
-	parsedFunc.SetParameterNames(parameterNames, fpED); 
-	if (fpED.GetNumber() != FuncParserErrorData::err_OK) throw ErrorData(ErrorData::ED_ERROR, fpED.GetSource(), fpED.GetDescription() + FormulaInfoForErrorMessage());
-	
-	parsedFunc.SetParameterValues(parameterValues, fpED); 
-	if (fpED.GetNumber() != FuncParserErrorData::err_OK) throw ErrorData(ErrorData::ED_ERROR, fpED.GetSource(), fpED.GetDescription() + FormulaInfoForErrorMessage());
-
-	parsedFunc.SetVariableNames(variableNames, fpED); 
-	if (fpED.GetNumber() != FuncParserErrorData::err_OK) throw ErrorData(ErrorData::ED_ERROR, fpED.GetSource(), fpED.GetDescription() + FormulaInfoForErrorMessage());
-
-	parsedFunc.SetParametersNotToSimplify(parameterNotToSimplifyNames, fpED); 
-	if (fpED.GetNumber() != FuncParserErrorData::err_OK) throw ErrorData(ErrorData::ED_ERROR, fpED.GetSource(), fpED.GetDescription() + FormulaInfoForErrorMessage());
-
-	parsedFunc.SetStringToParse(_equation,fpED);
-	if (fpED.GetNumber() != FuncParserErrorData::err_OK) throw ErrorData(ErrorData::ED_ERROR, fpED.GetSource(), fpED.GetDescription() + FormulaInfoForErrorMessage());
+      parsedFunc.SetStringToParse(_equation);
+   }
+   catch(FuncParserErrorData& fpED)
+   {
+      throw ErrorData(ErrorData::ED_ERROR, fpED.GetSource(), fpED.GetDescription() + FormulaInfoForErrorMessage());
+   }
+   catch(...)
+   {
+      throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Unknown error: " + FormulaInfoForErrorMessage());;
+   }
 
 	XMLNode pRateNode = GetRateNode(parsedFunc);
 	
@@ -158,7 +154,6 @@ void ExplicitFormula::CreateFormulaFromEquation(const vector<string> & variableN
 
 	//release memory
 	pRateNode.FreeNode();
-
 }
 
 
@@ -166,11 +161,20 @@ XMLNode ExplicitFormula::GetRateNode(ParsedFunction & parsedFunction)
 {
 	const char * ERROR_SOURCE = "ExplicitFormula::GetRateNode";
 
-	FuncParserErrorData fpED;
-
 	//Get Parsed XML Node
-	std::string sXMLString = parsedFunction.GetXMLString(fpED,true,"ROOT");
-	if (fpED.GetNumber() != FuncParserErrorData::err_OK) throw ErrorData(ErrorData::ED_ERROR, fpED.GetSource(), fpED.GetDescription() + FormulaInfoForErrorMessage());
+   std::string sXMLString;
+   try
+   {
+	   sXMLString = parsedFunction.GetXMLString(true,"ROOT");
+   }
+   catch (FuncParserErrorData& fpED)
+   {
+      throw ErrorData(ErrorData::ED_ERROR, fpED.GetSource(), fpED.GetDescription() + FormulaInfoForErrorMessage());
+   }
+   catch (...)
+   {
+      throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Unknown error: " + FormulaInfoForErrorMessage());;
+   }
 
 	//Create DOM document
 	try
@@ -185,7 +189,7 @@ XMLNode ExplicitFormula::GetRateNode(ParsedFunction & parsedFunction)
 		// If this didn't work for some reason...
 		if (pRootNode.IsNull())
 			throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE,
- 						    "Failed to find node <ROOT> in XML String of expression " + parsedFunction.GetStringToParse(fpED));
+ 						    "Failed to find node <ROOT> in XML String of expression " + parsedFunction.GetStringToParse());
 
 		//create and return deep copy of the rate node
 		XMLNode rateNode = pRootNode.GetFirstChild().Clone(true);
@@ -214,7 +218,7 @@ void ExplicitFormula::AddQuantityRefsFromXMLNode(XMLNode refListNode, Simulation
 
 	for (XMLNode pChild = refListNode.GetFirstChild(); !pChild.IsNull();pChild = pChild.GetNextSibling()) 
 	{
-		QuantityReference * quantityRef = new QuantityReference();
+		auto quantityRef = new QuantityReference();
 		quantityRef->SetParentFormulaInfo(formulaInfo);
 
 		quantityRef->LoadFromXMLNode(pChild);
@@ -273,7 +277,7 @@ bool ExplicitFormula::Simplify(bool forCurrentRunOnly)
 	return Simplified;
 }
 
-bool ExplicitFormula::IsZero(void)
+bool ExplicitFormula::IsZero()
 {
 	return _formula->IsZero();
 }
@@ -314,7 +318,7 @@ Formula* ExplicitFormula::DE_Jacobian(const int iEquation)
 
 Formula* ExplicitFormula::clone()
 {
-	ExplicitFormula* f = new ExplicitFormula();
+	auto f = new ExplicitFormula();
 	f->_formula = _formula->clone();
 	return f;
 }
@@ -322,7 +326,6 @@ Formula* ExplicitFormula::clone()
 Formula * ExplicitFormula::RecursiveSimplify()
 {
 	return _formula->RecursiveSimplify();
-	//throw ErrorData(ErrorData::ED_ERROR, "ExplicitFormula::RecusiveSimplify", "This method should not be called.");
 }
 
 void ExplicitFormula::SetQuantityReference (const QuantityReference & quantityReference)

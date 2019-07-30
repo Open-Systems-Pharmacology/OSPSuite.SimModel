@@ -1,15 +1,26 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="nunit" Version="3.11.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.11.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+	<PackageReference Include="OSPSuite.BDDHelper" Version="4.0.0.1" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\OSPSuite.SimModel\OSPSuite.SimModel.csproj" />
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy &quot;$(SolutionDir)Build\$(ConfigurationName)\x64\OSPSuite.SimModelNative.dll&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Build\$(ConfigurationName)\x64\OSPSuite.SimModelNative.pdb&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Build\$(ConfigurationName)\x64\OSPSuite.SimModelNative.lib&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;" />
+  </Target>
 
 </Project>

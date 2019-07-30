@@ -103,13 +103,18 @@ namespace SimModelNative
       return MarshalString(simulation->GetObjectPathDelimiter());
    }
 
-   SimulationOptionsStructure GetSimulationOptions(Simulation* simulation)
+   void FillSimulationOptions(Simulation* simulation, SimulationOptionsStructure* options)
    {
-      SimulationOptionsStructure options{};
-      options.CopyFrom(simulation->Options());
-
-      return options;
+      options->CopyFrom(simulation->Options());
    }
+
+   //SimulationOptionsStructure GetSimulationOptions(Simulation* simulation)
+   //{
+   //   SimulationOptionsStructure options{};
+   //   options.CopyFrom(simulation->Options());
+
+   //   return options;
+   //}
 
    void SetSimulationOptions(Simulation* simulation, SimulationOptionsStructure options)
    {

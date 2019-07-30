@@ -83,7 +83,7 @@
       <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
-      <AdditionalDependencies>OSPSuite.FuncParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OSPSuite.FuncParserNative.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
       <AdditionalLibraryDirectories>$(FuncParserPath)bin\native\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -116,7 +116,7 @@ copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)
       <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
-      <AdditionalDependencies>OSPSuite.FuncParser.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OSPSuite.FuncParserNative.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
       <AdditionalLibraryDirectories>$(FuncParserPath)bin\native\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>

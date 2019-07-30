@@ -7,5 +7,10 @@
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
     <DefineConstants>_WINDOWS</DefineConstants>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OSPSuite.FuncParser" Version="4.0.0.39" />
+    <PackageReference Include="OSPSuite.Utility" Version="4.0.0.1" />
+  </ItemGroup>
   
 </Project>
