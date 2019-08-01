@@ -201,6 +201,9 @@
     <ClCompile Include="src\PInvokeSimulation.cpp">
       <Filter>PInvoke\Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\PInvokeQuantity.cpp">
+      <Filter>PInvoke\Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Include\SimModel\BandwidthReduction.h">
@@ -396,6 +399,9 @@
       <Filter>PInvoke\Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\SimModel\PInvokeSimulation.h">
+      <Filter>PInvoke\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SimModel\PInvokeQuantity.h">
       <Filter>PInvoke\Header Files</Filter>
     </ClInclude>
   </ItemGroup>

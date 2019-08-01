@@ -58,6 +58,9 @@ namespace SimModelNative
 
       SIM_EXPORT void ReleaseSimulationMemory(Simulation* simulation, bool& success, char** errorMessage);
 
+      SIM_EXPORT Observer* GetObserverFrom(Simulation* simulation, const char* entityId, bool& success, char** errorMessage);
+      SIM_EXPORT Species* GetSpeciesFrom(Simulation* simulation, const char* entityId, bool& success, char** errorMessage);
+
       // -----------------------------------------------------------------------------------------------------------------
 
       //SIM_EXPORT TObjectList<Species>& SpeciesList();

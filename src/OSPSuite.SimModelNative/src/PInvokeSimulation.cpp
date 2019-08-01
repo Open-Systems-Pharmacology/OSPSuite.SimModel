@@ -231,7 +231,6 @@ namespace SimModelNative
 
    void ReleaseSimulationMemory(Simulation* simulation, bool& success, char** errorMessage)
    {
-      
       try
       {
          simulation->ReleaseMemory();
@@ -249,4 +248,75 @@ namespace SimModelNative
          success = false;
       }
    }
-}//.. end "namespace FuncParserNative"
+
+   Observer* GetObserverFrom(Simulation* simulation, const char* entityId, bool& success, char** errorMessage)
+   {
+      success = false;
+
+      try
+      {
+         auto observer = simulation->Observers().GetObjectByEntityId(entityId);
+         if (observer != NULL)
+         {
+            success = true;
+            return observer;
+         }
+
+         //check if entityId is valid but not an observer
+         if (simulation->AllQuantities().GetObjectByEntityId(entityId) == NULL)
+            *errorMessage = MarshalString(string(entityId) + " is invalid entity id");
+         else
+            *errorMessage = MarshalString(string(entityId) + " is not an observer");
+
+         return NULL;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         
+         return NULL;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown("GetQuantityFrom");
+         success = false;
+         return NULL;
+      }
+   }
+
+   Species* GetSpeciesFrom(Simulation* simulation, const char* entityId, bool& success, char** errorMessage)
+   {
+      success = false;
+
+      try
+      {
+         auto species = simulation->SpeciesList().GetObjectByEntityId(entityId);
+         if (species != NULL)
+         {
+            success = true;
+            return species;
+         }
+
+         //check if entityId is valid but not an observer
+         if (simulation->AllQuantities().GetObjectByEntityId(entityId) == NULL)
+            * errorMessage = MarshalString(string(entityId) + " is invalid entity id");
+         else
+            *errorMessage = MarshalString(string(entityId) + " is not a species");
+
+         return NULL;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+
+         return NULL;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown("GetQuantityFrom");
+         success = false;
+         return NULL;
+      }
+   }
+
+}//.. end "namespace SimModelNative"
