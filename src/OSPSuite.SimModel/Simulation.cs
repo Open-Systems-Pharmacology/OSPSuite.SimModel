@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
+// ReSharper disable UnusedMember.Global
 
 namespace OSPSuite.SimModel
 {
@@ -103,6 +105,13 @@ namespace OSPSuite.SimModel
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void GetQuantityProperties(IntPtr quantity, out string containerPath, out string name);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern int GetNumberOfQuantitiesWithValues(IntPtr simulation, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void FillEntityIdsForQuantitiesWithValues(IntPtr simulation, [In, Out] string[] entityIds, int size, out bool success, out string errorMessage);
+
    }
 
    internal class PInvokeHelper
@@ -306,13 +315,13 @@ namespace OSPSuite.SimModel
 
       public VariableValues ValuesFor(string entityId)
       {
-         var quantity = SimulationImports.GetSpeciesFrom(_simulation, entityId, out var success, out var errorMessage);
+         var quantity = SimulationImports.GetSpeciesFrom(_simulation, entityId, out var success, out _);
          var variableType = VariableValues.VariableTypes.Species;
 
          if (!success)
          {
             //entity is not a species. Try observer
-            quantity = SimulationImports.GetObserverFrom(_simulation, entityId, out success, out errorMessage);
+            quantity = SimulationImports.GetObserverFrom(_simulation, entityId, out success, out _);
             if (success)
                variableType = VariableValues.VariableTypes.Observer;
          }
@@ -324,6 +333,25 @@ namespace OSPSuite.SimModel
          VariableValues variableValues=new VariableValues(quantity,variableType,entityId, containerPath, name);
 
          return variableValues;
+      }
+
+      public IEnumerable<VariableValues> AllValues
+      {
+         get
+         {
+            var allValues = new List<VariableValues>();
+
+            var numberOfQuantitiesWithValues=SimulationImports.GetNumberOfQuantitiesWithValues(_simulation,out var success,out var errorMessage);
+            evaluateCppCallResult(success,errorMessage);
+
+            var entityIds =new string[numberOfQuantitiesWithValues];
+            SimulationImports.FillEntityIdsForQuantitiesWithValues(_simulation, entityIds, numberOfQuantitiesWithValues,out success,out errorMessage);
+
+            for (var i=0; i<numberOfQuantitiesWithValues; i++)
+               allValues.Add(ValuesFor(entityIds[i]));
+
+            return allValues;
+         }
       }
 
       //-------------------------------------------------------------------------------------------------

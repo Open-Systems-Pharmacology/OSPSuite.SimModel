@@ -14,6 +14,9 @@ namespace OSPSuite.SimModel
       //<array> has preallocated memory for <size> elements
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void FillQuantityValues(IntPtr quantity, [In, Out] double[] values, int size, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern double GetQuantityComparisonThreshold(IntPtr quantity, out bool success, out string errorMessage);
    }
 
    public class VariableValues : EntityProperties
@@ -53,7 +56,17 @@ namespace OSPSuite.SimModel
 
       public bool IsConstant => QuantityImports.QuantityIsConstant(_quantity);
 
-      public double ComparisonThreshold { get; }
+      public double ComparisonThreshold
+      {
+         get
+         {
+            double threshold =
+               QuantityImports.GetQuantityComparisonThreshold(_quantity, out var success, out var errorMessage);
+            evaluateCppCallResult(success,errorMessage);
+
+            return threshold;
+         }
+      }
 
       private void evaluateCppCallResult(bool success, string errorMessage)
       {

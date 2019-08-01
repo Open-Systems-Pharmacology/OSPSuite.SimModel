@@ -81,7 +81,7 @@ namespace SimModelNative
       }
       catch (...)
       {
-         *errorMessage = ErrorMessageFromUnknown("LoadSimulationFromXMLString");
+         *errorMessage = ErrorMessageFromUnknown("FinalizeSimulation");
          success = false;
       }
    }
@@ -218,7 +218,7 @@ namespace SimModelNative
       }
       catch (...)
       {
-         *errorMessage = ErrorMessageFromUnknown("GetSimulationXMLString");
+         *errorMessage = ErrorMessageFromUnknown("ContainsPersistableParameters");
          success = false;
          return false;
       }
@@ -244,13 +244,14 @@ namespace SimModelNative
       }
       catch (...)
       {
-         *errorMessage = ErrorMessageFromUnknown("FillTimeValues");
+         *errorMessage = ErrorMessageFromUnknown("ReleaseSimulationMemory");
          success = false;
       }
    }
 
    Observer* GetObserverFrom(Simulation* simulation, const char* entityId, bool& success, char** errorMessage)
    {
+      const char* ERROR_SOURCE = "GetObserverFrom";
       success = false;
 
       try
@@ -262,11 +263,12 @@ namespace SimModelNative
             return observer;
          }
 
-         //check if entityId is valid but not an observer
+         //check if entityId is invalid
          if (simulation->AllQuantities().GetObjectByEntityId(entityId) == NULL)
-            *errorMessage = MarshalString(string(entityId) + " is invalid entity id");
-         else
-            *errorMessage = MarshalString(string(entityId) + " is not an observer");
+            throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, string(entityId) + " is invalid entity id");
+
+         //entityId is valid but not an observer
+         throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, string(entityId) + " is not an observer");
 
          return NULL;
       }
@@ -278,7 +280,7 @@ namespace SimModelNative
       }
       catch (...)
       {
-         *errorMessage = ErrorMessageFromUnknown("GetQuantityFrom");
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
          success = false;
          return NULL;
       }
@@ -286,6 +288,7 @@ namespace SimModelNative
 
    Species* GetSpeciesFrom(Simulation* simulation, const char* entityId, bool& success, char** errorMessage)
    {
+      const char* ERROR_SOURCE = "GetSpeciesFrom";
       success = false;
 
       try
@@ -297,26 +300,119 @@ namespace SimModelNative
             return species;
          }
 
-         //check if entityId is valid but not an observer
+         //check if entityId is invalid
          if (simulation->AllQuantities().GetObjectByEntityId(entityId) == NULL)
-            * errorMessage = MarshalString(string(entityId) + " is invalid entity id");
-         else
-            *errorMessage = MarshalString(string(entityId) + " is not a species");
+            throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, string(entityId) + " is invalid entity id");
+
+         //entityId is valid but not an observer
+         throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, string(entityId) + " is not a species");
 
          return NULL;
       }
       catch (ErrorData& ED)
       {
          *errorMessage = ErrorMessageFrom(ED);
-
+         success = false;
          return NULL;
       }
       catch (...)
       {
-         *errorMessage = ErrorMessageFromUnknown("GetQuantityFrom");
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
          success = false;
          return NULL;
       }
    }
 
+   int GetNumberOfQuantitiesWithValues(Simulation* simulation, bool& success, char** errorMessage)
+   {
+      success = false;
+
+      try
+      {
+         int numberOfQuantitesWithValues = 0;
+         int i;
+
+         for (i = 0; i < simulation->SpeciesList().size(); i++)
+         {
+            if (!simulation->SpeciesList()[i]->IsPersistable())
+               continue;
+
+            numberOfQuantitesWithValues++;
+         }
+
+         //add observers
+         for (i = 0; i < simulation->Observers().size(); i++)
+         {
+            if (!simulation->Observers()[i]->IsPersistable())
+               continue;
+
+            numberOfQuantitesWithValues++;
+         }
+
+         success = true;
+         return numberOfQuantitesWithValues;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+         return 0;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown("GetNumberOfQuantitiesWithValues");
+         success = false;
+         return 0;
+      }
+   }
+
+   void FillEntityIdsForQuantitiesWithValues(Simulation* simulation, char** entityIds, int size, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "FillEntityIdsForQuantitiesWithValues";
+      success = false;
+
+      try
+      {
+         vector<string> entityIdsVec;
+         int i;
+
+         for (i = 0; i < simulation->SpeciesList().size(); i++)
+         {
+            auto species = simulation->SpeciesList()[i];
+            if (!species->IsPersistable())
+               continue;
+
+            entityIdsVec.push_back(species->GetEntityId());
+         }
+
+         //add observers
+         for (i = 0; i < simulation->Observers().size(); i++)
+         {
+            auto observer = simulation->Observers()[i];
+            if (!observer->IsPersistable())
+               continue;
+
+            entityIdsVec.push_back(observer->GetEntityId());
+         }
+
+         //check that array to fill has correct length
+         if(entityIdsVec.size()!= size)
+            throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Expected number of quantities with values does not match");
+
+         for (i = 0; i < entityIdsVec.size(); i++)
+            entityIds[i] = MarshalString(entityIdsVec[i]);
+
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
 }//.. end "namespace SimModelNative"

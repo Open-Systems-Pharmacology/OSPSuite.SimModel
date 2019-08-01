@@ -61,6 +61,13 @@ namespace SimModelNative
       SIM_EXPORT Observer* GetObserverFrom(Simulation* simulation, const char* entityId, bool& success, char** errorMessage);
       SIM_EXPORT Species* GetSpeciesFrom(Simulation* simulation, const char* entityId, bool& success, char** errorMessage);
 
+      //returns number of all variables (Species, Observer) which are persistable
+      SIM_EXPORT int GetNumberOfQuantitiesWithValues(Simulation* simulation, bool& success, char** errorMessage);
+
+      //fills entity ids for all quantities with values.
+      //entityIDs array is pre-allocated with <size> elements
+      SIM_EXPORT void FillEntityIdsForQuantitiesWithValues(Simulation* simulation, char** entityIds, int size, bool& success, char** errorMessage);
+
       // -----------------------------------------------------------------------------------------------------------------
 
       //SIM_EXPORT TObjectList<Species>& SpeciesList();
