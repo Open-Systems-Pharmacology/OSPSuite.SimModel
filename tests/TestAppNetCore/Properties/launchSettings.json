@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "TestAppNetCore": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}
