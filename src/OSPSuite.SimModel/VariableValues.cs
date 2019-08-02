@@ -30,7 +30,7 @@ namespace OSPSuite.SimModel
          Observer = 2
       };
 
-      public VariableValues(IntPtr quantity, VariableTypes variableType, string entityId, string path, string name) :
+      internal VariableValues(IntPtr quantity, VariableTypes variableType, string entityId, string path, string name) :
          base(entityId, path, name)
       {
          _quantity = quantity;

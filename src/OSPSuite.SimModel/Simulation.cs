@@ -158,26 +158,42 @@ namespace OSPSuite.SimModel
          _newRelTol = double.NaN;
       }
 
+      /// <summary>
+      /// Load simulation from a SimModel-XML file
+      /// </summary>
+      /// <param name="fileName">Full path of a simulation file</param>
       public void LoadFromXMLFile(string fileName)
       {
          SimulationImports.LoadSimulationFromXMLFile(_simulation, fileName, out var success, out var errorMessage);
          evaluateCppCallResult(success, errorMessage);
       }
 
+      /// <summary>
+      /// Load simulation from a SimModel-XML string
+      /// </summary>
       public void LoadFromXMLString(string xmlString)
       {
          SimulationImports.LoadSimulationFromXMLString(_simulation, xmlString, out var success, out var errorMessage);
          evaluateCppCallResult(success, errorMessage);
       }
 
+      /// <summary>
+      /// Finalize simulation (perform internal optimizations etc.)
+      /// </summary>
       public void FinalizeSimulation()
       {
          SimulationImports.FinalizeSimulation(_simulation, out var success, out var errorMessage);
          evaluateCppCallResult(success, errorMessage);
       }
 
+      /// <summary>
+      /// Returns simulation progress in % during calculation
+      /// </summary>
       public int Progress => SimulationImports.GetSimulationProgress(_simulation);
 
+      /// <summary>
+      /// Cancels current simulation run
+      /// </summary>
       public void Cancel()
       {
          SimulationImports.CancelSimulationRun(_simulation);
@@ -186,20 +202,33 @@ namespace OSPSuite.SimModel
       //TODO
       //char* GetSimModelVersion();
 
-      public string ObjectPathDelimiter => SimulationImports.GetObjectPathDelimiter(_simulation);
+      internal string ObjectPathDelimiter => SimulationImports.GetObjectPathDelimiter(_simulation);
 
+      /// <summary>
+      /// Defines im simulation  progress should be calculated during simulation <para></para>
+      /// Progress can be shown by calling program.
+      /// </summary>
       public bool ShowProgress
       {
          get => _simulationOptions.ShowProgress;
          set => setOptions(() => _simulationOptions.ShowProgress = value);
       }
 
+      /// <summary>
+      /// If a simulation is still running after /<ExecutionTimeLimit/> seconds: it will be stopped with exception.
+      /// Setting /<ExecutionTimeLimit/> to 0 will deactivate this feature.
+      /// Default is <value>0</value>
+      /// </summary>
       public double ExecutionTimeLimit
       {
          get => _simulationOptions.ExecutionTimeLimit;
          set => setOptions(()=>_simulationOptions.ExecutionTimeLimit = value); 
       }
 
+      /// <summary>
+      /// Sets if ODE solver warnings should be treated as errors
+      /// Default is <value>true</value>
+      /// </summary>
       public bool StopOnWarnings
       {
          get => _simulationOptions.StopOnWarnings;
@@ -208,11 +237,10 @@ namespace OSPSuite.SimModel
 
       /// <summary>
       /// If solving of the diff. eq. systems fails with a convergence error <para></para>
-      ///AND the value of AutoReduceTolerances is TRUE, both absolute and relative <para></para>
-      ///tolerance will be reduced by 10, until either the system was successfully solved <para></para>
-      ///or the predefined lower bounds for both tolerances were reached
-      ///
-      ///Default is TRUE
+      /// AND the value of AutoReduceTolerances is TRUE, both absolute and relative <para></para>
+      /// tolerance will be reduced by 10, until either the system was successfully solved <para></para>
+      /// or the predefined lower bounds for both tolerances were reached
+      /// Default is <value>true</value>
       /// </summary>
       public bool AutoReduceTolerances
       {
@@ -220,36 +248,65 @@ namespace OSPSuite.SimModel
          set => setOptions(() => _simulationOptions.AutoReduceTolerances = value);
       }
 
+      /// <summary>
+      /// If set to true AND a log file name is set as well:
+      /// some debug information will be exported into a log file
+      /// Default is <value>true</value>
+      /// </summary>
       public bool WriteLogFile
       {
          get => _simulationOptions.WriteLogFile;
          set => setOptions(() => _simulationOptions.WriteLogFile = value);
       }
 
+      /// <summary>
+      /// Enables/disables checking for negative values of positive ODE variables.
+      /// Default value is <value>true</value>
+      /// </summary>
       public bool CheckForNegativeValues
       {
          get => _simulationOptions.CheckForNegativeValues;
          set => setOptions(() => _simulationOptions.CheckForNegativeValues = value);
       }
 
+      /// <summary>
+      /// Sets if simulation should be validated against OSPSuite.SimModel-schema during loading.
+      /// Default value is <value>false</value>
+      /// </summary>
       public bool ValidateWithXMLSchema
       {
          get => _simulationOptions.ValidateWithXMLSchema;
          set => setOptions(() => _simulationOptions.ValidateWithXMLSchema = value);
       }
 
+      /// <summary>
+      /// Sets if only parameters effectively used in ODE Variables and/or Observers
+      /// should be marked as /"used/". If set to false: ALL Parameters will be marked as used.
+      /// Default value is <value>false</value>
+      /// </summary>
       public bool IdentifyUsedParameters
       {
          get => _simulationOptions.IdentifyUsedParameters;
          set => setOptions(() => _simulationOptions.IdentifyUsedParameters = value);
       }
 
+      /// <summary>
+      /// Sets if the original simulation xml string used for simulation loading should be stored
+      /// permanently. Must be set to <value>true</value> BEFORE loading simulation if it is intended
+      /// to save a (modified) simulation to XML later on.
+      /// Default value is <value>false</value>
+      /// </summary>
       public bool KeepXMLNodeAsString
       {
          get => _simulationOptions.KeepXMLNodeAsString;
          set => setOptions(() => _simulationOptions.KeepXMLNodeAsString = value);
       }
 
+      /// <summary>
+      /// If set to <value>true</value>, float comparison will be used for user output time points.
+      /// Otherwise: double comparison.
+      /// Default value is <value>true</value>
+      /// </summary>
       public bool UseFloatComparisonInUserOutputTimePoints
       {
          get => _simulationOptions.UseFloatComparisonInUserOutputTimePoints;
@@ -262,14 +319,34 @@ namespace OSPSuite.SimModel
          evaluateCppCallResult(success, errorMessage);
       }
 
+      /// <summary>
+      /// Returns true, if tolerance reduction was used to solve the ODE system.
+      /// (can only be the case if <see cref="AutoReduceTolerances"/> was set to <value>true</value>
+      /// </summary>
       public bool ToleranceWasReduced => _toleranceWasReduced;
 
+      /// <summary>
+      /// Returns absolute tolerance used to solve the ODE system.
+      /// Might deviate from the absolute tolerance set by user
+      /// (can only be the case if <see cref="AutoReduceTolerances"/> was set to <value>true</value>
+      /// </summary>
       public double UsedAbsoluteTolerance => _newAbsTol;
 
+      /// <summary>
+      /// Returns relative tolerance used to solve the ODE system.
+      /// Might deviate from the relative tolerance set by user
+      /// (can only be the case if <see cref="AutoReduceTolerances"/> was set to <value>true</value>
+      /// </summary>
       public double UsedRelativeTolerance => _newRelTol;
 
+      /// <summary>
+      /// Returns the length of Output time raster
+      /// </summary>
       public int GetNumberOfTimePoints => SimulationImports.GetNumberOfTimePoints(_simulation);
-      
+
+      /// <summary>
+      /// Output time raster
+      /// </summary>
       public double[] SimulationTimes
       {
          get
@@ -282,6 +359,7 @@ namespace OSPSuite.SimModel
             return simulationTimes;
          }
       }
+
 
       public string SimulationXMLString
       {
@@ -313,6 +391,11 @@ namespace OSPSuite.SimModel
          evaluateCppCallResult(success, errorMessage);
       }
 
+      /// <summary>
+      /// Species or observer time course for a given entity ID
+      ///  - Species also includes parameters with RHS
+      ///  - Observer also includes persistable parameters
+      /// </summary>
       public VariableValues ValuesFor(string entityId)
       {
          var quantity = SimulationImports.GetSpeciesFrom(_simulation, entityId, out var success, out _);
@@ -335,6 +418,11 @@ namespace OSPSuite.SimModel
          return variableValues;
       }
 
+      /// <summary>
+      /// Species- and Observer- time courses calculated by the system.
+      ///  - Species also includes parameters with RHS
+      ///  - Observer also includes persistable parameters
+      /// </summary>
       public IEnumerable<VariableValues> AllValues
       {
          get
@@ -354,9 +442,6 @@ namespace OSPSuite.SimModel
          }
       }
 
-      //-------------------------------------------------------------------------------------------------
-
-      //-------------------------------------------------------------------------------------------------
 
       public void Dispose()
       {
