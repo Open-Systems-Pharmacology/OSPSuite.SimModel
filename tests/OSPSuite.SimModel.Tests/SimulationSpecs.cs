@@ -13,10 +13,8 @@ namespace OSPSuite.SimModel.Tests
    {
       protected override void Context()
       {
-         sut = new Simulation
-         {
-            KeepXMLNodeAsString = true
-         };
+         sut = new Simulation();
+         sut.Options.KeepXMLNodeAsString = true;
       }
 
       protected string TestFileFrom(string shortFilename)
@@ -121,7 +119,7 @@ namespace OSPSuite.SimModel.Tests
       public void should_calculate_comparison_threshold()
       {
          //get absolute tolerance used for calculation (might differ from input absolute tolerance)
-         double AbsTol = sut.UsedAbsoluteTolerance;
+         double AbsTol = sut.RunStatistics.UsedAbsoluteTolerance;
 
          //expected threshold for ode variables
          double threshold = 10.0 * AbsTol;
