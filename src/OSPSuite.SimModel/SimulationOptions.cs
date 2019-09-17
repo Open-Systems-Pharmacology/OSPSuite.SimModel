@@ -41,6 +41,7 @@ namespace OSPSuite.SimModel
    {
       private readonly IntPtr _simulation;
       private SimulationOptionsStructure _simulationOptions;
+      private string _logFile = "";
 
       public SimulationOptions(IntPtr simulation)
       {
@@ -164,5 +165,10 @@ namespace OSPSuite.SimModel
          set => setOptions(() => _simulationOptions.UseFloatComparisonInUserOutputTimePoints = value);
       }
 
+      public string LogFile
+      {
+         get => _logFile;
+         set => throw new Exception("Not implemented yet");
+      }
    }
 }

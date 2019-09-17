@@ -9,6 +9,7 @@ ParameterInfo::ParameterInfo(void)
 {
 	_canBeVaried = false;
 	_calculateSensitivity = false;
+   _isUsedInSimulation = true;
 }
 
 bool ParameterInfo::CanBeVaried() const

@@ -415,4 +415,308 @@ namespace SimModelNative
          success = false;
       }
    }
+   
+   vector<SimModelNative::ParameterInfo>* CreateParameterInfoVector()
+   {
+      return new vector<SimModelNative::ParameterInfo>();
+   }
+
+   void DisposeParameterInfoVector(vector<SimModelNative::ParameterInfo>* parameterInfos)
+   {
+      parameterInfos->clear();
+      delete parameterInfos;
+   }
+
+   void ClearParameterInfoVector(vector<SimModelNative::ParameterInfo>* parameterInfos)
+   {
+      parameterInfos->clear();
+   }
+
+   void FillParameterProperties(Simulation* simulation, vector<SimModelNative::ParameterInfo>* parameterInfos, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "FillParameterProperties";
+      success = false;
+
+      try
+      {
+         simulation->FillParameterProperties(*parameterInfos);
+
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
+
+   int GetNumberOfParameterProperties(vector<SimModelNative::ParameterInfo>* parameterInfos, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "GetNumberOfParameterProperties";
+      success = true;
+
+      try
+      {
+         return (int)parameterInfos->size(); 
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+         return 0;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+         return 0;
+      }
+   }
+
+   ParameterInfo getParameterInfoFrom(vector<SimModelNative::ParameterInfo>*& parameterInfos, int parameterIndex, const char* functionName)
+   {
+      if (parameterIndex < 0 || parameterIndex >= parameterInfos->size())
+         throw ErrorData(ErrorData::ED_ERROR, functionName, "Parameter index is invalid");
+
+      return (*parameterInfos)[parameterIndex];
+   }
+
+   int GetNumberOfParameterTablePoints(vector<SimModelNative::ParameterInfo>* parameterInfos, int parameterIndex, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "GetNumberOfParameterTablePoints";
+      success = false;
+
+      try
+      {
+         auto parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         success = true;
+         
+         return (int)parameterInfo.GetTablePoints().size();
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+         return 0;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+         return 0;
+      }
+   }
+
+   void FillSingleParameterProperties(Simulation* simulation, vector<SimModelNative::ParameterInfo>* parameterInfos, int parameterIndex,
+      char** entityId, char** pathWithoutRoot, char** fullName, double& value, double* tablePointsX, 
+      double* tablePointsY, bool* tablePointsRestartSolver, int tablePointsSize, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "FillSingleParameterProperties";
+      success = false;
+
+      try
+      {
+         auto parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         auto tablePoints = parameterInfo.GetTablePoints();
+
+         if((int)tablePoints.size() != tablePointsSize)
+            throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Invalid number of table points passed");
+
+         *entityId = MarshalString(parameterInfo.GetEntityId());
+         *pathWithoutRoot = MarshalString(parameterInfo.PathWithoutRoot(simulation->GetObjectPathDelimiter()));
+         *fullName = MarshalString(parameterInfo.GetFullName());
+
+         value = parameterInfo.GetValue();
+
+         for (auto tablePointIdx = 0; tablePointIdx < tablePoints.size(); tablePointIdx++)
+         {
+            auto tablePoint = tablePoints[tablePointIdx];
+
+            tablePointsX[tablePointIdx] = tablePoint.X;
+            tablePointsY[tablePointIdx] = tablePoint.Y;
+            tablePointsRestartSolver[tablePointIdx] = tablePoint.RestartSolver;
+         }
+
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
+
+   void SetParameterValue(vector<SimModelNative::ParameterInfo>* parameterInfos, int parameterIndex, double value, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "SetParameterValue";
+      success = false;
+
+      try
+      {
+         auto parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         parameterInfo.SetValue(value);
+
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
+
+   void SetParameterCalculateSensitivity(vector<SimModelNative::ParameterInfo>* parameterInfos, int parameterIndex, bool calculateSensitivity, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "SetParameterCalculateSensitivity";
+      success = false;
+
+      try
+      {
+         auto parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         parameterInfo.SetCalculateSensitivity(calculateSensitivity);
+
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
+
+   void SetParameterTablePoints(vector<SimModelNative::ParameterInfo>* parameterInfos, int parameterIndex, double* tablePointsX, double* tablePointsY, bool* tablePointsRestartSolver, int tablePointsSize, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "SetParameterTablePoints";
+      success = false;
+
+      try
+      {
+         auto parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         
+         vector <ValuePoint> tablePoints;
+         for (auto idx = 0; idx < tablePointsSize; idx++)
+         {
+            tablePoints.push_back(ValuePoint(tablePointsX[idx], tablePointsY[idx], tablePointsRestartSolver[idx]));
+         }
+         parameterInfo.SetTablePoints(tablePoints);
+
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
+
+   bool ParameterIsUsedInSimulation(vector<SimModelNative::ParameterInfo>* parameterInfos, int parameterIndex, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "ParameterIsUsedInSimulation";
+      success = false;
+
+      try
+      {
+         auto parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         success = true;
+
+         return parameterInfo.IsUsedInSimulation();
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+         return true;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+         return true;
+      }
+   }
+
+   void SetVariableParameters(Simulation* simulation, vector<SimModelNative::ParameterInfo>* parameterInfos, int* parameterIndices, int numberOfVariableParameters, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "SetVariableParameters";
+      success = false;
+
+      try
+      {
+         vector<ParameterInfo> variableParameters;
+
+         for (auto idx = 0; idx < numberOfVariableParameters; idx++)
+         {
+            variableParameters.push_back(getParameterInfoFrom(parameterInfos, parameterIndices[idx], ERROR_SOURCE));
+         }
+         
+         simulation->SetVariableParameters(variableParameters);
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
+
+   SIM_EXPORT void SetParameterValues(Simulation* simulation, vector<SimModelNative::ParameterInfo>* parameterInfos, int* parameterIndices, int numberOfVariableParameters, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "SetParameterValues";
+      success = false;
+
+      try
+      {
+         vector<ParameterInfo> variableParameters;
+
+         for (auto idx = 0; idx < numberOfVariableParameters; idx++)
+         {
+            variableParameters.push_back(getParameterInfoFrom(parameterInfos, parameterIndices[idx], ERROR_SOURCE));
+         }
+
+         simulation->SetParametersValues(variableParameters);
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+
+   }
+
 }//.. end "namespace SimModelNative"

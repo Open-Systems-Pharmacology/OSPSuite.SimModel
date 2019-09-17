@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 // ReSharper disable UnusedMember.Global
 
@@ -28,14 +29,10 @@ namespace OSPSuite.SimModel
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void CancelSimulationRun(IntPtr simulation);
 
-      //TODO
-      //char* GetSimModelVersion();
-
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern string GetObjectPathDelimiter(IntPtr simulation);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      //public static extern SimulationOptionsStructure GetSimulationOptions(IntPtr simulation);
       public static extern void FillSimulationOptions(IntPtr simulation, ref SimulationOptionsStructure options);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
@@ -80,6 +77,52 @@ namespace OSPSuite.SimModel
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void FillEntityIdsForQuantitiesWithValues(IntPtr simulation, [In, Out] string[] entityIds, int size, out bool success, out string errorMessage);
 
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern IntPtr CreateParameterInfoVector();
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void DisposeParameterInfoVector(IntPtr parameterInfos);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void ClearParameterInfoVector(IntPtr parameterInfos);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void FillParameterProperties(IntPtr simulation, IntPtr parameterInfos, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern int GetNumberOfParameterProperties(IntPtr parameterInfos, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern int GetNumberOfParameterTablePoints(IntPtr parameterInfos, int parameterIndex, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void FillSingleParameterProperties(IntPtr simulation, IntPtr parameterInfos,
+         int parameterIndex, out string entityId, out string pathWithoutRoot, out string fullName, out double value,
+         [In, Out] double[] tablePointsX, [In, Out] double[] tablePointsY, [In, Out] bool[] tablePointsRestartSolver,
+         int tablePointsSize, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void SetParameterValue(IntPtr parameterInfos, int parameterIndex, double value, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void SetParameterCalculateSensitivity(IntPtr parameterInfos, int parameterIndex, bool calculateSensitivity, out bool success, out string errorMessage);
+      
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void SetParameterTablePoints(IntPtr parameterInfos, int parameterIndex,
+         [In] double[] tablePointsX, [In] double[] tablePointsY, [In] bool[] tablePointsRestartSolver, int tablePointsSize,
+         out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern bool ParameterIsUsedInSimulation(IntPtr parameterInfos, int parameterIndex, out bool success, out string errorMessage);
+      
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void SetVariableParameters(IntPtr simulation, IntPtr parameterInfos, [In] int[] parameterIndices,
+                                                      int numberOfVariableParameters, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void SetParameterValues(IntPtr simulation, IntPtr parameterInfos, [In] int[] parameterIndices,
+         int numberOfVariableParameters, out bool success, out string errorMessage);
+
    }
 
    internal class PInvokeHelper
@@ -97,7 +140,10 @@ namespace OSPSuite.SimModel
    public class Simulation : IDisposable
    {
       private readonly IntPtr _simulation;
-      
+      private readonly IntPtr _allParameters;
+
+      private IList<ParameterProperties> _variableParameters;
+
       private bool _disposed = false;
 
       private void evaluateCppCallResult(bool success, string errorMessage)
@@ -108,6 +154,8 @@ namespace OSPSuite.SimModel
       public Simulation()
       {
          _simulation = SimulationImports.CreateSimulation();
+         _allParameters = SimulationImports.CreateParameterInfoVector();
+         _variableParameters = new List<ParameterProperties>();
          Options = new SimulationOptions(_simulation);
          RunStatistics = new SimulationRunStatistics(_simulation);
       }
@@ -136,6 +184,10 @@ namespace OSPSuite.SimModel
       {
          SimulationImports.LoadSimulationFromXMLString(_simulation, xmlString, out var success, out var errorMessage);
          evaluateCppCallResult(success, errorMessage);
+
+         //initial filling of parameter properties (must be done between load and finalize)
+         SimulationImports.FillParameterProperties(_simulation, _allParameters, out success, out errorMessage);
+         evaluateCppCallResult(success, errorMessage);
       }
 
       /// <summary>
@@ -159,9 +211,6 @@ namespace OSPSuite.SimModel
       {
          SimulationImports.CancelSimulationRun(_simulation);
       }
-
-      //TODO
-      //char* GetSimModelVersion();
 
       internal string ObjectPathDelimiter => SimulationImports.GetObjectPathDelimiter(_simulation);
 
@@ -195,7 +244,6 @@ namespace OSPSuite.SimModel
             return simulationTimes;
          }
       }
-
 
       public string SimulationXMLString
       {
@@ -278,26 +326,67 @@ namespace OSPSuite.SimModel
          }
       }
 
-      //-------------------------------------------------------------------------------------------------
-      /////list of (initial) properties of ALL parameters of the simulation
-      //property IList<IParameterProperties^>^ ParameterProperties
+      public IEnumerable<ParameterProperties> ParameterProperties
+      {
+         get
+         {
+            var parameterPropertiesList = new List<ParameterProperties>();
 
-      //{
-      //   IList < IParameterProperties ^> ^get();
-      //}
+            SimulationImports.FillParameterProperties(_simulation, _allParameters, out var success, out var errorMessage);
+            evaluateCppCallResult(success, errorMessage);
 
-      /////parameters which should be varied
-      //property IList<IParameterProperties^>^ VariableParameters
+            var numberOfParameters = SimulationImports.GetNumberOfParameterProperties(_allParameters, out success, out errorMessage);
+            evaluateCppCallResult(success, errorMessage);
 
-      //{
-      //   IList < IParameterProperties ^> ^get();
-      //   void set(IList<IParameterProperties^> ^);
-      //}
+            for (var parameterIdx = 0; parameterIdx < numberOfParameters; parameterIdx++)
+            {
+               var numberOfTablePoints =
+                  SimulationImports.GetNumberOfParameterTablePoints(_allParameters, parameterIdx, out success, out errorMessage);
+               evaluateCppCallResult(success, errorMessage);
 
-      /////set parameter initial values for the next simulation run
-      //void SetParameterValues(IList<IParameterProperties^>^ parameterProperties);
+               var tablePointsX = new double[numberOfTablePoints];
+               var tablePointsY = new double[numberOfTablePoints];
+               var tablePointsRestartSolver = new bool[numberOfTablePoints];
 
-      //-------------------------------------------------------------------------------------------------
+               SimulationImports.FillSingleParameterProperties(_simulation, _allParameters, parameterIdx,
+                  out var entityId, out var pathWithoutRoot, out var fullName, out var value,
+                  tablePointsX, tablePointsY, tablePointsRestartSolver, numberOfTablePoints,
+                  out success, out errorMessage);
+               evaluateCppCallResult(success, errorMessage);
+
+               var parameterProps = new ParameterProperties(_allParameters,parameterIdx,entityId,pathWithoutRoot,fullName,value,
+                  tablePointsX, tablePointsY, tablePointsRestartSolver);
+
+               parameterPropertiesList.Add(parameterProps);
+            }
+
+            return parameterPropertiesList;
+         }
+      }
+
+      private int[] getVariableParameterIndices => _variableParameters.Select(p => p.ParameterIndex).ToArray();
+
+      public IEnumerable<ParameterProperties> VariableParameters
+      {
+         get => _variableParameters;
+         set 
+         { 
+            _variableParameters = value.ToList();
+            var variableParameterIndices = getVariableParameterIndices;
+
+            SimulationImports.SetVariableParameters(_simulation,_allParameters, variableParameterIndices, variableParameterIndices.Length,
+                                                    out var success, out var errorMessage);
+            evaluateCppCallResult(success,errorMessage);
+         }
+      }
+
+      public void SetParameterValues()
+      {
+         var variableParameterIndices = getVariableParameterIndices;
+         SimulationImports.SetParameterValues(_simulation, _allParameters, variableParameterIndices, variableParameterIndices.Length,
+            out var success, out var errorMessage);
+         evaluateCppCallResult(success, errorMessage);
+      }
 
       public void Dispose()
       {
@@ -313,6 +402,7 @@ namespace OSPSuite.SimModel
 
          if (disposing)
          {
+            SimulationImports.DisposeParameterInfoVector(_allParameters);
             SimulationImports.DisposeSimulation(_simulation);
          }
 
