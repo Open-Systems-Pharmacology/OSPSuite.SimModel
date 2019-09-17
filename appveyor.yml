@@ -23,17 +23,13 @@ before_build:
   - nuget sources add -name cvodes -source https://ci.appveyor.com/nuget/ospsuite-simmodel-solver-cvodes
   - nuget install packages.config -OutputDirectory packages # cannot use automatic artifact publish because it's not recognized in a C++/CLI project
   - ps: (get-content src\OSPSuite.SimModel\version.h) | foreach-object {$_ -replace "RELEASE 0", "RELEASE $env:RELEASE" -replace "MAJOR 0", "MAJOR $env:MAJOR" -replace "MINOR 0", "MINOR $env:MINOR" -replace "BUILD 0", "BUILD $env:APPVEYOR_BUILD_NUMBER"} | set-content src\OSPSuite.SimModel\version.h
-  - ps: (get-content src\OSPSuite.SimModelComp\version.h) | foreach-object {$_ -replace "RELEASE 0", "RELEASE $env:RELEASE" -replace "MAJOR 0", "MAJOR $env:MAJOR" -replace "MINOR 0", "MINOR $env:MINOR" -replace "BUILD 0", "BUILD $env:APPVEYOR_BUILD_NUMBER"} | set-content src\OSPSuite.SimModelComp\version.h
 
 after_build:
   - cmd: nuget pack src\OSPSuite.SimModel\OSPSuite.SimModel.nuspec -version %app_version%
-  - cmd: nuget pack src\OSPSuite.SimModelComp\OSPSuite.SimModelComp.nuspec -version %app_version%
   - ps: Get-ChildItem .\OSPSuite.SimModel.*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-  - ps: Get-ChildItem .\OSPSuite.SimModelComp.*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
-test:
-  assemblies:
-  - '**\*.Tests.Release.x64.dll'
+test_script:
+  - ps: dotnet test --no-build --no-restore --logger:Appveyor
 
 branches:
   only:
