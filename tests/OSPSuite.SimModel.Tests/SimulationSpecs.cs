@@ -70,11 +70,10 @@ namespace OSPSuite.SimModel.Tests
          return parameterProperties.FirstOrDefault(p => p.Path.Equals(path));
       }
 
-      //TODO
-      //protected SpeciesProperties GetSpeciesByPath(IEnumerable<SpeciesProperties> speciesProperties, string path)
-      //{
-      //   return speciesProperties.FirstOrDefault(p => p.Path.Equals(path));
-      //}
+      protected SpeciesProperties GetSpeciesByPath(IEnumerable<SpeciesProperties> speciesProperties, string path)
+      {
+         return speciesProperties.FirstOrDefault(p => p.Path.Equals(path));
+      }
 
    }
 
@@ -124,7 +123,6 @@ namespace OSPSuite.SimModel.Tests
 
          y1_Values.Length.ShouldBeEqualTo(noOfOutputTimePoints);
          y2_Values.Length.ShouldBeEqualTo(noOfOutputTimePoints);
-         //y3.IsConstantDuringCalculation.ShouldBeTrue(); //TODO! 
          y3_Values.Length.ShouldBeEqualTo(1);
 
          const double relTol = 1e-5; //max. allowed relative deviation 0.001%
@@ -188,18 +186,15 @@ namespace OSPSuite.SimModel.Tests
    {
       private double _scaleFactor;
 
-      protected override void OptionalTasksBeforeFinalize()
+      protected override void OptionalTasksBeforeRun()
       {
          _scaleFactor = 100;
-         //TODO
 
-         //_y1 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y1");
-         //_y2 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y2");
-         //_y3 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y3");
+         GetSpeciesByPath(sut.SpeciesProperties, "y1").ScaleFactor = _scaleFactor;
+         GetSpeciesByPath(sut.SpeciesProperties, "y2").ScaleFactor = _scaleFactor;
+         GetSpeciesByPath(sut.SpeciesProperties, "y3").ScaleFactor = _scaleFactor;
 
-         //_y1->SetODEScaleFactor(_scaleFactor);
-         //_y2->SetODEScaleFactor(_scaleFactor);
-         //_y3->SetODEScaleFactor(_scaleFactor);
+         sut.SetSpeciesValues();
       }
 
       protected static IEnumerable<string> TestData()
@@ -283,9 +278,8 @@ namespace OSPSuite.SimModel.Tests
 
       protected override void OptionalTasksBeforeFinalize()
       {
-         var allParameters = sut.ParameterProperties.ToList();
-
          //---- set P1 and P2 as variable
+         var allParameters = sut.ParameterProperties.ToList();
          var variableParameters = new[]
          {
             GetParameterByPath(allParameters, "Subcontainer1/P1"),
@@ -293,19 +287,20 @@ namespace OSPSuite.SimModel.Tests
          };
 
          sut.VariableParameters = variableParameters;
-         
-         //TODO
-         //---- set y2 initial value as variable
-         //IList < ISpeciesProperties ^> ^speciesProps = sut->SpeciesProperties;
-         //IList < ISpeciesProperties ^> ^variableSpecies = gcnew System::Collections::Generic::List < ISpeciesProperties ^> ();
 
-         //variableSpecies->Add(GetSpeciesByPath(speciesProps, "Subcontainer1/y2"));
-         //sut->VariableSpecies = variableSpecies;
+         //---- set y2 initial value as variable
+         var allSpecies = sut.SpeciesProperties.ToList();
+         var variableSpecies = new[]
+         {
+            GetSpeciesByPath(allSpecies, "Subcontainer1/y2")
+         };
+
+         sut.VariableSpecies = variableSpecies;
       }
 
       protected override void OptionalTasksBeforeRun()
       {
-         //update variable parameters: set P1+P2=1
+         //---- update variable parameters: set P1+P2=1
          var variableParameters = sut.VariableParameters.ToList();
 
          GetParameterByPath(variableParameters, "Subcontainer1/P1").Value = 0.3;
@@ -313,11 +308,11 @@ namespace OSPSuite.SimModel.Tests
 
          sut.SetParameterValues();
          
-         //TODO
-         //update variable species: set y2(0)=0
-         //variableSpecies = sut->VariableSpecies;
-         //GetSpeciesByPath(variableSpecies, "Subcontainer1/y2")->Value = 0;
-         //sut->SetSpeciesProperties(variableSpecies);
+         //---- update variable species: set y2(0)=0
+         var variableSpecies = sut.VariableSpecies.ToList();
+         GetSpeciesByPath(variableSpecies, "Subcontainer1/y2").InitialValue = 0;
+
+         sut.SetSpeciesValues();
       }
 
       protected static IEnumerable<string> TestData()
@@ -487,8 +482,7 @@ namespace OSPSuite.SimModel.Tests
          GetParameterByPath(sut.ParameterProperties, "P10").Value.ShouldBeEqualTo(1.0, 1e-5);
 
          //initial value of y2 should be equal P1+P2-1, which is initially 0
-         //TODO
-         //GetSpeciesByPath(sut.SpeciesProperties, "y2").Value.ShouldBeEqualTo(0.0, 1e-5);
+         GetSpeciesByPath(sut.SpeciesProperties, "y2").InitialValue.ShouldBeEqualTo(0.0, 1e-5);
 
          //update variable parameters
          var variableParameters = sut.VariableParameters.ToArray();
@@ -502,9 +496,7 @@ namespace OSPSuite.SimModel.Tests
          GetParameterByPath(sut.ParameterProperties, "P10").Value.ShouldBeEqualTo(7.0, 1e-5);
 
          //initial value of y2 should be equal P1+P2-1, which is now 6
-         //TODO
-         //GetSpeciesByPath(sut.SpeciesProperties, "y2").Value.ShouldBeEqualTo(6.0, 1e-5);
-
+         GetSpeciesByPath(sut.SpeciesProperties, "y2").InitialValue.ShouldBeEqualTo(6.0, 1e-5);
       }
    }
 

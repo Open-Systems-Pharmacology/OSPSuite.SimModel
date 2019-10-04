@@ -112,7 +112,7 @@ namespace SimModelNative
    //{
    //   SimulationOptionsStructure options{};
    //   options.CopyFrom(simulation->Options());
-
+   //
    //   return options;
    //}
 
@@ -689,7 +689,7 @@ namespace SimModelNative
       }
    }
 
-   SIM_EXPORT void SetParameterValues(Simulation* simulation, vector<SimModelNative::ParameterInfo>* parameterInfos, int* parameterIndices, int numberOfVariableParameters, bool& success, char** errorMessage)
+   void SetParameterValues(Simulation* simulation, vector<SimModelNative::ParameterInfo>* parameterInfos, int* parameterIndices, int numberOfVariableParameters, bool& success, char** errorMessage)
    {
       const char* ERROR_SOURCE = "SetParameterValues";
       success = false;
@@ -716,7 +716,238 @@ namespace SimModelNative
          *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
          success = false;
       }
+   }
 
+   vector<SimModelNative::SpeciesInfo>* CreateSpeciesInfoVector()
+   {
+      return new vector<SimModelNative::SpeciesInfo>();
+   }
+
+   void DisposeSpeciesInfoVector(vector<SimModelNative::SpeciesInfo>* speciesInfos)
+   {
+      speciesInfos->clear();
+      delete speciesInfos;
+   }
+
+   void ClearSpeciesInfoVector(vector<SimModelNative::SpeciesInfo>* speciesInfos)
+   {
+      speciesInfos->clear();
+   }
+
+   void FillSpeciesProperties(Simulation* simulation, vector<SimModelNative::SpeciesInfo>* speciesInfos, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "FillSpeciesProperties";
+      success = false;
+
+      try
+      {
+         simulation->FillDEVariableProperties(*speciesInfos);
+
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
+
+   int GetNumberOfSpeciesProperties(vector<SimModelNative::SpeciesInfo>* speciesInfos, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "GetNumberOfSpeciesProperties";
+      success = true;
+
+      try
+      {
+         return (int)speciesInfos->size();
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+         return 0;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+         return 0;
+      }
+   }
+
+   SpeciesInfo& getSpeciesInfoFrom(vector<SimModelNative::SpeciesInfo>*& speciesInfos, int speciesIndex, const char* functionName)
+   {
+      if (speciesIndex < 0 || speciesIndex >= speciesInfos->size())
+         throw ErrorData(ErrorData::ED_ERROR, functionName, "Species index is invalid");
+
+      return (*speciesInfos)[speciesIndex];
+   }
+
+   void FillSingleSpeciesProperties(Simulation* simulation, vector<SimModelNative::SpeciesInfo>* speciesInfos, int speciesIndex, char** entityId, char** pathWithoutRoot, char** fullName, double& initialValue, double& scaleFactor, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "FillSingleSpeciesProperties";
+      success = false;
+
+      try
+      {
+         auto& speciesInfo = getSpeciesInfoFrom(speciesInfos, speciesIndex, ERROR_SOURCE);
+         
+         *entityId = MarshalString(speciesInfo.GetEntityId());
+         *pathWithoutRoot = MarshalString(speciesInfo.PathWithoutRoot(simulation->GetObjectPathDelimiter()));
+         *fullName = MarshalString(speciesInfo.GetFullName());
+
+         initialValue = speciesInfo.GetValue();
+         scaleFactor = speciesInfo.GetScaleFactor();
+
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
+
+   void SetSpeciesInitialValue(vector<SimModelNative::SpeciesInfo>* speciesInfos, int speciesIndex, double initialValue, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "SetSpeciesInitialValue";
+      success = false;
+
+      try
+      {
+         auto& speciesInfo = getSpeciesInfoFrom(speciesInfos, speciesIndex, ERROR_SOURCE);
+         speciesInfo.SetValue(initialValue);
+
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
+
+   void SetSpeciesScaleFactor(vector<SimModelNative::SpeciesInfo>* speciesInfos, int speciesIndex, double scaleFactor, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "SetSpeciesScaleFactor";
+      success = false;
+
+      try
+      {
+         auto& speciesInfo = getSpeciesInfoFrom(speciesInfos, speciesIndex, ERROR_SOURCE);
+         speciesInfo.SetScaleFactor(scaleFactor);
+
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
+
+   bool SpeciesIsUsedInSimulation(vector<SimModelNative::SpeciesInfo>* speciesInfos, int speciesIndex, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "SpeciesIsUsedInSimulation";
+      success = false;
+
+      try
+      {
+         auto& speciesInfo = getSpeciesInfoFrom(speciesInfos, speciesIndex, ERROR_SOURCE);
+         success = true;
+
+         return true; // speciesInfo.IsUsedInSimulation(); //TODO not implemented yet
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+         return true;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+         return true;
+      }
+   }
+
+   void SetVariableSpecies(Simulation* simulation, vector<SimModelNative::SpeciesInfo>* speciesInfos, int* speciesIndices, int numberOfVariableSpecies, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "SetVariableSpecies";
+      success = false;
+
+      try
+      {
+         vector<SpeciesInfo> variableSpecies;
+
+         for (auto idx = 0; idx < numberOfVariableSpecies; idx++)
+         {
+            variableSpecies.push_back(getSpeciesInfoFrom(speciesInfos, speciesIndices[idx], ERROR_SOURCE));
+         }
+
+         simulation->SetVariableDEVariables(variableSpecies);
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
+
+   void SetSpeciesValues(Simulation* simulation, vector<SimModelNative::SpeciesInfo>* speciesInfos, int* speciesIndices, int numberOfVariableSpecies, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "SetSpeciesValues";
+      success = false;
+
+      try
+      {
+         vector<SpeciesInfo> variableSpecies;
+
+         for (auto idx = 0; idx < numberOfVariableSpecies; idx++)
+         {
+            variableSpecies.push_back(getSpeciesInfoFrom(speciesInfos, speciesIndices[idx], ERROR_SOURCE));
+         }
+         
+         simulation->SetDEVariablesProperties(variableSpecies);
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
    }
 
 }//.. end "namespace SimModelNative"

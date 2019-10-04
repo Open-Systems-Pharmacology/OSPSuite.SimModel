@@ -97,37 +97,37 @@ namespace SimModelNative
 
       SIM_EXPORT void SetParameterValues(Simulation* simulation, std::vector<SimModelNative::ParameterInfo>* parameterInfos, int* parameterIndices,
                                          int numberOfVariableParameters, bool& success, char** errorMessage);
+
+      SIM_EXPORT std::vector<SimModelNative::SpeciesInfo>* CreateSpeciesInfoVector();
+      SIM_EXPORT void DisposeSpeciesInfoVector(std::vector<SimModelNative::SpeciesInfo>* speciesInfos);
+      SIM_EXPORT void ClearSpeciesInfoVector(std::vector<SimModelNative::SpeciesInfo>* speciesInfos);
+
+      SIM_EXPORT void FillSpeciesProperties(Simulation* simulation, std::vector<SimModelNative::SpeciesInfo>* speciesInfos, bool& success, char** errorMessage);
+
+      SIM_EXPORT int GetNumberOfSpeciesProperties(std::vector<SimModelNative::SpeciesInfo>* speciesInfos, bool& success, char** errorMessage);
+
+      //fills Species infos from speciesInfos[speciesIndex]
+      SIM_EXPORT void FillSingleSpeciesProperties(Simulation* simulation, std::vector<SimModelNative::SpeciesInfo>* speciesInfos, int speciesIndex,
+         char** entityId, char** pathWithoutRoot, char** fullName, double& initialValue, double& scaleFactor,
+         bool& success, char** errorMessage);
+
+      SIM_EXPORT void SetSpeciesInitialValue(std::vector<SimModelNative::SpeciesInfo>* speciesInfos, int speciesIndex, double initialValue, bool& success, char** errorMessage);
+      SIM_EXPORT void SetSpeciesScaleFactor(std::vector<SimModelNative::SpeciesInfo>* speciesInfos, int speciesIndex, double scaleFactor, bool& success, char** errorMessage);
+      SIM_EXPORT bool SpeciesIsUsedInSimulation(std::vector<SimModelNative::SpeciesInfo>* speciesInfos, int speciesIndex, bool& success, char** errorMessage);
+
+      //selects Species from <speciesInfos> with index in SpeciesIndices and sets them as variable into simulation
+      SIM_EXPORT void SetVariableSpecies(Simulation* simulation, std::vector<SimModelNative::SpeciesInfo>* speciesInfos, int* speciesIndices,
+         int numberOfVariableSpecies, bool& success, char** errorMessage);
+
+      SIM_EXPORT void SetSpeciesValues(Simulation* simulation, std::vector<SimModelNative::SpeciesInfo>* speciesInfos, int* speciesIndices,
+                                       int numberOfVariableSpecies, bool& success, char** errorMessage);
       // -----------------------------------------------------------------------------------------------------------------
 
-      //SIM_EXPORT TObjectList<Species>& SpeciesList();
-      //SIM_EXPORT TObjectList<Observer>& Observers();
-
       //SIM_EXPORT const TObjectVector<SolverWarning>& SolverWarnings() const;
-      //SIM_EXPORT OutputSchema& GetOutputSchema();
 
       ////fill the properties of all simulation observers
       //SIM_EXPORT void FillObserverProperties(std::vector<QuantityInfo>& observerProperties);
 
-      ////fill the properties of all simulation parameters
-      //SIM_EXPORT void FillParameterProperties(std::vector<ParameterInfo>& paramProperties);
-
-      ////set variable parameters
-      //SIM_EXPORT void SetVariableParameters(std::vector<ParameterInfo>& paramProperties);
-
-      ////fill the properties of all simulation DE variables
-      //SIM_EXPORT void FillDEVariableProperties(std::vector<SpeciesInfo>& variableProperties);
-
-      ////set variable DE Variables
-      //SIM_EXPORT void SetVariableDEVariables(std::vector<SpeciesInfo>& variableProperties);
-
-      ////sets parameter values into the simulation for the next run
-      //SIM_EXPORT void SetParametersValues(std::vector<ParameterInfo>& paramProperties);
-
-      ////sets DE variable properties into the simulation for the next run
-      //SIM_EXPORT void SetDEVariablesProperties(std::vector<SpeciesInfo>& variableProperties);
-
-      //SIM_EXPORT bool UseBandLinearSolver();
-      //SIM_EXPORT void SetUseBandLinearSolver(bool useBandLinearSolver);
    }
 
 }//.. end "namespace SimModelNative"

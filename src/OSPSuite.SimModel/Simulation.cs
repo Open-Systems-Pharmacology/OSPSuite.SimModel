@@ -123,6 +123,42 @@ namespace OSPSuite.SimModel
       public static extern void SetParameterValues(IntPtr simulation, IntPtr parameterInfos, [In] int[] parameterIndices,
          int numberOfVariableParameters, out bool success, out string errorMessage);
 
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern IntPtr CreateSpeciesInfoVector();
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void DisposeSpeciesInfoVector(IntPtr speciesInfos);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void ClearSpeciesInfoVector(IntPtr speciesInfos);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void FillSpeciesProperties(IntPtr simulation, IntPtr speciesInfos, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern int GetNumberOfSpeciesProperties(IntPtr speciesInfos, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void FillSingleSpeciesProperties(IntPtr simulation, IntPtr speciesInfos,
+         int speciesIndex, out string entityId, out string pathWithoutRoot, out string fullName, out double initialValue,
+         out double scaleFactor, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void SetSpeciesInitialValue(IntPtr speciesInfos, int speciesIndex, double initialValue, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void SetSpeciesScaleFactor(IntPtr speciesInfos, int speciesIndex, double scaleFactor, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern bool SpeciesIsUsedInSimulation(IntPtr speciesInfos, int speciesIndex, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void SetVariableSpecies(IntPtr simulation, IntPtr speciesInfos, [In] int[] speciesIndices,
+                                                      int numberOfVariableSpecies, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void SetSpeciesValues(IntPtr simulation, IntPtr speciesInfos, [In] int[] speciesIndices,
+         int numberOfVariableSpecies, out bool success, out string errorMessage);
    }
 
    internal class PInvokeHelper
@@ -140,9 +176,12 @@ namespace OSPSuite.SimModel
    public class Simulation : IDisposable
    {
       private readonly IntPtr _simulation;
-      private readonly IntPtr _allParameters;
 
+      private readonly IntPtr _allParameters;
       private IList<ParameterProperties> _variableParameters;
+
+      private readonly IntPtr _allSpecies;
+      private IList<SpeciesProperties> _variableSpecies;
 
       private bool _disposed = false;
 
@@ -154,8 +193,13 @@ namespace OSPSuite.SimModel
       public Simulation()
       {
          _simulation = SimulationImports.CreateSimulation();
+
          _allParameters = SimulationImports.CreateParameterInfoVector();
          _variableParameters = new List<ParameterProperties>();
+
+         _allSpecies = SimulationImports.CreateSpeciesInfoVector();
+         _variableSpecies = new List<SpeciesProperties>();
+
          Options = new SimulationOptions(_simulation);
          RunStatistics = new SimulationRunStatistics(_simulation);
       }
@@ -175,6 +219,9 @@ namespace OSPSuite.SimModel
       {
          SimulationImports.LoadSimulationFromXMLFile(_simulation, fileName, out var success, out var errorMessage);
          evaluateCppCallResult(success, errorMessage);
+
+         //initial filling of parameter and species properties (must be done between load and finalize)
+         fillParameterAndSpeciesProperties();
       }
 
       /// <summary>
@@ -185,8 +232,16 @@ namespace OSPSuite.SimModel
          SimulationImports.LoadSimulationFromXMLString(_simulation, xmlString, out var success, out var errorMessage);
          evaluateCppCallResult(success, errorMessage);
 
-         //initial filling of parameter properties (must be done between load and finalize)
-         SimulationImports.FillParameterProperties(_simulation, _allParameters, out success, out errorMessage);
+         //initial filling of parameter and species properties (must be done between load and finalize)
+         fillParameterAndSpeciesProperties();
+      }
+
+      private void fillParameterAndSpeciesProperties()
+      {
+         SimulationImports.FillParameterProperties(_simulation, _allParameters, out var success, out var errorMessage);
+         evaluateCppCallResult(success, errorMessage);
+
+         SimulationImports.FillSpeciesProperties(_simulation, _allSpecies, out success, out errorMessage);
          evaluateCppCallResult(success, errorMessage);
       }
 
@@ -354,17 +409,48 @@ namespace OSPSuite.SimModel
                   out success, out errorMessage);
                evaluateCppCallResult(success, errorMessage);
 
-               var parameterProps = new ParameterProperties(_allParameters,parameterIdx,entityId,pathWithoutRoot,fullName,value,
+               var parameterProperties = new ParameterProperties(_allParameters,parameterIdx,entityId,pathWithoutRoot,fullName,value,
                   tablePointsX, tablePointsY, tablePointsRestartSolver);
 
-               parameterPropertiesList.Add(parameterProps);
+               parameterPropertiesList.Add(parameterProperties);
             }
 
             return parameterPropertiesList;
          }
       }
 
+      public IEnumerable<SpeciesProperties> SpeciesProperties
+      {
+         get
+         {
+            var speciesPropertiesList = new List<SpeciesProperties>();
+
+            SimulationImports.FillSpeciesProperties(_simulation, _allSpecies, out var success, out var errorMessage);
+            evaluateCppCallResult(success, errorMessage);
+
+            var numberOfSpecies = SimulationImports.GetNumberOfSpeciesProperties(_allSpecies, out success, out errorMessage);
+            evaluateCppCallResult(success, errorMessage);
+
+            for (var speciesIdx = 0; speciesIdx < numberOfSpecies; speciesIdx++)
+            {
+               SimulationImports.FillSingleSpeciesProperties(_simulation, _allSpecies, speciesIdx,
+                  out var entityId, out var pathWithoutRoot, out var fullName, out var initialValue, out var scaleFactor,
+                  out success, out errorMessage);
+               evaluateCppCallResult(success, errorMessage);
+
+               var speciesProperties = new SpeciesProperties(_allSpecies, speciesIdx, entityId, pathWithoutRoot, fullName,
+                                                             initialValue, scaleFactor);
+
+               speciesPropertiesList.Add(speciesProperties);
+            }
+
+            return speciesPropertiesList;
+         }
+      }
+
       private int[] getVariableParameterIndices => _variableParameters.Select(p => p.ParameterIndex).ToArray();
+
+      private int[] getVariableSpeciesIndices => _variableSpecies.Select(p => p.SpeciesIndex).ToArray();
 
       public IEnumerable<ParameterProperties> VariableParameters
       {
@@ -380,10 +466,32 @@ namespace OSPSuite.SimModel
          }
       }
 
+      public IEnumerable<SpeciesProperties> VariableSpecies
+      {
+         get => _variableSpecies;
+         set
+         {
+            _variableSpecies = value.ToList();
+            var variableSpeciesIndices = getVariableSpeciesIndices;
+
+            SimulationImports.SetVariableSpecies(_simulation, _allSpecies, variableSpeciesIndices, variableSpeciesIndices.Length,
+               out var success, out var errorMessage);
+            evaluateCppCallResult(success, errorMessage);
+         }
+      }
+
       public void SetParameterValues()
       {
          var variableParameterIndices = getVariableParameterIndices;
          SimulationImports.SetParameterValues(_simulation, _allParameters, variableParameterIndices, variableParameterIndices.Length,
+            out var success, out var errorMessage);
+         evaluateCppCallResult(success, errorMessage);
+      }
+
+      public void SetSpeciesValues()
+      {
+         var variableSpeciesIndices = getVariableSpeciesIndices;
+         SimulationImports.SetSpeciesValues(_simulation, _allSpecies, variableSpeciesIndices, variableSpeciesIndices.Length,
             out var success, out var errorMessage);
          evaluateCppCallResult(success, errorMessage);
       }
@@ -403,6 +511,7 @@ namespace OSPSuite.SimModel
          if (disposing)
          {
             SimulationImports.DisposeParameterInfoVector(_allParameters);
+            SimulationImports.DisposeSpeciesInfoVector(_allSpecies);
             SimulationImports.DisposeSimulation(_simulation);
          }
 
