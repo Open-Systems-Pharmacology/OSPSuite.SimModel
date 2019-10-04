@@ -280,10 +280,6 @@ namespace OSPSuite.SimModel.Tests
       // y2(0) = 0
       // P1+P2=1
 
-      protected override void Because()
-      {
-         LoadFinalizeAndRunSimulation("SimModel4_ExampleInput06_Modified");
-      }
 
       protected override void OptionalTasksBeforeFinalize()
       {
@@ -324,13 +320,110 @@ namespace OSPSuite.SimModel.Tests
          //sut->SetSpeciesProperties(variableSpecies);
       }
 
-      [Observation]
-      public void should_produce_correct_result()
+      protected static IEnumerable<string> TestData()
       {
-         LoadFinalizeAndRunSimulation("SimModel4_ExampleInput06_Modified");
-         TestResult();
+         yield return "SimModel4_ExampleInput06_Modified";
+         yield return "SimModel4_ExampleInput06_Modified_V4";
       }
 
+      [Observation]
+      [TestCaseSource(nameof(TestData))]
+      public void should_produce_correct_result(string shortFileName)
+      {
+         LoadFinalizeAndRunSimulation(shortFileName);
+         TestResult();
+      }
+   }
+
+   public class when_running_testsystem_06_modified_setting_table_parameter_values : when_running_testsystem_06
+   {
+      //in the model, y4 is defined as following:
+      //
+      // y4(0) = 33
+      // y4'   = P5
+      // P5 is table parameter const 0
+
+      private bool _modifySystem;
+
+      protected override void OptionalTasksBeforeFinalize()
+      {
+         if (!_modifySystem)
+            return;
+
+         //---- set P5 as variable
+         var allParameters = sut.ParameterProperties.ToList();
+
+         var variableParameters = new[]
+         {
+            GetParameterByPath(allParameters, "Subcontainer1/P5")
+         };
+
+         sut.VariableParameters = variableParameters;
+      }
+
+      protected override void OptionalTasksBeforeRun()
+      {
+         if (!_modifySystem)
+            return;
+
+         //---- set P5 as table:
+         //   0,  0
+         //   5,  10
+         //   10, 10
+         //After this changes:
+         //
+         //y4'(t) = 2   for 0<=t<=5
+         //y4'(t) = 0   for t>5
+         //
+         //=> y4(t)=y4(0)+2*t for 0<=t<=5
+         //   y4(t)=y4(5)=y4(0)+10 for t>=5
+
+         GetParameterByPath(sut.VariableParameters, "Subcontainer1/P5").TablePoints = new[]
+         {
+            new ValuePoint(0, 0, false),
+            new ValuePoint(5, 10, false),
+            new ValuePoint(10, 10, false)
+         };
+         
+         sut.SetParameterValues();
+      }
+
+      protected static IEnumerable<string> TestData()
+      {
+         yield return "SimModel4_ExampleInput06_Modified";
+         yield return "SimModel4_ExampleInput06_Modified_V4";
+      }
+
+      [Observation]
+      [TestCaseSource(nameof(TestData))]
+      public void should_produce_correct_result_with_and_without_changing_of_table_parameter(string shortFileName)
+      {
+         //---- run without parameter modification
+         _modifySystem = false;
+         LoadFinalizeAndRunSimulation(shortFileName);
+         var y4_without_change = sut.ValuesFor("y4").Values;
+
+         //---- run with table parameter modification
+         _modifySystem = true;
+         LoadFinalizeAndRunSimulation(shortFileName);
+         var y4_with_change = sut.ValuesFor("y4").Values;
+
+         var outputTimes = sut.SimulationTimes;
+
+         const double relTol = 1e-5; //max. allowed relative deviation 0.001%
+
+         for (var i = 0; i < outputTimes.Length; i++)
+         {
+            //without modification y4=const=y4(0)
+            y4_without_change[i].ShouldBeEqualTo(y4_without_change[0], relTol);
+
+            //with modification
+            //   y4(t) = y4(0)+2*t         for 0<=t<=5
+            //   y4(t) = y4(5) = y4(0)+10  for t>=5
+            var time = outputTimes[i];
+            y4_with_change[i].ShouldBeEqualTo(y4_with_change[0] + (time <= 5 ? 2 * time : 10), relTol);
+         }
+      }
    }
 
    public class when_loading_simulation_from_file_and_running : concern_for_Simulation
