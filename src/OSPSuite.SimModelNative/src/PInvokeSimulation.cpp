@@ -118,7 +118,7 @@ namespace SimModelNative
 
    void SetSimulationOptions(Simulation* simulation, SimulationOptionsStructure options)
    {
-      auto simulationOptions = simulation->Options();
+      auto & simulationOptions = simulation->Options();
 
       simulationOptions.SetShowProgress(options.ShowProgress);
       simulationOptions.SetExecutionTimeLimit(options.ExecutionTimeLimit);
@@ -478,7 +478,7 @@ namespace SimModelNative
       }
    }
 
-   ParameterInfo getParameterInfoFrom(vector<SimModelNative::ParameterInfo>*& parameterInfos, int parameterIndex, const char* functionName)
+   ParameterInfo & getParameterInfoFrom(vector<SimModelNative::ParameterInfo>*& parameterInfos, int parameterIndex, const char* functionName)
    {
       if (parameterIndex < 0 || parameterIndex >= parameterInfos->size())
          throw ErrorData(ErrorData::ED_ERROR, functionName, "Parameter index is invalid");
@@ -493,7 +493,7 @@ namespace SimModelNative
 
       try
       {
-         auto parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         auto & parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
          success = true;
          
          return (int)parameterInfo.GetTablePoints().size();
@@ -521,8 +521,8 @@ namespace SimModelNative
 
       try
       {
-         auto parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
-         auto tablePoints = parameterInfo.GetTablePoints();
+         auto & parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         auto & tablePoints = parameterInfo.GetTablePoints();
 
          if((int)tablePoints.size() != tablePointsSize)
             throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Invalid number of table points passed");
@@ -535,7 +535,7 @@ namespace SimModelNative
 
          for (auto tablePointIdx = 0; tablePointIdx < tablePoints.size(); tablePointIdx++)
          {
-            auto tablePoint = tablePoints[tablePointIdx];
+            auto & tablePoint = tablePoints[tablePointIdx];
 
             tablePointsX[tablePointIdx] = tablePoint.X;
             tablePointsY[tablePointIdx] = tablePoint.Y;
@@ -563,7 +563,7 @@ namespace SimModelNative
 
       try
       {
-         auto parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         auto & parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
          parameterInfo.SetValue(value);
 
          success = true;
@@ -587,7 +587,7 @@ namespace SimModelNative
 
       try
       {
-         auto parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         auto & parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
          parameterInfo.SetCalculateSensitivity(calculateSensitivity);
 
          success = true;
@@ -611,7 +611,7 @@ namespace SimModelNative
 
       try
       {
-         auto parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         auto & parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
          
          vector <ValuePoint> tablePoints;
          for (auto idx = 0; idx < tablePointsSize; idx++)
@@ -641,7 +641,7 @@ namespace SimModelNative
 
       try
       {
-         auto parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         auto & parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
          success = true;
 
          return parameterInfo.IsUsedInSimulation();

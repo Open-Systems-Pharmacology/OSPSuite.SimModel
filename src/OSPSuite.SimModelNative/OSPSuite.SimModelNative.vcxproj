@@ -95,7 +95,13 @@
     </Link>
     <PostBuildEvent>
       <Command>copy "$(FuncParserPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"
-copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"</Command>
+copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"
+copy "$(OutDir)$(TargetName).dll" "$(SolutionDir)tests\OSPSuite.SimModel.Tests\bin\$(ConfigurationName)\netcoreapp2.2\"
+copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)tests\OSPSuite.SimModel.Tests\bin\$(ConfigurationName)\netcoreapp2.2\"
+copy "$(OutDir)$(TargetName).pdb" "$(SolutionDir)tests\OSPSuite.SimModel.Tests\bin\$(ConfigurationName)\netcoreapp2.2\"
+copy "$(OutDir)$(TargetName).dll" "$(SolutionDir)tests\TestAppNetCore\bin\$(ConfigurationName)\netcoreapp2.2\"
+copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)tests\TestAppNetCore\bin\$(ConfigurationName)\netcoreapp2.2\"
+copy "$(OutDir)$(TargetName).pdb" "$(SolutionDir)tests\TestAppNetCore\bin\$(ConfigurationName)\netcoreapp2.2\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -129,7 +135,13 @@ copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)
     </Link>
     <PostBuildEvent>
       <Command>copy "$(FuncParserPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"
-copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"</Command>
+copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"
+copy "$(OutDir)$(TargetName).dll" "$(SolutionDir)tests\OSPSuite.SimModel.Tests\bin\$(ConfigurationName)\netcoreapp2.2\"
+copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)tests\OSPSuite.SimModel.Tests\bin\$(ConfigurationName)\netcoreapp2.2\"
+copy "$(OutDir)$(TargetName).pdb" "$(SolutionDir)tests\OSPSuite.SimModel.Tests\bin\$(ConfigurationName)\netcoreapp2.2\"
+copy "$(OutDir)$(TargetName).dll" "$(SolutionDir)tests\TestAppNetCore\bin\$(ConfigurationName)\netcoreapp2.2\"
+copy "$(OutDir)$(TargetName).lib" "$(SolutionDir)tests\TestAppNetCore\bin\$(ConfigurationName)\netcoreapp2.2\"
+copy "$(OutDir)$(TargetName).pdb" "$(SolutionDir)tests\TestAppNetCore\bin\$(ConfigurationName)\netcoreapp2.2\"</Command>
     </PostBuildEvent>
     <PreBuildEvent>
       <Command>nuget.exe install ..\..\packages.config -OutputDirectory ..\..\packages</Command>
