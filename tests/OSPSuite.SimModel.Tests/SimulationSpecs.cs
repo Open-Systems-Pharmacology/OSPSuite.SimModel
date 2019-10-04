@@ -154,7 +154,7 @@ namespace OSPSuite.SimModel.Tests
       public void should_produce_correct_result(string shortFileName)
       {
          LoadFinalizeAndRunSimulation(shortFileName);
-         base.TestResult();
+         TestResult();
       }
 
       [Observation]
@@ -184,6 +184,67 @@ namespace OSPSuite.SimModel.Tests
       }
    }
 
+   public class when_running_testsystem_06_with_scale_factor_dense : when_running_testsystem_06
+   {
+      private double _scaleFactor;
+
+      protected override void OptionalTasksBeforeFinalize()
+      {
+         _scaleFactor = 100;
+         //TODO
+
+         //_y1 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y1");
+         //_y2 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y2");
+         //_y3 = sut->GetNativeSimulation()->SpeciesList().GetObjectByEntityId("y3");
+
+         //_y1->SetODEScaleFactor(_scaleFactor);
+         //_y2->SetODEScaleFactor(_scaleFactor);
+         //_y3->SetODEScaleFactor(_scaleFactor);
+      }
+
+      protected static IEnumerable<string> TestData()
+      {
+         yield return "SimModel4_ExampleInput06";
+         yield return "SimModel4_ExampleInput06_NewSchema";
+      }
+
+      [Observation]
+      [TestCaseSource(nameof(TestData))]
+      public void should_produce_correct_result(string shortFileName)
+      {
+         LoadFinalizeAndRunSimulation(shortFileName);
+         TestResult();
+      }
+
+      [Observation]
+      [TestCaseSource(nameof(TestData))]
+      public void should_calculate_comparison_threshold(string shortFileName)
+      {
+         LoadFinalizeAndRunSimulation(shortFileName);
+
+         //get absolute tolerance used for calculation (might differ from input absolute tolerance)
+         double AbsTol = sut.RunStatistics.UsedAbsoluteTolerance;
+
+         //expected threshold for ode variables
+         double threshold = 10.0 * AbsTol;
+
+         foreach (var values in sut.AllValues)
+         {
+            if (values.VariableType == VariableValues.VariableTypes.Observer)
+            {
+               //the (only) observer is defined as 2*y1 and thus must retrieve the threshold 2*Threshold(y1)
+               values.ComparisonThreshold.ShouldBeEqualTo(2.0 * threshold);
+            }
+            else
+            {
+               //for non-const variables, Threshold must be equal to DefaultThreshold*ScaleFactor
+               var variableThreshold = values.IsConstant ? threshold : threshold * _scaleFactor;
+               values.ComparisonThreshold.ShouldBeEqualTo(variableThreshold);
+            }
+         }
+      }
+   }
+
    public class when_running_testsystem_06_setting_all_parameters_as_variable_dense : when_running_testsystem_06
    {
       protected override void OptionalTasksBeforeFinalize()
@@ -203,7 +264,71 @@ namespace OSPSuite.SimModel.Tests
       public void should_produce_correct_result(string shortFileName)
       {
          LoadFinalizeAndRunSimulation(shortFileName);
-         base.TestResult();
+         TestResult();
+      }
+
+   }
+
+   public class when_running_testsystem_06_modified_setting_parameter_values_and_initial_values : when_running_testsystem_06
+   {
+      //Modifications made in the system (compared to the test system) in XML
+      // y2(0) changed from P1 + P2 -1 (=0) to 10
+      // P1 changed from sin(y3)^2
+      // P2 changed from cos(y3)^2
+      //
+      // In order to get the original system, one must set:
+      // y2(0) = 0
+      // P1+P2=1
+
+      protected override void Because()
+      {
+         LoadFinalizeAndRunSimulation("SimModel4_ExampleInput06_Modified");
+      }
+
+      protected override void OptionalTasksBeforeFinalize()
+      {
+         var allParameters = sut.ParameterProperties.ToList();
+
+         //---- set P1 and P2 as variable
+         var variableParameters = new[]
+         {
+            GetParameterByPath(allParameters, "Subcontainer1/P1"),
+            GetParameterByPath(allParameters, "Subcontainer1/P2")
+         };
+
+         sut.VariableParameters = variableParameters;
+         
+         //TODO
+         //---- set y2 initial value as variable
+         //IList < ISpeciesProperties ^> ^speciesProps = sut->SpeciesProperties;
+         //IList < ISpeciesProperties ^> ^variableSpecies = gcnew System::Collections::Generic::List < ISpeciesProperties ^> ();
+
+         //variableSpecies->Add(GetSpeciesByPath(speciesProps, "Subcontainer1/y2"));
+         //sut->VariableSpecies = variableSpecies;
+      }
+
+      protected override void OptionalTasksBeforeRun()
+      {
+         //update variable parameters: set P1+P2=1
+         var variableParameters = sut.VariableParameters.ToList();
+
+         GetParameterByPath(variableParameters, "Subcontainer1/P1").Value = 0.3;
+         GetParameterByPath(variableParameters, "Subcontainer1/P2").Value = 0.7;
+
+         sut.SetParameterValues();
+         
+         //TODO
+         //update variable species: set y2(0)=0
+         //variableSpecies = sut->VariableSpecies;
+         //GetSpeciesByPath(variableSpecies, "Subcontainer1/y2")->Value = 0;
+         //sut->SetSpeciesProperties(variableSpecies);
+      }
+
+      [Observation]
+      public void should_produce_correct_result()
+      {
+         LoadFinalizeAndRunSimulation("SimModel4_ExampleInput06_Modified");
+         TestResult();
       }
 
    }
@@ -246,24 +371,25 @@ namespace OSPSuite.SimModel.Tests
 
    public class when_getting_all_parameter_values_and_all_initial_values : concern_for_Simulation
    {
-      [Observation]
-      public void should_return_correct_value_for_dependent_parameters_and_initial_value_before_and_after_changing_of_basis_parameter()
+      protected override void OptionalTasksBeforeFinalize()
       {
-         sut.LoadFromXMLFile(TestFileFrom("TestAllParametersInitialValues"));
-
          var allParameters = sut.ParameterProperties.ToList();
 
          //---- set P1 and P2 as variable
-         var variableParameters = new ParameterProperties[]
+         var variableParameters = new[]
          {
             GetParameterByPath(allParameters, "P1"),
             GetParameterByPath(allParameters, "P2")
          };
 
          sut.VariableParameters = variableParameters;
+      }
 
-         sut.FinalizeSimulation();
-
+      [Observation]
+      public void should_return_correct_value_for_dependent_parameters_and_initial_value_before_and_after_changing_of_basis_parameter()
+      {
+         LoadAndFinalizeSimulation("TestAllParametersInitialValues");
+         
          //value of P10 should be equal P1+P2, which is initially 1
          GetParameterByPath(sut.ParameterProperties, "P10").Value.ShouldBeEqualTo(1.0, 1e-5);
 
@@ -272,7 +398,7 @@ namespace OSPSuite.SimModel.Tests
          //GetSpeciesByPath(sut.SpeciesProperties, "y2").Value.ShouldBeEqualTo(0.0, 1e-5);
 
          //update variable parameters
-         variableParameters = sut.VariableParameters.ToArray();
+         var variableParameters = sut.VariableParameters.ToArray();
          GetParameterByPath(variableParameters, "P1").Value = 3;
          GetParameterByPath(variableParameters, "P2").Value = 4;
 
