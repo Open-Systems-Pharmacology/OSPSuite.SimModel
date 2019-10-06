@@ -54,7 +54,16 @@ namespace OSPSuite.SimModel
          }
       }
 
-      public bool IsConstant => QuantityImports.QuantityIsConstant(_quantity);
+      public bool IsConstant
+      {
+         get
+         {
+            var size = QuantityImports.GetQuantityValuesSize(_quantity, out var success, out var errorMessage);
+            evaluateCppCallResult(success, errorMessage);
+
+            return size == 1;
+         }
+      }
 
       public double ComparisonThreshold
       {

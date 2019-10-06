@@ -186,6 +186,25 @@ namespace OSPSuite.SimModel.Tests
    {
       private double _scaleFactor;
 
+      protected override void OptionalTasksBeforeFinalize()
+      {
+         //_scaleFactor = 100;
+
+         //GetSpeciesByPath(sut.SpeciesProperties, "y1").ScaleFactor = _scaleFactor;
+         //GetSpeciesByPath(sut.SpeciesProperties, "y2").ScaleFactor = _scaleFactor;
+         //GetSpeciesByPath(sut.SpeciesProperties, "y3").ScaleFactor = _scaleFactor;
+
+         var allSpecies = sut.SpeciesProperties.ToList();
+         var variableSpecies = new[]
+         {
+            GetSpeciesByPath(allSpecies, "y1"),
+            GetSpeciesByPath(allSpecies, "y2"),
+            GetSpeciesByPath(allSpecies, "y3")
+         };
+
+         sut.VariableSpecies = variableSpecies;
+      }
+
       protected override void OptionalTasksBeforeRun()
       {
          _scaleFactor = 100;
@@ -220,7 +239,7 @@ namespace OSPSuite.SimModel.Tests
          //get absolute tolerance used for calculation (might differ from input absolute tolerance)
          double AbsTol = sut.RunStatistics.UsedAbsoluteTolerance;
 
-         //expected threshold for ode variables
+         //expected threshold for ode variables without scaling
          double threshold = 10.0 * AbsTol;
 
          foreach (var values in sut.AllValues)
@@ -228,7 +247,7 @@ namespace OSPSuite.SimModel.Tests
             if (values.VariableType == VariableValues.VariableTypes.Observer)
             {
                //the (only) observer is defined as 2*y1 and thus must retrieve the threshold 2*Threshold(y1)
-               values.ComparisonThreshold.ShouldBeEqualTo(2.0 * threshold);
+               values.ComparisonThreshold.ShouldBeEqualTo(2.0 * threshold *_scaleFactor);
             }
             else
             {
