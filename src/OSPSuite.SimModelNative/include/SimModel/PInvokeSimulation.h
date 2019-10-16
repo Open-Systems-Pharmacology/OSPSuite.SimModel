@@ -36,7 +36,6 @@ namespace SimModelNative
       //SIM_EXPORT char* GetSimModelVersion();
       SIM_EXPORT char* GetObjectPathDelimiter(Simulation* simulation);
 
-      //SIM_EXPORT SimulationOptionsStructure GetSimulationOptions(Simulation* simulation);
       SIM_EXPORT void FillSimulationOptions(Simulation* simulation, SimulationOptionsStructure * options);
       
       SIM_EXPORT void SetSimulationOptions(Simulation* simulation, SimulationOptionsStructure options);
@@ -121,9 +120,14 @@ namespace SimModelNative
 
       SIM_EXPORT void SetSpeciesValues(Simulation* simulation, std::vector<SimModelNative::SpeciesInfo>* speciesInfos, int* speciesIndices,
                                        int numberOfVariableSpecies, bool& success, char** errorMessage);
+
+      SIM_EXPORT int GetNumberOfSolverWarnings(Simulation* simulation);
+
+      //fills entity ids for all quantities with values.
+      //<outputTimes> and <warnings> arrays are pre-allocated with <size> elements
+      SIM_EXPORT void FillSolverWarnings(Simulation* simulation, int size, double* outputTimes, char** warnings, bool& success, char** errorMessage);
       // -----------------------------------------------------------------------------------------------------------------
 
-      //SIM_EXPORT const TObjectVector<SolverWarning>& SolverWarnings() const;
 
       ////fill the properties of all simulation observers
       //SIM_EXPORT void FillObserverProperties(std::vector<QuantityInfo>& observerProperties);

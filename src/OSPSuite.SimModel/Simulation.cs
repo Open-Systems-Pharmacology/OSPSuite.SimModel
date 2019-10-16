@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
+
 // ReSharper disable UnusedMember.Global
 
 namespace OSPSuite.SimModel
@@ -159,6 +161,14 @@ namespace OSPSuite.SimModel
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void SetSpeciesValues(IntPtr simulation, IntPtr speciesInfos, [In] int[] speciesIndices,
          int numberOfVariableSpecies, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern int GetNumberOfSolverWarnings(IntPtr simulation);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void FillSolverWarnings(IntPtr simulation, [In, Out] double[] outputTimes, [In, Out] string[] warnings, 
+         int size, out bool success, out string errorMessage);
+
    }
 
    internal class PInvokeHelper
@@ -183,6 +193,8 @@ namespace OSPSuite.SimModel
       private readonly IntPtr _allSpecies;
       private IList<SpeciesProperties> _variableSpecies;
 
+      private IList<SolverWarning> _solverWarnings;
+
       private bool _disposed = false;
 
       private void evaluateCppCallResult(bool success, string errorMessage)
@@ -199,6 +211,8 @@ namespace OSPSuite.SimModel
 
          _allSpecies = SimulationImports.CreateSpeciesInfoVector();
          _variableSpecies = new List<SpeciesProperties>();
+
+         _solverWarnings = new List<SolverWarning>();
 
          Options = new SimulationOptions(_simulation);
          RunStatistics = new SimulationRunStatistics(_simulation);
@@ -277,6 +291,28 @@ namespace OSPSuite.SimModel
          RunStatistics.ToleranceWasReduced = toleranceWasReduced;
          RunStatistics.UsedAbsoluteTolerance = newAbsTol;
          RunStatistics.UsedRelativeTolerance = newRelTol;
+
+         fillSolverWarnings();
+      }
+
+      private void fillSolverWarnings()
+      {
+         var numberOfWarnings = SimulationImports.GetNumberOfSolverWarnings(_simulation);
+
+         _solverWarnings.Clear();
+         if (numberOfWarnings == 0)
+            return;
+
+         var times = new double[numberOfWarnings];
+         var warnings=new string[numberOfWarnings];
+
+         SimulationImports.FillSolverWarnings(_simulation, times, warnings, numberOfWarnings, out var success, out var errorMessage);
+         evaluateCppCallResult(success, errorMessage);
+
+         for (var i = 0; i < numberOfWarnings; i++)
+         {
+            _solverWarnings.Add(new SolverWarning(times[i], warnings[i]));
+         }
       }
 
       /// <summary>
@@ -501,6 +537,8 @@ namespace OSPSuite.SimModel
          Dispose(true);
          GC.SuppressFinalize(this);
       }
+
+      public IEnumerable<SolverWarning> SolverWarnings;
 
       // Protected implementation of Dispose pattern.
       protected virtual void Dispose(bool disposing)

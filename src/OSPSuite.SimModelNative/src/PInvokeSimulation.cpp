@@ -950,4 +950,44 @@ namespace SimModelNative
       }
    }
 
+   int GetNumberOfSolverWarnings(Simulation* simulation)
+   {
+      return (int)simulation->SolverWarnings().size();
+   }
+
+   void FillSolverWarnings(Simulation* simulation, int size, double* outputTimes, char** warnings, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "SetSpeciesValues";
+      success = false;
+
+      try
+      {
+         auto& solverWarnings = simulation->SolverWarnings();
+
+         //check that arrays to fill have correct length
+         if (solverWarnings.size() != size)
+            throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Expected number of solver warnings does not match");
+
+         for (auto idx = 0; idx < solverWarnings.size(); idx++)
+         {
+            auto warning = solverWarnings[idx];
+
+            outputTimes[idx] = warning->Time();
+            warnings[idx] = MarshalString(warning->Message());
+         }
+
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
+
 }//.. end "namespace SimModelNative"

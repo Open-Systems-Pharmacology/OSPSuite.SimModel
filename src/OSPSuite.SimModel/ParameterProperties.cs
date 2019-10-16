@@ -61,6 +61,10 @@ namespace OSPSuite.SimModel
             _value = value;
             SimulationImports.SetParameterValue(_allParameters,_parameterIndex,_value,out var success,out var errorMessage);
             PInvokeHelper.EvaluateCppCallResult(success,errorMessage);
+
+            //setting a value will replace the table formula with an explicit formula
+            //here we can clean them immediately
+            _tablePoints.Clear();
          }
       }
 
@@ -107,5 +111,6 @@ namespace OSPSuite.SimModel
          }
       }
 
+      public bool IsTable => _tablePoints.Count > 0;
    }
 }
