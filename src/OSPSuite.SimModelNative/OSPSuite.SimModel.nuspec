@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<package >
-  <metadata>    
+<package>
+  <metadata>
     <description>Calculation engine for models built with PK-Sim® or MoBi®</description>
     <id>OSPSuite.SimModel</id>
     <version>$version$</version>
@@ -15,7 +15,7 @@
     <tags>open-systems-pharmacology</tags>
   </metadata>
   <files>
-    <file src="..\..\Build\Debug\x64\OSPSuite.SimModelNative.dll" target="OSPSuite.SimModelNative\bin\native\x64\Debug" />
+	<file src="..\..\Build\Debug\x64\OSPSuite.SimModelNative.dll" target="OSPSuite.SimModelNative\bin\native\x64\Debug" />
     <file src="..\..\Build\Debug\x64\OSPSuite.SimModelNative.lib" target="OSPSuite.SimModelNative\bin\native\x64\Debug" />
     <file src="..\..\Build\Debug\x64\OSPSuite.SimModelNative.pdb" target="OSPSuite.SimModelNative\bin\native\x64\Debug" />
  
@@ -25,7 +25,6 @@
 
     <file src="bin\Release\netstandard2.0\OSPSuite.SimModel.dll" target="lib\netstandard2.0" />
     <file src="bin\Release\netstandard2.0\OSPSuite.SimModel.pdb" target="lib\netstandard2.0" />
-
-    <file src="..\OSPSuite.SimModelNative\include\**\*.h" target="OSPSuite.SimModelNative\include" />
+	
   </files>
 </package>

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "OSPSuite.SimModel": {
+      "commandName": "Project",
+      "nativeDebugging": true
+    }
+  }
+}

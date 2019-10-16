@@ -1,9 +1,9 @@
-image: Visual Studio 2017
+image: Visual Studio 2019
 
 environment:
-  major: 3
+  major: 4
   minor: 0
-  release: 1
+  release: 0
   app_version: '$(major).$(minor).$(release).$(APPVEYOR_BUILD_NUMBER)'
 
 version: '$(major).$(minor).$(release).{build}'
@@ -21,19 +21,16 @@ before_build:
   - nuget sources add -name utility -source https://ci.appveyor.com/nuget/ospsuite-utility 
   - nuget sources add -name funcparser -source https://ci.appveyor.com/nuget/ospsuite-funcparser 
   - nuget sources add -name cvodes -source https://ci.appveyor.com/nuget/ospsuite-simmodel-solver-cvodes
-  - nuget install packages.config -OutputDirectory packages # cannot use automatic artifact publish because it's not recognized in a C++/CLI project
-  - ps: (get-content src\OSPSuite.SimModel\version.h) | foreach-object {$_ -replace "RELEASE 0", "RELEASE $env:RELEASE" -replace "MAJOR 0", "MAJOR $env:MAJOR" -replace "MINOR 0", "MINOR $env:MINOR" -replace "BUILD 0", "BUILD $env:APPVEYOR_BUILD_NUMBER"} | set-content src\OSPSuite.SimModel\version.h
-  - ps: (get-content src\OSPSuite.SimModelComp\version.h) | foreach-object {$_ -replace "RELEASE 0", "RELEASE $env:RELEASE" -replace "MAJOR 0", "MAJOR $env:MAJOR" -replace "MINOR 0", "MINOR $env:MINOR" -replace "BUILD 0", "BUILD $env:APPVEYOR_BUILD_NUMBER"} | set-content src\OSPSuite.SimModelComp\version.h
-
+  - ps: (get-content src\OSPSuite.SimModelNative\version.h) | foreach-object {$_ -replace "RELEASE 0", "RELEASE $env:RELEASE" -replace "MAJOR 0", "MAJOR $env:MAJOR" -replace "MINOR 0", "MINOR $env:MINOR" -replace "BUILD 0", "BUILD $env:APPVEYOR_BUILD_NUMBER"} | set-content src\OSPSuite.SimModelNative\version.h
+  - dotnet restore
+ 
 after_build:
   - cmd: nuget pack src\OSPSuite.SimModel\OSPSuite.SimModel.nuspec -version %app_version%
-  - cmd: nuget pack src\OSPSuite.SimModelComp\OSPSuite.SimModelComp.nuspec -version %app_version%
   - ps: Get-ChildItem .\OSPSuite.SimModel.*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
-  - ps: Get-ChildItem .\OSPSuite.SimModelComp.*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
 test:
   assemblies:
-  - '**\*.Tests.Release.x64.dll'
+  - '**\*.Tests.dll'
 
 branches:
   only:
