@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Threading;
 
 // ReSharper disable UnusedMember.Global
 
@@ -169,6 +168,9 @@ namespace OSPSuite.SimModel
       public static extern void FillSolverWarnings(IntPtr simulation, [In, Out] double[] outputTimes, [In, Out] string[] warnings, 
          int size, out bool success, out string errorMessage);
 
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern IntPtr GetQuantityByPath(IntPtr simulation, string quantityPathWithoutRoot, out bool success, out string errorMessage);
+
    }
 
    internal class PInvokeHelper
@@ -193,7 +195,7 @@ namespace OSPSuite.SimModel
       private readonly IntPtr _allSpecies;
       private IList<SpeciesProperties> _variableSpecies;
 
-      private IList<SolverWarning> _solverWarnings;
+      private readonly IList<SolverWarning> _solverWarnings;
 
       private bool _disposed = false;
 
@@ -538,7 +540,23 @@ namespace OSPSuite.SimModel
          GC.SuppressFinalize(this);
       }
 
-      public IEnumerable<SolverWarning> SolverWarnings;
+      public IEnumerable<SolverWarning> SolverWarnings => _solverWarnings;
+
+      double[] SensitivityValuesByPathFor(string quantityPath, string parameterPath)
+      {
+         var quantity =
+            SimulationImports.GetQuantityByPath(_simulation, quantityPath, out var success, out var errorMessage);
+         evaluateCppCallResult(success, errorMessage);
+
+         var size = QuantityImports.GetQuantityValuesSize(quantity, out success, out errorMessage);
+         evaluateCppCallResult(success, errorMessage);
+
+         var values = new double[size];
+         QuantityImports.FillSensitivityValues(quantity, values, size, parameterPath, out success, out errorMessage);
+         evaluateCppCallResult(success, errorMessage);
+
+         return values;
+      }
 
       // Protected implementation of Dispose pattern.
       protected virtual void Dispose(bool disposing)

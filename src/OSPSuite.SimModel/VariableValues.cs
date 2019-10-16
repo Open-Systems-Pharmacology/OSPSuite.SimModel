@@ -11,12 +11,16 @@ namespace OSPSuite.SimModel
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern int GetQuantityValuesSize(IntPtr quantity, out bool success, out string errorMessage);
 
-      //<array> has preallocated memory for <size> elements
+      //<values> has preallocated memory for <size> elements
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void FillQuantityValues(IntPtr quantity, [In, Out] double[] values, int size, out bool success, out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern double GetQuantityComparisonThreshold(IntPtr quantity, out bool success, out string errorMessage);
+
+      //<values> has preallocated memory for <size> elements
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void FillSensitivityValues(IntPtr quantity, [In, Out] double[] values, int size, string parameterPath,  out bool success, out string errorMessage);
    }
 
    public class VariableValues : EntityProperties

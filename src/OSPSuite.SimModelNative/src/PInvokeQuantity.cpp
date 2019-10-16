@@ -114,4 +114,56 @@ namespace SimModelNative
 
       return MathHelper::GetNaN();
    }
+
+   void FillSensitivityValues(Quantity* quantity, double* values, int size, const char* parameterPath, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "FillSensitivityValues";
+      success = false;
+
+      try
+      {
+         if (!quantity->IsPersistable())
+            throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Cannot retrieve sensitivity information for " + quantity->GetPathWithoutRoot() + ": variable is declared as nonpersistable");
+
+         auto variableWithParameterSensitivity = dynamic_cast<VariableWithParameterSensitivity*>(quantity);
+         if (variableWithParameterSensitivity == NULL)
+            throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Quantity " + quantity->GetPathWithoutRoot() + " is not a variable");
+
+         auto sizeToFill = quantity->IsConstant(false) ? 1 : variableWithParameterSensitivity->GetValuesSize();
+
+         //check that array to fill has correct length
+         if (sizeToFill != size)
+            throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Expected number of values does not match");
+
+         auto parameterSensitivities = variableWithParameterSensitivity->ParameterSensitivities();
+         SimModelNative::ParameterSensitivity* parameterSensitivity = NULL;
+
+         for (auto idx = 0; idx < parameterSensitivities.size(); idx++)
+         {
+            if (parameterSensitivities[idx]->GetParameter()->GetPathWithoutRoot() == parameterPath)
+            {
+               parameterSensitivity = parameterSensitivities[idx];
+               break;
+            }
+         }
+
+         if (parameterSensitivity == NULL)
+            throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, string(parameterPath) + " is not a valid path of a sensitivity parameter");
+
+         memcpy(values, variableWithParameterSensitivity->GetValues(), sizeToFill * sizeof(double));
+
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
+
 }//.. end "namespace SimModelNative"

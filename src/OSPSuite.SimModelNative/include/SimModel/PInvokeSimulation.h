@@ -126,12 +126,10 @@ namespace SimModelNative
       //fills entity ids for all quantities with values.
       //<outputTimes> and <warnings> arrays are pre-allocated with <size> elements
       SIM_EXPORT void FillSolverWarnings(Simulation* simulation, int size, double* outputTimes, char** warnings, bool& success, char** errorMessage);
-      // -----------------------------------------------------------------------------------------------------------------
 
+      SIM_EXPORT Quantity* GetQuantityByPath(Simulation* simulation, const char* quantityPath, bool& success, char** errorMessage);
 
-      ////fill the properties of all simulation observers
-      //SIM_EXPORT void FillObserverProperties(std::vector<QuantityInfo>& observerProperties);
-
+      SIM_EXPORT void FillSensitivityValues(Quantity* quantity, double* values, int size, const char* parameterPath, bool& success, char** errorMessage);
    }
 
 }//.. end "namespace SimModelNative"

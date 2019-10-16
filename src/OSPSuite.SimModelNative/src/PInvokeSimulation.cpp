@@ -957,7 +957,7 @@ namespace SimModelNative
 
    void FillSolverWarnings(Simulation* simulation, int size, double* outputTimes, char** warnings, bool& success, char** errorMessage)
    {
-      const char* ERROR_SOURCE = "SetSpeciesValues";
+      const char* ERROR_SOURCE = "FillSolverWarnings";
       success = false;
 
       try
@@ -988,6 +988,48 @@ namespace SimModelNative
          *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
          success = false;
       }
+   }
+
+   Quantity* GetQuantityByPath(Simulation* simulation, const char* quantityPath, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "GetQuantityByPath";
+      success = false;
+
+      try
+      {
+         for (auto idx = 0; idx < simulation->SpeciesList().size(); idx++)
+         {
+            if (simulation->SpeciesList()[idx]->GetPathWithoutRoot() == quantityPath)
+            {
+               success = true;
+               return simulation->SpeciesList()[idx];
+            }
+         }
+
+         for (auto idx = 0; idx < simulation->Observers().size(); idx++)
+         {
+            if (simulation->Observers()[idx]->GetPathWithoutRoot() == quantityPath)
+            {
+               success = true;
+               return simulation->Observers()[idx];
+            }
+         }
+
+         throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, string(quantityPath) + " is not a valid path of system variable or observer");
+
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+
+      return nullptr;
    }
 
 }//.. end "namespace SimModelNative"
