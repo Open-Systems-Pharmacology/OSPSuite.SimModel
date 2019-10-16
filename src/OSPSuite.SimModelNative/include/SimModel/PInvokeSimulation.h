@@ -123,13 +123,19 @@ namespace SimModelNative
 
       SIM_EXPORT int GetNumberOfSolverWarnings(Simulation* simulation);
 
-      //fills entity ids for all quantities with values.
+      //fills solver warnings.
       //<outputTimes> and <warnings> arrays are pre-allocated with <size> elements
       SIM_EXPORT void FillSolverWarnings(Simulation* simulation, int size, double* outputTimes, char** warnings, bool& success, char** errorMessage);
 
       SIM_EXPORT Quantity* GetQuantityByPath(Simulation* simulation, const char* quantityPath, bool& success, char** errorMessage);
 
+      //fills senistivity values of variable <quantity> for parameter given by <parameterPath>
+      //<values> arrays is pre-allocated with <size> elements
       SIM_EXPORT void FillSensitivityValues(Quantity* quantity, double* values, int size, const char* parameterPath, bool& success, char** errorMessage);
+
+      SIM_EXPORT void ExportSimulationToMatlabCode(Simulation* simulation, const char* outputFolder, bool fullMode, bool& success, char** errorMessage);
+      SIM_EXPORT void ExportSimulationToCppCode(Simulation* simulation, const char* outputFolder, bool fullMode, bool& success, char** errorMessage);
+      SIM_EXPORT void ExportSimulationToRCode(Simulation* simulation, const char* outputFolder, bool fullMode, bool& success, char** errorMessage);
    }
 
 }//.. end "namespace SimModelNative"

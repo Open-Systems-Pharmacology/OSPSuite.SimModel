@@ -1,5 +1,7 @@
 #include "SimModel/PInvokeHelper.h"
 #include "SimModel/PInvokeSimulation.h"
+#include "SimModel/MatlabODEExporter.h"
+#include "SimModel/CppODEExporter.h"
 
 namespace SimModelNative
 {
@@ -1030,6 +1032,75 @@ namespace SimModelNative
       }
 
       return nullptr;
+   }
+
+   void ExportSimulationToMatlabCode(Simulation* simulation, const char* outputFolder, bool fullMode, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "ExportSimulationToMatlabCode";
+      success = false;
+
+      try
+      {
+         MatlabODEExporter matlabExporter;
+         matlabExporter.WriteMatlabCode(simulation, outputFolder, fullMode);
+
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
+
+   void ExportSimulationToCppCode(Simulation* simulation, const char* outputFolder, bool fullMode, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "ExportSimulationToCppCode";
+      success = false;
+
+      try
+      {
+         CppODEExporter cppExporter;
+         cppExporter.WriteCppCode(simulation, outputFolder, fullMode);
+
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
+
+   void ExportSimulationToRCode(Simulation* simulation, const char* outputFolder, bool fullMode, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "ExportSimulationToRCode";
+      success = false;
+
+      try
+      {
+         *errorMessage = MarshalString("not implemented yet");
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
    }
 
 }//.. end "namespace SimModelNative"

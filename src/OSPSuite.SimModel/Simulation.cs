@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Resources;
 using System.Runtime.InteropServices;
 
 // ReSharper disable UnusedMember.Global
@@ -171,6 +172,15 @@ namespace OSPSuite.SimModel
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern IntPtr GetQuantityByPath(IntPtr simulation, string quantityPathWithoutRoot, out bool success, out string errorMessage);
 
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern IntPtr ExportSimulationToMatlabCode(IntPtr simulation, string outputFolder, bool fullMode, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern IntPtr ExportSimulationToCppCode(IntPtr simulation, string outputFolder, bool fullMode, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern IntPtr ExportSimulationToRCode(IntPtr simulation, string outputFolder, bool fullMode, out bool success, out string errorMessage);
+
    }
 
    internal class PInvokeHelper
@@ -183,6 +193,19 @@ namespace OSPSuite.SimModel
          //TODO
          throw new Exception(errorMessage);
       }
+   }
+
+   public enum CodeExportMode
+   {
+      Formula = 1,
+      Values = 2
+   }
+
+   public enum CodeExportLanguage
+   {
+      Matlab = 1,
+      Cpp = 2,
+      R = 3
    }
 
    public class Simulation : IDisposable
@@ -542,7 +565,7 @@ namespace OSPSuite.SimModel
 
       public IEnumerable<SolverWarning> SolverWarnings => _solverWarnings;
 
-      double[] SensitivityValuesByPathFor(string quantityPath, string parameterPath)
+      public double[] SensitivityValuesByPathFor(string quantityPath, string parameterPath)
       {
          var quantity =
             SimulationImports.GetQuantityByPath(_simulation, quantityPath, out var success, out var errorMessage);
@@ -556,6 +579,32 @@ namespace OSPSuite.SimModel
          evaluateCppCallResult(success, errorMessage);
 
          return values;
+      }
+
+      public void ExportToCode(string outputFolder, CodeExportLanguage language, CodeExportMode mode)
+      {
+         var fullMode = (mode == CodeExportMode.Formula);
+
+         switch (language)
+         {
+            case CodeExportLanguage.Matlab:
+               SimulationImports.ExportSimulationToMatlabCode(_simulation, outputFolder, fullMode, out var success,
+                  out var errorMessage);
+               evaluateCppCallResult(success, errorMessage);
+               break;
+            case CodeExportLanguage.Cpp:
+               SimulationImports.ExportSimulationToCppCode(_simulation, outputFolder, fullMode, out success,
+                  out errorMessage);
+               evaluateCppCallResult(success, errorMessage);
+               break;
+            case CodeExportLanguage.R:
+               SimulationImports.ExportSimulationToRCode(_simulation, outputFolder, fullMode, out success,
+                  out errorMessage);
+               evaluateCppCallResult(success, errorMessage);
+               break;
+            default:
+               throw new Exception("Unsupported code export language"); //TODO
+         }
       }
 
       // Protected implementation of Dispose pattern.
