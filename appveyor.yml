@@ -28,9 +28,8 @@ after_build:
   - cmd: nuget pack src\OSPSuite.SimModel\OSPSuite.SimModel.nuspec -version %app_version%
   - ps: Get-ChildItem .\OSPSuite.SimModel.*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
-test:
-  assemblies:
-  - '**\*.Tests.dll'
+test_script:
+  - ps: dotnet test --no-build --no-restore --logger:Appveyor
 
 branches:
   only:
