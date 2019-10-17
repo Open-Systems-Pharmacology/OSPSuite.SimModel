@@ -23,6 +23,7 @@ before_build:
   - nuget sources add -name cvodes -source https://ci.appveyor.com/nuget/ospsuite-simmodel-solver-cvodes
   - ps: (get-content src\OSPSuite.SimModelNative\version.h) | foreach-object {$_ -replace "RELEASE 0", "RELEASE $env:RELEASE" -replace "MAJOR 0", "MAJOR $env:MAJOR" -replace "MINOR 0", "MINOR $env:MINOR" -replace "BUILD 0", "BUILD $env:APPVEYOR_BUILD_NUMBER"} | set-content src\OSPSuite.SimModelNative\version.h
   - dotnet restore
+  - dotnet add package Appveyor.TestLogger --version 2.0.0
  
 after_build:
   - cmd: nuget pack src\OSPSuite.SimModel\OSPSuite.SimModel.nuspec -version %app_version%
