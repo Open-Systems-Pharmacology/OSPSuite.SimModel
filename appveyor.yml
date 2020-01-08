@@ -35,7 +35,7 @@ before_build:
   - dotnet add tests/OSPSuite.SimModel.Tests/OSPSuite.SimModel.Tests.csproj package Appveyor.TestLogger --version 2.0.0
 
 install:
-- sh: sudo apt-get install libxml2-dev libxml2-doc
+- sh: sudo apt-get install libxml2-dev libxml2-doc --assume-yes
 
  
 after_build:
