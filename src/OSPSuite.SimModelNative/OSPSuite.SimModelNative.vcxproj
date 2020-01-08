@@ -70,7 +70,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(FuncParserPath)include;$(SolverPath)include;$(ProjectDir)..\OSPSuite.SysTool\Include;$(ProjectDir)..\OSPSuite.XMLWrapper\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(FuncParserPath)include;$(SolverPath)include;$(ProjectDir)..\OSPSuite.SysTool\Include;$(ProjectDir)..\OSPSuite.XMLWrapper\Include;$(ProjectDir)..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;SIMMODEL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -106,7 +106,7 @@ copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(FuncParserPath)include;$(SolverPath)include;$(ProjectDir)..\OSPSuite.SysTool\Include;$(ProjectDir)..\OSPSuite.XMLWrapper\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(FuncParserPath)include;$(SolverPath)include;$(ProjectDir)..\OSPSuite.SysTool\Include;$(ProjectDir)..\OSPSuite.XMLWrapper\Include;$(ProjectDir)..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;SIMMODEL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
