@@ -16,7 +16,6 @@ build_script:
   # linux specific cmake build of SimModelNative
   #TODO read func parser version dynamically
   - sh: cmake -BBuild/Release/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Release -DFuncParserVersion=4.0.0.43
-  - sh: ls -l Build/Release/x64/
   - sh: make -C Build/Release/x64/
 #  - sh: cmake -BBuild/Debug/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Debug -DFuncParserVersion=4.0.0.43
 #  - sh: make -C Build/Debug/x64/
@@ -41,6 +40,7 @@ before_build:
   - sh: dotnet sln OSPSuite.SimModel.sln remove src/OSPSuite.SimModelNative/OSPSuite.SimModelNative.vcxproj
   - sh: dotnet sln OSPSuite.SimModel.sln remove src/OSPSuite.SysTool/OSPSuite.SysTool.vcxproj
   - sh: dotnet sln OSPSuite.SimModel.sln remove src/OSPSuite.XMLWrapper/OSPSuite.XMLWrapper.vcxproj
+  - sh: dotnet sln OSPSuite.SimModel.sln remove tests/TestAppNetCore/TestAppNetCore.csproj
 
 install:
 - sh: sudo apt-get install libxml2-dev libxml2-doc --assume-yes

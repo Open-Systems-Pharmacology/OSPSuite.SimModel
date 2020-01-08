@@ -19,8 +19,11 @@
     <ProjectReference Include="..\..\src\OSPSuite.SimModel\OSPSuite.SimModel.csproj" />
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  <Target Name="PostBuildWindows" AfterTargets="PostBuildEvent" Condition=" '$(OS)' == 'Windows_NT' ">
     <Exec Command="copy &quot;$(SolutionDir)Build\$(ConfigurationName)\x64\*.dll&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Build\$(ConfigurationName)\x64\OSPSuite.SimModelNative.pdb&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Build\$(ConfigurationName)\x64\OSPSuite.SimModelNative.lib&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;" />
+  </Target>
+  <Target Name="PostBuildLinux" AfterTargets="PostBuildEvent" Condition=" '$(OS)' != 'Windows_NT' ">
+    <Exec Command="copy '$(SolutionDir)Build/$(ConfigurationName)/x64/*.so' '$(ProjectDir)$(OutDir)'" />
   </Target>
 
 </Project>
