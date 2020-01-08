@@ -3,6 +3,10 @@
 #include "SimModel/MatlabODEExporter.h"
 #include "SimModel/CppODEExporter.h"
 
+#ifdef linux
+#include <string.h> //for memcpy
+#endif
+
 namespace SimModelNative
 {
    using namespace std;

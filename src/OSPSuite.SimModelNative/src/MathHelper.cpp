@@ -2,7 +2,10 @@
 #include "XMLWrapper/XMLHelper.h"
 #include <ErrorData.h>
 
+#ifdef _WINDOWS
 #include <ymath.h>
+#endif
+
 #include <clocale>
 #ifdef linux
 #include <cstring>
@@ -29,7 +32,7 @@ bool MathHelper::IsNaN (double d)
         return _isnan(d) ? true : false;
 #endif
 #ifdef linux
-        return isnan(d);
+        return std::isnan(d);
 #endif
 }
 

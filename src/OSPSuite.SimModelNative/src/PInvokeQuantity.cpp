@@ -4,6 +4,10 @@
 #include "SimModel/Observer.h"
 #include "SimModel/MathHelper.h"
 
+#ifdef linux
+#include <string.h> //for memcpy
+#endif
+
 namespace SimModelNative
 {
    using namespace std;

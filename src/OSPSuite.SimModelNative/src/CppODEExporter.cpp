@@ -1,4 +1,5 @@
 #include "SimModel/Simulation.h"
+#include "SimModel/MathHelper.h"
 #include "SimModel/DESolver.h"
 #include "SimModel/CppODEExporter.h"
 #include "SimModel/DESolverProperties.h"
@@ -723,7 +724,7 @@ namespace SimModelNative
 				Species* s = sim->SpeciesList().GetObjectById(vecParameters[i]);
 				value = vecInitialValues[s->GetODEIndex()];
 			}
-			if (::isnan(value)) // explicit qualifier "::" to prevent ambigiouty with std::isnan
+			if (MathHelper::IsNaN(value))
 				os << "0.0"; //NAN
 			else
 				os << value;
