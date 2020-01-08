@@ -23,4 +23,4 @@ file (GLOB SOURCES
 
 add_library (OSPSuite.SimModelNative SHARED ${SOURCES})
 
-target_link_libraries (OSPSuite.SimModelNative ${OSPSuite.SimModelNative_SOURCE_DIR}/../../${libFuncParser})
+target_link_libraries (OSPSuite.SimModelNative ${OSPSuite.SimModelNative_SOURCE_DIR}/../../packages/OSPSuite.FuncParser.Ubuntu18.${FuncParserVersion}/OSPSuite.FuncParserNative/bin/native/x64/Release/libOSPSuite.FuncParserNative.so)

@@ -1,4 +1,6 @@
-image: Visual Studio 2019
+image: 
+- Visual Studio 2019
+- Ubuntu1804
 
 environment:
   major: 4
@@ -11,6 +13,12 @@ version: '$(major).$(minor).$(release).{build}'
 build_script:
   - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Debug;Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Release;Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  # linux specific cmake build of SimModelNative
+  #TODO read func parser version dynamically
+  - sh: cmake -BBuild/Release/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Release -DFuncParserVersion=4.0.0.43
+  - sh: make -C Build/Release/x64/
+  - sh: cmake -BBuild/Debug/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Debug -DFuncParserVersion=4.0.0.43
+  - sh: make -C Build/Debug/x64/
 
 cache:
   - packages -> **\packages.config  # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
