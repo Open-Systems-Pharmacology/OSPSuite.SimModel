@@ -11,7 +11,7 @@ include_directories (
 	${OSPSuite.SimModelNative_SOURCE_DIR}/../OSPSuite.SysTool/include 
 	${OSPSuite.SimModelNative_SOURCE_DIR}/../OSPSuite.XMLWrapper/include 
 	/usr/include/libxml2 
-	${OSPSuite.SimModelNative_SOURCE_DIR}/../../packages/OSPSuite.FuncParser.Ubuntu18.4.0.0.43/OSPSuite.FuncParserNative/include
+	${OSPSuite.SimModelNative_SOURCE_DIR}/../../packages/OSPSuite.FuncParser.Ubuntu18.${FuncParserVersion}/OSPSuite.FuncParserNative/include
 )
 
 file (GLOB SOURCES 
