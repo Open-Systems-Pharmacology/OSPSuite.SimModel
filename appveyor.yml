@@ -33,6 +33,10 @@ before_build:
   - sh: nuget install packages.config -OutputDirectory packages
   - dotnet restore
   - dotnet add tests/OSPSuite.SimModel.Tests/OSPSuite.SimModel.Tests.csproj package Appveyor.TestLogger --version 2.0.0
+
+install:
+- sh: sudo apt-get install libxml2-dev libxml2-doc
+
  
 after_build:
   - cmd: nuget pack src\OSPSuite.SimModel\OSPSuite.SimModel.nuspec -version %app_version%
