@@ -50,7 +50,7 @@ before_build:
   - sh: dotnet sln OSPSuite.SimModel.sln remove tests/TestAppNetCore/TestAppNetCore.csproj
 
 install:
-- sh: sudo apt-get install libxml2-dev libxml2-doc --assume-yes -v diag 
+- sh: sudo apt-get install libxml2-dev libxml2-doc --assume-yes 
 
  
 after_build:
@@ -58,7 +58,7 @@ after_build:
   - ps: Get-ChildItem .\OSPSuite.SimModel.*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
 test_script:
-  - ps: dotnet test --no-build --no-restore --logger:Appveyor --configuration:Release
+  - ps: dotnet test --no-build --no-restore --logger:Appveyor --configuration:Release -v diag
 
 branches:
   only:
