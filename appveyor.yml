@@ -50,7 +50,7 @@ before_build:
   - sh: dotnet sln OSPSuite.SimModel.sln remove tests/TestAppNetCore/TestAppNetCore.csproj
 
 install:
-- sh: sudo apt-get install libxml2-dev libxml2-doc --assume-yes
+- sh: sudo apt-get install libxml2-dev libxml2-doc --assume-yes -v diag 
 
  
 after_build:
