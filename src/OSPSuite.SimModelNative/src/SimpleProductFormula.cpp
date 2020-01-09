@@ -11,6 +11,10 @@
 #include "SimModel/Species.h"
 #include <assert.h>
 
+#ifdef linux
+#include <algorithm> //for std::find
+#endif
+
 namespace SimModelNative
 {
 

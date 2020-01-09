@@ -21,7 +21,7 @@ namespace OSPSuite.SimModel.Tests
       protected string TestFileFrom(string shortFilename)
       {
          var location = Path.GetDirectoryName(Assembly.GetCallingAssembly().Location);
-         var file = Path.Combine(location, @"..\..\..\..\TestData", shortFilename);
+         var file = Path.Combine(location, @"../../../../TestData", shortFilename);
 
          if (!file.ToLower().EndsWith(".xml"))
             file += ".xml";

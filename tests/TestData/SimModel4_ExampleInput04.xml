@@ -118,13 +118,11 @@
 	<VariableList>
 		<V id="189259446" name="Educt" path="TopContainer" unit="L" initialValueFormulaId="415719451" entityId="189259446">
 			<ScaleFactor>1</ScaleFactor>
-			<RHSFormulaList>
-			</RHSFormulaList>
+			<RHSFormulaList/>
 		</V>
 		<V id="312028349" name="P" path="TopContainer" unit="L" initialValueFormulaId="440008466" entityId="312028349">
 			<ScaleFactor>1</ScaleFactor>
-			<RHSFormulaList>
-			</RHSFormulaList>
+			<RHSFormulaList/>
 		</V>
 	</VariableList>
 	<ParameterList>

@@ -37,8 +37,13 @@ namespace SimModelNative
 
 		//load solver library SimModelSolver_<SolverName><SolverVersion>.dll
 		std::string LibName = "OSPSuite.SimModelSolver_" + m_UsedSolver;
+
+#ifdef _WINDOWS
 		DynamicLibrary* library = DynamicLibraryFactory::GetLibrary(LibName + ".dll");
-		if(!library->IsLoaded() )
+#else
+      DynamicLibrary* library = DynamicLibraryFactory::GetLibrary(LibName);
+#endif
+      if(!library->IsLoaded() )
 		{
 			throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Solver " + m_UsedSolver + " not found");
 		}

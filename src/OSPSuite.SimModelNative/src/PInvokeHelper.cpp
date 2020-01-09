@@ -2,9 +2,13 @@
 
 #ifdef _WINDOWS
 #include "comdef.h"
+#define STRCPY(DEST, LENGTH, SOURCE) strcpy_s(DEST, LENGTH, SOURCE)
 #endif
 
 #ifdef linux
+#include <cstring>
+#include <string.h>
+#define STRCPY(DEST, LENGTH, SOURCE) strcpy(DEST, SOURCE)
 #define CoTaskMemAlloc malloc
 #endif
 
@@ -17,7 +21,7 @@ namespace SimModelNative
       // Allocate memory for the string
       size_t length = strlen(sourceString) + 1;
       char* destString = (char*)CoTaskMemAlloc(length);
-      strcpy_s(destString, length, sourceString);
+      STRCPY(destString, length, sourceString);
       return destString;
    }
 
