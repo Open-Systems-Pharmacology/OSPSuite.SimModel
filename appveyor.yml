@@ -58,7 +58,7 @@ after_build:
   - ps: Get-ChildItem .\OSPSuite.SimModel.*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
 test_script:
-  - ps: dotnet test --no-build --no-restore --logger:Appveyor --configuration:Release --filter when_loading_from_string
+  - ps: dotnet test --no-build --no-restore --logger:Appveyor --configuration:Release --filter when_running_testsystem_06_without_scale_factor_dense
 
 branches:
   only:
