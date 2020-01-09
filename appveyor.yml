@@ -13,18 +13,18 @@ version: '$(major).$(minor).$(release).{build}'
 build_script:
   - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Debug;Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Release;Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  # linux specific cmake build of SimModelNative
-  #TODO read func parser version dynamically
-  - sh: cmake -BBuild/Release/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Release -DFuncParserVersion=4.0.0.43
+  # linux release build
+  - sh: cmake -BBuild/Release/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Release -DFuncParserDir=Build/Release/x64/
   - sh: make -C Build/Release/x64/
-  - sh: cp packages/OSPSuite.FuncParser.Ubuntu18.4.0.0.43/OSPSuite.FuncParserNative/bin/native/x64/Release/libOSPSuite.FuncParserNative.so Build/Release/x64/
-  - sh: cp packages/OSPSuite.SimModelSolver_CVODES.Ubuntu18.4.1.0.7/OSPSuite.SimModelSolver_CVODES/bin/native/x64/Release/libOSPSuite.SimModelSolver_CVODES.so Build/Release/x64/
+  - sh: cp packages/OSPSuite.FuncParser.Ubuntu18/OSPSuite.FuncParserNative/bin/native/x64/Release/libOSPSuite.FuncParserNative.so Build/Release/x64/
+  - sh: cp packages/OSPSuite.SimModelSolver_CVODES.Ubuntu18/OSPSuite.SimModelSolver_CVODES/bin/native/x64/Release/libOSPSuite.SimModelSolver_CVODES.so Build/Release/x64/
   - sh: dotnet build OSPSuite.SimModel.sln /property:Configuration=Release;Platform=x64
   - sh: export LD_LIBRARY_PATH=Build/Release/x64/:$LD_LIBRARY_PATH
-#  - sh: cmake -BBuild/Debug/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Debug -DFuncParserVersion=4.0.0.43
+  # linux debug build
+#  - sh: cmake -BBuild/Debug/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Debug -DFuncParserDir=Build/Debug/x64/
 #  - sh: make -C Build/Debug/x64/
-#  - sh: cp packages/OSPSuite.FuncParser.Ubuntu18.4.0.0.43/OSPSuite.FuncParserNative/bin/native/x64/Debug/libOSPSuite.FuncParserNative.so Build/Debug/x64/
-#  - sh: cp packages/OSPSuite.SimModelSolver_CVODES.Ubuntu18.4.1.0.7/OSPSuite.SimModelSolver_CVODES/bin/native/x64/Debug/libOSPSuite.SimModelSolver_CVODES.so Build/Debug/x64/
+#  - sh: cp packages/OSPSuite.FuncParser.Ubuntu18/OSPSuite.FuncParserNative/bin/native/x64/Debug/libOSPSuite.FuncParserNative.so Build/Debug/x64/
+#  - sh: cp packages/OSPSuite.SimModelSolver_CVODES.Ubuntu18/OSPSuite.SimModelSolver_CVODES/bin/native/x64/Debug/libOSPSuite.SimModelSolver_CVODES.so Build/Debug/x64/
 #  - sh: dotnet build OSPSuite.SimModel.sln /property:Configuration=Debug;Platform=x64
 
 cache:
@@ -37,7 +37,7 @@ before_build:
   - nuget sources add -name funcparser -source https://ci.appveyor.com/nuget/ospsuite-funcparser 
   - nuget sources add -name cvodes -source https://ci.appveyor.com/nuget/ospsuite-simmodel-solver-cvodes
   - ps: (get-content src\OSPSuite.SimModelNative\version.h) | foreach-object {$_ -replace "RELEASE 0", "RELEASE $env:RELEASE" -replace "MAJOR 0", "MAJOR $env:MAJOR" -replace "MINOR 0", "MINOR $env:MINOR" -replace "BUILD 0", "BUILD $env:APPVEYOR_BUILD_NUMBER"} | set-content src\OSPSuite.SimModelNative\version.h
-  - sh: nuget install packages.config -OutputDirectory packages
+  - sh: nuget install packages.config -OutputDirectory packages -ExcludeVersion
   - dotnet restore
   - dotnet add tests/OSPSuite.SimModel.Tests/OSPSuite.SimModel.Tests.csproj package Appveyor.TestLogger --version 2.0.0
   # linux: remove all native c++ projects from the solution
@@ -55,7 +55,7 @@ after_build:
   - ps: Get-ChildItem .\OSPSuite.SimModel.*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
 test_script:
-  - ps: dotnet test --no-build --no-restore --logger:Appveyor --configuration:Release
+  - ps: dotnet test --no-build --no-restore --logger:Appveyor --configuration:Release --filter Name!=~when_loading_simulation_from_file_and_running.Dummy
 
 branches:
   only:
