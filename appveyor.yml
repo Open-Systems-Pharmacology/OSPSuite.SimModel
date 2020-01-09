@@ -21,13 +21,14 @@ build_script:
   - sh: cp packages/OSPSuite.SimModelSolver_CVODES.Ubuntu18.4.1.0.7/OSPSuite.SimModelSolver_CVODES/bin/native/x64/Release/libOSPSuite.SimModelSolver_CVODES.so Build/Release/x64/
   - sh: dotnet build OSPSuite.SimModel.sln /property:Configuration=Release;Platform=x64
   - sh: ldd Build/Release/x64/libOSPSuite.SimModelNative.so;ldd Build/Release/x64/libOSPSuite.FuncParserNative.so;ldd Build/Release/x64/libOSPSuite.SimModelSolver_CVODES.so
-  - sh: cmake -BBuild/Debug/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Debug -DFuncParserVersion=4.0.0.43
-  - sh: make -C Build/Debug/x64/
-  - sh: cp packages/OSPSuite.FuncParser.Ubuntu18.4.0.0.43/OSPSuite.FuncParserNative/bin/native/x64/Debug/libOSPSuite.FuncParserNative.so Build/Debug/x64/
-  - sh: cp packages/OSPSuite.SimModelSolver_CVODES.Ubuntu18.4.1.0.7/OSPSuite.SimModelSolver_CVODES/bin/native/x64/Debug/libOSPSuite.SimModelSolver_CVODES.so Build/Debug/x64/
-  - sh: dotnet build OSPSuite.SimModel.sln /property:Configuration=Debug;Platform=x64
-  - sh: ldd Build/Debug/x64/libOSPSuite.SimModelNative.so;ldd Build/Debug/x64/libOSPSuite.FuncParserNative.so;ldd Build/Debug/x64/libOSPSuite.SimModelSolver_CVODES.so
-  - sh: export LD_DEBUG=all
+  - sh: export LD_LIBRARY_PATH=Build/Release/x64/:$LD_LIBRARY_PATH
+#  - sh: cmake -BBuild/Debug/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Debug -DFuncParserVersion=4.0.0.43
+#  - sh: make -C Build/Debug/x64/
+#  - sh: cp packages/OSPSuite.FuncParser.Ubuntu18.4.0.0.43/OSPSuite.FuncParserNative/bin/native/x64/Debug/libOSPSuite.FuncParserNative.so Build/Debug/x64/
+#  - sh: cp packages/OSPSuite.SimModelSolver_CVODES.Ubuntu18.4.1.0.7/OSPSuite.SimModelSolver_CVODES/bin/native/x64/Debug/libOSPSuite.SimModelSolver_CVODES.so Build/Debug/x64/
+#  - sh: dotnet build OSPSuite.SimModel.sln /property:Configuration=Debug;Platform=x64
+#  - sh: ldd Build/Debug/x64/libOSPSuite.SimModelNative.so;ldd Build/Debug/x64/libOSPSuite.FuncParserNative.so;ldd Build/Debug/x64/libOSPSuite.SimModelSolver_CVODES.so
+#  - sh: export LD_DEBUG=all
 
 cache:
   - packages -> **\packages.config  # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
@@ -57,7 +58,7 @@ after_build:
   - ps: Get-ChildItem .\OSPSuite.SimModel.*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
 test_script:
-  - ps: dotnet test --no-build --no-restore --logger:Appveyor
+  - ps: dotnet test --no-build --no-restore --logger:Appveyor --configuration:Release
 
 branches:
   only:
