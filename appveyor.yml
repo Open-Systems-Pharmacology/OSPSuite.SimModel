@@ -39,7 +39,7 @@ before_build:
   - nuget sources add -name cvodes -source https://ci.appveyor.com/nuget/ospsuite-simmodel-solver-cvodes
   - ps: (get-content src\OSPSuite.SimModelNative\version.h) | foreach-object {$_ -replace "RELEASE 0", "RELEASE $env:RELEASE" -replace "MAJOR 0", "MAJOR $env:MAJOR" -replace "MINOR 0", "MINOR $env:MINOR" -replace "BUILD 0", "BUILD $env:APPVEYOR_BUILD_NUMBER"} | set-content src\OSPSuite.SimModelNative\version.h
   - sh: nuget install packages.config -OutputDirectory packages -ExcludeVersion
-  - dotnet restore
+  - dotnet restore --source https://ci.appveyor.com/nuget/ospsuite-simmodel-solver-cvodes --source https://ci.appveyor.com/nuget/ospsuite-funcparser --source https://ci.appveyor.com/nuget/ospsuite-bddhelper --source https://ci.appveyor.com/nuget/ospsuite-utility --source https://www.nuget.org/api/v2/
   - dotnet add tests/OSPSuite.SimModel.Tests/OSPSuite.SimModel.Tests.csproj package Appveyor.TestLogger --version 2.0.0
   # linux: remove all native c++ projects and test application from the solution
   - sh: dotnet sln OSPSuite.SimModel.sln remove src/OSPSuite.SimModelNative/OSPSuite.SimModelNative.vcxproj
@@ -57,7 +57,7 @@ after_build:
   - ps: Get-ChildItem .\OSPSuite.SimModel.*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
 test_script:
-  - ps: dotnet test --no-build --no-restore --logger:Appveyor --configuration:Release 
+  - ps: dotnet test --no-build --no-restore --logger:Appveyor --configuration:Release --verbosity normal 
 
 branches:
   only:
