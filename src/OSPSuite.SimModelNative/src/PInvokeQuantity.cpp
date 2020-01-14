@@ -12,10 +12,11 @@ namespace SimModelNative
 {
    using namespace std;
 
-   void GetQuantityProperties(Quantity* quantity, char** containerPath, char** name)
+   void GetQuantityProperties(Quantity* quantity, char** containerPath, char** name, char** entityId)
    {
       *containerPath = MarshalString(quantity->GetContainerPath());
       *name = MarshalString(quantity->GetName());
+      *entityId = MarshalString(quantity->GetEntityId());
    }
 
    bool QuantityIsSpecies(Quantity* quantity)
