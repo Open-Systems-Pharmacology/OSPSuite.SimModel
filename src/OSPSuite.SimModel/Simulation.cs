@@ -71,13 +71,22 @@ namespace OSPSuite.SimModel
       public static extern IntPtr GetSpeciesFrom(IntPtr simulation, string entityId, out bool success, out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void GetQuantityProperties(IntPtr quantity, out string containerPath, out string name);
+      public static extern IntPtr GetObserverFromId(IntPtr simulation, int id, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern IntPtr GetSpeciesFromId(IntPtr simulation, int id, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void GetQuantityProperties(IntPtr quantity, out string containerPath, out string name, out string entityId);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern int GetNumberOfQuantitiesWithValues(IntPtr simulation, out bool success, out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void FillEntityIdsForQuantitiesWithValues(IntPtr simulation, [In, Out] string[] entityIds, int size, out bool success, out string errorMessage);
+
+      [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      public static extern void FillIdsForQuantitiesWithValues(IntPtr simulation, [In, Out] int[] ids, int size, out bool success, out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern IntPtr CreateParameterInfoVector();
@@ -412,8 +421,35 @@ namespace OSPSuite.SimModel
          if(!success)
             throw new Exception($"{entityId} is not a valid species or observer entity id"); //TODO
 
-         SimulationImports.GetQuantityProperties(quantity, out var containerPath, out var name);
+         SimulationImports.GetQuantityProperties(quantity, out var containerPath, out var name, out entityId);
          VariableValues variableValues=new VariableValues(quantity,variableType,entityId, containerPath, name);
+
+         return variableValues;
+      }
+
+      /// <summary>
+      /// Species or observer time course for a given ID
+      ///  - Species also includes parameters with RHS
+      ///  - Observer also includes persistable parameters
+      /// </summary>
+      public VariableValues ValuesFor(int id)
+      {
+         var quantity = SimulationImports.GetSpeciesFromId(_simulation, id, out var success, out _);
+         var variableType = VariableValues.VariableTypes.Species;
+
+         if (!success)
+         {
+            //entity is not a species. Try observer
+            quantity = SimulationImports.GetObserverFromId(_simulation, id, out success, out _);
+            if (success)
+               variableType = VariableValues.VariableTypes.Observer;
+         }
+
+         if (!success)
+            throw new Exception($"{id} is not a valid species or observer entity id"); //TODO
+
+         SimulationImports.GetQuantityProperties(quantity, out var containerPath, out var name, out var entityId);
+         VariableValues variableValues = new VariableValues(quantity, variableType, entityId, containerPath, name);
 
          return variableValues;
       }
@@ -432,11 +468,11 @@ namespace OSPSuite.SimModel
             var numberOfQuantitiesWithValues=SimulationImports.GetNumberOfQuantitiesWithValues(_simulation,out var success,out var errorMessage);
             evaluateCppCallResult(success,errorMessage);
 
-            var entityIds =new string[numberOfQuantitiesWithValues];
-            SimulationImports.FillEntityIdsForQuantitiesWithValues(_simulation, entityIds, numberOfQuantitiesWithValues,out success,out errorMessage);
+            var ids =new int[numberOfQuantitiesWithValues];
+            SimulationImports.FillIdsForQuantitiesWithValues(_simulation, ids, numberOfQuantitiesWithValues,out success,out errorMessage);
 
             for (var i=0; i<numberOfQuantitiesWithValues; i++)
-               allValues.Add(ValuesFor(entityIds[i]));
+               allValues.Add(ValuesFor(ids[i]));
 
             return allValues;
          }

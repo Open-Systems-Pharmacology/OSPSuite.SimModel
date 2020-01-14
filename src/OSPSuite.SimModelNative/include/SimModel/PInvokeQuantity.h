@@ -8,7 +8,7 @@ namespace SimModelNative
    //-------------- C interface for PInvoke -----------------------------------------
    extern "C"
    {
-      SIM_EXPORT void GetQuantityProperties(Quantity* quantity, char** containerPath, char** name);
+      SIM_EXPORT void GetQuantityProperties(Quantity* quantity, char** containerPath, char** name, char** entityId);
       SIM_EXPORT bool QuantityIsSpecies(Quantity* quantity);
       SIM_EXPORT bool QuantityIsObserver(Quantity* quantity);
       SIM_EXPORT int GetQuantityValuesSize(Quantity* quantity, bool& success, char** errorMessage);

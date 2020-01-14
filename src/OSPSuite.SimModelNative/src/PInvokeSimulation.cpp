@@ -2,6 +2,7 @@
 #include "SimModel/PInvokeSimulation.h"
 #include "SimModel/MatlabODEExporter.h"
 #include "SimModel/CppODEExporter.h"
+#include "XMLWrapper/XMLHelper.h"
 
 #ifdef linux
 #include <string.h> //for memcpy
@@ -329,6 +330,80 @@ namespace SimModelNative
       }
    }
 
+   Observer* GetObserverFromId(Simulation* simulation, const int id, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "GetObserverFromId";
+      success = false;
+
+      try
+      {
+         auto observer = simulation->Observers().GetObjectById(id);
+         if (observer != NULL)
+         {
+            success = true;
+            return observer;
+         }
+
+         //check if entityId is invalid
+         if (simulation->AllQuantities().GetObjectById(id) == NULL)
+            throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, XMLHelper::ToString(id) + " is invalid entity id");
+
+         //entityId is valid but not an observer
+         throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, XMLHelper::ToString(id) + " is not an observer");
+
+         return NULL;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+
+         return NULL;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+         return NULL;
+      }
+   }
+
+   Species* GetSpeciesFromId(Simulation* simulation, const int id, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "GetSpeciesFromId";
+      success = false;
+
+      try
+      {
+         auto species = simulation->SpeciesList().GetObjectById(id);
+         if (species != NULL)
+         {
+            success = true;
+            return species;
+         }
+
+         //check if entityId is invalid
+         if (simulation->AllQuantities().GetObjectById(id) == NULL)
+            throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, XMLHelper::ToString(id) + " is invalid entity id");
+
+         //entityId is valid but not an observer
+         throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, XMLHelper::ToString(id) + " is not a species");
+
+         return NULL;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+         return NULL;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+         return NULL;
+      }
+   }
+
    int GetNumberOfQuantitiesWithValues(Simulation* simulation, bool& success, char** errorMessage)
    {
       success = false;
@@ -421,7 +496,60 @@ namespace SimModelNative
          success = false;
       }
    }
-   
+
+   void FillIdsForQuantitiesWithValues(Simulation* simulation, int* ids, int size, bool& success, char** errorMessage)
+   {
+      const char* ERROR_SOURCE = "FillIdsForQuantitiesWithValues";
+      success = false;
+
+      try
+      {
+         vector<int> idsVec;
+         int i;
+
+         for (i = 0; i < simulation->SpeciesList().size(); i++)
+         {
+            auto species = simulation->SpeciesList()[i];
+            if (!species->IsPersistable())
+               continue;
+
+            idsVec.push_back(species->GetId());
+         }
+
+         //add observers
+         for (i = 0; i < simulation->Observers().size(); i++)
+         {
+            auto observer = simulation->Observers()[i];
+            if (!observer->IsPersistable())
+               continue;
+
+            idsVec.push_back(observer->GetId());
+         }
+
+         //check that array to fill has correct length
+         if (idsVec.size() != size)
+            throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Expected number of quantities with values does not match");
+
+         for (i = 0; i < idsVec.size(); i++)
+         {
+            ids[i] = idsVec[i];
+         }
+
+         success = true;
+      }
+      catch (ErrorData& ED)
+      {
+         *errorMessage = ErrorMessageFrom(ED);
+         success = false;
+      }
+      catch (...)
+      {
+         *errorMessage = ErrorMessageFromUnknown(ERROR_SOURCE);
+         success = false;
+      }
+   }
+
+
    vector<SimModelNative::ParameterInfo>* CreateParameterInfoVector()
    {
       return new vector<SimModelNative::ParameterInfo>();

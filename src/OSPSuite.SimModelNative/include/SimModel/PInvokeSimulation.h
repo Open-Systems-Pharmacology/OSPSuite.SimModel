@@ -60,12 +60,19 @@ namespace SimModelNative
       SIM_EXPORT Observer* GetObserverFrom(Simulation* simulation, const char* entityId, bool& success, char** errorMessage);
       SIM_EXPORT Species* GetSpeciesFrom(Simulation* simulation, const char* entityId, bool& success, char** errorMessage);
 
+      SIM_EXPORT Observer* GetObserverFromId(Simulation* simulation, const int id, bool& success, char** errorMessage);
+      SIM_EXPORT Species* GetSpeciesFromId(Simulation* simulation, const int id, bool& success, char** errorMessage);
+
       //returns number of all variables (Species, Observer) which are persistable
       SIM_EXPORT int GetNumberOfQuantitiesWithValues(Simulation* simulation, bool& success, char** errorMessage);
 
       //fills entity ids for all quantities with values.
       //entityIDs array is pre-allocated with <size> elements
       SIM_EXPORT void FillEntityIdsForQuantitiesWithValues(Simulation* simulation, char** entityIds, int size, bool& success, char** errorMessage);
+
+      //fills entity ids for all quantities with values.
+      //entityIDs array is pre-allocated with <size> elements
+      SIM_EXPORT void FillIdsForQuantitiesWithValues(Simulation* simulation, int* ids, int size, bool& success, char** errorMessage);
 
       SIM_EXPORT std::vector<SimModelNative::ParameterInfo>* CreateParameterInfoVector();
       SIM_EXPORT void DisposeParameterInfoVector(std::vector<SimModelNative::ParameterInfo>* parameterInfos);
