@@ -13,7 +13,7 @@ const bool IsNan (const double d)
 #endif
 
 #ifdef linux
-	return isnan(d);
+	return std::isnan(d);
 #endif
 }
 
