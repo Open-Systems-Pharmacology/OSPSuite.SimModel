@@ -2,6 +2,10 @@
 #pragma warning(disable:4786)
 #endif
 
+#ifdef linux
+#include <algorithm>
+#endif
+
 #include "SimModel/FormulaChange.h"
 #include "SimModel/GlobalConstants.h"
 #include "SimModel/Simulation.h"
