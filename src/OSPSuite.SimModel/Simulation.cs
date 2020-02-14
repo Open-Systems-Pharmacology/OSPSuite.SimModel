@@ -599,6 +599,11 @@ namespace OSPSuite.SimModel
          GC.SuppressFinalize(this);
       }
 
+      ~Simulation()
+      {
+         Dispose(false);
+      }
+
       public IEnumerable<SolverWarning> SolverWarnings => _solverWarnings;
 
       public double[] SensitivityValuesByPathFor(string quantityPath, string parameterPath)
