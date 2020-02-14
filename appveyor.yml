@@ -49,6 +49,7 @@ before_build:
 
 install:
   #linux: install libxml2
+  - sh: sudo apt-get update --assume-yes 
   - sh: sudo apt-get install libxml2-dev --assume-yes 
  
 after_build:
