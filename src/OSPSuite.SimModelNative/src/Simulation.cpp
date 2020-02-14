@@ -18,6 +18,10 @@
 
 #ifdef _WINDOWS
 #pragma warning(disable:4996)
+#ifdef _DEBUG
+//#include <vld.h> //uncomment to compile with Visual Leak Detector support
+                   //s. https://github.com/Open-Systems-Pharmacology/OSPSuite.SimModel/wiki/Find-memory-leaks-with-Visual-Leak-Detector
+#endif
 #endif
 
 namespace SimModelNative
