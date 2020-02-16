@@ -654,12 +654,9 @@ namespace OSPSuite.SimModel
          if (_disposed)
             return;
 
-         if (disposing)
-         {
-            SimulationImports.DisposeParameterInfoVector(_allParameters);
-            SimulationImports.DisposeSpeciesInfoVector(_allSpecies);
-            SimulationImports.DisposeSimulation(_simulation);
-         }
+         SimulationImports.DisposeParameterInfoVector(_allParameters);
+         SimulationImports.DisposeSpeciesInfoVector(_allSpecies);
+         SimulationImports.DisposeSimulation(_simulation);
 
          _disposed = true;
       }
