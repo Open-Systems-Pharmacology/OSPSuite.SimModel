@@ -47,6 +47,7 @@ void Quantity::DeleteFormula()
 	}
 
 	_originalValueFormula=NULL;
+   _originalFormulaID = INVALID_QUANTITY_ID;
 }
 
 string Quantity::GetName(void)
