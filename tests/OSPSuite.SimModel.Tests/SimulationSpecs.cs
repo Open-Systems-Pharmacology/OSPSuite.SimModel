@@ -59,13 +59,20 @@ namespace OSPSuite.SimModel.Tests
          RunSimulation();
       }
 
-      protected virtual void OptionalTasksBeforeLoad() { }
+      protected virtual void OptionalTasksBeforeLoad()
+      {
+      }
 
-      protected virtual void OptionalTasksBeforeFinalize() { }
+      protected virtual void OptionalTasksBeforeFinalize()
+      {
+      }
 
-      protected virtual void OptionalTasksBeforeRun() { }
+      protected virtual void OptionalTasksBeforeRun()
+      {
+      }
 
-      protected ParameterProperties GetParameterByPath(IEnumerable<ParameterProperties> parameterProperties, string path)
+      protected ParameterProperties GetParameterByPath(IEnumerable<ParameterProperties> parameterProperties,
+         string path)
       {
          return parameterProperties.FirstOrDefault(p => p.Path.Equals(path));
       }
@@ -247,7 +254,7 @@ namespace OSPSuite.SimModel.Tests
             if (values.VariableType == VariableValues.VariableTypes.Observer)
             {
                //the (only) observer is defined as 2*y1 and thus must retrieve the threshold 2*Threshold(y1)
-               values.ComparisonThreshold.ShouldBeEqualTo(2.0 * threshold *_scaleFactor);
+               values.ComparisonThreshold.ShouldBeEqualTo(2.0 * threshold * _scaleFactor);
             }
             else
             {
@@ -283,7 +290,8 @@ namespace OSPSuite.SimModel.Tests
 
    }
 
-   public class when_running_testsystem_06_modified_setting_parameter_values_and_initial_values : when_running_testsystem_06
+   public class
+      when_running_testsystem_06_modified_setting_parameter_values_and_initial_values : when_running_testsystem_06
    {
       //Modifications made in the system (compared to the test system) in XML
       // y2(0) changed from P1 + P2 -1 (=0) to 10
@@ -326,7 +334,7 @@ namespace OSPSuite.SimModel.Tests
          GetParameterByPath(variableParameters, "Subcontainer1/P2").Value = 0.7;
 
          sut.SetParameterValues();
-         
+
          //---- update variable species: set y2(0)=0
          var variableSpecies = sut.VariableSpecies.ToList();
          GetSpeciesByPath(variableSpecies, "Subcontainer1/y2").InitialValue = 0;
@@ -398,7 +406,7 @@ namespace OSPSuite.SimModel.Tests
             new ValuePoint(5, 10, false),
             new ValuePoint(10, 10, false)
          };
-         
+
          sut.SetParameterValues();
       }
 
@@ -456,7 +464,9 @@ namespace OSPSuite.SimModel.Tests
 
       [TestCase]
       [Ignore("Required just for Resharper - otherwise no tests are found in the solution")]
-      public void Dummy() { }
+      public void Dummy()
+      {
+      }
    }
 
    public class when_loading_from_string : concern_for_Simulation
@@ -493,10 +503,11 @@ namespace OSPSuite.SimModel.Tests
       }
 
       [Observation]
-      public void should_return_correct_value_for_dependent_parameters_and_initial_value_before_and_after_changing_of_basis_parameter()
+      public void
+         should_return_correct_value_for_dependent_parameters_and_initial_value_before_and_after_changing_of_basis_parameter()
       {
          LoadAndFinalizeSimulation("TestAllParametersInitialValues");
-         
+
          //value of P10 should be equal P1+P2, which is initially 1
          GetParameterByPath(sut.ParameterProperties, "P10").Value.ShouldBeEqualTo(1.0, 1e-5);
 
@@ -532,7 +543,8 @@ namespace OSPSuite.SimModel.Tests
          var numberOfTimePoints = sut.GetNumberOfTimePoints;
          numberOfTimePoints.ShouldBeEqualTo(120);
 
-         var speciesList = sut.AllValues.Where(values => values.VariableType == VariableValues.VariableTypes.Species).ToList();
+         var speciesList = sut.AllValues.Where(values => values.VariableType == VariableValues.VariableTypes.Species)
+            .ToList();
          speciesList.Count.ShouldBeGreaterThan(0);
 
          foreach (var species in speciesList)
@@ -789,4 +801,12 @@ namespace OSPSuite.SimModel.Tests
       }
    }
 
+   public class loading_cvsRoberts_FSA_dns : concern_for_Simulation
+   {
+      [Observation]
+      public void should_load_simulation()
+      {
+         LoadSimulation("cvsRoberts_FSA_dns");
+      }
+   }
 }
