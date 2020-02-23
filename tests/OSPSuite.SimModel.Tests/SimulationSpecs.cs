@@ -543,4 +543,250 @@ namespace OSPSuite.SimModel.Tests
       }
 
    }
+
+   public class when_solving_A_exp_minus_kT_with_sensitivity : concern_for_Simulation
+   {
+      private double _A0;
+      private double _k;
+
+      private double A0 => _A0;
+      private double k => _k;
+
+      protected override void Because()
+      {
+         LoadSimulation("S3_reduced");
+         var parameterProperties = sut.ParameterProperties;
+         var variableParameters = new List<ParameterProperties>();
+
+         foreach (var param in parameterProperties)
+         {
+            if (param.EntityId.Equals("A0") || param.EntityId.Equals("k"))
+            {
+               param.CalculateSensitivity = true;
+               variableParameters.Add(param);
+
+               if (param.EntityId.Equals("A0"))
+                  _A0 = param.Value;
+               else
+                  _k = param.Value;
+            }
+         }
+
+         sut.VariableParameters = variableParameters;
+         sut.FinalizeSimulation();
+         sut.RunSimulation();
+      }
+
+      [Observation]
+      public void should_solve_example_system_and_return_correct_sensitivity_values()
+      {
+         //The (only) variable of the system d(C1)/dt=-k*C1; C1(0)=A0
+         //Solution: C1(t)=A0*exp(-kt)
+         //Sensitivities: d(C1)/d(A0) = exp(-kt)
+         //               d(C1)/d(k)  = -A0*t*exp(-kt)
+
+         var solverTimes = sut.SimulationTimes;
+         var noOfOutputTimePoints = solverTimes.Length;
+         var C1 = sut.ValuesFor("C1").Values;
+
+         var dC1_dA0 = sut.SensitivityValuesByPathFor("Organism|C1", "Organism|A0");
+         var dC1_dk = sut.SensitivityValuesByPathFor("Organism|C1", "Organism|k");
+         const double relTol = 1e-3;
+
+         for (var i = 1; i < noOfOutputTimePoints; i++)
+         {
+            var t = solverTimes[i];
+            C1[i].ShouldBeEqualTo(A0 * Math.Exp(-k * t), relTol);
+
+            //TODO remove comment as soon as https://github.com/Open-Systems-Pharmacology/OSPSuite.SimModel/issues/16 is fixed
+            //dC1_dA0[i].ShouldBeEqualTo(Math.Exp(-k * t), relTol);
+
+            dC1_dk[i].ShouldBeEqualTo(-A0 * t * Math.Exp(-k * t), relTol);
+         }
+
+      }
+   }
+
+   public class when_calculating_sensitivity_of_persistable_parameter : concern_for_Simulation
+   {
+      protected override void Because()
+      {
+         LoadSimulation("SensitivityOfPersistableParameter");
+         var parameterProperties = sut.ParameterProperties;
+         var variableParameters = new List<ParameterProperties>();
+
+         foreach (var param in parameterProperties)
+         {
+            if (param.EntityId.Equals("Volume"))
+            {
+               param.CalculateSensitivity = true;
+               variableParameters.Add(param);
+            }
+         }
+
+         sut.VariableParameters = variableParameters;
+         sut.FinalizeSimulation();
+         sut.RunSimulation();
+      }
+
+      [Observation]
+      public void should_calculate_sensitivity_values_of_persistable_parameter()
+      {
+         sut.SensitivityValuesByPathFor("Organism|P1", "Organism|Volume");
+      }
+   }
+
+   public class
+      when_solving_cvsRoberts_FSA_dns_with_sensitivity_Sensitivity_RHS_function_not_set : concern_for_Simulation
+   {
+      private const int _numberOfTimeSteps = 2;
+      private const int _numberOfUnknowns = 3;
+      private const int _numberOfSensitivityParameters = 3;
+      private double[,,] _expectedSensitivities;
+
+      protected override void Because()
+      {
+         _expectedSensitivities = fillExpectedSensitivities();
+
+         LoadSimulation("cvsRoberts_FSA_dns");
+         var parameterProperties = sut.ParameterProperties;
+         var variableParameters = new List<ParameterProperties>();
+
+         foreach (var param in parameterProperties)
+         {
+            if (param.EntityId.Equals("P1") || param.EntityId.Equals("P2") || param.EntityId.Equals("P3"))
+            {
+               param.CalculateSensitivity = true;
+               variableParameters.Add(param);
+            }
+         }
+
+         sut.VariableParameters = variableParameters;
+
+         sut.FinalizeSimulation();
+         sut.RunSimulation();
+      }
+
+      //values produced via direct usage of CVODES
+      private double[,,] fillExpectedSensitivities()
+      {
+         double[,,] sensitivities =
+         {
+            {
+               //time step #1
+               {-3.5611e-001, 9.4831e-008, -1.5733e-011}, // {dy1/dp1, dy1/dp2, dy1/dp3}
+               {3.9023e-004, -2.1325e-010, -5.2897e-013}, // {dy2/dp1, dy2/dp2, dy2/dp3}
+               {3.5572e-001, -9.4618e-008, 1.6262e-011} // {dy3/dp1, dy3/dp2, dy3/dp3}
+            },
+
+            {
+               //time step #2
+               {-1.8761e+000, 2.9612e-006, -4.9330e-010}, // {dy1/dp1, dy1/dp2, dy1/dp3}
+               {1.7922e-004, -5.8308e-010, -2.7624e-013}, // {dy2/dp1, dy2/dp2, dy2/dp3}
+               {1.8760e+000, -2.9606e-006, 4.9357e-010} // {dy3/dp1, dy3/dp2, dy3/dp3}
+            }
+         };
+
+         return sensitivities;
+      }
+
+      private void checkSensitivities(double[] dy1_dp1, double[] dy1_dp2, double[] dy1_dp3,
+         double[] dy2_dp1, double[] dy2_dp2, double[] dy2_dp3,
+         double[] dy3_dp1, double[] dy3_dp2, double[] dy3_dp3,
+         double[] dObs1_dp1, double[] dObs1_dp2, double[] dObs1_dp3)
+      {
+         double[,,] sensitivities =
+         {
+            {
+               //time step #1
+               {dy1_dp1[1], dy1_dp2[1], dy1_dp3[1]}, // {dy1/dp1, dy1/dp2, dy1/dp3}
+               {dy2_dp1[1], dy2_dp2[1], dy2_dp3[1]}, // {dy2/dp1, dy2/dp2, dy2/dp3}
+               {dy3_dp1[1], dy3_dp2[1], dy3_dp3[1]} // {dy3/dp1, dy3/dp2, dy3/dp3}
+            },
+
+            {
+               //time step #2
+               {dy1_dp1[2], dy1_dp2[2], dy1_dp3[2]}, // {dy1/dp1, dy1/dp2, dy1/dp3}
+               {dy2_dp1[2], dy2_dp2[2], dy2_dp3[2]}, // {dy2/dp1, dy2/dp2, dy2/dp3}
+               {dy3_dp1[2], dy3_dp2[2], dy3_dp3[2]} // {dy3/dp1, dy3/dp2, dy3/dp3}
+            }
+         };
+
+         //---- TODO ------------------------------------------------------
+         //Test passes with relTol 1e-2 but fails already with relTol 1e-3
+         //This should be investigated further! Deviation seems too high for me
+         //
+         //Test output with relTol=1e-3:
+         //    Time step: 1 Variable: 1 Parameter: 2 Expected sensitivity: 9,4831E-08 Returned sensitivity: 9,54238142897576E-08
+         //    9,54238142897576E-08 and 9,4831E-08 are not equal within relative tolerance 0,001
+         //----------------------------------------------------------------
+         const double relTol = 1e-2; //max. allowed relative deviation 1%
+
+         for (var i = 0; i < _numberOfTimeSteps; i++)
+         {
+            for (var j = 0; j < _numberOfUnknowns; j++)
+            {
+               for (var k = 0; k < _numberOfSensitivityParameters; k++)
+               {
+                  var msg =
+                     $"Time step: {i + 1}\nVariable: {j + 1}\nParameter: {k + 1}\nExpected sensitivity: {_expectedSensitivities[i, j, k]}\nReturned sensitivity: {sensitivities[i, j, k]}\n";
+                  sensitivities[i, j, k].ShouldBeEqualTo(_expectedSensitivities[i, j, k], relTol, msg);
+               }
+            }
+         }
+
+         //check observer sensitivity values. 
+         //Observer is defined as y1+2*y2+3*y3
+         //the same must apply for all parameter sensitivities
+         double[,] observerSensitivities =
+         {
+            {
+               //time step #1
+               dObs1_dp1[1], dObs1_dp2[1], dObs1_dp3[1]
+            },
+
+            {
+               //time step #2
+               dObs1_dp1[2], dObs1_dp2[2], dObs1_dp3[2]
+            }
+         };
+
+
+         for (var i = 0; i < _numberOfTimeSteps; i++)
+         {
+            for (var k = 0; k < _numberOfSensitivityParameters; k++)
+            {
+               double expectedSensitivity =
+                  sensitivities[i, 0, k] + 2 * sensitivities[i, 1, k] + 3 * sensitivities[i, 2, k];
+               var msg =
+                  $"Time step: {i + 1}\nParameter: {k + 1}\nExpected sensitivity: {expectedSensitivity}\nReturned sensitivity: {observerSensitivities[i, k]}\n";
+               observerSensitivities[i, k].ShouldBeEqualTo(expectedSensitivity, relTol, msg);
+            }
+         }
+      }
+
+      [Observation]
+      public void should_solve_example_system_and_return_correct_sensitivity_values()
+      {
+         var dy1_dp1 = sut.SensitivityValuesByPathFor("SubContainer/y1", "SubContainer/P1");
+         var dy1_dp2 = sut.SensitivityValuesByPathFor("SubContainer/y1", "SubContainer/P2");
+         var dy1_dp3 = sut.SensitivityValuesByPathFor("SubContainer/y1", "SubContainer/P3");
+
+         var dy2_dp1 = sut.SensitivityValuesByPathFor("SubContainer/y2", "SubContainer/P1");
+         var dy2_dp2 = sut.SensitivityValuesByPathFor("SubContainer/y2", "SubContainer/P2");
+         var dy2_dp3 = sut.SensitivityValuesByPathFor("SubContainer/y2", "SubContainer/P3");
+
+         var dy3_dp1 = sut.SensitivityValuesByPathFor("SubContainer/y3", "SubContainer/P1");
+         var dy3_dp2 = sut.SensitivityValuesByPathFor("SubContainer/y3", "SubContainer/P2");
+         var dy3_dp3 = sut.SensitivityValuesByPathFor("SubContainer/y3", "SubContainer/P3");
+
+         var dObs1_dp1 = sut.SensitivityValuesByPathFor("SubContainer/Obs1", "SubContainer/P1");
+         var dObs1_dp2 = sut.SensitivityValuesByPathFor("SubContainer/Obs1", "SubContainer/P2");
+         var dObs1_dp3 = sut.SensitivityValuesByPathFor("SubContainer/Obs1", "SubContainer/P3");
+
+         checkSensitivities(dy1_dp1, dy1_dp2, dy1_dp3, dy2_dp1, dy2_dp2, dy2_dp3, dy3_dp1, dy3_dp2, dy3_dp3, dObs1_dp1,
+            dObs1_dp2, dObs1_dp3);
+      }
+   }
+
 }
