@@ -155,7 +155,7 @@ namespace SimModelNative
          if (parameterSensitivity == NULL)
             throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, string(parameterPath) + " is not a valid path of a sensitivity parameter");
 
-         memcpy(values, variableWithParameterSensitivity->GetValues(), sizeToFill * sizeof(double));
+         memcpy(values, parameterSensitivity->GetValues(), sizeToFill * sizeof(double));
 
          success = true;
       }
