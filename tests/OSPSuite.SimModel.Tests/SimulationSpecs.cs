@@ -29,6 +29,13 @@ namespace OSPSuite.SimModel.Tests
          return file;
       }
 
+      protected string CreateTempFolder()
+      {
+         var tempFolder = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+         Directory.CreateDirectory(tempFolder);
+         return tempFolder;
+      }
+
       protected void LoadSimulation(string shortFileName)
       {
          OptionalTasksBeforeLoad();
@@ -53,10 +60,13 @@ namespace OSPSuite.SimModel.Tests
          FinalizeSimulation();
       }
 
-      protected void LoadFinalizeAndRunSimulation(string shortFileName)
+      protected void LoadFinalizeAndRunSimulation(string shortFileName, bool performBasicTests = false)
       {
          LoadAndFinalizeSimulation(shortFileName);
          RunSimulation();
+
+         if (performBasicTests)
+            SimulationOutputsBasicTest();
       }
 
       protected virtual void OptionalTasksBeforeLoad()
@@ -82,6 +92,18 @@ namespace OSPSuite.SimModel.Tests
          return speciesProperties.FirstOrDefault(p => p.Path.Equals(path));
       }
 
+      protected void SimulationOutputsBasicTest()
+      {
+         var noOfOutputTimePoints = sut.SimulationTimes.Length;
+         noOfOutputTimePoints.ShouldBeEqualTo(sut.GetNumberOfTimePoints);
+
+         //make sure that all const variables have length(values)=1 and
+         //all non-const variables have the length of the time array
+         foreach (var variableValues in sut.AllValues)
+         {
+            variableValues.Values.Length.ShouldBeEqualTo(variableValues.IsConstant ? 1 : noOfOutputTimePoints);
+         }
+      }
    }
 
    public abstract class when_running_testsystem_06 : concern_for_Simulation
@@ -290,8 +312,7 @@ namespace OSPSuite.SimModel.Tests
 
    }
 
-   public class
-      when_running_testsystem_06_modified_setting_parameter_values_and_initial_values : when_running_testsystem_06
+   public class when_running_testsystem_06_modified_setting_parameter_values_and_initial_values : when_running_testsystem_06
    {
       //Modifications made in the system (compared to the test system) in XML
       // y2(0) changed from P1 + P2 -1 (=0) to 10
@@ -452,14 +473,26 @@ namespace OSPSuite.SimModel.Tests
    {
       [Observation]
       [TestCaseSource(nameof(TestData))]
-      public void should_load_simulation(string shortFileName)
+      public void should_load_finalize_and_run_simulation(string shortFileName)
       {
-         LoadFinalizeAndRunSimulation(shortFileName);
+         LoadFinalizeAndRunSimulation(shortFileName, performBasicTests:true);
       }
 
       protected static IEnumerable<string> TestData()
       {
          yield return "SimModel4_ExampleInput05";
+         yield return "IfFormulaInSwitchCondition";
+         yield return "PKSim_Input_01";
+         yield return "PKSim_Input_04_MultiApp";
+         yield return "AdultPopulation";
+         yield return "OralTable01";
+         yield return "GrowConst";
+         yield return "GIM_Table_01";
+         yield return "pH_Solubility_Table";
+         yield return "pH_Solubility_Table_Zero";
+         yield return "pH_Solubility_Table_Const";
+         yield return "Test4Model_Reduced03";
+         //yield return "Neg_t_TimeSinceMeal"; //"Enable test in case negative meal offset will be allowed"
       }
 
       [TestCase]
@@ -601,7 +634,8 @@ namespace OSPSuite.SimModel.Tests
          var noOfOutputTimePoints = solverTimes.Length;
          var C1 = sut.ValuesFor("C1").Values;
 
-         var dC1_dA0 = sut.SensitivityValuesByPathFor("Organism|C1", "Organism|A0");
+         //remove comment as soon as ... (s. below)
+         //var dC1_dA0 = sut.SensitivityValuesByPathFor("Organism|C1", "Organism|A0");
          var dC1_dk = sut.SensitivityValuesByPathFor("Organism|C1", "Organism|k");
          const double relTol = 1e-3;
 
@@ -648,8 +682,7 @@ namespace OSPSuite.SimModel.Tests
       }
    }
 
-   public class
-      when_solving_cvsRoberts_FSA_dns_with_sensitivity_Sensitivity_RHS_function_not_set : concern_for_Simulation
+   public class when_solving_cvsRoberts_FSA_dns_with_sensitivity_Sensitivity_RHS_function_not_set : concern_for_Simulation
    {
       private const int _numberOfTimeSteps = 2;
       private const int _numberOfUnknowns = 3;
@@ -804,7 +837,7 @@ namespace OSPSuite.SimModel.Tests
       }
    }
 
-   public class loading_cvsRoberts_FSA_dns : concern_for_Simulation
+   public class when_loading_cvsRoberts_FSA_dns : concern_for_Simulation
    {
 #if !_WINDOWS
       [Ignore("Ignore under Linux for the moment")]
@@ -813,6 +846,474 @@ namespace OSPSuite.SimModel.Tests
       public void should_load_simulation()
       {
          LoadSimulation("cvsRoberts_FSA_dns");
+      }
+   }
+
+   public class when_loading_simulation_from_file : concern_for_Simulation
+   {
+      protected static IEnumerable<string> TestData()
+      {
+         yield return "InfinityTest";
+      }
+
+      [Observation]
+      [TestCaseSource(nameof(TestData))]
+      public void should_load_simulation(string shortFileName)
+      {
+         LoadSimulation(shortFileName);
+      }
+
+   }
+
+   public class when_loading_simulation_with_table_formulas : concern_for_Simulation
+   {
+      [Observation]
+      public void should_load_simulation()
+      {
+         LoadSimulation("TableParametersViaDCI_Test01");
+
+         var parametersWithTableFormulas = sut.ParameterProperties.Where(p => p.IsTable);
+         parametersWithTableFormulas.Count().ShouldBeGreaterThan(0);
+      }
+   }
+
+   public class when_exporting_bcm_platelet_to_matlab : concern_for_Simulation
+   {
+      [Observation]
+      public void should_export_to_matlab_in_formula_mode()
+      {
+         LoadSimulation("BCM_Platelet6Lit");
+         sut.ExportToCode(CreateTempFolder(), CodeExportLanguage.Matlab, CodeExportMode.Formula);
+      }
+
+      [Observation]
+      public void should_export_to_matlab_in_value_mode()
+      {
+         LoadSimulation("BCM_Platelet6Lit");
+         sut.ExportToCode(CreateTempFolder(), CodeExportLanguage.Matlab, CodeExportMode.Values);
+      }
+   }
+
+   public class when_running_simulation_returning_not_allowed_negative_values : concern_for_Simulation
+   {
+      [Observation]
+      public void
+         should_perform_simulation_run_without_negative_values_check_and_throw_an_exception_with_negative_values_check()
+      {
+         LoadAndFinalizeSimulation("NegativeValuesTestSimple");
+
+         sut.Options.CheckForNegativeValues = false;
+         try
+         {
+            RunSimulation();
+         }
+         catch (Exception)
+         {
+            throw new Exception("Exception was thrown but negative values check was deactivated");
+         }
+
+         sut.Options.CheckForNegativeValues = true;
+         try
+         {
+            RunSimulation();
+         }
+         catch (Exception ex)
+         {
+            ex.Message.Contains("negative").ShouldBeTrue();
+
+            //expected behavior. Leave the test case
+            return;
+         }
+
+         //failed (no exception with negative values check)
+         throw new Exception("No exception was thrown with negative values check");
+      }
+   }
+
+   public class when_running_simulation_with_events_simultaneously_increasing_a_variable : concern_for_Simulation
+   {
+      [Observation]
+      public void should_perform_all_events()
+      {
+         LoadFinalizeAndRunSimulation("TestSimultanEvents");
+
+         //simulation has only 1 constant variable with start value 0, which is modified by 2 events:
+         //    event #1: M=M+10
+         //    event #2: M=M+20
+         // both events fire at t=10; simulation output interval is [0..30]
+         //
+         //thus at the end it must be: Variable[0]=0 and Variable[lastIndex]=30
+
+         var values = sut.AllValues.First().Values;
+
+         values[0].ShouldBeEqualTo(0.0, 1e-5);
+         values[values.Length - 1].ShouldBeEqualTo(30.0, 1e-5);
+      }
+   }
+
+   public class when_running_simulation_with_almost_equal_output_times : concern_for_Simulation
+   {
+      [Observation]
+      public void should_remove_duplicate_time_points_according_to_comparison()
+      {
+         const double FLOAT_PRECISION = 1e-8;
+
+         //first, run simulation using (default) float comparison for user output points
+         LoadFinalizeAndRunSimulation("NonMonotoneBasegridTest");
+
+         var solverTimes = sut.SimulationTimes;
+         for (var i = 0; i < solverTimes.Length - 1; i++)
+            Math.Abs(solverTimes[i] - solverTimes[i + 1]).ShouldBeGreaterThanOrEqualTo(FLOAT_PRECISION);
+
+         //now switch float comparison off (use double) and rerun simulation
+         sut.Options.UseFloatComparisonInUserOutputTimePoints = false;
+         RunSimulation();
+
+         //check that we have some points with deviation less than float precision
+         solverTimes = sut.SimulationTimes;
+         for (var i = 0; i < solverTimes.Length - 1; i++)
+         {
+            var timeDeviation = Math.Abs(solverTimes[i] - solverTimes[i + 1]);
+            if (timeDeviation < FLOAT_PRECISION)
+            {
+               timeDeviation.ShouldBeGreaterThan(0.0); //still must be unique
+               return;
+            }
+         }
+
+         throw new Exception(
+            $"Time values with deviation < {FLOAT_PRECISION} were expected with Double comparison but not found");
+      }
+   }
+
+   public class when_getting_all_used_parameters_when_identify_used_parameters_set_to_true : concern_for_Simulation
+   {
+      protected override void OptionalTasksBeforeLoad()
+      {
+         sut.Options.IdentifyUsedParameters = true;
+      }
+
+      protected override void Because()
+      {
+         base.Because();
+         LoadSimulation("TestExportUsedParameters02");
+      }
+
+      // test simulation constructed as following
+      //---------------- Parameter -----------------
+      //
+      // P1 = P2
+      // P2 = P3 + 2
+      // P3 = y1*P4 + P5
+      // P4 = P6 AND dP4/dt = P12 (Parameter has RHS)
+      // P5 = 1
+      // P6 = 1
+      // P7 = 1
+      // P8 = 1
+      // P9 = 1
+      // P10 = 1
+      // P11 = 1
+      // P12 = 1
+      // P13 = P14
+      // P14 = 1
+      // P15 = y1
+      // P16 = y1 (additionally parameter is defined as plotable)
+      // --------------- Variables --------------------------
+      // y1(0) = 0
+      // y2(0) = P3
+      // dy1/dt = -P7 - P8
+      // dy2/dt = P7 + P8
+      //--------------- Events --------------------
+      // IF (y1 > 0) THEN P9 = P10
+      // IF (P11 > 0) THEN y2 = y2 + 1
+      //--------------- Observers -----------------
+      // Obs1: P13*y1
+      //--------------------------------------------------------
+      //Expected parameters used:
+      // P3 (used in start formula of y2)
+      // P5 (used in P3)
+      // P6 (used in P4) (because P4 has RHS it becomes ODE variable in SimModel-XML!)
+      // P7 (used in RHS of y1, y2)
+      // P8 (used in RHS of y1, y2)
+      // P10 (used in Event assignment)
+      // P11 (used in Event condition)
+      // P12 (used in RHS of P4)
+      // P13 (used in Observer)
+      // P14 (used in P13)
+      protected void checkPathsOfUsedParameters(IEnumerable<string> paths, bool includeSimulationName)
+      {
+         var prefix = "Organism|" + (includeSimulationName ? "TestExportUsedParameters02|" : "");
+
+         var expectedPaths = new[]
+         {
+            prefix + "P3", prefix + "P5", prefix + "P6", prefix + "P7",
+            prefix + "P8", prefix + "P10", prefix + "P11",
+            prefix + "P12", prefix + "P13", prefix + "P14"
+         };
+
+         var usedPaths = paths.ToList();
+         usedPaths.Count.ShouldBeEqualTo(expectedPaths.Length);
+
+         foreach (var expectedPath in expectedPaths)
+         {
+            usedPaths.Contains(expectedPath).ShouldBeTrue($"{expectedPath} not found in the list of used parameters");
+         }
+      }
+
+      [Observation]
+      public void should_set_is_used_in_simulation_flag_only_for_effectively_used_parameters()
+      {
+         var usedParametersPath = from p in sut.ParameterProperties
+            where p.IsUsedInSimulation
+            select p.Path;
+
+         checkPathsOfUsedParameters(usedParametersPath, false);
+      }
+   }
+
+   public class when_getting_all_used_parameters_when_identify_used_parameters_set_to_false : concern_for_Simulation
+   {
+      protected override void OptionalTasksBeforeLoad()
+      {
+         sut.Options.IdentifyUsedParameters = false;
+      }
+
+      protected override void Because()
+      {
+         base.Because();
+         LoadSimulation("TestExportUsedParameters02");
+      }
+
+      [Observation]
+      public void should_set_is_used_in_simulation_flag_for_all_parameters()
+      {
+         foreach (var parameter in sut.ParameterProperties)
+         {
+            parameter.IsUsedInSimulation.ShouldBeTrue();
+         }
+      }
+   }
+
+   public class when_setting_scale_factor_to_one : concern_for_Simulation
+   {
+      private SpeciesProperties _a;
+
+      protected override void OptionalTasksBeforeFinalize()
+      {
+         _a = sut.SpeciesProperties.First(v => v.EntityId.Equals("a"));
+         sut.VariableSpecies = new[] {_a};
+      }
+
+      protected override void OptionalTasksBeforeRun()
+      {
+         _a.ScaleFactor = 1.0;
+         sut.SetSpeciesValues();
+      }
+
+      protected override void Because()
+      {
+         base.Because();
+         LoadFinalizeAndRunSimulation("Modified_ScaleFactors_opt");
+      }
+
+      [Observation]
+      public void should_solve_the_system_correctly()
+      {
+         var values = sut.ValuesFor("a").Values;
+         for (var i = 100; i < values.Length; i++)
+         {
+            values[i].ShouldBeSmallerThan(1e-15);
+         }
+      }
+   }
+
+   public abstract class when_running_pkmodelcore_case_study : concern_for_Simulation
+   {
+      protected double TotalODEVariablesAmountAt(int index)
+      {
+         var amount = 0.0;
+
+         foreach (var variableValues in sut.AllValues.Where(v => v.VariableType == VariableValues.VariableTypes.Species))
+         {
+            amount += variableValues.IsConstant ? variableValues.Values[0] : variableValues.Values[index];
+         }
+
+         return amount;
+      }
+
+      protected static IEnumerable<string> TestData()
+      {
+         yield return "PKModelCoreCaseStudy_01";
+         yield return "PKModelCoreCaseStudy_02";
+      }
+
+      protected void CheckMassBalance(string shortFileName)
+      {
+         LoadFinalizeAndRunSimulation(shortFileName, performBasicTests: true);
+         TotalODEVariablesAmountAt(0).ShouldBeEqualTo(26.5, 1e-10);
+         TotalODEVariablesAmountAt(sut.GetNumberOfTimePoints - 1).ShouldBeEqualTo(36.5, 1e-10);
+      }
+
+      protected void CheckObserver(string shortFileName)
+      {
+         LoadFinalizeAndRunSimulation(shortFileName, performBasicTests: true);
+
+         int noOfOutputTimePoints = sut.GetNumberOfTimePoints;
+
+         var Art_pls_A = sut.ValuesFor(3);
+         var Art_pls_A_Obs1 = sut.ValuesFor(7);
+
+         Art_pls_A.Values.Length.ShouldBeEqualTo(noOfOutputTimePoints);
+         Art_pls_A_Obs1.Values.Length.ShouldBeEqualTo(noOfOutputTimePoints);
+
+         for (var i = 0; i < noOfOutputTimePoints; i++)
+         {
+            Art_pls_A_Obs1.Values[i].ShouldBeEqualTo(Art_pls_A.Values[i] / 2.0, 1e-5);
+         }
+      }
+   }
+
+   public class when_running_pkmodelcore_case_study_without_scale_factor : when_running_pkmodelcore_case_study
+   {
+      [Observation]
+      [TestCaseSource(nameof(TestData))]
+      public void mass_balance_at_t0_and_at_tEnd_should_be_ok(string shortFileName)
+      {
+         CheckMassBalance(shortFileName);
+      }
+
+      [Observation]
+      [TestCaseSource(nameof(TestData))]
+      public void amount_observer_for_arterial_blood_plasma_A_should_return_correct_values(string shortFileName)
+      {
+         CheckObserver(shortFileName);
+      }
+   }
+
+   public class when_running_pkmodelcore_case_study_with_scale_factor : when_running_pkmodelcore_case_study
+   {
+      protected override void OptionalTasksBeforeFinalize()
+      {
+         var allSpecies = sut.SpeciesProperties.ToList();
+         var variableSpecies = new[]
+         {
+            GetSpeciesByPath(allSpecies, "Organism/ArterialBlood/Plasma/A")
+         };
+
+         variableSpecies[0].ScaleFactor = 10.0;
+         sut.VariableSpecies = variableSpecies;
+      }
+
+      [Observation]
+      [TestCaseSource(nameof(TestData))]
+      public void mass_balance_at_t0_and_at_tEnd_should_be_ok(string shortFileName)
+      {
+         CheckMassBalance(shortFileName);
+      }
+
+      [Observation]
+      [TestCaseSource(nameof(TestData))]
+      public void amount_observer_for_arterial_blood_plasma_A_should_return_correct_values(string shortFileName)
+      {
+         CheckObserver(shortFileName);
+      }
+   }
+
+   public class when_running_below_absolute_tolerance_test : concern_for_Simulation
+   {
+      protected override void Because()
+      {
+         base.Because();
+         LoadFinalizeAndRunSimulation("PKSim_Input_BelowAbsTol");
+      }
+
+      [Observation]
+      public void all_variable_values_below_absolute_tolerance_should_be_zero()
+      {
+         var absTol = sut.RunStatistics.UsedAbsoluteTolerance;
+
+         foreach (var variableValues in sut.AllValues.Where(v=>v.VariableType==VariableValues.VariableTypes.Species))
+         {
+            var values = variableValues.Values;
+
+            foreach (var value in values)
+            {
+               if ((value < 0.0) && (value > -absTol))
+                  throw new Exception($"Species {variableValues.Path} has values in [-AbsTol..AbsTol]");
+            }
+         }
+      }
+   }
+
+   public class when_running_simulation_with_persistable_parameters : concern_for_Simulation
+   {
+      protected override void Because()
+      {
+         base.Because();
+         LoadFinalizeAndRunSimulation("PersistableParams");
+      }
+
+      [Observation]
+      public void should_perform_simulation_run_and_return_persistable_parameters_as_observers()
+      {
+         var observers = sut.AllValues.Where(v => v.VariableType == VariableValues.VariableTypes.Observer).ToArray();
+
+         observers.Length.ShouldBeEqualTo(2);
+
+         var timeParamObserver = observers[0];
+         var inverseTimeParamObserver = observers[1];
+
+         timeParamObserver.IsConstant.ShouldBeFalse();
+         inverseTimeParamObserver.IsConstant.ShouldBeFalse();
+
+         timeParamObserver.EntityId.ShouldBeEqualTo("74fe8982-69cd-41be-9dc6-7fd8020f2ed4");
+
+         var solverTimes = sut.SimulationTimes;
+         var obsValues = timeParamObserver.Values;
+         var inverseObsValues = inverseTimeParamObserver.Values;
+
+         for (var i = 0; i < sut.GetNumberOfTimePoints; i++)
+         {
+            obsValues[i].ShouldBeEqualTo(solverTimes[i], 1e-5);
+            inverseObsValues[i].ShouldBeEqualTo(i==0 ? Double.PositiveInfinity : 1.0 / solverTimes[i], 1e-5);
+         }
+      }
+   }
+
+   public class when_changing_ehc_start_time : concern_for_Simulation
+   {
+      protected ParameterProperties _startTimeParameter;
+
+      protected override void Because()
+      {
+         base.Because();
+         LoadFinalizeAndRunSimulation("POP_EHC_StartTime");
+      }
+
+      protected override void OptionalTasksBeforeFinalize()
+      {
+         var parameterProperties = sut.ParameterProperties;
+         _startTimeParameter = parameterProperties.First(p => p.Path.Equals("Events|EHC|EHC_1|Start time"));
+
+         sut.VariableParameters = new[] { _startTimeParameter };
+      }
+
+      protected double SumVenPls => sut.ValuesFor(121).Values.Sum();
+
+      [Observation]
+      public void changing_ehc_start_time_should_alter_simulation_results()
+      {
+         var value1 = SumVenPls;
+
+         _startTimeParameter.Value=1000000; //EHC beyond simulation time
+         sut.SetParameterValues();
+         sut.RunSimulation();
+
+         var value2 = SumVenPls;
+
+         //Difference should be > 5%
+         var diff = Math.Abs(value1 - value2) / Math.Min(value1, value2);
+         diff.ShouldBeGreaterThan(0.05);
       }
    }
 }
