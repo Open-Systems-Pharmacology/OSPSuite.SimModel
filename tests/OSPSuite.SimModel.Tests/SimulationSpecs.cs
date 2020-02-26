@@ -473,7 +473,7 @@ namespace OSPSuite.SimModel.Tests
    {
       [Observation]
       [TestCaseSource(nameof(TestData))]
-      public void should_load_simulation(string shortFileName)
+      public void should_load_finalize_and_run_simulation(string shortFileName)
       {
          LoadFinalizeAndRunSimulation(shortFileName, performBasicTests:true);
       }
