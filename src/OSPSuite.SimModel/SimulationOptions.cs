@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using OSPSuite.Utility.Exceptions;
 
 // ReSharper disable UnusedMember.Global
 
@@ -168,7 +169,7 @@ namespace OSPSuite.SimModel
       public string LogFile
       {
          get => _logFile;
-         set => throw new Exception("Not implemented yet");
+         set => throw new OSPSuiteException("Not implemented yet");
       }
    }
 }
