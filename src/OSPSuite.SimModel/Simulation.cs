@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Resources;
 using System.Runtime.InteropServices;
+using OSPSuite.Utility.Exceptions;
 
 // ReSharper disable UnusedMember.Global
 
@@ -199,8 +199,7 @@ namespace OSPSuite.SimModel
          if (success)
             return;
 
-         //TODO
-         throw new Exception(errorMessage);
+         throw new OSPSuiteException(errorMessage);
       }
    }
 
@@ -419,7 +418,7 @@ namespace OSPSuite.SimModel
          }
 
          if(!success)
-            throw new Exception($"{entityId} is not a valid species or observer entity id"); //TODO
+            throw new OSPSuiteException($"{entityId} is not a valid species or observer entity id");
 
          SimulationImports.GetQuantityProperties(quantity, out var containerPath, out var name, out entityId);
          VariableValues variableValues=new VariableValues(quantity,variableType,entityId, containerPath, name);
@@ -446,7 +445,7 @@ namespace OSPSuite.SimModel
          }
 
          if (!success)
-            throw new Exception($"{id} is not a valid species or observer entity id"); //TODO
+            throw new OSPSuiteException($"{id} is not a valid species or observer entity id");
 
          SimulationImports.GetQuantityProperties(quantity, out var containerPath, out var name, out var entityId);
          VariableValues variableValues = new VariableValues(quantity, variableType, entityId, containerPath, name);
@@ -644,7 +643,7 @@ namespace OSPSuite.SimModel
                evaluateCppCallResult(success, errorMessage);
                break;
             default:
-               throw new Exception("Unsupported code export language"); //TODO
+               throw new OSPSuiteException("Unsupported code export language");
          }
       }
 
