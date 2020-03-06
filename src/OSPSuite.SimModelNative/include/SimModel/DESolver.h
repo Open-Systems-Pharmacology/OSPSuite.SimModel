@@ -109,8 +109,6 @@ protected:
 		bool IsSet_ODESensitivityRhsFunction();
 		bool IsSet_DDERhsFunction ();
 
-		void UnloadSolvers();
-
 		const DESolverProperties & GetSolverProperties() const;
 
 		//if solving of DEQ-system failed with convergence failure, both
