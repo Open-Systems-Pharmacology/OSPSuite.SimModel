@@ -47,8 +47,6 @@ void Simulation::ReleaseMemory()
 
 	if (!m_XMLDoc.IsNull())
 		m_XMLDoc.Release();
-
-	m_Solver.UnloadSolvers();
 }
 
 SimulationOptions & Simulation::Options()

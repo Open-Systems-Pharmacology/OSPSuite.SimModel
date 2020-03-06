@@ -13,24 +13,6 @@
 namespace SimModelNative
 {
 
-#ifdef linux
-
-	static vector<string> LoadedLibraryNames;
-
-	// {internal}
-	// Description:
-	// Cache loaded library name
-	static void AddLoadedLibraryName(const string & libName)
-	{
-		for(unsigned int i=0;i<LoadedLibraryNames.size();i++)
-			if(LoadedLibraryNames[i]==libName)
-				return; //already loaded - don't cache anymore
-
-		LoadedLibraryNames.push_back(libName);
-	}
-
-#endif
-
 	SimModelSolverBase * DESolver::GetSolver ()
 	{
 		const char * ERROR_SOURCE = "DESolver::GetSolver";
@@ -48,10 +30,6 @@ namespace SimModelNative
 			throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Solver " + m_UsedSolver + " not found");
 		}
 
-#ifdef linux
-		AddLoadedLibraryName(LibName);
-#endif
-
 		//get function pointer to solver creation routine
 		typedef SimModelSolverBase * (*GetSolverInterfaceFnType)(ISolverCaller *, int, int);
 		GetSolverInterfaceFnType pGetSolverInterface = (GetSolverInterfaceFnType)library->GetFunctionAddress("GetSolverInterface");
@@ -62,20 +40,6 @@ namespace SimModelNative
 		SimModelSolverBase * pSolver = (pGetSolverInterface)(this, m_ODE_NumUnknowns, _sensitivityParameters.size());
 
 		return pSolver;
-	}
-
-	void DESolver::UnloadSolvers()
-	{
-#ifdef linux
-		for(unsigned int i=0;i<LoadedLibraryNames.size();i++)
-		{
-			DynamicLibrary * lib = DynamicLibraryFactory::GetLibrary(LoadedLibraryNames[i]);
-			if (lib != NULL && lib->IsLoaded())
-			{
-				lib->Unload();
-			}
-		}
-#endif
 	}
 
 	int DESolver::GetODE_NumUnknowns () const
