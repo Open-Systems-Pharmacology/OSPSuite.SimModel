@@ -10,7 +10,7 @@ nuget sources add -name bddhelper -source https://ci.appveyor.com/nuget/ospsuite
 nuget sources add -name utility -source https://ci.appveyor.com/nuget/ospsuite-utility 
 nuget sources add -name funcparser -source https://ci.appveyor.com/nuget/ospsuite-funcparser 
 nuget sources add -name cvodes -source https://ci.appveyor.com/nuget/ospsuite-simmodel-solver-cvodes
-nuget sources add -name osp -source https://ci.appveyor.com/nuget/open-systems-pharmacology-ci
+nuget sources add -name centos -source https://ci.appveyor.com/nuget/ospsuite-centos
 
 rm -rf packages/*$1*
 nuget install packages.config -OutputDirectory packages -ExcludeVersion
