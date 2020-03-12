@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>    
+    <description>Calculation engine for models built with PK-Sim® or MoBi®</description>
+    <id>OSPSuite.SimModel.CentOS7</id>
+    <version>$version$</version>
+    <title>OSPSuite.SimModel</title>
+    <authors>Open-Systems-Pharmacology</authors>
+    <owners>Open-Systems-Pharmacology</owners>
+    <projectUrl>https://github.com/Open-Systems-Pharmacology/OSPSuite.SimModel</projectUrl>
+    <licenseUrl>https://github.com/Open-Systems-Pharmacology/OSPSuite.SimModel/blob/master/LICENSE</licenseUrl>
+    <iconUrl>https://raw.githubusercontent.com/Open-Systems-Pharmacology/Suite/master/logo.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>Copyright © 2020 - Open Systems Pharmacology Community</copyright>
+    <tags>open-systems-pharmacology</tags>
+  </metadata>
+  <files>
+    <file src="..\..\Build\Debug\x64\libOSPSuite.SimModelNative.so" target="OSPSuite.SimModelNative\bin\native\x64\Debug" />
+ 
+    <file src="..\..\Build\Release\x64\libOSPSuite.SimModelNative.so" target="OSPSuite.SimModelNative\bin\native\x64\Release" />
+
+    <file src="bin\Release\netstandard2.0\OSPSuite.SimModel.dll" target="lib\netstandard2.0" />
+    <file src="bin\Release\netstandard2.0\OSPSuite.SimModel.pdb" target="lib\netstandard2.0" />
+
+    <file src="..\OSPSuite.SimModelNative\include\**\*.h" target="OSPSuite.SimModelNative\include" />
+    <file src="..\OSPSuite.SimModelNative\src\**\*.*" target="OSPSuite.SimModelNative\src" />
+    <file src="..\OSPSuite.SimModelNative\*.*" target="OSPSuite.SimModelNative" exclude="..\OSPSuite.SimModelNative\*.vcxproj*" />
+
+    <file src="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include\**\*.h" target="OSPSuite.SimModelSolverBase\include" />
+    <file src="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\src\**\*.*" target="OSPSuite.SimModelSolverBase\src" />
+    <file src="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\*.*" target="OSPSuite.SimModelSolverBase" exclude="..\OSPSuite.SimModelSolverBase\*.vcxproj*" />
+
+    <file src="..\OSPSuite.SysTool\include\**\*.h" target="OSPSuite.SysTool\include" />
+    <file src="..\OSPSuite.SysTool\src\**\*.*" target="OSPSuite.SysTool\src" />
+    <file src="..\OSPSuite.SysTool\*.*" target="OSPSuite.SysTool" exclude="..\OSPSuite.SysTool\*.vcxproj*" />
+
+    <file src="..\OSPSuite.XMLWrapper\include\**\*.h" target="OSPSuite.XMLWrapper\include" />
+    <file src="..\OSPSuite.XMLWrapper\src\**\*.*" target="OSPSuite.XMLWrapper\src" />
+    <file src="..\OSPSuite.XMLWrapper\*.*" target="OSPSuite.XMLWrapper" exclude="..\OSPSuite.SysTool\*.vcxproj*" />
+
+  </files>
+</package>
