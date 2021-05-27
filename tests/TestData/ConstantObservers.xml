@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Simulation objectPathDelimiter="|" version="4" xmlns="http://www.systems-biology.com">
+  <ObserverList>
+    <Observer id="5" entityId="QIqtAkHcTkCJPbGiEtGA-Q" name="Conc" path="ConstantObservers|Organism|C1|Conc" unit="µmol/l" persistable="1" formulaId="6" />
+    <Observer id="10" entityId="RvFtXs5sJU6j-K5qx-64pA" name="Conc" path="ConstantObservers|Organism|C2|Conc" unit="µmol/l" persistable="1" formulaId="11" />
+    <Observer id="15" entityId="pgefAduqP02ja2WLV1tSxw" name="Conc" path="ConstantObservers|Organism|C3|Conc" unit="µmol/l" persistable="1" formulaId="16" />
+  </ObserverList>
+  <FormulaList>
+    <ExplicitFormula id="4">
+      <Equation>V&gt;0 ? M/V : 0</Equation>
+      <ReferenceList>
+        <R alias="M" id="2" />
+        <R alias="V" id="1" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="6">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="2" />
+        <R alias="V" id="1" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="9">
+      <Equation>V&gt;0 ? M/V : 0</Equation>
+      <ReferenceList>
+        <R alias="M" id="7" />
+        <R alias="V" id="1" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="11">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="7" />
+        <R alias="V" id="1" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="14">
+      <Equation>V&gt;0 ? M/V : 0</Equation>
+      <ReferenceList>
+        <R alias="M" id="12" />
+        <R alias="V" id="1" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="16">
+      <Equation>M/V</Equation>
+      <ReferenceList>
+        <R alias="M" id="12" />
+        <R alias="V" id="1" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="17">
+      <Equation>0,01</Equation>
+      <ReferenceList>
+        <R alias="C3" id="12" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="18">
+      <Equation>1E-09</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="20">
+      <Equation>0.0001</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="22">
+      <Equation>1E-10</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="24">
+      <Equation>0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="26">
+      <Equation>60</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="28">
+      <Equation>100000</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="30">
+      <Equation>1</Equation>
+    </ExplicitFormula>
+  </FormulaList>
+  <VariableList>
+    <V id="12" entityId="kaeeSgxlDkuPvuWSyWLfbA" name="C3" path="ConstantObservers|Organism|C3" unit="µmol" persistable="1" value="0" negativeValuesAllowed="0">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="17" />
+      </RHSFormulaList>
+    </V>
+  </VariableList>
+  <ParameterList>
+    <P id="1" entityId="sbyXxDFVG0mWck9Z0zwt3w" name="Volume" path="ConstantObservers|Organism|Volume" unit="l" persistable="0" value="2" />
+    <P id="2" entityId="IPw8Yr5lGEuVmUzmRhHaGw" name="C1" path="ConstantObservers|Organism|C1" unit="µmol" persistable="1" value="0" canBeVaried="0" />
+    <P id="3" entityId="W1RV5q-JtU61WqQj5gupiQ" name="Concentration" path="ConstantObservers|Organism|C1|Concentration" unit="µmol/l" persistable="0" formulaId="4" />
+    <P id="7" entityId="R7D65F6elkKPtyQrAYB2Fw" name="C2" path="ConstantObservers|Organism|C2" unit="µmol" persistable="1" value="11" canBeVaried="0" />
+    <P id="8" entityId="F7DP55VxmEyRsHC4jA_wjg" name="Concentration" path="ConstantObservers|Organism|C2|Concentration" unit="µmol/l" persistable="0" formulaId="9" />
+    <P id="13" entityId="kzALi8myfEGrEVSD4gETKw" name="Concentration" path="ConstantObservers|Organism|C3|Concentration" unit="µmol/l" persistable="0" formulaId="14" />
+    <P id="19" entityId="AbsTol" name="AbsTol" path="AbsTol" persistable="0" formulaId="18" />
+    <P id="21" entityId="RelTol" name="RelTol" path="RelTol" persistable="0" formulaId="20" />
+    <P id="23" entityId="H0" name="H0" path="H0" persistable="0" formulaId="22" />
+    <P id="25" entityId="HMin" name="HMin" path="HMin" persistable="0" formulaId="24" />
+    <P id="27" entityId="HMax" name="HMax" path="HMax" persistable="0" formulaId="26" />
+    <P id="29" entityId="MxStep" name="MxStep" path="MxStep" persistable="0" formulaId="28" />
+    <P id="31" entityId="UseJacobian" name="UseJacobian" path="UseJacobian" persistable="0" formulaId="30" />
+  </ParameterList>
+  <Solver name="CVODES">
+    <H0 id="23" />
+    <HMax id="27" />
+    <HMin id="25" />
+    <AbsTol id="19" />
+    <MxStep id="29" />
+    <RelTol id="21" />
+    <UseJacobian id="31" />
+  </Solver>
+  <OutputSchema>
+    <OutputIntervalList>
+      <OutputInterval distribution="Uniform">
+        <StartTime>0</StartTime>
+        <EndTime>1440</EndTime>
+        <NumberOfTimePoints>97</NumberOfTimePoints>
+      </OutputInterval>
+    </OutputIntervalList>
+  </OutputSchema>
+</Simulation>

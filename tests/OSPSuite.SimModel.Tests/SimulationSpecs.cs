@@ -1316,4 +1316,31 @@ namespace OSPSuite.SimModel.Tests
          diff.ShouldBeGreaterThan(0.05);
       }
    }
+
+   public class when_calculating_comparison_threshold : concern_for_Simulation
+   {
+      protected override void Because()
+      {
+         base.Because();
+         LoadFinalizeAndRunSimulation("ConstantObservers");
+      }
+
+      [Observation]
+      public void should_calculate_comparison_threshold_of_const_observers()
+      {
+         //get absolute tolerance used for calculation (might differ from input absolute tolerance)
+         double AbsTol = sut.RunStatistics.UsedAbsoluteTolerance;
+
+         //expected threshold for ode variables
+         double threshold = 10.0 * AbsTol;
+
+         foreach (var values in sut.AllValues)
+         {
+            if (!values.IsConstant || values.VariableType != VariableValues.VariableTypes.Observer)
+               continue;
+
+            values.ComparisonThreshold.ShouldBeEqualTo(threshold);
+         }
+      }
+   }
 }
