@@ -440,11 +440,16 @@ namespace SimModelNative
 			if (!observer->IsUsedInSimulation())
 				continue;
 
-			//calculate oberver threshold as f(ODEVariable_Thresholds, 0.0)
-			//(where f(y,t) is the calculation formula of the observer
-			double observerThreshold= observer->CalculateValue(odeVariableThresholds, 0.0, USE_SCALEFACTOR);
+         if(observer->IsConstantDuringCalculation())
+            observer->SetComparisonThreshold(variableThreshold);
+         else
+         {
+            //calculate observer threshold as f(ODEVariable_Thresholds, 0.0)
+            //(where f(y,t) is the calculation formula of the observer
+            double observerThreshold = observer->CalculateValue(odeVariableThresholds, 0.0, USE_SCALEFACTOR);
 
-			observer->SetComparisonThreshold(observerThreshold);
+            observer->SetComparisonThreshold(observerThreshold);
+         }
 		}
 
 		delete[] odeVariableThresholds;
