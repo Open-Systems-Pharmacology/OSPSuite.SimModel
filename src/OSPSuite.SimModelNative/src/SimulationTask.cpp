@@ -6,6 +6,7 @@
 #include "SimModel/SwitchTask.h"
 #include "SimModel/TableFormula.h"
 #include "SimModel/TableFormulaWithOffset.h"
+#include "XMLWrapper/XMLHelper.h"
 #include <set>
 #include <map>
 
@@ -191,7 +192,7 @@ void SimulationTask::SetValuesBelowAbsTolLevelToZero(double * values, int values
 	}
 }
 
-void SimulationTask::CheckForNegativeValues(Species ** odeVariables, int numberOfVariables, double absTol)
+void SimulationTask::CheckForNegativeValues(Species ** odeVariables, int numberOfVariables, double absTol, double solverOutputTime)
 {
 	const char * ERROR_SOURCE = "SimulationTask::CheckForNegativeValues";
 	vector<string> positiveVariablesWithNegativeValues;
@@ -208,13 +209,12 @@ void SimulationTask::CheckForNegativeValues(Species ** odeVariables, int numberO
 			//found not allowed negative value. 
 			//Cache variable name for the error message and continue with the next variable
 			positiveVariablesWithNegativeValues.push_back(odeVariable->GetFullName());
-			break;
 		}
 		
 	}
 
-	if (positiveVariablesWithNegativeValues.size()>0)
-		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, GetErrorMessageForNegativeVaribales(positiveVariablesWithNegativeValues));
+	if (!positiveVariablesWithNegativeValues.empty())
+		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, GetErrorMessageForNegativeVariables(positiveVariablesWithNegativeValues, solverOutputTime));
 
 }
 
@@ -266,11 +266,11 @@ void SimulationTask::MarkUsedParameters(Simulation * sim)
 	}
 }
 
-string SimulationTask::GetErrorMessageForNegativeVaribales(const vector<string> & positiveVariablesWithNegativeValues)
+string SimulationTask::GetErrorMessageForNegativeVariables(const vector<string> & positiveVariablesWithNegativeValues, double solverOutputTime)
 {
 	string msg;
 
-	msg += "Simulation run failed: some variables became negative. There are different possible reasons for this:";
+	msg += "Simulation run failed: some variables became negative when trying to reach t="+ XMLHelper::ToString(solverOutputTime)+". There are different possible reasons for this:";
 	msg += "\n\n";
 	msg += "  - Solver tolerances are too high. Please reduce the absolute and relative tolerances by one order of magnitude (e.g. from 1E-9 to 1E-10) and restart the simulation.";
 	msg += "\n";

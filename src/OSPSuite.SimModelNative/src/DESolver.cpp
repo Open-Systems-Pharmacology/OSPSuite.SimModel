@@ -322,7 +322,7 @@ namespace SimModelNative
 					//check for not allowed negative values
 					//(must be done BEFORE rescaling the values back)
 					if (_parentSim->Options().CheckForNegativeValues())
-						SimulationTask::CheckForNegativeValues(m_ODEVariables, m_ODE_NumUnknowns, m_SolverProperties.GetAbsTol());
+						SimulationTask::CheckForNegativeValues(m_ODEVariables, m_ODE_NumUnknowns, m_SolverProperties.GetAbsTol(), solverOutputTime);
 
 					//save sensitivity values at the current time step for all variables
 					storeSensitivityValues(TimeStepNumber, sensitivityValues);

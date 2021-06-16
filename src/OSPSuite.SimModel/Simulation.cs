@@ -175,8 +175,8 @@ namespace OSPSuite.SimModel
       public static extern int GetNumberOfSolverWarnings(IntPtr simulation);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void FillSolverWarnings(IntPtr simulation, [In, Out] double[] outputTimes, [In, Out] string[] warnings, 
-         int size, out bool success, out string errorMessage);
+      public static extern void FillSolverWarnings(IntPtr simulation, int size, [In, Out] double[] outputTimes, 
+         [In, Out] string[] warnings, out bool success, out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern IntPtr GetQuantityByPath(IntPtr simulation, string quantityPathWithoutRoot, out bool success, out string errorMessage);
@@ -339,7 +339,7 @@ namespace OSPSuite.SimModel
          var times = new double[numberOfWarnings];
          var warnings=new string[numberOfWarnings];
 
-         SimulationImports.FillSolverWarnings(_simulation, times, warnings, numberOfWarnings, out var success, out var errorMessage);
+         SimulationImports.FillSolverWarnings(_simulation, numberOfWarnings, times, warnings, out var success, out var errorMessage);
          evaluateCppCallResult(success, errorMessage);
 
          for (var i = 0; i < numberOfWarnings; i++)
