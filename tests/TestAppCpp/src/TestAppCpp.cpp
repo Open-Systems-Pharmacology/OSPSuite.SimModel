@@ -6,16 +6,17 @@ int main()
 
    try
    {
-      CoInitialize(NULL);
+      CoInitialize(NULL); 
 
       //TestLeaks();
-      TestSetTablePoints();
+      //TestSetTablePoints();
 
       string simName;
-      simName = "SimModel4_ExampleInput06_Modified";
+      simName = "Test_dynamic_reduced_3"; 
+//      simName = "SimModel4_ExampleInput06_Modified";
       //simName = "SolverError01";
 
-      //Test1(simName);
+      Test1(simName);
    }
    catch (ErrorData& ED)
    {
@@ -35,8 +36,8 @@ int main()
    }
 
    ClearDynamicLibrary();
-//   cout << "Enter anything";
-//   _getch();
+   cout << "Enter anything";
+   _getch();
 
    return 0;
 }

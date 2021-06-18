@@ -1046,6 +1046,9 @@ void Simulation::RunSimulation (bool & toleranceWasReduced, double & newAbsTol, 
 
 					//reset simulation state (parameter values changed by switches etc.)
 					ResetState();
+
+               //reset solver warnings
+               _solverWarnings.clear();
 				}
 				else
 					throw;

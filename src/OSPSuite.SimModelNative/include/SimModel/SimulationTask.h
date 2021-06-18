@@ -14,7 +14,7 @@ namespace SimModelNative
 class SimulationTask
 {
 private:
-	static std::string GetErrorMessageForNegativeVaribales(const std::vector<std::string> & positiveVariablesWithNegativeValues);
+	static std::string GetErrorMessageForNegativeVariables(const std::vector<std::string> & positiveVariablesWithNegativeValues, double solverOutputTime);
 protected:
 	static std::vector <OutputTimePoint> OutputTimePoints(DoubleQueue userOutputTimePoints, 
 	                                                      DoubleQueue switchTimePoints,
@@ -28,7 +28,7 @@ public:
 
 	static void SetValuesBelowAbsTolLevelToZero(double * values, int valuesSize, double absTol);
 
-	static void CheckForNegativeValues(Species ** odeVariables, int numberOfVariables, double absTol);
+	static void CheckForNegativeValues(Species ** odeVariables, int numberOfVariables, double absTol, double solverOutputTime);
 
 	//mark all parameters which are used in any ODE varaible or observer as unused
 	static void MarkUsedParameters(Simulation * sim);

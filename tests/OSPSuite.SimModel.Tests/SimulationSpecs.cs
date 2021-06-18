@@ -920,6 +920,7 @@ namespace OSPSuite.SimModel.Tests
          catch (Exception ex)
          {
             ex.Message.Contains("negative").ShouldBeTrue();
+            ex.Message.Contains("when trying to reach t=").ShouldBeTrue();
 
             //expected behavior. Leave the test case
             return;
@@ -1343,4 +1344,26 @@ namespace OSPSuite.SimModel.Tests
          }
       }
    }
+
+   public class when_retrieving_solver_warnings : concern_for_Simulation
+   {
+      protected override void Because()
+      {
+         base.Because();
+         LoadFinalizeAndRunSimulation("TestWarnings_LowMxStep");
+      }
+
+      protected override void OptionalTasksBeforeRun()
+      {
+         sut.Options.StopOnWarnings = false;
+      }
+
+      [Observation]
+      public void should_retrieve_solver_warnings()
+      {
+         var warnings = sut.SolverWarnings;
+         warnings.Count().ShouldBeGreaterThan(0);
+      }
+   }
+
 }
