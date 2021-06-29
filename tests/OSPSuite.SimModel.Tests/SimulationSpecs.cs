@@ -1366,4 +1366,26 @@ namespace OSPSuite.SimModel.Tests
       }
    }
 
+   public class when_exporting_model_to_cpp_code : concern_for_Simulation
+   {
+      protected override void OptionalTasksBeforeLoad()
+      {
+         sut.Options.KeepXMLNodeAsString = true;
+      }
+
+      [Observation]
+      public void should_export_to_cpp()
+      {
+         var exportFolder = CreateTempFolder();
+
+         LoadSimulation("CPPExportTest01");
+         sut.ExportToCode(exportFolder, CodeExportLanguage.Cpp, CodeExportMode.Formula, "CPPExportTest01_Formula");
+         File.Exists(Path.Combine(exportFolder, "CPPExportTest01_Formula.cpp")).ShouldBeTrue();
+
+         LoadSimulation("CPPExportTest01");
+         sut.ExportToCode(exportFolder, CodeExportLanguage.Cpp, CodeExportMode.Values, "CPPExportTest01_Values");
+         File.Exists(Path.Combine(exportFolder, "CPPExportTest01_Values.cpp")).ShouldBeTrue();
+      }
+
+   }
 }

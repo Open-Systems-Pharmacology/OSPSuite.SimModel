@@ -267,7 +267,7 @@ Formula* Species::DE_Jacobian(const int iEquation)
 
 	s->setFormula(_rhsFormulaListSize, sum);
 
-	delete[] sum;
+   delete[] sum;
 	return s;
 }
 

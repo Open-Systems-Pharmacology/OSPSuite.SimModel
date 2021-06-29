@@ -122,7 +122,7 @@ Formula* SumFormula::DE_Jacobian(const int iEquation)
 
 	s->setFormula(_noOfSummands, sum);
 
-	delete[] sum;
+   delete[] sum;
 	return s;
 }
 

@@ -150,8 +150,8 @@ Formula* ProductFormula::DE_Jacobian(const int iEquation)
 
 	s->setFormula(_noOfMultipliers, sum);
 
-	delete[] mult;
-	delete[] sum;
+   delete[] mult;
+   delete[] sum;
 
 	return s;
 }

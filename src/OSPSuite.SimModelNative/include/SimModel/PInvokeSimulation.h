@@ -137,7 +137,7 @@ namespace SimModelNative
       SIM_EXPORT Quantity* GetQuantityByPath(Simulation* simulation, const char* quantityPath, bool& success, char** errorMessage);
 
       SIM_EXPORT void ExportSimulationToMatlabCode(Simulation* simulation, const char* outputFolder, bool fullMode, bool& success, char** errorMessage);
-      SIM_EXPORT void ExportSimulationToCppCode(Simulation* simulation, const char* outputFolder, bool fullMode, bool& success, char** errorMessage);
+      SIM_EXPORT void ExportSimulationToCppCode(Simulation* simulation, const char* outputFolder, bool fullMode, const char* modelName, bool& success, char** errorMessage);
       SIM_EXPORT void ExportSimulationToRCode(Simulation* simulation, const char* outputFolder, bool fullMode, bool& success, char** errorMessage);
    }
 

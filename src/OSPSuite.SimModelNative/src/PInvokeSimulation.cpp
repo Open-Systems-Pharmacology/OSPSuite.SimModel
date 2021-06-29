@@ -1190,7 +1190,7 @@ namespace SimModelNative
       }
    }
 
-   void ExportSimulationToCppCode(Simulation* simulation, const char* outputFolder, bool fullMode, bool& success, char** errorMessage)
+   void ExportSimulationToCppCode(Simulation* simulation, const char* outputFolder, bool fullMode, const char* modelName, bool& success, char** errorMessage)
    {
       const char* ERROR_SOURCE = "ExportSimulationToCppCode";
       success = false;
@@ -1198,7 +1198,7 @@ namespace SimModelNative
       try
       {
          CppODEExporter cppExporter;
-         cppExporter.WriteCppCode(simulation, outputFolder, fullMode);
+         cppExporter.WriteCppCode(simulation, outputFolder, fullMode, modelName);
 
          success = true;
       }
