@@ -6,6 +6,7 @@
 
 #include "SimModel/Simulation.h"
 #include "SimModel/PInvokeHelper.h"
+#include "SimModel/CppODEExporter.h"
 #include "SimModel/PInvokeQuantity.h"
 #include "SimModel/PInvokeSimulation.h"
 #include "DynamicLibrary.h"
@@ -21,8 +22,7 @@ string BasisDir(const string & exeName);
 string TestFileFrom(const string& fileName);
 void ShowTimeSpan(double tstart, double tend);
 
-Simulation* LoadSimulation(const string& fileName);
-Simulation* LoadSimulation(const string& fileName);
+Simulation* LoadSimulation(const string& fileName, bool keepXmlString =false);
 void FinalizeSimulation(Simulation* sim);
 void RunSimulation(Simulation* sim, bool showInfo=true);
 void ShowFirstWarning(Simulation* sim);
@@ -34,6 +34,7 @@ void TestLeaks(void);
 
 void Test1(const string& simName);
 void TestSetTablePoints();
+void TestCPPExport(const string& simName);
 
 void ClearDynamicLibrary();
 #endif

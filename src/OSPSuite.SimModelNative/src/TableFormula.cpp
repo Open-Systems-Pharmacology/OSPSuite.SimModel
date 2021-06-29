@@ -351,7 +351,7 @@ void TableFormula::WriteFormulaCppCode(std::ostream & mrOut)
 	mrOut << "   double y1 = iter->second;" << endl;
 	mrOut << "   --iter;" << endl;
 	mrOut << "   double x0 = iter->first;" << endl;
-	mrOut << "   double x0 = iter->second;" << endl;
+	mrOut << "   double y0 = iter->second;" << endl;
 	mrOut << "   return y0 + (y1-y0)/(x1-x0)*(Time-x0);" << endl;
 	mrOut << "}" << endl << endl;
 }

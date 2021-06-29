@@ -17,7 +17,7 @@ void evalPInvokeErrorMsg(const bool success, char* errorMessage)
    throw(error);
 }
 
-Simulation* LoadSimulation(const string& fileName)
+Simulation* LoadSimulation(const string& fileName, bool keepXmlString)
 {
    bool success;
    char *errorMsg = NULL;
@@ -27,6 +27,7 @@ Simulation* LoadSimulation(const string& fileName)
    SimulationOptionsStructure options;
    FillSimulationOptions(sim, &options);
    options.AutoReduceTolerances = false;
+   options.KeepXMLNodeAsString = keepXmlString;
    SetSimulationOptions(sim, options);
 
    double t1, t2;

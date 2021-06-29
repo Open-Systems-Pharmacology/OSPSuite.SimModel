@@ -12,11 +12,13 @@ int main()
       //TestSetTablePoints();
 
       string simName;
-      simName = "Test_dynamic_reduced_3"; 
+      simName = "CPPExportTest01";
+//      simName = "Test_dynamic_reduced_3"; 
 //      simName = "SimModel4_ExampleInput06_Modified";
       //simName = "SolverError01";
 
-      Test1(simName);
+      TestCPPExport(simName);
+      //Test1(simName);
    }
    catch (ErrorData& ED)
    {
@@ -125,6 +127,31 @@ void Test1(const string& simName)
       RunSimulation(sim);
 
       DisposeSimulation(sim);
+      sim = NULL;
+   }
+   catch (...)
+   {
+      if (sim != NULL)
+         DisposeSimulation(sim);
+      throw;
+   }
+}
+
+void TestCPPExport(const string& simName)
+{
+   Simulation* sim = NULL;
+   auto cppExporter = new CppODEExporter();
+
+   try
+   {
+      //sim = LoadSimulation(simName, true);
+      //cppExporter->WriteCppCode(sim, "C:\\SW-Dev\\SimModel\\CPPExportTest01", true);
+      //DisposeSimulation(sim);
+
+      sim = LoadSimulation(simName, true);
+      cppExporter->WriteCppCode(sim, "C:\\SW-Dev\\SimModel\\CPPExportTest01", false);
+      DisposeSimulation(sim);
+
       sim = NULL;
    }
    catch (...)

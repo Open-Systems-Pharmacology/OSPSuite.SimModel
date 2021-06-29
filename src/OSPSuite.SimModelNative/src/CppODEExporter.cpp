@@ -5,8 +5,6 @@
 #include "SimModel/DESolverProperties.h"
 #include "SimModel/SimulationTask.h"
 #include "SimModel/OutputSchema.h"
-#include "XMLWrapper/XMLHelper.h"
-#include "SimModel/TableFormula.h"
 
 #ifdef _WINDOWS
 #pragma warning(disable:4996)
@@ -175,6 +173,18 @@ namespace SimModelNative
 				for (int i = 0; i < sim->Parameters().size(); i++)
 					sim->Parameters()[i]->SetIsFixed(false);
 			}
+         else
+         {
+            //TODO workaround
+            //Observers created for persistable parameters are not properly exported
+            for (int i = 0; i < sim->Parameters().size(); i++)
+            {
+               auto parameter = sim->Parameters()[i];
+               if (parameter->IsPersistable())
+                  parameter->SetIsFixed(false);
+            }
+         }
+
 			sim->Finalize();
 		}
 
@@ -209,7 +219,10 @@ namespace SimModelNative
 		formatStream(ossBufferJacParameters);
 
 		ossBufferExport << "#define MODELNAME " << name << endl;
-		ossBufferExport << "#include \"ModelDerived.hpp\"" << endl << endl;
+      ossBufferExport << "#include <map>" << endl;
+		ossBufferExport << "#include \"ModelDerived.h\"" << endl << endl;
+
+      ossBufferExport << "using namespace std;" << endl << endl;
 
 		//ossBufferJacDense << "#define MODELNAME " << name << endl;
 		//ossBufferJacDense << "#include \"ModelDerived.hpp\"" << endl << endl;
@@ -345,7 +358,7 @@ namespace SimModelNative
 					if (param->IsTable())
 					{
 						// insert table name directly
-						ossTemp << "T_" << param->GetId() << "(Time)";
+						ossTemp << "T_" << param->GetFormula()->GetId() << "(Time)";
 						param->SetShortUniqueNameForDESystem(ossTemp.str());
 						vecTables.push_back(param->GetId());
 					}
@@ -572,9 +585,13 @@ namespace SimModelNative
 		const std::map<int, formulaParameterInfo > & formulaParameterIDs, const std::string &jacConstants,
 		const std::vector<Observer*> &obs, ostream & os) {
 
-		// ODE initial values, dont use GetDEInitialValues, because some might be defined as a formula
 		os << "void CLASSNAME(MODELNAME)::ODEInitialValues(double *__restrict__ y, double *__restrict__ P, unsigned int *__restrict__ S) {" << endl;
-		vector<double> vecInitialValues;
+		
+	   vector<double> vecInitialValues;
+      double* initialValues = sim->GetDEInitialValues();
+      vecInitialValues.assign(initialValues, initialValues + sim->GetODENumUnknowns());
+	   delete[] initialValues;
+
 		set<int> usedIDs;
 		for (map<int, Species*>::iterator iter = mapSpecies.begin(); iter != mapSpecies.end(); ++iter)
 		{
@@ -585,8 +602,7 @@ namespace SimModelNative
 		writeParamLocal(usedIDs, os);
 
 		int indexP = 0;
-		vecInitialValues.resize(mapSpecies.size());
-		for (map<int, Species*>::iterator iter = mapSpecies.begin(); iter != mapSpecies.end(); ++iter)
+		for (auto iter = mapSpecies.begin(); iter != mapSpecies.end(); ++iter)
 		{
 			Species * spec = iter->second;
 			if (spec->IsFixed()) {
@@ -594,14 +610,11 @@ namespace SimModelNative
 				os << "    y[" << spec->GetODEIndex() << "] = ";
 				if (f)
 				{
-					vecInitialValues[spec->GetODEIndex()] = f->DE_Compute(NULL, sim->GetStartTime(), IGNORE_SCALEFACTOR);
 					f->WriteCppCode(os);
 				}
 				else
 				{
-					double value = spec->GetInitialValue(NULL, sim->GetStartTime());
-					vecInitialValues[spec->GetODEIndex()] = value;
-					os << value;
+					os << vecInitialValues[spec->GetODEIndex()];
 				}
 				os << "; // " << spec->GetFullName() << endl;
 			}

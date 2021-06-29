@@ -185,7 +185,7 @@ namespace OSPSuite.SimModel
       public static extern IntPtr ExportSimulationToMatlabCode(IntPtr simulation, string outputFolder, bool fullMode, out bool success, out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern IntPtr ExportSimulationToCppCode(IntPtr simulation, string outputFolder, bool fullMode, out bool success, out string errorMessage);
+      public static extern IntPtr ExportSimulationToCppCode(IntPtr simulation, string outputFolder, bool fullMode, string modelName, out bool success, out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern IntPtr ExportSimulationToRCode(IntPtr simulation, string outputFolder, bool fullMode, out bool success, out string errorMessage);
@@ -621,7 +621,7 @@ namespace OSPSuite.SimModel
          return values;
       }
 
-      public void ExportToCode(string outputFolder, CodeExportLanguage language, CodeExportMode mode)
+      public void ExportToCode(string outputFolder, CodeExportLanguage language, CodeExportMode mode, string modelName="")
       {
          var fullMode = (mode == CodeExportMode.Formula);
 
@@ -633,7 +633,7 @@ namespace OSPSuite.SimModel
                evaluateCppCallResult(success, errorMessage);
                break;
             case CodeExportLanguage.Cpp:
-               SimulationImports.ExportSimulationToCppCode(_simulation, outputFolder, fullMode, out success,
+               SimulationImports.ExportSimulationToCppCode(_simulation, outputFolder, fullMode, modelName, out success,
                   out errorMessage);
                evaluateCppCallResult(success, errorMessage);
                break;

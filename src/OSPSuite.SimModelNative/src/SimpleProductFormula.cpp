@@ -204,7 +204,7 @@ Formula* SimpleProductFormula::DE_Jacobian(const int iEquation)
 		p->m_ODEIndexVector = new int[m_ODEIndexVectorSize - 1];
 		p->m_ODEScaleFactorVector = new double[m_ODEIndexVectorSize - 1];
 
-		int last = pos - m_ODEIndexVector - 1;
+		int last = pos - m_ODEIndexVector;
 		for (int i = 0; i < last; i++) {
 			p->m_ODEIndexVector[i] = m_ODEIndexVector[i];
 			p->m_ODEScaleFactorVector[i] = m_ODEScaleFactorVector[i];
