@@ -37,6 +37,21 @@ Species::~Species(void)
 		delete[] _RHS_UsedVariablesIndices;
 		_RHS_UsedVariablesIndices = NULL;
 	}
+	for (const auto& myPair : _jacobian_Parameter_map) {
+		delete myPair.second;
+	}
+}
+
+void Species::CalculateJacobianParameterFor(const int parameterIndex) 
+{
+	const auto& formula = DE_Jacobian(-parameterIndex);
+	_jacobian_Parameter_map[parameterIndex] = formula->RecursiveSimplify();
+}
+
+Formula* Species::JacobianParameterFor(const int parameterIndex) {
+	if (_jacobian_Parameter_map.find(parameterIndex) == _jacobian_Parameter_map.end())
+		CalculateJacobianParameterFor(parameterIndex);
+	return _jacobian_Parameter_map[parameterIndex];
 }
 
 double Species::GetODEScaleFactor () const

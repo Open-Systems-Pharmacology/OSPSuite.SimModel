@@ -93,7 +93,15 @@ void Simulation::Finalize ()
 	for (int i = 0; i < _parameters.size(); i++)
 	{
 		if (_parameters[i]->CalculateSensitivity())
+		{
 			_sensitivityParameters.Add(_parameters[i]);
+			//cache sensitivity derivatives
+			for (int speciesIndex = 0; speciesIndex < m_ODE_NumUnknowns; speciesIndex++)
+			{
+				Species* species = GetDEVariableFromIndex(speciesIndex);
+				species->CalculateJacobianParameterFor(i);
+			}
+		}
 	}
 
 	//set hierarchy levels of dependent formula objects
