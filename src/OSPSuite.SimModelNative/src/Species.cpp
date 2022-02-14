@@ -37,21 +37,45 @@ Species::~Species(void)
 		delete[] _RHS_UsedVariablesIndices;
 		_RHS_UsedVariablesIndices = NULL;
 	}
-	for (const auto& myPair : _jacobian_Parameter_map) {
+	for (const auto& myPair : _jacobian_parameter_map) {
+		delete myPair.second;
+	}
+	for (const auto& myPair : _jacobian_state_variable_map) {
 		delete myPair.second;
 	}
 }
 
+Formula* calculateJacobianFor(const int index, Species* species)
+{
+	const auto& formula = species->DE_Jacobian(index);
+	return formula->RecursiveSimplify();
+}
+
 void Species::CalculateJacobianParameterFor(const int parameterIndex) 
 {
-	const auto& formula = DE_Jacobian(-parameterIndex);
-	_jacobian_Parameter_map[parameterIndex] = formula->RecursiveSimplify();
+	_jacobian_parameter_map[parameterIndex] = calculateJacobianFor(-parameterIndex, this);
+}
+
+void Species::CalculateJacobianStateVariableFor(const int stateVariableIndex)
+{
+	_jacobian_state_variable_map[stateVariableIndex] = calculateJacobianFor(stateVariableIndex, this);
+}
+
+Formula* jacobianFor(const int index, const int mode, std::map<int, Formula*> map, Species* species)
+{
+	if (map.find(index) == map.end())
+	{
+		map[index] = calculateJacobianFor(index * mode, species);
+	}
+	return map[index];
 }
 
 Formula* Species::JacobianParameterFor(const int parameterIndex) {
-	if (_jacobian_Parameter_map.find(parameterIndex) == _jacobian_Parameter_map.end())
-		CalculateJacobianParameterFor(parameterIndex);
-	return _jacobian_Parameter_map[parameterIndex];
+	return jacobianFor(parameterIndex, -1, _jacobian_parameter_map, this);
+}
+
+Formula* Species::JacobianStateVariableFor(const int stateVariableIndex) {
+	return jacobianFor(stateVariableIndex, 1, _jacobian_parameter_map, this);
 }
 
 double Species::GetODEScaleFactor () const

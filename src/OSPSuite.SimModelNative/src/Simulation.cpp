@@ -100,6 +100,10 @@ void Simulation::Finalize ()
 			{
 				Species* species = GetDEVariableFromIndex(speciesIndex);
 				species->CalculateJacobianParameterFor(i);
+				for (int otherSpeciesIndex = 0; otherSpeciesIndex < m_ODE_NumUnknowns; otherSpeciesIndex++)
+				{
+					species->CalculateJacobianStateVariableFor(otherSpeciesIndex);
+				}
 			}
 		}
 	}

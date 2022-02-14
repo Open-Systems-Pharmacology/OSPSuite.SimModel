@@ -36,13 +36,17 @@ protected:
 
 	bool _negativeValuesAllowed;
 
-	std::map<int, Formula*> _jacobian_Parameter_map;
+	std::map<int, Formula*> _jacobian_parameter_map;
+	std::map<int, Formula*> _jacobian_state_variable_map;
 public:
 	Species(void);
 	virtual ~Species(void);
 
 	Formula* JacobianParameterFor(const int parameterIndex);
 	void CalculateJacobianParameterFor(const int parameterIndex);
+
+	Formula* JacobianStateVariableFor(const int stateVariableIndex);
+	void CalculateJacobianStateVariableFor(const int stateVariableIndex);
 
 	double GetODEScaleFactor () const;
 	void SetODEScaleFactor (double p_ODEScaleFactor);
