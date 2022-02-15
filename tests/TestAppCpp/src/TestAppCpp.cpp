@@ -1,7 +1,12 @@
 #include "TestAppCpp.h"
+#include <thread>
 //#include <vld.h>
+#include <windows.h>
+#include <ppl.h>
 
-int main()
+using namespace concurrency;
+
+int main(int argc, char** argv)
 {
 
    try
@@ -12,13 +17,15 @@ int main()
       //TestSetTablePoints();
 
       string simName;
-      simName = "CPPExportTest01";
+//      simName = "CPPExportTest01";
 //      simName = "Test_dynamic_reduced_3"; 
 //      simName = "SimModel4_ExampleInput06_Modified";
       //simName = "SolverError01";
 
-      TestCPPExport(simName);
+      //TestCPPExport(simName);
       //Test1(simName);
+
+      TestParallel1(argc, argv);
    }
    catch (ErrorData& ED)
    {
@@ -42,6 +49,136 @@ int main()
    _getch();
 
    return 0;
+}
+
+void TestParallel1(int argc, char** argv)
+{
+   string* simXMLStrings = NULL;
+   try
+   {
+      string runMode = "threads";
+
+      if (argc < 3)
+         throw "Missing arguments";
+      
+      int numberOfThreads = atoi(argv[2]);
+      if (numberOfThreads <= 0)
+         throw string("Number of threads must be >0. Passed value:") + argv[1];
+
+      if (argc > 3)
+      {
+         runMode = argv[3];
+      }
+
+      string filePath = argv[1];
+      auto simulationString = readFileIntoString(filePath);
+
+      cout << "Running '" << filePath.c_str() << "' (" << numberOfThreads << " runs)" << endl;
+
+      simXMLStrings = new string[numberOfThreads];
+      for (auto i = 0; i < numberOfThreads; i++)
+         simXMLStrings[i] = simulationString;
+
+      auto t1 = GetTickCount64();
+
+      if (runMode == "threads")
+      {
+         ParallelLoop_Threads(numberOfThreads, simXMLStrings);
+      }
+      else if (runMode == "omp")
+      {
+         ParallelLoop_Omp(numberOfThreads, simXMLStrings);
+      }
+      else if (runMode == "sequential")
+      {
+         ParallelLoop_Sequential(numberOfThreads, simXMLStrings);
+      }
+      else if (runMode == "parallel_for")
+      {
+         ParallelLoop_ParallelFor(numberOfThreads, simXMLStrings);
+      }
+      else
+         throw "Invalid run mode passed (" + runMode + "). Valid values are: threads, omp, sequential, parallel_for";
+
+      auto t2 = GetTickCount64();
+      cout << "Overall time "; 	fflush(stdout);
+      ShowTimeSpan(t1, t2);
+   }
+   catch (...)
+   {
+      if (simXMLStrings != NULL)
+         delete[] simXMLStrings;
+      throw;
+   }
+}
+
+void ParallelLoop_Threads(int numberOfThreads, string* simXMLStrings)
+{
+   cout << "Parallel loop: Threads" << endl;
+
+   vector <thread> threads;
+   for (auto i = 0; i < numberOfThreads; i++)
+   {
+      threads.push_back(thread{ SingleSimulationRunForParallel, ref(simXMLStrings[i]) });
+   }
+   for (auto& singleRunThread : threads)
+   {
+      singleRunThread.join();
+   }
+}
+
+//to run this, enable openMP support under C++/Language in VS and add additional compiler option /Zc:twoPhase- 
+void ParallelLoop_Omp(int numberOfThreads, string* simXMLStrings)
+{
+   cout << "Parallel loop: OMP" << endl;
+
+#pragma omp parallel for
+   for (auto i = 0; i < numberOfThreads; i++)
+   {
+      SingleSimulationRunForParallel(simXMLStrings[i]);
+   }
+}
+
+void ParallelLoop_ParallelFor(int numberOfThreads, string* simXMLStrings)
+{
+   cout << "Parallel loop: Parallel_For" << endl;
+
+   parallel_for(size_t(0), (size_t)numberOfThreads, [&](size_t i)
+   {
+      SingleSimulationRunForParallel(simXMLStrings[i]);
+   });
+}
+
+void ParallelLoop_Sequential(int numberOfThreads, string* simXMLStrings)
+{
+   cout << "Parallel loop: Sequential" << endl;
+
+   for (auto i = 0; i < numberOfThreads; i++)
+   {
+      SingleSimulationRunForParallel(simXMLStrings[i]);
+   }
+}
+
+void SingleSimulationRunForParallel(const string& simXMLString)
+{
+   Simulation* simulation = NULL;
+   try
+   {
+      CoInitialize(NULL);
+
+      simulation = LoadSimulationFromString(simXMLString);
+      FinalizeSimulation(simulation);
+      RunSimulation(simulation);
+
+      DisposeSimulation(simulation);
+      simulation = NULL;
+   }
+   catch (...)
+   {
+      if (simulation != NULL)
+         DisposeSimulation(simulation);
+      throw;
+   }
 }
 
 void TestSetTablePoints()
