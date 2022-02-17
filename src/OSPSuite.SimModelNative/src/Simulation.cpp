@@ -96,7 +96,7 @@ void Simulation::Finalize ()
 		{
 			_sensitivityParameters.Add(_parameters[i]);
 			//cache sensitivity derivatives
-			for (int speciesIndex = 0; speciesIndex < m_ODE_NumUnknowns; speciesIndex++)
+			/*for (int speciesIndex = 0; speciesIndex < m_ODE_NumUnknowns; speciesIndex++)
 			{
 				Species* species = GetDEVariableFromIndex(speciesIndex);
 				species->CalculateJacobianParameterFor(i);
@@ -104,7 +104,7 @@ void Simulation::Finalize ()
 				{
 					species->CalculateJacobianStateVariableFor(otherSpeciesIndex);
 				}
-			}
+			}*/
 		}
 	}
 

@@ -36,6 +36,9 @@ protected:
 
 	bool _negativeValuesAllowed;
 
+	Formula* createJacobianFor(const int index);
+	Formula* jacobianFor(const int index, const int mode, std::map<int, Formula*>* map);
+
 	std::map<int, Formula*> _jacobian_parameter_map;
 	std::map<int, Formula*> _jacobian_state_variable_map;
 public:
@@ -43,7 +46,7 @@ public:
 	virtual ~Species(void);
 
 	Formula* JacobianParameterFor(const int parameterIndex);
-	void CalculateJacobianParameterFor(const int parameterIndex);
+	void CacheJacobianFormulaForParameter(const int parameterIndex);
 
 	Formula* JacobianStateVariableFor(const int stateVariableIndex);
 	void CalculateJacobianStateVariableFor(const int stateVariableIndex);

@@ -33,8 +33,15 @@ void SetParameterValues(Simulation* sim, vector<ParameterInfo>* parameterPropert
 void TestLeaks(void);
 
 void Test1(const string& simName);
+void TestSensitivities(
+    const string& simName,
+    const vector<string> variableParameterPaths,
+    const vector<double> variableParameterValues,
+    vector<int> variableParameterIndices,
+    const vector<bool> calculateSensitivities);
 void TestSetTablePoints();
 void TestCPPExport(const string& simName);
 
 void ClearDynamicLibrary();
+double* SensitivityValuesByPathsFor(Simulation* simulation, const char* quantityPath, const char* parameterPath);
 #endif
