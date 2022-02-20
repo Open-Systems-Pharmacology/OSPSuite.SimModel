@@ -171,7 +171,7 @@ void SimpleProductFormula::DE_Jacobian (double * * jacobian, const double * y, c
 			prod *= y[m_ODEIndexVector[i]] * m_ODEScaleFactorVector[i];
 
 			if (prod == 0.0)
-				break;
+				break; 
 		}
 
 		if (prod == 0.0)
