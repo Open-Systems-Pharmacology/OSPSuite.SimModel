@@ -20,9 +20,10 @@ void ShowErrorMessage(const ErrorData& ED);
 
 string BasisDir(const string & exeName);
 string TestFileFrom(const string& fileName);
-void ShowTimeSpan(double tstart, double tend);
+void ShowTimeSpan(ULONGLONG tstart, ULONGLONG tend);
 
 Simulation* LoadSimulation(const string& fileName, bool keepXmlString =false);
+Simulation* LoadSimulationFromString(const string& simulationString, bool keepXmlString = false);
 void FinalizeSimulation(Simulation* sim);
 void RunSimulation(Simulation* sim, bool showInfo=true);
 void ShowFirstWarning(Simulation* sim);
@@ -37,4 +38,15 @@ void TestSetTablePoints();
 void TestCPPExport(const string& simName);
 
 void ClearDynamicLibrary();
+
+void TestParallel1(int argc, char** argv);
+void ParallelLoop_Threads(int numberOfThreads, string* simXMLStrings);
+void ParallelLoop_Omp(int numberOfThreads, string* simXMLStrings);
+void ParallelLoop_Sequential(int numberOfThreads, string* simXMLStrings);
+void ParallelLoop_ParallelFor(int numberOfThreads, string* simXMLStrings);
+
+void SingleSimulationRunForParallel(const string& simXMLString);
+
+string readFileIntoString(const string& path);
+string readFile(const string& path);
 #endif

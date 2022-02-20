@@ -1,6 +1,7 @@
 #include "TestAppCpp.h"
 #include <iostream>
 #include <string.h>
+#include <codecvt>
 
 void evalPInvokeErrorMsg(const bool success, char* errorMessage)
 {
@@ -24,20 +25,45 @@ Simulation* LoadSimulation(const string& fileName, bool keepXmlString)
 
    Simulation* sim = CreateSimulation();
 
-   SimulationOptionsStructure options;
+   SimulationOptionsStructure options{};
    FillSimulationOptions(sim, &options);
    options.AutoReduceTolerances = false;
    options.KeepXMLNodeAsString = keepXmlString;
    SetSimulationOptions(sim, options);
 
-   double t1, t2;
    cout << "loading " << fileName.c_str() << " ... "; 	fflush(stdout);
    
-   t1 = GetTickCount();
+   auto t1 = GetTickCount64();
    LoadSimulationFromXMLFile(sim, TestFileFrom(fileName).c_str(), success, &errorMsg);
    evalPInvokeErrorMsg(success, errorMsg);
-   t2 = GetTickCount();
+   auto t2 = GetTickCount64();
    
+   ShowTimeSpan(t1, t2);
+
+   return sim;
+}
+
+Simulation* LoadSimulationFromString(const string& simulationString, bool keepXmlString)
+{
+   bool success;
+   char* errorMsg = NULL;
+
+   Simulation* sim = CreateSimulation();
+
+   SimulationOptionsStructure options{};
+   FillSimulationOptions(sim, &options);
+   options.AutoReduceTolerances = false;
+   options.KeepXMLNodeAsString = keepXmlString;
+   SetSimulationOptions(sim, options);
+
+//   cout << "loading from string ... "; 	fflush(stdout);
+
+   auto t1 = GetTickCount64();
+   LoadSimulationFromXMLString(sim, simulationString.c_str(), success, &errorMsg);
+   evalPInvokeErrorMsg(success, errorMsg);
+   auto t2 = GetTickCount64();
+
+   cout << "loading from string ... "; 	fflush(stdout);
    ShowTimeSpan(t1, t2);
 
    return sim;
@@ -48,14 +74,14 @@ void FinalizeSimulation(Simulation* sim)
    bool success;
    char* errorMsg = NULL;
 
-   double t1, t2;
-   cout << "finalizing " << " ... "; 	fflush(stdout);
+//   cout << "finalizing " << " ... "; 	fflush(stdout);
 
-   t1 = GetTickCount();
+   auto t1 = GetTickCount64();
    FinalizeSimulation(sim, success, &errorMsg);
    evalPInvokeErrorMsg(success, errorMsg);
-   t2 = GetTickCount();
+   auto t2 = GetTickCount64();
 
+   cout << "finalizing " << " ... "; 	fflush(stdout);
    ShowTimeSpan(t1, t2);
 }
 
@@ -66,20 +92,22 @@ void RunSimulation(Simulation* sim, bool showInfo)
    bool toleranceWasReduced;
    double newAbsTol, newRelTol;
 
-   double t1, t2;
+   //if (showInfo)
+   //{
+   //   cout << "running ... ";
+   //   fflush(stdout);
+   //}
+
+   auto t1 = GetTickCount64();
+   RunSimulation(sim, toleranceWasReduced, newAbsTol, newRelTol, success, &errorMsg);
+   evalPInvokeErrorMsg(success, errorMsg);
+   auto t2 = GetTickCount64();
+
    if (showInfo)
    {
       cout << "running ... ";
-      fflush(stdout);
-   }
-
-   t1 = GetTickCount();
-   RunSimulation(sim, toleranceWasReduced, newAbsTol, newRelTol, success, &errorMsg);
-   evalPInvokeErrorMsg(success, errorMsg);
-   t2 = GetTickCount();
-
-   if (showInfo)
       ShowTimeSpan(t1, t2);
+   }
 
    ShowFirstWarning(sim);
 }
@@ -190,7 +218,7 @@ void ShowErrorMessage(const ErrorData & ED)
 	cout<<ED.GetDescription()<<endl<<"    in "<<ED.GetSource()<<endl;
 }
 
-void ShowTimeSpan(double tstart, double tend)
+void ShowTimeSpan(ULONGLONG tstart, ULONGLONG tend)
 {
 	cout<<(tend-tstart)/1000.0<<"s"<<endl;
 	fflush(stdout);
@@ -208,9 +236,8 @@ string TestFileFrom(const string& fileName)
    return BasisDir("") + "..\\..\\..\\TestData\\" + fileName + ".xml";
 }
 
-void TestLeaks(void)
+void TestLeaks()
 {
-   double d = 0;
    auto* xxx = new char[10];
    strcpy_s(xxx,10, "Fat cat");
 //   auto* yyy = CoTaskMemAlloc(100);
@@ -220,4 +247,32 @@ void ClearDynamicLibrary()
 {
 //   auto * factory = DynamicLibraryFactory::GetFactory();
 //   factory->Clear();
+}
+
+string readFile(const string& path)
+{
+   wifstream wif(path);
+   wif.imbue(locale(locale::empty(), new codecvt_utf8<wchar_t>));
+   wstringstream wss;
+   wss << wif.rdbuf();
+
+   using convert_type = codecvt_utf8<wchar_t>;
+   wstring_convert<convert_type, wchar_t> converter;
+
+   auto contents = converter.to_bytes(wss.str());
+   return contents.substr(contents.find('<'));
+}
+
+string readFileIntoString(const string& path) {
+   ifstream input_file(path);
+//   input_file.imbue(locale(locale::empty(), new codecvt_utf8<wchar_t>));
+   if (!input_file.is_open()) {
+      cerr << "Could not open the file - '"
+         << path << "'" << endl;
+      exit(EXIT_FAILURE);
+   }
+   auto contents = string((istreambuf_iterator<char>(input_file)), istreambuf_iterator<char>());
+   return contents.substr(contents.find('<'));
+
+   //return string((istreambuf_iterator<char>(input_file)), istreambuf_iterator<char>());
 }

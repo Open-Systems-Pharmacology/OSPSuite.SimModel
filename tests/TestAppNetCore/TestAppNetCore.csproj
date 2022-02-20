@@ -4,6 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <Configurations>Debug;Release;Purify_Debug</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
