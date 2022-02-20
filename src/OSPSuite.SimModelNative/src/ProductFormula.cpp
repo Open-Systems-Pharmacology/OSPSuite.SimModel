@@ -116,12 +116,12 @@ void ProductFormula::DE_Jacobian (double * * jacobian, const double * y, const d
 				prod *= _multiplierFormulas[nr] -> DE_Compute(y, time, USE_SCALEFACTOR);
 
 				if (prod == 0.0)
-               break;
+					break;
 			}
 		}
 
-      if (prod == 0.0)
-         continue; //no contribution to jacobian from the current multiplier
+		if (prod == 0.0)
+			continue; //no contribution to jacobian from the current multiplier
 
 		// Add Jacobian of current rate
 		_multiplierFormulas[iFormula] -> DE_Jacobian(jacobian, y, time, iEquation, preFactor * prod);
