@@ -662,8 +662,8 @@ namespace SimModelNative
 		// Compute Jacobian
 		for (int iEquation = 0; iEquation < m_ODE_NumUnknowns; iEquation++)
 		{
-			m_ODEVariables[iEquation]->DE_Jacobian(Jacobian, y, t);
-			MATRIX_ELEM(Jacobian, iEquation, iEquation) = m_ODEVariables[iEquation]->JacobianStateVariableFor(iEquation)->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR);
+			for (int otherVariable = 0; otherVariable < m_ODE_NumUnknowns; otherVariable++)
+				MATRIX_ELEM(Jacobian, iEquation, otherVariable) = m_ODEVariables[iEquation]->JacobianStateVariableFor(otherVariable)->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR);
 		}
 
 		//----for debug only
