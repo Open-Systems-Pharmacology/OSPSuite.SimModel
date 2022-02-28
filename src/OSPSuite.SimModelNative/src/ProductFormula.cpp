@@ -116,7 +116,7 @@ void ProductFormula::DE_Jacobian (double * * jacobian, const double * y, const d
 				prod *= _multiplierFormulas[nr] -> DE_Compute(y, time, USE_SCALEFACTOR);
 
 				if (prod == 0.0)
-					return;
+					continue;
 			}
 		}
 
