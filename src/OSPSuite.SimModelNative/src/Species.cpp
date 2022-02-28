@@ -61,23 +61,23 @@ void Species::CalculateJacobianStateVariableFor(const int stateVariableIndex)
 	_jacobian_state_variable_map[stateVariableIndex] = createJacobianFor(stateVariableIndex);
 }
 
-Formula* Species::jacobianFor(const int index, const int mode, std::map<int, Formula*>* map)
+Formula* Species::jacobianFor(const int index, const int mode, std::map<int, Formula*>& map)
 {
-	if (map->find(index) == map->end())
-	{
-		auto formula = createJacobianFor(index * mode);
-		map->insert(std::pair<int, Formula*>(index, formula));
-		return formula;
-	}
-	return map->at(index);
+	auto it = map.find(index);
+	if (it != map.end())
+		return it->second;
+
+	auto formula = createJacobianFor(index * mode);
+	map.insert(std::pair<int, Formula*>(index, formula));
+	return formula;
 }
 
 Formula* Species::JacobianParameterFor(const int parameterIndex) {
-	return jacobianFor(parameterIndex, -1, &_jacobian_parameter_map);
+	return jacobianFor(parameterIndex, -1, _jacobian_parameter_map);
 }
 
 Formula* Species::JacobianStateVariableFor(const int stateVariableIndex) {
-	return jacobianFor(stateVariableIndex, 1, &_jacobian_parameter_map);
+	return jacobianFor(stateVariableIndex, 1, _jacobian_parameter_map);
 }
 
 double Species::GetODEScaleFactor () const
