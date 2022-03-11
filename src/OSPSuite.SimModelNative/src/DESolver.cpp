@@ -9,6 +9,7 @@
 #include <cmath>
 #include <ctime>
 #include <vector>
+#include <chrono>
 
 namespace SimModelNative
 {
@@ -341,6 +342,11 @@ namespace SimModelNative
 					// Reset ODE system (we solve a new one)
 					iResultflag = pSolver->ReInit(solverOutputTime, new_initialvalues_vec);
 
+					for (int iEquation = 0; iEquation < m_ODE_NumUnknowns; iEquation++)
+					{
+						m_ODEVariables[iEquation]->ClearJacobians();
+					}
+
 					if (iResultflag != DE_NOERROR)
 						throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, pSolver->GetSolverErrMsg(iResultflag));
 				}
@@ -660,10 +666,23 @@ namespace SimModelNative
 			_parentSim->SensitivityParameters()[i]->SetInitialValue(p[i]);
 
 		// Compute Jacobian
+		std::chrono::duration<double> elapsed_seconds;
 		for (int iEquation = 0; iEquation < m_ODE_NumUnknowns; iEquation++)
 		{
+			auto start = std::chrono::system_clock::now();
+			m_ODEVariables[iEquation]->DE_Jacobian(Jacobian, y, t);
+			auto end = std::chrono::system_clock::now();
+			elapsed_seconds = end - start;
+			start = std::chrono::system_clock::now();
 			for (int otherVariable = 0; otherVariable < m_ODE_NumUnknowns; otherVariable++)
+			{
+				auto before = MATRIX_ELEM(Jacobian, iEquation, otherVariable);
 				MATRIX_ELEM(Jacobian, iEquation, otherVariable) = m_ODEVariables[iEquation]->JacobianStateVariableFor(otherVariable)->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR);
+				if (abs(before - MATRIX_ELEM(Jacobian, iEquation, otherVariable)) > 0.001)
+					MATRIX_ELEM(Jacobian, iEquation, otherVariable) = before;
+			}
+			end = std::chrono::system_clock::now();
+			elapsed_seconds = end - start;
 		}
 
 		//----for debug only

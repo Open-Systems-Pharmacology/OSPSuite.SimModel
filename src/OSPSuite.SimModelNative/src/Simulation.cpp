@@ -95,16 +95,6 @@ void Simulation::Finalize ()
 		if (_parameters[i]->CalculateSensitivity())
 		{
 			_sensitivityParameters.Add(_parameters[i]);
-			//cache sensitivity derivatives
-			/*for (int speciesIndex = 0; speciesIndex < m_ODE_NumUnknowns; speciesIndex++)
-			{
-				Species* species = GetDEVariableFromIndex(speciesIndex);
-				species->CalculateJacobianParameterFor(i);
-				for (int otherSpeciesIndex = 0; otherSpeciesIndex < m_ODE_NumUnknowns; otherSpeciesIndex++)
-				{
-					species->CalculateJacobianStateVariableFor(otherSpeciesIndex);
-				}
-			}*/
 		}
 	}
 
@@ -138,6 +128,16 @@ void Simulation::Finalize ()
 	//
 	//(Default is false!)
 	SetupBandLinearSolver();
+
+	//cache sensitivity derivatives
+	for (int speciesIndex = 0; speciesIndex < m_ODE_NumUnknowns; speciesIndex++)
+	{
+		Species* species = GetDEVariableFromIndex(speciesIndex);
+		for (int otherSpeciesIndex = 0; otherSpeciesIndex < m_ODE_NumUnknowns; otherSpeciesIndex++)
+		{
+			species->JacobianStateVariableFor(otherSpeciesIndex);
+		}
+	}
 	
 	//Everything ok, we can allow the run 
 	_isFinalized = true;

@@ -50,6 +50,7 @@ public:
 
 	Formula* JacobianStateVariableFor(const int stateVariableIndex);
 	void CalculateJacobianStateVariableFor(const int stateVariableIndex);
+	void ClearJacobians();
 
 	double GetODEScaleFactor () const;
 	void SetODEScaleFactor (double p_ODEScaleFactor);

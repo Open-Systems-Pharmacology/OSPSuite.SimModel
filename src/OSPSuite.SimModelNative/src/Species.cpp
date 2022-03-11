@@ -76,8 +76,19 @@ Formula* Species::JacobianParameterFor(const int parameterIndex) {
 	return jacobianFor(parameterIndex, -1, _jacobian_parameter_map);
 }
 
+void Species::ClearJacobians() {
+	for (const auto& myPair : _jacobian_parameter_map) {
+		delete myPair.second;
+	}
+	for (const auto& myPair : _jacobian_state_variable_map) {
+		delete myPair.second;
+	}
+	_jacobian_state_variable_map.clear();
+	_jacobian_parameter_map.clear();
+}
+
 Formula* Species::JacobianStateVariableFor(const int stateVariableIndex) {
-	return jacobianFor(stateVariableIndex, 1, _jacobian_parameter_map);
+	return jacobianFor(stateVariableIndex, 1, _jacobian_state_variable_map);
 }
 
 double Species::GetODEScaleFactor () const
