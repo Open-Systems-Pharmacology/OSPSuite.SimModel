@@ -340,10 +340,12 @@ namespace SimModelNative
 
 					// Reset ODE system (we solve a new one)
 					iResultflag = pSolver->ReInit(solverOutputTime, new_initialvalues_vec);
-
-					for (int iEquation = 0; iEquation < m_ODE_NumUnknowns; iEquation++)
+					if (switchUpdate)
 					{
-						m_ODEVariables[iEquation]->ClearJacobians();
+						for (int iEquation = 0; iEquation < m_ODE_NumUnknowns; iEquation++)
+						{
+							m_ODEVariables[iEquation]->ClearJacobians();
+						}
 					}
 
 					if (iResultflag != DE_NOERROR)
