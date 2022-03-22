@@ -213,7 +213,8 @@ namespace SimModelNative
 				throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE,"Cannot allocate memory for solution vector");
 
 			//---- perform initial switch update on <initialvalues>
-			_parentSim->PerformSwitchUpdate(initialvalues, simStartTime);
+			set<int> changedVariablesIndicesUsedInParameters;
+			_parentSim->PerformSwitchUpdate(initialvalues, simStartTime, changedVariablesIndicesUsedInParameters);
 
 			//initialize solution vector with initial data
 			for (i = 0; i < m_ODE_NumUnknowns; i++)
@@ -329,7 +330,7 @@ namespace SimModelNative
 				}
 
 				//---- perform switches
-				bool switchUpdate = _parentSim->PerformSwitchUpdate(solution, solverOutputTime);
+				bool switchUpdate = _parentSim->PerformSwitchUpdate(solution, solverOutputTime, changedVariablesIndicesUsedInParameters);
 
 				if((switchUpdate || outTimePoint.RestartSystem()) &&(m_ODE_NumUnknowns > 0))
 				{

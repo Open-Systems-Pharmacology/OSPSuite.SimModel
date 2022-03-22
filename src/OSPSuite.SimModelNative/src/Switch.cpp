@@ -71,7 +71,7 @@ void Switch::SimplifyFormulas(bool forCurrentRunOnly)
 		_formulaChangeVector[i]->GetNewFormula()->Simplify(forCurrentRunOnly);
 }
 
-bool Switch::PerformSwitchUpdate (double * y, double time)
+bool Switch::PerformSwitchUpdate (double * y, double time, set<int>& changedVariablesIndicesUsedInParameters)
 {
 	//In OneTime-mode: check if switch was already fired. nothing to do if so
 	if (_oneTime && _wasFired)
@@ -89,7 +89,7 @@ bool Switch::PerformSwitchUpdate (double * y, double time)
 	bool switchUpdate = false;
 	
 	for(int i=0; i<_formulaChangeVector.size(); i++)
-		switchUpdate |= _formulaChangeVector[i]->PerformSwitchUpdate(y, time);
+		switchUpdate |= _formulaChangeVector[i]->PerformSwitchUpdate(y, time, changedVariablesIndicesUsedInParameters);
 
 	return switchUpdate;
 }

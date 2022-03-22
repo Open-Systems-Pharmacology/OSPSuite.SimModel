@@ -73,7 +73,7 @@ Formula * FormulaChange::GetNewFormula(void)
 	return _newFormula;
 }
 
-bool FormulaChange::PerformSwitchUpdate(double * y, double time)
+bool FormulaChange::PerformSwitchUpdate(double * y, double time, set<int>& changedVariablesIndicesUsedInParameters) const
 {
 	if(_speciesDEIndex != DE_INVALID_INDEX)
 	{
@@ -92,6 +92,9 @@ bool FormulaChange::PerformSwitchUpdate(double * y, double time)
 	//---- object to change is not a species - set new formula or value
 	if (_useAsValue)
 	{
+		//add variable indices used by the original quantity formula
+		_quantity->AppendUsedVariables(changedVariablesIndicesUsedInParameters);
+
 		//set formula VALUE of the new formula
 		_quantity->SetConstantValue(_newFormula->DE_Compute(y, time, USE_SCALEFACTOR));
 		return true;
@@ -100,8 +103,16 @@ bool FormulaChange::PerformSwitchUpdate(double * y, double time)
 	if (_quantity->IsFormulaEqualTo(_newFormula))
 		return false; //same formula already set - no change
 
-	//really new formula - set new FORMULA
+	//---- really new formula - set new FORMULA
+
+	//first, add state variables used by the old formula to the set of changed RHS variables
+	_quantity->AppendUsedVariables(changedVariablesIndicesUsedInParameters);
+
+	//update formula
 	_quantity->SetFormula(_newFormula);
+
+	//now add state variables used by the NEW formula to the set of changed RHS variables
+	_quantity->AppendUsedVariables(changedVariablesIndicesUsedInParameters);
 
 	return true; //simulation conditions changed by switch (solver restart needed)
 }

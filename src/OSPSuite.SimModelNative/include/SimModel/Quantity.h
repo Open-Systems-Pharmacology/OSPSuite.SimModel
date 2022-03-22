@@ -146,7 +146,7 @@ public:
 
 	long GetFormulaId(void);
 
-	void AppendUsedVariables(std::set<int> & usedVariablesIndices, const std::set<int> & variablesIndicesUsedInSwitchAssignments);
+	void AppendUsedVariables(std::set<int> & usedVariablesIndices, const std::set<int> & variablesIndicesUsedInSwitchAssignments = std::set<int>());
 	void AppendUsedParameters(std::set<int> & usedParameterIDs);
 
 	virtual void UpdateIndicesOfReferencedVariables();

@@ -802,12 +802,15 @@ Species * Simulation::GetDEVariableFromIndex (int DESpeciesIndex)
 	return species;
 }
 
-bool Simulation::PerformSwitchUpdate (double * y, double time)
+bool Simulation::PerformSwitchUpdate (double * y, double time, set<int>& changedVariablesIndicesUsedInParameters) const
 {
+	//clear changed variables set if it was not empty
+	changedVariablesIndicesUsedInParameters.clear();
+
 	bool switchUpdate = false;
 
 	for(int i=0; i<_switches.size(); i++)
-		switchUpdate |= _switches[i]->PerformSwitchUpdate(y, time);
+		switchUpdate |= _switches[i]->PerformSwitchUpdate(y, time, changedVariablesIndicesUsedInParameters);
 	
 	return switchUpdate;
 }
