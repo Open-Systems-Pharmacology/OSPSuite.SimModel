@@ -28,7 +28,7 @@ Species::Species(void)
 	_RHS_UsedVariablesIndices = NULL;
 	
 	_negativeValuesAllowed = true;
-	_constantNullFormula = new ConstantFormula(0);
+	_constantZeroFormula = new ConstantFormula(0);
 }
 
 Species::~Species(void)
@@ -45,7 +45,7 @@ Species::~Species(void)
 	for (const auto& myPair : _jacobian_state_variable_map) {
 		delete myPair.second;
 	}
-	delete _constantNullFormula;
+	delete _constantZeroFormula;
 }
 
 Formula* Species::createJacobianFor(const int index)
@@ -82,7 +82,7 @@ void Species::ClearJacobians() {
 
 Formula* Species::JacobianStateVariableFor(const int stateVariableIndex) {
 	if (!RHSDependsOn(stateVariableIndex))
-		return _constantNullFormula;
+		return _constantZeroFormula;
 	return jacobianFor(stateVariableIndex, 1, _jacobian_state_variable_map);
 }
 
