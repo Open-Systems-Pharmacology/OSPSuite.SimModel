@@ -212,8 +212,9 @@ namespace SimModelNative
 			if (!solution || !solutionAboveAbsTol)
 				throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE,"Cannot allocate memory for solution vector");
 
+			bool switchJacobians = false;
 			//---- perform initial switch update on <initialvalues>
-			_parentSim->PerformSwitchUpdate(initialvalues, simStartTime);
+			_parentSim->PerformSwitchUpdate(initialvalues, simStartTime, switchJacobians);
 
 			//initialize solution vector with initial data
 			for (i = 0; i < m_ODE_NumUnknowns; i++)
@@ -328,8 +329,9 @@ namespace SimModelNative
 					storeSensitivityValues(TimeStepNumber, sensitivityValues);
 				}
 
+				bool switchJacobians = false;
 				//---- perform switches
-				bool switchUpdate = _parentSim->PerformSwitchUpdate(solution, solverOutputTime);
+				bool switchUpdate = _parentSim->PerformSwitchUpdate(solution, solverOutputTime, switchJacobians);
 
 				if((switchUpdate || outTimePoint.RestartSystem()) &&(m_ODE_NumUnknowns > 0))
 				{
@@ -340,7 +342,7 @@ namespace SimModelNative
 
 					// Reset ODE system (we solve a new one)
 					iResultflag = pSolver->ReInit(solverOutputTime, new_initialvalues_vec);
-					if (switchUpdate)
+					if (switchJacobians)
 					{
 						for (int iEquation = 0; iEquation < m_ODE_NumUnknowns; iEquation++)
 						{

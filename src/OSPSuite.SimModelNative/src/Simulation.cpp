@@ -814,12 +814,16 @@ Species * Simulation::GetDEVariableFromIndex (int DESpeciesIndex)
 	return species;
 }
 
-bool Simulation::PerformSwitchUpdate (double * y, double time)
+bool Simulation::PerformSwitchUpdate (double * y, double time, bool& switchJacobians)
 {
 	bool switchUpdate = false;
 
-	for(int i=0; i<_switches.size(); i++)
-		switchUpdate |= _switches[i]->PerformSwitchUpdate(y, time);
+	for (int i = 0; i < _switches.size(); i++)
+	{
+		auto localSwitch = false;
+		switchUpdate |= _switches[i]->PerformSwitchUpdate(y, time, localSwitch);
+		switchJacobians |= localSwitch;
+	}
 	
 	return switchUpdate;
 }

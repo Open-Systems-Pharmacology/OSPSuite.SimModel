@@ -73,7 +73,7 @@ Formula * FormulaChange::GetNewFormula(void)
 	return _newFormula;
 }
 
-bool FormulaChange::PerformSwitchUpdate(double * y, double time)
+bool FormulaChange::PerformSwitchUpdate(double * y, double time, bool & switchJacobians)
 {
 	if(_speciesDEIndex != DE_INVALID_INDEX)
 	{
@@ -92,6 +92,8 @@ bool FormulaChange::PerformSwitchUpdate(double * y, double time)
 	//---- object to change is not a species - set new formula or value
 	if (_useAsValue)
 	{
+		if (_quantity->GetFormula())
+			switchJacobians = true;
 		//set formula VALUE of the new formula
 		_quantity->SetConstantValue(_newFormula->DE_Compute(y, time, USE_SCALEFACTOR));
 		return true;
@@ -101,6 +103,8 @@ bool FormulaChange::PerformSwitchUpdate(double * y, double time)
 		return false; //same formula already set - no change
 
 	//really new formula - set new FORMULA
+	if (!_quantity->GetFormula())
+		switchJacobians = true;
 	_quantity->SetFormula(_newFormula);
 
 	return true; //simulation conditions changed by switch (solver restart needed)

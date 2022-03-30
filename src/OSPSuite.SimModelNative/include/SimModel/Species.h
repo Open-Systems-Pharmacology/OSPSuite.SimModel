@@ -38,6 +38,7 @@ protected:
 
 	Formula* createJacobianFor(const int index);
 	Formula* jacobianFor(const int index, const int mode, std::map<int, Formula*>& map);
+	Formula* _constantNullFormula;
 
 	std::map<int, Formula*> _jacobian_parameter_map;
 	std::map<int, Formula*> _jacobian_state_variable_map;
@@ -46,10 +47,8 @@ public:
 	virtual ~Species(void);
 
 	Formula* JacobianParameterFor(const int parameterIndex);
-	void CacheJacobianFormulaForParameter(const int parameterIndex);
 
 	Formula* JacobianStateVariableFor(const int stateVariableIndex);
-	void CalculateJacobianStateVariableFor(const int stateVariableIndex);
 	void ClearJacobians();
 
 	double GetODEScaleFactor () const;
