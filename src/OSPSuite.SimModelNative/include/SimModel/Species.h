@@ -38,7 +38,7 @@ protected:
 
 	Formula* createJacobianFor(const int index);
 	Formula* jacobianFor(const int index, const int mode, std::map<int, Formula*>& map);
-	Formula* _constantNullFormula;
+	Formula* _constantZeroFormula;
 
 	std::map<int, Formula*> _jacobian_parameter_map;
 	std::map<int, Formula*> _jacobian_state_variable_map;
