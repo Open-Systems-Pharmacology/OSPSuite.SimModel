@@ -110,14 +110,12 @@ bool FormulaChange::PerformSwitchUpdate(double * y, double time, bool & switchJa
 		return false; //same formula already set - no change
 
 	//really new formula - set new FORMULA
-	if (!_quantity->GetFormula())
-	{
-		set<int> usedIDs;
-		set<int> empty;
-		_newFormula->AppendUsedVariables(usedIDs, empty);
-		if (usedIDs.size() > 0)
-			switchJacobians = true;
-	}
+	set<int> usedIDs;
+	set<int> empty;
+	_newFormula->AppendUsedVariables(usedIDs, empty);
+	_quantity->AppendUsedVariables(usedIDs, empty);
+	if (usedIDs.size() > 0) //Only if old or new formula uses state variables
+		switchJacobians = true;
 	_quantity->SetFormula(_newFormula);
 
 	return true; //simulation conditions changed by switch (solver restart needed)
