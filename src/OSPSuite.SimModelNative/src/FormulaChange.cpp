@@ -92,15 +92,11 @@ bool FormulaChange::PerformSwitchUpdate(double * y, double time, bool & switchJa
 	//---- object to change is not a species - set new formula or value
 	if (_useAsValue)
 	{
-		auto oldFormula = _quantity->GetFormula();
-		if (oldFormula)
-		{
-			set<int> usedIDs;
-			set<int> empty;
-			oldFormula->AppendUsedVariables(usedIDs, empty);
-			if (usedIDs.size() > 0)
-				switchJacobians = true;
-		}
+		set<int> usedIDs;
+		set<int> empty;
+		_quantity->AppendUsedVariables(usedIDs, empty);
+		if (usedIDs.size() > 0)
+			switchJacobians = true;
 		//set formula VALUE of the new formula
 		_quantity->SetConstantValue(_newFormula->DE_Compute(y, time, USE_SCALEFACTOR));
 		return true;
