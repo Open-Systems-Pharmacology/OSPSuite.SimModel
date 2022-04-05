@@ -137,6 +137,10 @@ void Simulation::Finalize ()
 		{
 			species->JacobianStateVariableFor(otherSpeciesIndex);
 		}
+		for (auto parameterIdx = 0; parameterIdx < _sensitivityParameters.size(); parameterIdx++)
+		{
+			species->JacobianParameterFor(_sensitivityParameters[parameterIdx]->GetId());
+		}
 	}
 	
 	//Everything ok, we can allow the run 

@@ -65,8 +65,8 @@ Formula* Species::jacobianFor(const int index, const int mode, std::map<int, For
 	return formula;
 }
 
-Formula* Species::JacobianParameterFor(const int parameterIndex) {
-	return jacobianFor(parameterIndex, -1, _jacobian_parameter_map);
+Formula* Species::JacobianParameterFor(const int parameterId) {
+	return jacobianFor(parameterId, -1, _jacobian_parameter_map);
 }
 
 void Species::ClearJacobians() {

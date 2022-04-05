@@ -686,27 +686,28 @@ namespace SimModelNative
 	Sensitivity_Rhs_Return_Value DESolver::ODESensitivityRhsFunction(double t, const double * y, double * ydot,
 		int iS, const double * yS, double * ySdot, void * f_data)
 	{
-		throw "Not implemented yet";
+		//fill the RHS of the ODE variables first
+		Rhs_Return_Value odeRHSReturnValue = ODERhsFunction(t, y, yS, ydot, f_data);
 
-//		//fill the RHS of the ODE variables first
-//		Rhs_Return_Value odeRHSReturnValue = ODERhsFunction(t, y, ydot, f_data);
-//
-//		if (odeRHSReturnValue == RHS_FAILED)
-//			return SENSITIVITY_RHS_FAILED;
-//
-//		if (odeRHSReturnValue == RHS_RECOVERABLE_ERROR)
-//			return SENSITIVITY_RHS_RECOVERABLE_ERROR;
-//
-//		//just in case (return value should be ok now)
-//		if (odeRHSReturnValue != RHS_OK)
-//			throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "ODERhsFunction return unknown exit code");
-//
+		if (odeRHSReturnValue == RHS_FAILED)
+			return SENSITIVITY_RHS_FAILED;
+
+		if (odeRHSReturnValue == RHS_RECOVERABLE_ERROR)
+			return SENSITIVITY_RHS_RECOVERABLE_ERROR;
+
+		//just in case (return value should be ok now)
+		if (odeRHSReturnValue != RHS_OK)
+			throw ErrorData(ErrorData::ED_ERROR, "ODESensitivityRhsFunction", "ODERhsFunction return unknown exit code");
+
 //		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "ODESensitivityRhsFunction not implemented yet");
-//
-//		//-------------------------------------------------
-//		// 1. Get cached values
-//		//-------------------------------------------------
 
+		//-------------------------------------------------
+		// 1. Get cached values
+		//-------------------------------------------------
+		for (int iEquation = 0; iEquation < m_ODE_NumUnknowns; iEquation++)
+		{
+			ySdot[iEquation] = m_ODEVariables[iEquation]->JacobianParameterFor(_sensitivityParameters[iS]->GetId())->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR);
+		}
 	}
 
 	void DESolver::addJacobianTimeValueTriple(double t, const double * y, const double * * Jacobian)
@@ -752,11 +753,7 @@ namespace SimModelNative
 
 	bool DESolver::IsSet_ODESensitivityRhsFunction()
 	{
-		return false; //TODO until implemented
-
-		//function may be called only if Jacobian calculation is activated
-		if (!IsSet_ODEJacFunction())
-			return false;
+		return IsSet_ODEJacFunction();
 	}
 
 	bool DESolver::IsSet_DDERhsFunction ()

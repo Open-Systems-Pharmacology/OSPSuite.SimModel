@@ -46,7 +46,7 @@ public:
 	Species(void);
 	virtual ~Species(void);
 
-	Formula* JacobianParameterFor(const int parameterIndex);
+	Formula* JacobianParameterFor(const int parameterId);
 
 	Formula* JacobianStateVariableFor(const int stateVariableIndex);
 	void ClearJacobians();
