@@ -708,6 +708,7 @@ namespace SimModelNative
 		{
 			ySdot[iEquation] = m_ODEVariables[iEquation]->JacobianParameterFor(_sensitivityParameters[iS]->GetId())->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR);
 		}
+		return SENSITIVITY_RHS_OK;
 	}
 
 	void DESolver::addJacobianTimeValueTriple(double t, const double * y, const double * * Jacobian)
