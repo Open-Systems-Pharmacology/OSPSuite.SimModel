@@ -120,6 +120,9 @@ void ProductFormula::DE_Jacobian (double * * jacobian, const double * y, const d
 			}
 		}
 
+		if (prod == 0.0)
+			continue; //no contribution to jacobian from the current multiplier
+
 		// Add Jacobian of current rate
 		_multiplierFormulas[iFormula] -> DE_Jacobian(jacobian, y, time, iEquation, preFactor * prod);
 	}

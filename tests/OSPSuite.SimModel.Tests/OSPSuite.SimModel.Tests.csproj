@@ -6,6 +6,8 @@
     <IsPackable>false</IsPackable>
 
     <RunPostBuildEvent>Always</RunPostBuildEvent>
+
+    <Configurations>Debug;Release;Purify_Debug</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">

@@ -16,6 +16,7 @@
     <Authors>Open Systems Pharmacology Community</Authors>
     <Company>Open Systems Pharmacology Community</Company>
     <Copyright>© Open Systems Pharmacology Community 2020</Copyright>
+    <Configurations>Debug;Release;Purify_Debug</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
