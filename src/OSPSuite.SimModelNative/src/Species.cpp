@@ -56,13 +56,6 @@ Formula* Species::createJacobianFor(const int index)
 
 Formula* Species::jacobianFor(const int index, const int mode, std::map<int, Formula*>& map)
 {
-	if (mode == -1)
-	{
-		for (const auto& myPair : _jacobian_parameter_map) {
-			delete myPair.second;
-		}
-		_jacobian_parameter_map.clear();
-	}
 	auto it = map.find(index);
 	if (it != map.end())
 		return it->second;
