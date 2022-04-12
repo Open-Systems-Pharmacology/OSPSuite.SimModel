@@ -541,8 +541,8 @@ namespace SimModelNative
 			ydot[i] = 0.;
 
 		//set value of sensitivity parameters
-		for (i = 0; i < _sensitivityParameters.size(); i++)
-			_sensitivityParameters[i]->SetInitialValue(p[i]);
+		//for (i = 0; i < _sensitivityParameters.size(); i++)
+		//	_sensitivityParameters[i]->SetInitialValue(p[i]);
 
 		//save solution at the current time step into the compartments
 		for (i = 0; i < m_ODE_NumUnknowns; i++)
@@ -704,12 +704,16 @@ namespace SimModelNative
 		//-------------------------------------------------
 		// 1. Get cached values
 		//-------------------------------------------------
-		for (int iEquation = 0; iEquation < m_ODE_NumUnknowns; iEquation++)
+		for (int i = 0; i < m_ODE_NumUnknowns; i++)
 		{
-			ySdot[iEquation] = 
-				m_ODEVariables[iEquation]->JacobianStateVariableFor(iEquation)->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR) * yS[iEquation] +
-				m_ODEVariables[iEquation]->JacobianParameterFor(_sensitivityParameters[iS]->GetId())->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR);
+			ySdot[i] = 0;
+			for (int j = 0; j < m_ODE_NumUnknowns; j++)
+			{
+				ySdot[i] += m_ODEVariables[i]->JacobianStateVariableFor(j)->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR) * yS[j];
+			}
+			ySdot[i] += m_ODEVariables[i]->JacobianParameterFor(_sensitivityParameters[iS]->GetId())->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR);
 		}
+
 		return SENSITIVITY_RHS_OK;
 	}
 
