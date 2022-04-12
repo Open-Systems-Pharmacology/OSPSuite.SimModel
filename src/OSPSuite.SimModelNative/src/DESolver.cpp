@@ -706,7 +706,9 @@ namespace SimModelNative
 		//-------------------------------------------------
 		for (int iEquation = 0; iEquation < m_ODE_NumUnknowns; iEquation++)
 		{
-			ySdot[iEquation] = m_ODEVariables[iEquation]->JacobianParameterFor(_sensitivityParameters[iS]->GetId())->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR);
+			ySdot[iEquation] = 
+				m_ODEVariables[iEquation]->JacobianStateVariableFor(iEquation)->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR) * yS[iEquation] +
+				m_ODEVariables[iEquation]->JacobianParameterFor(_sensitivityParameters[iS]->GetId())->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR);
 		}
 		return SENSITIVITY_RHS_OK;
 	}
