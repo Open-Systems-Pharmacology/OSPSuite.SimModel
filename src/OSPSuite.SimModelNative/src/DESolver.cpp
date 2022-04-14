@@ -541,8 +541,10 @@ namespace SimModelNative
 			ydot[i] = 0.;
 
 		//set value of sensitivity parameters
-		//for (i = 0; i < _sensitivityParameters.size(); i++)
-		//	_sensitivityParameters[i]->SetInitialValue(p[i]);
+		for (i = 0; i < _sensitivityParameters.size(); i++)
+		{
+			_sensitivityParameters[i]->SetInitialValue(p[i]);
+		}
 
 		//save solution at the current time step into the compartments
 		for (i = 0; i < m_ODE_NumUnknowns; i++)
