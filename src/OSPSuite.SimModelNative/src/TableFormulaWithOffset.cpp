@@ -155,7 +155,9 @@ void TableFormulaWithOffset::Finalize()
 
 vector <double> TableFormulaWithOffset::RestartTimePoints()
 {
-	assert ((_tableObject != NULL) && (_offsetObject != NULL));
+	//table formula can be NULL if the original table formula was constant and thus was replaced by its value
+	if (_tableFormula == NULL)
+		return vector<double>();
 
 	double offset;
 

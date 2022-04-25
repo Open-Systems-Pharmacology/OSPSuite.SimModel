@@ -1388,4 +1388,19 @@ namespace OSPSuite.SimModel.Tests
       }
 
    }
+
+   public class when_running_a_simulation_with_const_zero_table_formulation : concern_for_Simulation
+   {
+      protected override void Because()
+      {
+         base.Because();
+         LoadAndFinalizeSimulation("ConstZeroTableFormulation");
+      }
+
+      [Observation]
+      public void simulation_run_should_not_crash()
+      {
+         sut.RunSimulation();
+      }
+   }
 }
