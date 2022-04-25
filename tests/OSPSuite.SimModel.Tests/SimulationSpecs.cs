@@ -1403,4 +1403,41 @@ namespace OSPSuite.SimModel.Tests
          sut.RunSimulation();
       }
    }
+
+   public class when_running_a_simulation_with_negative_molecule_initial_value : concern_for_Simulation
+   {
+      protected override void Because()
+      {
+         base.Because();
+         LoadAndFinalizeSimulation("NegativeInititalValue");
+      }
+
+      [Observation]
+      public void simulation_should_throw_an_exception()
+      {
+         sut.Options.CheckForNegativeValues = true;
+         try
+         {
+            RunSimulation();
+         }
+         catch (Exception ex)
+         {
+            ex.Message.Contains("Initial value").ShouldBeTrue();
+            ex.Message.Contains("negative").ShouldBeTrue();
+
+            //expected behavior. Leave the test case
+            return;
+         }
+
+         //failed (no exception with negative values check)
+         throw new Exception("No exception was thrown with negative values check");
+      }
+
+      [Observation]
+      public void simulation_should_run_if_negative_values_are_globally_allowed()
+      {
+         sut.Options.CheckForNegativeValues = false;
+         RunSimulation();
+      }
+   }
 }
