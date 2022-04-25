@@ -22,7 +22,7 @@
     <ProjectGuid>{9D2C1009-2090-44E5-B57D-97B68D01C40A}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>TestAppCpp</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
