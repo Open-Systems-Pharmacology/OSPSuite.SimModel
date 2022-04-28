@@ -259,6 +259,12 @@ void BooleanFormula::UpdateIndicesOfReferencedVariables()
 //---- And (A&&B)
 //-------------------------------------------------------------------
 
+double AndFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	assert(m_SecondOperandFormula != NULL); //first operand is always set
+	return  (m_FirstOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode) && m_SecondOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode));
+}
+
 double AndFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	assert (m_SecondOperandFormula != NULL); //first operand is always set
@@ -312,6 +318,11 @@ bool AndFormula::IsZero(void)
 //---- Equal (A==B)
 //-------------------------------------------------------------------
 
+double EqualFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	return  (m_FirstOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode) == m_SecondOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode));
+}
+
 double EqualFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) == m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
@@ -351,6 +362,11 @@ vector <double> EqualFormula::SwitchTimePoints()
 //---- GreaterEqual (A>=B)
 //-------------------------------------------------------------------
 
+double GreaterEqualFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	return  (m_FirstOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode) >= m_SecondOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode));
+}
+
 double GreaterEqualFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) >= m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
@@ -388,6 +404,11 @@ vector <double> GreaterEqualFormula::SwitchTimePoints()
 //-------------------------------------------------------------------
 //---- Greater (A>B)
 //-------------------------------------------------------------------
+
+double GreaterFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	return  (m_FirstOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode) > m_SecondOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode));
+}
 
 double GreaterFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
@@ -427,6 +448,11 @@ vector <double> GreaterFormula::SwitchTimePoints()
 //---- LessEqual (A<=B)
 //-------------------------------------------------------------------
 
+double LessEqualFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	return  (m_FirstOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode) <= m_SecondOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode));
+}
+
 double LessEqualFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) <= m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
@@ -464,6 +490,11 @@ vector <double> LessEqualFormula::SwitchTimePoints()
 //-------------------------------------------------------------------
 //---- Less (A<=B)
 //-------------------------------------------------------------------
+
+double LessFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	return  (m_FirstOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode) < m_SecondOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode));
+}
 
 double LessFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
@@ -503,6 +534,11 @@ vector <double> LessFormula::SwitchTimePoints()
 //---- Not (!A)
 //-------------------------------------------------------------------
 
+double NotFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	return  !m_FirstOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode);
+}
+
 double NotFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	return  !m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode);
@@ -532,6 +568,12 @@ void NotFormula::WriteFormulaCppCode(std::ostream & mrOut)
 //-------------------------------------------------------------------
 //---- Or (A||B)
 //-------------------------------------------------------------------
+
+double OrFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	assert(m_SecondOperandFormula != NULL); //first operand is always set
+	return  (m_FirstOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode) || m_SecondOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode));
+}
 
 double OrFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
@@ -566,6 +608,11 @@ void OrFormula::WriteFormulaCppCode(std::ostream & mrOut)
 //-------------------------------------------------------------------
 //---- Unequal (A<>B)
 //-------------------------------------------------------------------
+
+double UnequalFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	return  (m_FirstOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode) != m_SecondOperandFormula->Safe_DE_Compute(y, time, scaleFactorMode));
+}
 
 double UnequalFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {

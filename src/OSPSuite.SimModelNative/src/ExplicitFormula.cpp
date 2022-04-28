@@ -298,6 +298,11 @@ vector < HierarchicalFormulaObject * > ExplicitFormula::GetUsedHierarchicalFormu
 	return HFObjects;
 }
 
+double ExplicitFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	return _formula->Safe_DE_Compute(y, time, scaleFactorMode);
+}
+
 double ExplicitFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	return _formula->DE_Compute(y, time, scaleFactorMode);

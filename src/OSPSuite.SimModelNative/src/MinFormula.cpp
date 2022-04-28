@@ -76,6 +76,17 @@ void MinFormula::SetQuantityReference (const QuantityReference & quantityReferen
 	m_SecondArgument->SetQuantityReference(quantityReference);
 }
 
+double MinFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	assert(m_FirstArgument != NULL);
+	assert(m_SecondArgument != NULL);
+
+	double FirstArg = m_FirstArgument->Safe_DE_Compute(y, time, scaleFactorMode);
+	double SecondArg = m_SecondArgument->Safe_DE_Compute(y, time, scaleFactorMode);
+
+	return FirstArg < SecondArg ? FirstArg : SecondArg;
+}
+
 double MinFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	assert(m_FirstArgument != NULL);

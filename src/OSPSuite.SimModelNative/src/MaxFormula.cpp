@@ -77,6 +77,17 @@ void MaxFormula::SetQuantityReference (const QuantityReference & quantityReferen
 
 }
 
+double MaxFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	assert(m_FirstArgument != NULL);
+	assert(m_SecondArgument != NULL);
+
+	double FirstArg = m_FirstArgument->Safe_DE_Compute(y, time, scaleFactorMode);
+	double SecondArg = m_SecondArgument->Safe_DE_Compute(y, time, scaleFactorMode);
+
+	return FirstArg > SecondArg ? FirstArg : SecondArg;
+}
+
 double MaxFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	assert(m_FirstArgument != NULL);

@@ -201,6 +201,44 @@ string TableFormula::Equation()
 	return "Table formula"; //no explicit equation available
 }
 
+double TableFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	const char* ERROR_SOURCE = "TableFormula::DE_Compute";
+
+	int i;
+
+	if (_useDerivedValues)
+	{
+		if ((time < _X_values[0]) || (time >= _X_values[_numberOfValuePoints - 1]))
+			return 0.0;
+
+		for (i = 1; i < _numberOfValuePoints; i++)
+		{
+			if (time < _X_values[i])
+				return _derivedValues[i - 1];
+		}
+
+		//this point should never be reached
+		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Error occurred during calculating of table formula value" + FormulaInfoForErrorMessage());
+	}
+
+	//---- formula is in not-derived mode - return interpolated value
+	if (time <= _X_values[0])
+		return _Y_values[0];
+
+	if (time >= _X_values[_numberOfValuePoints - 1])
+		return _Y_values[_numberOfValuePoints - 1];
+
+	for (i = 1; i < _numberOfValuePoints; i++)
+	{
+		if (time < _X_values[i])
+			return _Y_values[i - 1] + (time - _X_values[i - 1]) * _derivedValues[i - 1];
+	}
+
+	//this point should never be reached
+	throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Error occurred during calculating of table formula value" + FormulaInfoForErrorMessage());
+}
+
 double TableFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	const char * ERROR_SOURCE = "TableFormula::DE_Compute";

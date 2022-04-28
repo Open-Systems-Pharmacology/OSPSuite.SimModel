@@ -81,6 +81,24 @@ void ProductFormula::SetQuantityReference (const QuantityReference & quantityRef
 		_multiplierFormulas[iFormula] -> SetQuantityReference(quantityReference);
 }
 
+double ProductFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	double dValue = 1.;
+
+	// Compute product
+	for (int iFormula = 0; iFormula < _noOfMultipliers; iFormula++)
+	{
+		// Multiply formulas
+		dValue *= _multiplierFormulas[iFormula]->Safe_DE_Compute(y, time, scaleFactorMode);
+
+		// Early end if products is zero
+		if (dValue == 0.) break;
+	}
+
+	// Return product value
+	return dValue;
+}
+
 double ProductFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	double dValue = 1.;

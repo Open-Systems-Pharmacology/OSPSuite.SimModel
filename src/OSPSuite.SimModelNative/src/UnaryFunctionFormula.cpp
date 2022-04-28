@@ -62,6 +62,13 @@ void UnaryFunctionFormula::SetQuantityReference (const QuantityReference & quant
 	m_ArgumentFormula->SetQuantityReference(quantityReference);
 }
 
+double UnaryFunctionFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	double arg = m_ArgumentFormula->Safe_DE_Compute(y, time, scaleFactorMode);
+
+	return EvalFunction(arg);
+}
+
 double UnaryFunctionFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	double arg =  m_ArgumentFormula->DE_Compute(y, time, scaleFactorMode);

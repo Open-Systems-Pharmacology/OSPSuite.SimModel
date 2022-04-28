@@ -46,6 +46,7 @@ class AndFormula :
 	public BooleanFormula
 {
 	public:
+		virtual double Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual Formula* clone();
 		virtual bool IsZero(void); //special treatment for the AND-formula
@@ -59,6 +60,7 @@ class EqualFormula :
 	public BooleanFormula
 {
 	public:
+		virtual double Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual Formula* clone();
 		virtual std::vector <double> SwitchTimePoints();
@@ -72,6 +74,7 @@ class GreaterEqualFormula :
 	public BooleanFormula
 {
 	public:
+		virtual double Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual Formula* clone();
 		virtual std::vector <double> SwitchTimePoints();
@@ -85,6 +88,7 @@ class GreaterFormula :
 	public BooleanFormula
 {
 	public:
+		virtual double Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual Formula* clone();
 		virtual std::vector <double> SwitchTimePoints();
@@ -98,6 +102,7 @@ class LessEqualFormula :
 	public BooleanFormula
 {
 	public:
+		virtual double Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual Formula* clone();
 		virtual std::vector <double> SwitchTimePoints();
@@ -111,6 +116,7 @@ class LessFormula :
 	public BooleanFormula
 {
 	public:
+		virtual double Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual Formula* clone();
 		virtual std::vector <double> SwitchTimePoints();
@@ -124,6 +130,7 @@ class NotFormula :
 	public BooleanFormula
 {
 	public:
+		virtual double Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual Formula* clone();
 
@@ -136,6 +143,7 @@ class OrFormula :
 	public BooleanFormula
 {
 	public:
+		virtual double Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual Formula* clone();
 
@@ -148,6 +156,7 @@ class UnequalFormula :
 	public BooleanFormula
 {
 	public:
+		virtual double Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual Formula* clone();
 		virtual std::vector <double> SwitchTimePoints();

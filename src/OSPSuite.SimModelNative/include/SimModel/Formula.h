@@ -39,11 +39,13 @@ class Formula :
 {
 protected:
 	std::string FormulaInfoForErrorMessage();
+	const double mu_for_safe_computation = 0.01;
 
 public:
 	Formula(void);
 	virtual ~Formula(void);
 
+	virtual double Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode) = 0;
 	virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode) = 0;
 	virtual void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor)=0;
 	virtual void SetQuantityReference (const QuantityReference & quantityReference) = 0;

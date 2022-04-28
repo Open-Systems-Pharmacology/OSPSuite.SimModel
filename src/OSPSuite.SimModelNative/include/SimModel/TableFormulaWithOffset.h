@@ -45,6 +45,7 @@ public:
 
 	std::string Equation();
 
+	double Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode);
 	double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
 	void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor);
 	virtual Formula * DE_Jacobian(const int iEquation);

@@ -86,6 +86,17 @@ string TableFormulaWithXArgument::Equation()
 	return "Table(X-Argument)"; //no explicit equation available
 }
 
+double TableFormulaWithXArgument::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	assert((_tableObject != NULL) && (_XArgumentObject != NULL));
+
+	double argument = _XArgumentObject->GetValue(y, time, scaleFactorMode);
+
+	//table formula always interprets the time passed to TableFormula::DE_Compute() as X argument
+	//thus here, just pass <argument> as a time parameter to _tableObject->GetValue
+	return _tableObject->GetValue(y, argument, scaleFactorMode);
+}
+
 double TableFormulaWithXArgument::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	assert ((_tableObject != NULL) && (_XArgumentObject != NULL));

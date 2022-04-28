@@ -67,6 +67,16 @@ void PowerFormula::SetQuantityReference (const QuantityReference & quantityRefer
 	m_ExponentFormula->SetQuantityReference(quantityReference);
 }
 
+double PowerFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+{
+	const double dBase = m_BaseFormula->Safe_DE_Compute(y, time, scaleFactorMode);
+	const double dExp = m_ExponentFormula->Safe_DE_Compute(y, time, scaleFactorMode);
+
+	//TODO: check for 0^-1 and things like that
+
+	return pow(dBase, dExp);
+}
+
 double PowerFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	const double dBase =  m_BaseFormula->DE_Compute(y, time, scaleFactorMode);

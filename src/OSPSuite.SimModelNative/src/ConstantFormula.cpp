@@ -26,6 +26,11 @@ namespace SimModelNative
 		//nothing to do for constant formula
 	}
 
+	double ConstantFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+	{
+		return m_Value;
+	}
+
 	double ConstantFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 	{
 		return m_Value;
