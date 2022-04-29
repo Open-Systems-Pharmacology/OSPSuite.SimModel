@@ -54,6 +54,7 @@ before_build:
   - sh: dotnet sln OSPSuite.SimModel.sln remove src/OSPSuite.SysTool/OSPSuite.SysTool.vcxproj
   - sh: dotnet sln OSPSuite.SimModel.sln remove src/OSPSuite.XMLWrapper/OSPSuite.XMLWrapper.vcxproj
   - sh: dotnet sln OSPSuite.SimModel.sln remove tests/TestAppNetCore/TestAppNetCore.csproj
+  - sh: sudo update-alternatives --set gcc /usr/bin/gcc-7
 
 install:
   #linux: install libxml2
