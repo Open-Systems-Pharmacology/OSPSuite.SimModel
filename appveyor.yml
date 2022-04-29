@@ -7,6 +7,7 @@ environment:
   minor: 0
   release: 0
   app_version: '$(major).$(minor).$(release).$(APPVEYOR_BUILD_NUMBER)'
+  GCC_VERSION: 7
 
 version: '$(major).$(minor).$(release).{build}'
 
