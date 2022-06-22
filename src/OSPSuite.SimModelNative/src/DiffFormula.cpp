@@ -72,15 +72,6 @@ void DiffFormula::SetQuantityReference (const QuantityReference & quantityRefere
 	m_SubtrahendFormula->SetQuantityReference(quantityReference);
 }
 
-double DiffFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
-{
-	// Abbreviation of values
-	const double dMin = m_MinuendFormula->Safe_DE_Compute(y, time, scaleFactorMode);
-	const double dSub = m_SubtrahendFormula->Safe_DE_Compute(y, time, scaleFactorMode);
-
-	return  dMin - dSub;
-}
-
 double DiffFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	// Abbreviation of values

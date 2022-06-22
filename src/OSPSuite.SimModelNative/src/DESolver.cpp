@@ -711,9 +711,9 @@ namespace SimModelNative
 			ySdot[i] = 0;
 			for (int j = 0; j < m_ODE_NumUnknowns; j++)
 			{
-				ySdot[i] += m_ODEVariables[i]->JacobianStateVariableFor(j)->Safe_DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR) * yS[j];
+				ySdot[i] += m_ODEVariables[i]->JacobianStateVariableFor(j)->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR) * yS[j];
 			}
-			ySdot[i] += m_ODEVariables[i]->JacobianParameterFor(_sensitivityParameters[iS]->GetId())->Safe_DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR);
+			ySdot[i] += m_ODEVariables[i]->JacobianParameterFor(_sensitivityParameters[iS]->GetId())->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR);
 		}
 
 		return SENSITIVITY_RHS_OK;

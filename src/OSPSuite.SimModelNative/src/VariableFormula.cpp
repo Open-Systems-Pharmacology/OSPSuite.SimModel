@@ -58,30 +58,6 @@ void VariableFormula::Finalize()
 	//nothing to do
 }
 
-double VariableFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
-{
-	//Formula is :  
-	//C[DE_INDEX]*ScaleFactor
-	if (m_ODEVariableIndex == DE_INVALID_INDEX)
-		throw ErrorData(ErrorData::ED_ERROR, "VariableFormula::DE_Compute", "Variable ODE Index not set" + FormulaInfoForErrorMessage());
-
-	double scaleFactor;
-	switch (scaleFactorMode)
-	{
-	case USE_SCALEFACTOR:
-		scaleFactor = m_ODEVariableScaleFactor;
-		break;
-	case IGNORE_SCALEFACTOR:
-		scaleFactor = 1.0;
-		break;
-	default:
-		throw ErrorData(ErrorData::ED_ERROR, "VariableFormula::DE_Compute", "Invalid scale factor mode passed" + FormulaInfoForErrorMessage());
-	}
-
-	// in our new system C~[i] = C[i]/f_i
-	return y[m_ODEVariableIndex] * scaleFactor;
-}
-
 double VariableFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	//Formula is :  

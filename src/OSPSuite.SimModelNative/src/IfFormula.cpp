@@ -89,17 +89,6 @@ void IfFormula::SetQuantityReference (const QuantityReference & quantityReferenc
 	m_ElseStatement->SetQuantityReference(quantityReference);
 }
 
-double IfFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
-{
-	assert(m_IfStatement != NULL);
-	assert(m_ThenStatement != NULL);
-	assert(m_ElseStatement != NULL);
-
-	if (m_IfStatement->DE_Compute(y, time, scaleFactorMode) == 1)
-		return m_ThenStatement->Safe_DE_Compute(y, time, scaleFactorMode);
-	else
-		return m_ElseStatement->Safe_DE_Compute(y, time, scaleFactorMode);
-}
 
 double IfFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {

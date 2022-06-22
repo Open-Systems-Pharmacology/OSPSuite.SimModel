@@ -121,32 +121,6 @@ bool SimpleProductFormula::IsZero(void)
 	return (m_K == 0.0);
 }
 
-double SimpleProductFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
-{
-	//Formula is K1*A*B-C - K2*D*E*F				
-	double dValue = m_K;
-	double scaleFactor;
-	for (int i = 0; i < m_ODEIndexVectorSize; i++)
-	{
-		switch (scaleFactorMode)
-		{
-		case USE_SCALEFACTOR:
-			scaleFactor = m_ODEScaleFactorVector[i];
-			break;
-		case IGNORE_SCALEFACTOR:
-			scaleFactor = 1.0;
-			break;
-		default:
-			throw ErrorData(ErrorData::ED_ERROR, "SimpleProductFormula::DE_Compute", "Invalid scale factor mode passed" + FormulaInfoForErrorMessage());
-		}
-
-		dValue *= y[m_ODEIndexVector[i]] * scaleFactor;
-	}
-
-	// Return Formula
-	return dValue;
-}
-
 double SimpleProductFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	//Formula is K1*A*B-C - K2*D*E*F				

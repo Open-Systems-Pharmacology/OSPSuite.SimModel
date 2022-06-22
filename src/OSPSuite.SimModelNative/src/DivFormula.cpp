@@ -75,15 +75,6 @@ double DivFormula::DE_Compute (const double * y, const double time, ScaleFactorU
 	return dNum/dDen;
 }
 
-double DivFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
-{
-	// Abbreviation of values
-	const double dNum = m_NumeratorFormula->Safe_DE_Compute(y, time, scaleFactorMode);
-	const double dDen = m_DenominatorFormula->Safe_DE_Compute(y, time, scaleFactorMode);
-
-	return dNum / (dDen + mu_for_safe_computation * (dDen < 0 ? -1 : 1));
-}
-
 void DivFormula::DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor)
 {
 	if (preFactor == 0.0)

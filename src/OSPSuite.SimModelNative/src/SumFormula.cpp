@@ -90,18 +90,6 @@ void SumFormula::SetQuantityReference (const QuantityReference & quantityReferen
 		_summandFormulas[iFormula] -> SetQuantityReference(quantityReference);
 }
 
-double SumFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
-{
-	double dValue = 0.;
-
-	// Sum up Formulas
-	for (int iFormula = 0; iFormula < _noOfSummands; iFormula++)
-		dValue += _summandFormulas[iFormula]->Safe_DE_Compute(y, time, scaleFactorMode);
-
-	// Return formula value
-	return dValue;
-}
-
 double SumFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	double dValue = 0.;

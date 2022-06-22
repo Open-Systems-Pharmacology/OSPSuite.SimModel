@@ -21,7 +21,6 @@ class ConstantFormula :
 
 		void SetQuantityReference (const QuantityReference & quantityReference);
 
-		virtual double Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
 		virtual void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor);
 		virtual Formula * DE_Jacobian(const int iEquation);

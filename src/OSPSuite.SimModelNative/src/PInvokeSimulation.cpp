@@ -139,11 +139,8 @@ namespace SimModelNative
       simulationOptions.SetUseFloatComparisonInUserOutputTimePoints(options.UseFloatComparisonInUserOutputTimePoints);
    }
 
-   void ShowTimeSpan(double tstart, double tend);
-
    void RunSimulation(Simulation* simulation, bool& toleranceWasReduced, double& newAbsTol, double& newRelTol, bool& success, char** errorMessage)
    {
-      auto t1 = GetTickCount();
       try
       {
          simulation->RunSimulation(toleranceWasReduced, newAbsTol, newRelTol);
@@ -159,15 +156,6 @@ namespace SimModelNative
          *errorMessage = ErrorMessageFromUnknown("RunSimulation");
          success = false;
       }
-      auto t2 = GetTickCount();
-
-      ShowTimeSpan(t1, t2);
-   }
-
-   void ShowTimeSpan(double tstart, double tend)
-   {
-       cout << (tend - tstart) / 1000.0 << "s" << endl;
-       fflush(stdout);
    }
 
    int GetNumberOfTimePoints(Simulation* simulation)

@@ -60,11 +60,6 @@ void ParameterFormula::SetQuantityReference (const QuantityReference & quantityR
 	_quantityRef = quantityReference;
 }
 
-double ParameterFormula::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
-{
-	return _quantityRef.GetValue(y, time, scaleFactorMode);
-}
-
 double ParameterFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	return _quantityRef.GetValue(y, time, scaleFactorMode);

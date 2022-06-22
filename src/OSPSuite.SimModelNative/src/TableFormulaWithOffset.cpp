@@ -76,15 +76,6 @@ string TableFormulaWithOffset::Equation()
 	return "Table(X-Offset)";
 }
 
-double TableFormulaWithOffset::Safe_DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
-{
-	assert((_tableObject != NULL) && (_offsetObject != NULL));
-
-	double offset = _offsetObject->GetValue(y, time, scaleFactorMode);
-
-	return _tableObject->GetValue(y, time - offset, scaleFactorMode);
-}
-
 double TableFormulaWithOffset::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
 	assert ((_tableObject != NULL) && (_offsetObject != NULL));
