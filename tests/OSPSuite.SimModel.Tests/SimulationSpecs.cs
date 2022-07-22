@@ -106,6 +106,33 @@ namespace OSPSuite.SimModel.Tests
       }
    }
 
+   public class when_changing_stomach_volume : concern_for_Simulation
+   {
+      protected ParameterProperties _stomach_volume;
+
+      protected override void Because()
+      {
+         base.Because();
+         LoadFinalizeAndRunSimulation("do-not-copy-2");
+      }
+
+      protected override void OptionalTasksBeforeFinalize()
+      {
+         var parameterProperties = sut.ParameterProperties;
+         _stomach_volume = parameterProperties.Last(p => p.Path.Equals("Organism|Stomach|Volume"));
+
+         sut.VariableParameters = new[] { _stomach_volume };
+      }
+
+      [Observation]
+      public void changing_ehc_start_time_should_alter_simulation_results()
+      {
+         _stomach_volume.Value = 0.06;
+         sut.SetParameterValues();
+         sut.RunSimulation();
+      }
+   }
+
    public abstract class when_running_testsystem_06 : concern_for_Simulation
    {
       //---- solving the system:
@@ -635,7 +662,7 @@ namespace OSPSuite.SimModel.Tests
          var C1 = sut.ValuesFor("C1").Values;
 
          //remove comment as soon as ... (s. below)
-         //var dC1_dA0 = sut.SensitivityValuesByPathFor("Organism|C1", "Organism|A0");
+         var dC1_dA0 = sut.SensitivityValuesByPathFor("Organism|C1", "Organism|A0");
          var dC1_dk = sut.SensitivityValuesByPathFor("Organism|C1", "Organism|k");
          const double relTol = 1e-3;
 
