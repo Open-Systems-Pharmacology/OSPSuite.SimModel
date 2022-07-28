@@ -5,6 +5,7 @@
 #include "XMLWrapper/XMLCache.h"
 #include "XMLWrapper/XMLNode.h"
 #include "XMLWrapper/XMLDocument.h"
+#include "SimModel/MathHelper.h"
 
 // Windows only
 #ifdef _WINDOWS
@@ -112,13 +113,15 @@ double XMLHelper::ToDouble (const std::string & sDouble)
     if (strcmp(".", DecSep))
         s = XMLHelper::StringReplace(s, ".", DecSep);
 
-	double value = 0.;
+	 double value = 0.;
+	 char* end;
 
-	// String stream
-	std::istringstream sink(s);
+    //******************************************************
+	 value = strtod(s.c_str(), &end);
 
-	// Read value from string stream
-	sink >> value;
+	 if (*end != '\0')
+		  return SimModelNative::MathHelper::GetNaN();
+	 //******************************************************
 
 	// Return value
 	return value;
