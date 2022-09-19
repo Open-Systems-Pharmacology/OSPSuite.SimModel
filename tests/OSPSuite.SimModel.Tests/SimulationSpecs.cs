@@ -1440,4 +1440,44 @@ namespace OSPSuite.SimModel.Tests
          RunSimulation();
       }
    }
+
+   public class when_having_infs_or_nans_in_the_formulas_which_are_not_simplified : concern_for_Simulation
+   {
+      // In the test project, parameter P0 is defined as time dependent
+      // Observers "Inf_i" are defined as "P0*<infinity_string>" (<infinity_string> one of {"Inf","inf","Infinity","infinity"})
+      // Observers "Neginf_i" are defined as "P0*(-<infinity_string>)" (<infinity_string> one of {"Inf","inf","Infinity","infinity"})
+      // Observers "Nan_i" are defined as "P0*<nan_string>" (<nan_string> one of {"NaN","NAN","nan"})
+      protected static IEnumerable<object[]> TestData()
+      {
+         yield return new object[] { "Inf_1", double.PositiveInfinity };
+         yield return new object[] { "Inf_2", double.PositiveInfinity };
+         yield return new object[] { "Inf_3", double.PositiveInfinity };
+         yield return new object[] { "Inf_4", double.PositiveInfinity };
+
+         yield return new object[] { "Neginf_1", double.NegativeInfinity };
+         yield return new object[] { "Neginf_2", double.NegativeInfinity };
+         yield return new object[] { "Neginf_3", double.NegativeInfinity };
+         yield return new object[] { "Neginf_4", double.NegativeInfinity };
+
+         yield return new object[] { "NaN_1", double.NaN };
+         yield return new object[] { "NaN_2", double.NaN };
+         yield return new object[] { "NaN_3", double.NaN };
+      }
+
+      private IEnumerable<VariableValues> _results;
+
+      protected override void Because()
+      {
+         base.Because();
+         LoadFinalizeAndRunSimulation("NaN_Inf_NegInf");
+         _results = sut.AllValues;
+      }
+
+      [Observation]
+      [TestCaseSource(nameof(TestData))]
+      public void observer_should_return_correct_value(string observerName, double expectedValue)
+      {
+         _results.First(r=>r.Name.Equals(observerName)).Values.Last().ShouldBeEqualTo(expectedValue);
+      }
+   }
 }

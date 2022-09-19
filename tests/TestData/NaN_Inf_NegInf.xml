@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Simulation objectPathDelimiter="|" version="4" xmlns="http://www.systems-biology.com">
+  <FormulaList>
+    <ExplicitFormula id="3">
+      <Equation>Time &lt; 999999 ? 1 : 2</Equation>
+      <ReferenceList>
+        <R alias="Time" id="0" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="5">
+      <Equation>P0*Inf</Equation>
+      <ReferenceList>
+        <R alias="P0" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="7">
+      <Equation>P0*inf</Equation>
+      <ReferenceList>
+        <R alias="P0" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="9">
+      <Equation>P0*Infinity</Equation>
+      <ReferenceList>
+        <R alias="P0" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="11">
+      <Equation>P0*infinity</Equation>
+      <ReferenceList>
+        <R alias="P0" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="13">
+      <Equation>P0*(-Inf)</Equation>
+      <ReferenceList>
+        <R alias="P0" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="15">
+      <Equation>P0*(-inf)</Equation>
+      <ReferenceList>
+        <R alias="P0" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="17">
+      <Equation>P0*(-infinity)</Equation>
+      <ReferenceList>
+        <R alias="P0" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="19">
+      <Equation>P0*(-Infinity)</Equation>
+      <ReferenceList>
+        <R alias="P0" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="21">
+      <Equation>P0*NaN</Equation>
+      <ReferenceList>
+        <R alias="P0" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="23">
+      <Equation>P0*NAN</Equation>
+      <ReferenceList>
+        <R alias="P0" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="25">
+      <Equation>P0*nan</Equation>
+      <ReferenceList>
+        <R alias="P0" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="26">
+      <Equation>1E-09</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="28">
+      <Equation>0.0001</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="30">
+      <Equation>1E-10</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="32">
+      <Equation>0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="34">
+      <Equation>60</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="36">
+      <Equation>100000</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="38">
+      <Equation>1</Equation>
+    </ExplicitFormula>
+  </FormulaList>
+  <ParameterList>
+    <P id="1" entityId="LcTo0uIfrUOMjX4mMvm9-g" name="Volume" path="NaN_Inf_NegInf|Organism|Volume" unit="l" persistable="0" value="1" />
+    <P id="2" entityId="yp1FUTKh5EGiMI-kfKR18w" name="P0" path="NaN_Inf_NegInf|Organism|P0" persistable="0" formulaId="3" />
+    <P id="4" entityId="dOusfV4ZHE2bgPgczkQNTQ" name="Inf_1" path="NaN_Inf_NegInf|Organism|Inf_1" persistable="1" formulaId="5" />
+    <P id="6" entityId="ySmjRlKJnEmt9-KF6csVkw" name="Inf_2" path="NaN_Inf_NegInf|Organism|Inf_2" persistable="1" formulaId="7" />
+    <P id="8" entityId="RM8eGbemiEOCPJTdYjeHjQ" name="Inf_3" path="NaN_Inf_NegInf|Organism|Inf_3" persistable="1" formulaId="9" />
+    <P id="10" entityId="9XgWaUwElEGau1-hsvAPKA" name="Inf_4" path="NaN_Inf_NegInf|Organism|Inf_4" persistable="1" formulaId="11" />
+    <P id="12" entityId="4kWEPb4q0kmM3KAag0_GzQ" name="Neginf_1" path="NaN_Inf_NegInf|Organism|Neginf_1" persistable="1" formulaId="13" />
+    <P id="14" entityId="f8sCCHM59kycKY8JksofwQ" name="Neginf_2" path="NaN_Inf_NegInf|Organism|Neginf_2" persistable="1" formulaId="15" />
+    <P id="16" entityId="0rLquBNn3k-v6TR2CdfhOg" name="Neginf_3" path="NaN_Inf_NegInf|Organism|Neginf_3" persistable="1" formulaId="17" />
+    <P id="18" entityId="4IKkXLyE3EmYEFQxAodXzw" name="Neginf_4" path="NaN_Inf_NegInf|Organism|Neginf_4" persistable="1" formulaId="19" />
+    <P id="20" entityId="SqEmG5g6hUuZv8-GBZeSlQ" name="NaN_1" path="NaN_Inf_NegInf|Organism|NaN_1" persistable="1" formulaId="21" />
+    <P id="22" entityId="_HWyBvAwQUWfSRnUdvoShw" name="NaN_2" path="NaN_Inf_NegInf|Organism|NaN_2" persistable="1" formulaId="23" />
+    <P id="24" entityId="Zs_AOoVkA0OapqRs5rqU9w" name="NaN_3" path="NaN_Inf_NegInf|Organism|NaN_3" persistable="1" formulaId="25" />
+    <P id="27" entityId="AbsTol" name="AbsTol" path="AbsTol" persistable="0" formulaId="26" />
+    <P id="29" entityId="RelTol" name="RelTol" path="RelTol" persistable="0" formulaId="28" />
+    <P id="31" entityId="H0" name="H0" path="H0" persistable="0" formulaId="30" />
+    <P id="33" entityId="HMin" name="HMin" path="HMin" persistable="0" formulaId="32" />
+    <P id="35" entityId="HMax" name="HMax" path="HMax" persistable="0" formulaId="34" />
+    <P id="37" entityId="MxStep" name="MxStep" path="MxStep" persistable="0" formulaId="36" />
+    <P id="39" entityId="UseJacobian" name="UseJacobian" path="UseJacobian" persistable="0" formulaId="38" />
+  </ParameterList>
+  <Solver name="CVODES">
+    <H0 id="31" />
+    <HMax id="35" />
+    <HMin id="33" />
+    <AbsTol id="27" />
+    <MxStep id="37" />
+    <RelTol id="29" />
+    <UseJacobian id="39" />
+  </Solver>
+  <OutputSchema>
+    <OutputIntervalList>
+      <OutputInterval distribution="Uniform">
+        <StartTime>0</StartTime>
+        <EndTime>1440</EndTime>
+        <NumberOfTimePoints>97</NumberOfTimePoints>
+      </OutputInterval>
+    </OutputIntervalList>
+  </OutputSchema>
+</Simulation>
