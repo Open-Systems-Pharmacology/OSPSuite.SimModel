@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using NUnit.Framework;
 using OSPSuite.BDDHelper;
 using OSPSuite.BDDHelper.Extensions;
+using OSPSuite.Utility.Extensions;
 
 namespace OSPSuite.SimModel.Tests
 {
@@ -1478,6 +1479,47 @@ namespace OSPSuite.SimModel.Tests
       public void observer_should_return_correct_value(string observerName, double expectedValue)
       {
          _results.First(r=>r.Name.Equals(observerName)).Values.Last().ShouldBeEqualTo(expectedValue);
+      }
+   }
+
+   public class when_nans_appear_in_conditional_if_min_max_formulas : concern_for_Simulation
+   {
+      //for the definition of parameters s. the test project tests\TestData\Nan_If_Conditional_Min_Max.mbp3 
+      private IEnumerable<ParameterProperties> _nan_parameters;  //parameters which value must be NaN
+      private IEnumerable<ParameterProperties> _one_parameters;  //parameters which value must be 1
+      private IEnumerable<ParameterProperties> _zero_parameters; //parameters which value must be 0
+
+      protected override void Because()
+      {
+         base.Because();
+         LoadAndFinalizeSimulation("Nan_If_Conditional_Min_Max");
+         
+         var namePrefix = "Nan_If_Conditional_Min_Max|Organism|";
+
+         _nan_parameters = sut.ParameterProperties.Where(p=>p.Name.StartsWith($"{namePrefix}P"));
+         _one_parameters = sut.ParameterProperties.Where(p => p.Name.StartsWith($"{namePrefix}T"));
+         _zero_parameters = sut.ParameterProperties.Where(p => p.Name.StartsWith($"{namePrefix}F"));
+      }
+
+      [Observation]
+      public void all_nan_parameters_should_be_nan()
+      {
+         _nan_parameters.Count().ShouldBeEqualTo(19);
+         _nan_parameters.Each(p => p.Value.ShouldBeEqualTo(double.NaN, $"{p.Name} was not NaN"));
+      }
+
+      [Observation]
+      public void all_one_parameters_should_be_one()
+      {
+         _one_parameters.Count().ShouldBeEqualTo(21);
+         _one_parameters.Each(p=>p.Value.ShouldBeEqualTo(1, $"{p.Name} was not 1")); 
+      }
+
+      [Observation]
+      public void all_zero_parameters_should_be_zero()
+      {
+         _zero_parameters.Count().ShouldBeEqualTo(11);
+         _zero_parameters.Each(p => p.Value.ShouldBeEqualTo(0, $"{p.Name} was not 0"));
       }
    }
 }
