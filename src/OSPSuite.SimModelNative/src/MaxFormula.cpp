@@ -6,6 +6,8 @@
 #include "SimModel/BooleanFormula.h"
 #include <assert.h>
 
+#include "SimModel/MathHelper.h"
+
 namespace SimModelNative
 {
 
@@ -82,13 +84,16 @@ double MaxFormula::DE_Compute (const double * y, const double time, ScaleFactorU
 	assert(m_FirstArgument != NULL);
 	assert(m_SecondArgument != NULL);
 
-	double FirstArg = m_FirstArgument->DE_Compute(y, time, scaleFactorMode);
-	double SecondArg = m_SecondArgument->DE_Compute(y, time, scaleFactorMode);
+	auto firstArgument = m_FirstArgument->DE_Compute(y, time, scaleFactorMode);
+	auto secondArgument = m_SecondArgument->DE_Compute(y, time, scaleFactorMode);
 
-	return FirstArg > SecondArg ? FirstArg : SecondArg;
+	if (isnan(firstArgument) || isnan(secondArgument))
+		return MathHelper::GetNaN();
+
+	return firstArgument > secondArgument ? firstArgument : secondArgument;
 }
 
-bool MaxFormula::IsZero(void)
+bool MaxFormula::IsZero()
 {
 	bool forCurrentRunOnly = false;
 
@@ -110,10 +115,13 @@ void MaxFormula::DE_Jacobian (double * * jacobian, const double * y, const doubl
 	assert(m_FirstArgument != NULL);
 	assert(m_SecondArgument != NULL);
 
-	double FirstArg = m_FirstArgument->DE_Compute(y, time, USE_SCALEFACTOR);
-	double SecondArg = m_SecondArgument->DE_Compute(y, time, USE_SCALEFACTOR);
+	auto firstArgument = m_FirstArgument->DE_Compute(y, time, USE_SCALEFACTOR);
+	auto secondArgument = m_SecondArgument->DE_Compute(y, time, USE_SCALEFACTOR);
 
-	if (FirstArg > SecondArg)
+	if (isnan(firstArgument) || isnan(secondArgument))
+		return; //TODO is this ok? or should we throw an error instead?
+
+	if (firstArgument > secondArgument)
 		m_FirstArgument->DE_Jacobian(jacobian, y, time, iEquation, preFactor);
 	else
 		m_SecondArgument->DE_Jacobian(jacobian, y, time, iEquation, preFactor);
@@ -121,8 +129,8 @@ void MaxFormula::DE_Jacobian (double * * jacobian, const double * y, const doubl
 
 Formula* MaxFormula::DE_Jacobian(const int iEquation)
 {
-	IfFormula * f = new IfFormula();
-	GreaterFormula * g = new GreaterFormula();
+	auto f = new IfFormula();
+	auto g = new GreaterFormula();
 
 	g->setFormula(m_FirstArgument->clone(), m_SecondArgument->clone());
 	f->setFormula(g, m_FirstArgument->DE_Jacobian(iEquation), m_SecondArgument->DE_Jacobian(iEquation));
@@ -132,7 +140,7 @@ Formula* MaxFormula::DE_Jacobian(const int iEquation)
 
 Formula* MaxFormula::clone()
 {
-	MaxFormula* f = new MaxFormula();
+	auto f = new MaxFormula();
 	f->m_FirstArgument = m_FirstArgument->clone();
 	f->m_SecondArgument = m_SecondArgument->clone();
 	return f;
@@ -144,7 +152,7 @@ Formula * MaxFormula::RecursiveSimplify()
 	m_SecondArgument = m_SecondArgument->RecursiveSimplify();
 	if (m_FirstArgument->IsConstant(CONSTANT_CURRENT_RUN) && m_SecondArgument->IsConstant(CONSTANT_CURRENT_RUN))
 	{
-		ConstantFormula * f = new ConstantFormula(DE_Compute(NULL, 0.0, USE_SCALEFACTOR));
+		auto f = new ConstantFormula(DE_Compute(NULL, 0.0, USE_SCALEFACTOR));
 		delete this;
 		return f;
 	}

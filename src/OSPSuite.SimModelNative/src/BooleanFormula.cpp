@@ -4,6 +4,8 @@
 #include "SimModel/ParameterFormula.h"
 #include <assert.h>
 
+#include "SimModel/MathHelper.h"
+
 namespace SimModelNative
 {
 
@@ -118,7 +120,7 @@ Formula * BooleanFormula::RecursiveSimplify()
 	if (m_FirstOperandFormula->IsConstant(CONSTANT_CURRENT_RUN)
 		&& (m_SecondOperandFormula == NULL || m_SecondOperandFormula->IsConstant(CONSTANT_CURRENT_RUN)))
 	{
-		ConstantFormula * f = new ConstantFormula( DE_Compute(NULL, 0.0, USE_SCALEFACTOR) );
+		auto f = new ConstantFormula( DE_Compute(NULL, 0.0, USE_SCALEFACTOR) );
 		delete this;
 		return f;
 	}
@@ -144,7 +146,7 @@ void BooleanFormula::Finalize()
 //check if the formula has form "Time OP ConstFormula" or "ConstFormula OP Time",
 // where OP is one of boolean operations ==, >=, ... and
 //<ConstFormula> is a constant formula
-vector <double> BooleanFormula::SwitchTimePointFromComparisonFormula()
+vector <double> BooleanFormula::SwitchTimePointFromComparisonFormula() const
 {
 	vector <double> switchTimePoints;
 
@@ -184,6 +186,30 @@ vector <double> BooleanFormula::SwitchTimePointFromComparisonFormula()
 	return switchTimePoints;
 }
 
+double BooleanFormula::calculate_binaryOperation(const double* y, const double time,
+   ScaleFactorUsageMode scaleFactorMode, const function<double(double, double)> & logicalOperation) const
+{
+	auto firstOperand = m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode);
+	if (isnan(firstOperand))
+		return MathHelper::GetNaN();
+
+	auto secondOperand = m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode);
+	if (isnan(secondOperand))
+		return MathHelper::GetNaN();
+
+	return logicalOperation(firstOperand, secondOperand);
+}
+
+double BooleanFormula::calculate_unaryOperation(const double* y, const double time,
+   ScaleFactorUsageMode scaleFactorMode, const std::function<double(double)>& logicalOperation) const
+{
+	auto firstOperand = m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode);
+	if (isnan(firstOperand))
+		return MathHelper::GetNaN();
+
+	return logicalOperation(firstOperand);
+}
+
 //returns (potential) switch time points for AND/OR/NOT-Rates
 //will be overwritten by comparison rates (>, >=, ==, ...)
 vector <double> BooleanFormula::SwitchTimePoints()
@@ -195,8 +221,8 @@ vector <double> BooleanFormula::SwitchTimePoints()
 	if (m_SecondOperandFormula)
 		secondOpTimePoints = m_SecondOperandFormula->SwitchTimePoints();
 
-	for(unsigned int i = 0; i<secondOpTimePoints.size(); i++)
-		firstOpTimePoints.push_back(secondOpTimePoints[i]);
+	for (auto secondOpTimePoint : secondOpTimePoints)
+      firstOpTimePoints.push_back(secondOpTimePoint);
 
 	return firstOpTimePoints;
 }
@@ -205,7 +231,7 @@ vector <double> BooleanFormula::SwitchTimePoints()
 // where OP is one of boolean operations ==, >=, ...
 // afterwards try to differentiate between explicit and implicit switches
 // and store formula pointers in corresponding vectors
-void BooleanFormula::SwitchFormulaFromComparisonFormula(std::vector<Formula*> &vecExplicit, std::vector<Formula*> &vecImplicit)
+void BooleanFormula::SwitchFormulaFromComparisonFormula(std::vector<Formula*> &vecExplicit, std::vector<Formula*> &vecImplicit) const
 {
 	Formula * formulaWithSwitchTimePoints = NULL;
 
@@ -231,7 +257,7 @@ void BooleanFormula::SwitchFormulaFromComparisonFormula(std::vector<Formula*> &v
 		//otherwise, the value of the formula will be added as potential switch time point
 		try
 		{
-			double switchTime = formulaWithSwitchTimePoints->DE_Compute(NULL, 0.0, USE_SCALEFACTOR);
+			formulaWithSwitchTimePoints->DE_Compute(NULL, 0.0, USE_SCALEFACTOR);
 			vecExplicit.push_back(formulaWithSwitchTimePoints);
 		}
 		catch (...)
@@ -242,7 +268,7 @@ void BooleanFormula::SwitchFormulaFromComparisonFormula(std::vector<Formula*> &v
 	}
 	else
 	{
-		// too complicated to identify as explcit switch
+		// too complicated to identify as explicit switch
 		vecImplicit.push_back(formulaWithSwitchTimePoints);
 	}
 }
@@ -261,18 +287,17 @@ void BooleanFormula::UpdateIndicesOfReferencedVariables()
 
 double AndFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
-	assert (m_SecondOperandFormula != NULL); //first operand is always set
-	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) && m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
+	return calculate_binaryOperation(y, time, scaleFactorMode, logical_and<>{});
 }
 
 Formula* AndFormula::clone()
 {
-	AndFormula * f = new AndFormula();
+   auto f = new AndFormula();
 
-	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
-	f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
+   f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
+   f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
 
-	return f;
+   return f;
 }
 
 void AndFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
@@ -314,12 +339,12 @@ bool AndFormula::IsZero(void)
 
 double EqualFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
-	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) == m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
+	return calculate_binaryOperation(y, time, scaleFactorMode, equal_to<>{});
 }
 
 Formula* EqualFormula::clone()
 {
-	EqualFormula * f = new EqualFormula();
+	auto f = new EqualFormula();
 
 	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
 	f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
@@ -353,12 +378,12 @@ vector <double> EqualFormula::SwitchTimePoints()
 
 double GreaterEqualFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
-	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) >= m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
+	return calculate_binaryOperation(y, time, scaleFactorMode, greater_equal<>{});
 }
 
 Formula* GreaterEqualFormula::clone()
 {
-	GreaterEqualFormula * f = new GreaterEqualFormula();
+	auto f = new GreaterEqualFormula();
 
 	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
 	f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
@@ -391,12 +416,12 @@ vector <double> GreaterEqualFormula::SwitchTimePoints()
 
 double GreaterFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
-	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) > m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
+	return calculate_binaryOperation(y, time, scaleFactorMode, greater<>{});
 }
 
 Formula* GreaterFormula::clone()
 {
-	GreaterFormula * f = new GreaterFormula();
+	auto f = new GreaterFormula();
 
 	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
 	f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
@@ -429,12 +454,12 @@ vector <double> GreaterFormula::SwitchTimePoints()
 
 double LessEqualFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
-	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) <= m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
+	return calculate_binaryOperation(y, time, scaleFactorMode, less_equal<>{});
 }
 
 Formula* LessEqualFormula::clone()
 {
-	LessEqualFormula * f = new LessEqualFormula();
+	auto f = new LessEqualFormula();
 
 	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
 	f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
@@ -462,17 +487,17 @@ vector <double> LessEqualFormula::SwitchTimePoints()
 }
 
 //-------------------------------------------------------------------
-//---- Less (A<=B)
+//---- Less (A<B)
 //-------------------------------------------------------------------
 
 double LessFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
-	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) < m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
+	return calculate_binaryOperation(y, time, scaleFactorMode, less<>{});
 }
 
 Formula* LessFormula::clone()
 {
-	LessFormula * f = new LessFormula();
+	auto f = new LessFormula();
 
 	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
 	f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
@@ -505,12 +530,12 @@ vector <double> LessFormula::SwitchTimePoints()
 
 double NotFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
-	return  !m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode);
+	return calculate_unaryOperation(y, time, scaleFactorMode, logical_not<>{});
 }
 
 Formula* NotFormula::clone()
 {
-	NotFormula * f = new NotFormula();
+	auto f = new NotFormula();
 
 	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
 
@@ -535,13 +560,12 @@ void NotFormula::WriteFormulaCppCode(std::ostream & mrOut)
 
 double OrFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
-	assert (m_SecondOperandFormula != NULL); //first operand is always set
-	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) || m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
+	return calculate_binaryOperation(y, time, scaleFactorMode, logical_or<>{});
 }
 
 Formula* OrFormula::clone()
 {
-	OrFormula * f = new OrFormula();
+	auto f = new OrFormula();
 
 	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
 	f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
@@ -569,12 +593,12 @@ void OrFormula::WriteFormulaCppCode(std::ostream & mrOut)
 
 double UnequalFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
 {
-	return  (m_FirstOperandFormula->DE_Compute(y, time, scaleFactorMode) != m_SecondOperandFormula->DE_Compute(y, time, scaleFactorMode));
+	return calculate_binaryOperation(y, time, scaleFactorMode, not_equal_to<>{});
 }
 
 Formula* UnequalFormula::clone()
 {
-	UnequalFormula * f = new UnequalFormula();
+	auto f = new UnequalFormula();
 
 	f->m_FirstOperandFormula = m_FirstOperandFormula->clone();
 	f->m_SecondOperandFormula = m_SecondOperandFormula->clone();
@@ -591,7 +615,7 @@ void UnequalFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
 
 void UnequalFormula::WriteFormulaCppCode(std::ostream & mrOut)
 {
-	// potentially unsafe unequality comparison for floating point numbers, but in line with direct evaluation and Matlab export
+	// potentially unsafe inequality comparison for floating point numbers, but in line with direct evaluation and Matlab export
 	m_FirstOperandFormula->WriteCppCode(mrOut);
 	mrOut << " != ";
 	m_SecondOperandFormula->WriteCppCode(mrOut);

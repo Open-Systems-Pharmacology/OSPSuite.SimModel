@@ -5,6 +5,8 @@
 #include "SimModel/ConstantFormula.h"
 #include <assert.h>
 
+#include "SimModel/MathHelper.h"
+
 namespace SimModelNative
 {
 
@@ -96,7 +98,11 @@ double IfFormula::DE_Compute (const double * y, const double time, ScaleFactorUs
 	assert(m_ThenStatement != NULL);
 	assert(m_ElseStatement != NULL);
 
-	if (m_IfStatement->DE_Compute(y, time, scaleFactorMode) == 1)
+	auto ifStatementValue = m_IfStatement->DE_Compute(y, time, scaleFactorMode);
+	if(isnan(ifStatementValue))
+		return MathHelper::GetNaN();
+
+	if (ifStatementValue == 1)
 		return m_ThenStatement->DE_Compute(y, time, scaleFactorMode);
 	else
 		return m_ElseStatement->DE_Compute(y, time, scaleFactorMode);
@@ -163,7 +169,11 @@ void IfFormula::DE_Jacobian (double * * jacobian, const double * y, const double
 	assert(m_ThenStatement != NULL);
 	assert(m_ElseStatement != NULL);
 
-	if (m_IfStatement->DE_Compute(y, time, USE_SCALEFACTOR) == 1)
+	auto ifStatementValue = m_IfStatement->DE_Compute(y, time, USE_SCALEFACTOR);
+	if (isnan(ifStatementValue))
+		return; //TODO is this ok? or should we throw an error instead?
+
+	if (ifStatementValue == 1)
 		m_ThenStatement->DE_Jacobian(jacobian, y, time, iEquation, preFactor);
 	else
 		m_ElseStatement->DE_Jacobian(jacobian, y, time, iEquation, preFactor);
@@ -171,7 +181,7 @@ void IfFormula::DE_Jacobian (double * * jacobian, const double * y, const double
 
 Formula* IfFormula::DE_Jacobian(const int iEquation)
 {
-	IfFormula* f = new IfFormula();
+	auto f = new IfFormula();
 	f->m_IfStatement = m_IfStatement->clone();
 	f->m_ThenStatement = m_ThenStatement->DE_Jacobian(iEquation);
 	f->m_ElseStatement = m_ElseStatement->DE_Jacobian(iEquation);
@@ -180,7 +190,7 @@ Formula* IfFormula::DE_Jacobian(const int iEquation)
 
 Formula* IfFormula::clone()
 {
-	IfFormula* f = new IfFormula();
+	auto f = new IfFormula();
 	f->m_IfStatement = m_IfStatement->clone();
 	f->m_ThenStatement = m_ThenStatement->clone();
 	f->m_ElseStatement = m_ElseStatement->clone();

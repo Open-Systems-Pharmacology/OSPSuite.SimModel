@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Simulation objectPathDelimiter="|" version="4" xmlns="http://www.systems-biology.com">
+  <FormulaList>
+    <ExplicitFormula id="3">
+      <Equation>0/0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="5">
+      <Equation>P_NAN &gt;0 ? 1 : 999</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="7">
+      <Equation>P_NAN &gt;= 0 ? 1 : 999</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="9">
+      <Equation>P_NAN &lt; 0 ? 1 : 999</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="11">
+      <Equation>P_NAN &lt;= 0 ? 1 : 999</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="13">
+      <Equation>P_NAN != 0 ? 1 : 999</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="15">
+      <Equation>NOT P_NAN ? 1 : 999</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="17">
+      <Equation>P_NAN &gt; 0</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="19">
+      <Equation>P_NAN &gt;= 0</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="21">
+      <Equation>P_NAN &lt; 0</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="23">
+      <Equation>P_NAN = 0 ? 1 : 999</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="25">
+      <Equation>P_NAN &lt;= 0</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="27">
+      <Equation>P_NAN = 0</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="29">
+      <Equation>P_NAN != 0</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="31">
+      <Equation>NOT P_NAN</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="33">
+      <Equation>Min(P_NAN; 1)</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="35">
+      <Equation>Max(P_NAN; 1)</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="37">
+      <Equation>3&gt;2</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="39">
+      <Equation>3&gt;=2</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="41">
+      <Equation>3&gt;=3</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="43">
+      <Equation>2&lt;3</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="45">
+      <Equation>2&lt;=3</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="47">
+      <Equation>3&lt;=3</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="49">
+      <Equation>3=3</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="51">
+      <Equation>2 != 3</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="53">
+      <Equation>NOT 0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="55">
+      <Equation>P_NAN OR 1</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="57">
+      <Equation>P_NAN OR 1</Equation>
+      <ReferenceList>
+        <R alias="P_NAN" id="2" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="59">
+      <Equation>Min(1;2)</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="61">
+      <Equation>Min(2;1)</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="63">
+      <Equation>Min(1;1)</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="65">
+      <Equation>Max(1; -1)</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="67">
+      <Equation>Max(-1;1)</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="69">
+      <Equation>Max(1; 1)</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="71">
+      <Equation>2&lt;3 ? 1 : 0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="73">
+      <Equation>2&gt;3 ? 0 : 1</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="75">
+      <Equation>2&gt;3</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="77">
+      <Equation>2&gt;=3</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="79">
+      <Equation>3&lt;2</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="81">
+      <Equation>3&lt;=2</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="83">
+      <Equation>3=2</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="85">
+      <Equation>3 != 3</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="87">
+      <Equation>NOT 1</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="89">
+      <Equation>0 OR 0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="91">
+      <Equation>0 AND 0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="93">
+      <Equation>0 AND 1</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="95">
+      <Equation>1 AND 0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="97">
+      <Equation>0 OR 1</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="99">
+      <Equation>1 OR 0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="101">
+      <Equation>1 OR 1</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="103">
+      <Equation>1 AND 1</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="104">
+      <Equation>1E-09</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="106">
+      <Equation>0.0001</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="108">
+      <Equation>1E-10</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="110">
+      <Equation>0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="112">
+      <Equation>60</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="114">
+      <Equation>100000</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="116">
+      <Equation>1</Equation>
+    </ExplicitFormula>
+  </FormulaList>
+  <ParameterList>
+    <P id="1" entityId="lXrd8ddTD06nAAXIyEwn4A" name="Volume" path="Nan_If_Conditional_Min_Max|Organism|Volume" unit="l" persistable="0" value="1" />
+    <P id="2" entityId="cOI3bAlnS0qWrql8UmjqkA" name="P_NAN" path="Nan_If_Conditional_Min_Max|Organism|P_NAN" persistable="0" formulaId="3" />
+    <P id="4" entityId="AInn3OYVrEaoacbJHzhkqw" name="P01" path="Nan_If_Conditional_Min_Max|Organism|P01" persistable="0" formulaId="5" />
+    <P id="6" entityId="NJxgBpX2NUeiR0autgzJiQ" name="P02" path="Nan_If_Conditional_Min_Max|Organism|P02" persistable="0" formulaId="7" />
+    <P id="8" entityId="pd3nmm6MhUeGBogE0KMeQA" name="P03" path="Nan_If_Conditional_Min_Max|Organism|P03" persistable="0" formulaId="9" />
+    <P id="10" entityId="66SpnACT0UeUckz67x-PIQ" name="P04" path="Nan_If_Conditional_Min_Max|Organism|P04" persistable="0" formulaId="11" />
+    <P id="12" entityId="tB3ppHXZTEi_9oRczuo45g" name="P06" path="Nan_If_Conditional_Min_Max|Organism|P06" persistable="0" formulaId="13" />
+    <P id="14" entityId="pgVA7QsU4E2Oa4u7Tlz7wg" name="P07" path="Nan_If_Conditional_Min_Max|Organism|P07" persistable="0" formulaId="15" />
+    <P id="16" entityId="81gqudmy4UWRmU8IiVYDgQ" name="P08" path="Nan_If_Conditional_Min_Max|Organism|P08" persistable="0" formulaId="17" />
+    <P id="18" entityId="H5MO2jfyzEGyOzahGB2vPw" name="P09" path="Nan_If_Conditional_Min_Max|Organism|P09" persistable="0" formulaId="19" />
+    <P id="20" entityId="pI8uMuHoEkGt0cIvaIbtZw" name="P10" path="Nan_If_Conditional_Min_Max|Organism|P10" persistable="0" formulaId="21" />
+    <P id="22" entityId="BeWvpXXAr0qAmy5a8Pc84Q" name="P05" path="Nan_If_Conditional_Min_Max|Organism|P05" persistable="0" formulaId="23" />
+    <P id="24" entityId="SZeID5h0b0-8kxNB4M5G9w" name="P11" path="Nan_If_Conditional_Min_Max|Organism|P11" persistable="0" formulaId="25" />
+    <P id="26" entityId="oC5Nk3O4T0e6G2_U6pYDiQ" name="P12" path="Nan_If_Conditional_Min_Max|Organism|P12" persistable="0" formulaId="27" />
+    <P id="28" entityId="KVcdoQRUaU6kNMOk_1MyGQ" name="P13" path="Nan_If_Conditional_Min_Max|Organism|P13" persistable="0" formulaId="29" />
+    <P id="30" entityId="IhdFkqgG3kqUbFCCpbSn1g" name="P14" path="Nan_If_Conditional_Min_Max|Organism|P14" persistable="0" formulaId="31" />
+    <P id="32" entityId="0QpS1RCc5UuV-0qzt2qUmw" name="P15" path="Nan_If_Conditional_Min_Max|Organism|P15" persistable="0" formulaId="33" />
+    <P id="34" entityId="7tVs0RuEJUy3M-H1v0eVIw" name="P16" path="Nan_If_Conditional_Min_Max|Organism|P16" persistable="0" formulaId="35" />
+    <P id="36" entityId="inh3PPuB80aMlHGsdFue-w" name="T01" path="Nan_If_Conditional_Min_Max|Organism|T01" persistable="0" formulaId="37" />
+    <P id="38" entityId="z44BvhWvEEunm8IAlWCRIA" name="T02" path="Nan_If_Conditional_Min_Max|Organism|T02" persistable="0" formulaId="39" />
+    <P id="40" entityId="PMCUbrdLGUCZMxE_S2ZyLg" name="T03" path="Nan_If_Conditional_Min_Max|Organism|T03" persistable="0" formulaId="41" />
+    <P id="42" entityId="YLdUGEZLyk2OIwEBD8tYuA" name="T04" path="Nan_If_Conditional_Min_Max|Organism|T04" persistable="0" formulaId="43" />
+    <P id="44" entityId="KB7D73Thz0um7d-7WxeI1A" name="T05" path="Nan_If_Conditional_Min_Max|Organism|T05" persistable="0" formulaId="45" />
+    <P id="46" entityId="D8NkiKqtQUGDesofOcXVPQ" name="T06" path="Nan_If_Conditional_Min_Max|Organism|T06" persistable="0" formulaId="47" />
+    <P id="48" entityId="v-qbBsrk8E-v-AINlSlPzA" name="T07" path="Nan_If_Conditional_Min_Max|Organism|T07" persistable="0" formulaId="49" />
+    <P id="50" entityId="Zn4Yy5un5EOyuwdNfLGc1Q" name="T08" path="Nan_If_Conditional_Min_Max|Organism|T08" persistable="0" formulaId="51" />
+    <P id="52" entityId="6b1HTE0sJ0S6jGCpRCUTDw" name="T09" path="Nan_If_Conditional_Min_Max|Organism|T09" persistable="0" formulaId="53" />
+    <P id="54" entityId="Vbq7LgTO5kCZxSqjZj0IlQ" name="P17" path="Nan_If_Conditional_Min_Max|Organism|P17" persistable="0" formulaId="55" />
+    <P id="56" entityId="8IA5YUhp7k2oiboy4CFPug" name="P18" path="Nan_If_Conditional_Min_Max|Organism|P18" persistable="0" formulaId="57" />
+    <P id="58" entityId="P7RBaXHDrUaTLgXOWGMwxQ" name="T10" path="Nan_If_Conditional_Min_Max|Organism|T10" persistable="0" formulaId="59" />
+    <P id="60" entityId="CXUmzrOhk0eYl-w1FpI07Q" name="T11" path="Nan_If_Conditional_Min_Max|Organism|T11" persistable="0" formulaId="61" />
+    <P id="62" entityId="AxUuLHYY0U-rJmoOcVV62A" name="T12" path="Nan_If_Conditional_Min_Max|Organism|T12" persistable="0" formulaId="63" />
+    <P id="64" entityId="ZnvxgsbvQ0-t01EK41NVlg" name="T13" path="Nan_If_Conditional_Min_Max|Organism|T13" persistable="0" formulaId="65" />
+    <P id="66" entityId="ZX_tst0aP0mcbfugjpQbsg" name="T14" path="Nan_If_Conditional_Min_Max|Organism|T14" persistable="0" formulaId="67" />
+    <P id="68" entityId="rKdFCpsS3kyYss3CtCUgjQ" name="T15" path="Nan_If_Conditional_Min_Max|Organism|T15" persistable="0" formulaId="69" />
+    <P id="70" entityId="wRpMGxgA8UCJfcuhUdvz7Q" name="T16" path="Nan_If_Conditional_Min_Max|Organism|T16" persistable="0" formulaId="71" />
+    <P id="72" entityId="HFjhueeE0EKL96bFGCNWNw" name="T17" path="Nan_If_Conditional_Min_Max|Organism|T17" persistable="0" formulaId="73" />
+    <P id="74" entityId="QzWdSQTlTEqcKxSujvrhsA" name="F01" path="Nan_If_Conditional_Min_Max|Organism|F01" persistable="0" formulaId="75" />
+    <P id="76" entityId="hcmAci1ieEmubPwj13DrwQ" name="F02" path="Nan_If_Conditional_Min_Max|Organism|F02" persistable="0" formulaId="77" />
+    <P id="78" entityId="xQDkMuInSEukT2e6mQ571g" name="F03" path="Nan_If_Conditional_Min_Max|Organism|F03" persistable="0" formulaId="79" />
+    <P id="80" entityId="bc8rBZCsvU63qiXEkbYBmA" name="F04" path="Nan_If_Conditional_Min_Max|Organism|F04" persistable="0" formulaId="81" />
+    <P id="82" entityId="-FFbyU2aMEypp4EwsEwtRA" name="F05" path="Nan_If_Conditional_Min_Max|Organism|F05" persistable="0" formulaId="83" />
+    <P id="84" entityId="-ZE8kiVfQkCGPfSmaGxP_Q" name="F06" path="Nan_If_Conditional_Min_Max|Organism|F06" persistable="0" formulaId="85" />
+    <P id="86" entityId="w2IB_gHha0a35aqesDJ__A" name="F07" path="Nan_If_Conditional_Min_Max|Organism|F07" persistable="0" formulaId="87" />
+    <P id="88" entityId="bP0LdoP5LkyhYVNpVsXUMw" name="F08" path="Nan_If_Conditional_Min_Max|Organism|F08" persistable="0" formulaId="89" />
+    <P id="90" entityId="Icv14voWWEWF9XP_Hv7EtQ" name="F09" path="Nan_If_Conditional_Min_Max|Organism|F09" persistable="0" formulaId="91" />
+    <P id="92" entityId="mSO3zNQKXEKJ5RvsvG3D_g" name="F10" path="Nan_If_Conditional_Min_Max|Organism|F10" persistable="0" formulaId="93" />
+    <P id="94" entityId="H6o9bna00USf8ev3pqtDLA" name="F11" path="Nan_If_Conditional_Min_Max|Organism|F11" persistable="0" formulaId="95" />
+    <P id="96" entityId="adBEy7c2pEuLB86ApS3O7g" name="T18" path="Nan_If_Conditional_Min_Max|Organism|T18" persistable="0" formulaId="97" />
+    <P id="98" entityId="0FEsDFPJIkKyeyiSnyQCzw" name="T19" path="Nan_If_Conditional_Min_Max|Organism|T19" persistable="0" formulaId="99" />
+    <P id="100" entityId="SOq-rlqyYUW9Vxf-gb24GA" name="T20" path="Nan_If_Conditional_Min_Max|Organism|T20" persistable="0" formulaId="101" />
+    <P id="102" entityId="LbfkFQAQ2kW2kJMo838mMA" name="T21" path="Nan_If_Conditional_Min_Max|Organism|T21" persistable="0" formulaId="103" />
+    <P id="105" entityId="AbsTol" name="AbsTol" path="AbsTol" persistable="0" formulaId="104" />
+    <P id="107" entityId="RelTol" name="RelTol" path="RelTol" persistable="0" formulaId="106" />
+    <P id="109" entityId="H0" name="H0" path="H0" persistable="0" formulaId="108" />
+    <P id="111" entityId="HMin" name="HMin" path="HMin" persistable="0" formulaId="110" />
+    <P id="113" entityId="HMax" name="HMax" path="HMax" persistable="0" formulaId="112" />
+    <P id="115" entityId="MxStep" name="MxStep" path="MxStep" persistable="0" formulaId="114" />
+    <P id="117" entityId="UseJacobian" name="UseJacobian" path="UseJacobian" persistable="0" formulaId="116" />
+  </ParameterList>
+  <Solver name="CVODES">
+    <H0 id="109" />
+    <HMax id="113" />
+    <HMin id="111" />
+    <AbsTol id="105" />
+    <MxStep id="115" />
+    <RelTol id="107" />
+    <UseJacobian id="117" />
+  </Solver>
+  <OutputSchema>
+    <OutputIntervalList>
+      <OutputInterval distribution="Uniform">
+        <StartTime>0</StartTime>
+        <EndTime>1440</EndTime>
+        <NumberOfTimePoints>97</NumberOfTimePoints>
+      </OutputInterval>
+    </OutputIntervalList>
+  </OutputSchema>
+</Simulation>
