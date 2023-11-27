@@ -82,6 +82,7 @@ void Species::LoadFromXMLNode (const XMLNode & pNode)
 	if ((_containerPath.find("SalivaGland") != string::npos) ||
 		(_containerPath.find("IgG_Source") != string::npos) ||
 		(_containerPath.find("ParticleBin_") != string::npos)||
+		(_containerPath.find("|Events|") != string::npos) ||
 		(_containerPath.find("|Applications|") != string::npos))
 		_negativeValuesAllowed = true;
 }

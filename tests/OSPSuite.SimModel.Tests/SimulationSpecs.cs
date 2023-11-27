@@ -481,6 +481,7 @@ namespace OSPSuite.SimModel.Tests
 
       protected static IEnumerable<string> TestData()
       {
+         yield return "12.0_Brockmoller2005_CPA";
          yield return "SimModel4_ExampleInput05";
          yield return "IfFormulaInSwitchCondition";
          yield return "PKSim_Input_01";
