@@ -227,7 +227,7 @@ void ShowTimeSpan(ULONGLONG tstart, ULONGLONG tend)
 string BasisDir(const string& exeName)
 {
 	//TODO
-	return "C:\\SW-Dev\\SimModel\\branches\\4.0\\tests\\TestAppCpp\\x64\\Debug\\";
+	return ".";
 }
 
 string TestFileFrom(const string& fileName)
@@ -249,6 +249,22 @@ void ClearDynamicLibrary()
 //   factory->Clear();
 }
 
+double* SensitivityValuesByPathsFor(Simulation* simulation, const char* quantityPath, const char* parameterPath)
+{
+    bool success;
+    char* errorMsg = NULL;
+    Quantity* quantity = GetQuantityByPath(simulation, quantityPath, success, &errorMsg);
+    evalPInvokeErrorMsg(success, errorMsg);
+
+    int size = GetQuantityValuesSize(quantity, success, &errorMsg);
+    evalPInvokeErrorMsg(success, errorMsg);
+
+    double* values = new double[size];
+    FillSensitivityValues(quantity, values, size, parameterPath, success, &errorMsg);
+    evalPInvokeErrorMsg(success, errorMsg);
+
+    return values;
+}
 string readFile(const string& path)
 {
    wifstream wif(path);
