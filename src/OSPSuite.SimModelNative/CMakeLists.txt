@@ -12,7 +12,7 @@ include_directories (
 	${OSPSuite.SimModelNative_SOURCE_DIR}/../OSPSuite.SimModelSolverBase/src/OSPSuite.SimModelSolverBase/include 
 	${OSPSuite.SimModelNative_SOURCE_DIR}/../OSPSuite.SysTool/include 
 	${OSPSuite.SimModelNative_SOURCE_DIR}/../OSPSuite.XMLWrapper/include 
-	${OSPSuite.SimModelNative_SOURCE_DIR}/../../packages/OSPSuite.FuncParser.Ubuntu18/OSPSuite.FuncParserNative/include
+	${OSPSuite.SimModelNative_SOURCE_DIR}/../../packages/OSPSuite.FuncParser.Ubuntu22/OSPSuite.FuncParserNative/include
 	${LIBXML2_INCLUDE_DIR}
 )
 

@@ -2,7 +2,7 @@
 <package >
   <metadata>    
     <description>Calculation engine for models built with PK-Sim® or MoBi®</description>
-    <id>OSPSuite.SimModel.Ubuntu18</id>
+    <id>OSPSuite.SimModel.Ubuntu22</id>
     <version>$version$</version>
     <title>OSPSuite.SimModel</title>
     <authors>Open-Systems-Pharmacology</authors>
