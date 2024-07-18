@@ -17,13 +17,7 @@ namespace SimModelNative
 
 double MathHelper::GetNaN ()
 {
-#ifdef _WINDOWS
-	return _Nan._Double;
-#endif
-
-#ifdef linux
 	return NAN;
-#endif
 }
 
 bool MathHelper::IsNaN (double d)
@@ -38,13 +32,7 @@ bool MathHelper::IsNaN (double d)
 
 double MathHelper::GetInf ()
 {
-#ifdef _WINDOWS
-	return _Inf._Double;
-#endif
-
-#ifdef linux
 	return INFINITY;
-#endif
 }
 
 double MathHelper::GetNegInf ()

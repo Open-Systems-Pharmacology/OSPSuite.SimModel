@@ -5,11 +5,11 @@ namespace OSPSuite.SimModel
 {
    internal class SimModelImportDefinitions
    {
-
-#if _WINDOWS
+#if NETFRAMEWORK
       public const String NATIVE_DLL = "OSPSuite.SimModelNative.dll";
+
 #else
-      public const String NATIVE_DLL = "libOSPSuite.SimModelNative.so";
+      public const String NATIVE_DLL = "OSPSuite.SimModelNative";
 #endif
 
       public const CallingConvention CALLING_CONVENTION = CallingConvention.Cdecl;
