@@ -187,7 +187,7 @@ void SimulationTask::SetValuesBelowAbsTolLevelToZero(double * values, int values
 {
 	for(int i =0; i<valuesSize;i++)
 	{
-		if((values[i] < 0.0) && (values[i] > -absTol))
+		if (fabs(values[i]) < absTol)
 			values[i] = 0.0;
 	}
 }

@@ -1523,4 +1523,28 @@ namespace OSPSuite.SimModel.Tests
          _zero_parameters.Each(p => p.Value.ShouldBeEqualTo(0, $"{p.Name} was not 0"));
       }
    }
+
+   public class when_running_system_with_output_values_below_the_threshold : concern_for_Simulation
+   {
+      protected override void Because()
+      {
+         LoadFinalizeAndRunSimulation("RemoveBelowAbsTolTest");
+      }
+
+      [Observation]
+      public void should_set_all_values_below_absolute_tolerance_to_zero()
+      {
+         var absTol = sut.RunStatistics.UsedAbsoluteTolerance;
+         var speciesList = sut.AllValues.Where(values => values.VariableType == VariableValues.VariableTypes.Species)
+            .ToList();
+         speciesList.Count.ShouldBeGreaterThan(0);
+
+         foreach (var species in speciesList)
+         {
+            species.Values.Length.ShouldBeGreaterThan(0);
+            species.Values.Where(value=>value!=0).Each(value => Math.Abs(value).ShouldBeGreaterThanOrEqualTo(absTol));
+         }
+      }
+
+   }
 }
