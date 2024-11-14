@@ -490,11 +490,11 @@ namespace OSPSuite.SimModel.Tests
          yield return "OralTable01";
          yield return "GrowConst";
          yield return "GIM_Table_01";
-         // yield return "pH_Solubility_Table"; //TODO enable again after AppVeyor issue was solved (https://tinyurl.com/appveyorscks)
-         // yield return "pH_Solubility_Table_Zero"; //TODO enable again after AppVeyor issue was solved (https://tinyurl.com/appveyorscks)
-         // yield return "pH_Solubility_Table_Const";
-         // yield return "Test4Model_Reduced03";
-         //yield return "Neg_t_TimeSinceMeal"; //"Enable test in case negative meal offset will be allowed"
+         yield return "pH_Solubility_Table"; 
+         yield return "pH_Solubility_Table_Zero"; 
+         yield return "pH_Solubility_Table_Const";
+         yield return "Test4Model_Reduced03";
+         //yield return "Neg_t_TimeSinceMeal"; //TODO "Enable test in case negative meal offset will be allowed"
       }
 
       [TestCase]
@@ -1360,6 +1360,9 @@ namespace OSPSuite.SimModel.Tests
          sut.Options.StopOnWarnings = false;
       }
 
+#if !_WINDOWS
+      [Ignore("TODO enable again after AppVeyor issue was solved (https://tinyurl.com/appveyorscks)")]
+#endif
       [Observation]
       public void should_retrieve_solver_warnings()
       {
