@@ -490,11 +490,11 @@ namespace OSPSuite.SimModel.Tests
          yield return "OralTable01";
          yield return "GrowConst";
          yield return "GIM_Table_01";
-         yield return "pH_Solubility_Table";
-         yield return "pH_Solubility_Table_Zero";
+         yield return "pH_Solubility_Table"; 
+         yield return "pH_Solubility_Table_Zero"; 
          yield return "pH_Solubility_Table_Const";
          yield return "Test4Model_Reduced03";
-         //yield return "Neg_t_TimeSinceMeal"; //"Enable test in case negative meal offset will be allowed"
+         //yield return "Neg_t_TimeSinceMeal"; //TODO "Enable test in case negative meal offset will be allowed"
       }
 
       [TestCase]
@@ -1360,6 +1360,9 @@ namespace OSPSuite.SimModel.Tests
          sut.Options.StopOnWarnings = false;
       }
 
+#if _WINDOWS
+      [Ignore("TODO enable again after AppVeyor issue was solved (https://tinyurl.com/appveyorscks)")]
+#endif
       [Observation]
       public void should_retrieve_solver_warnings()
       {
@@ -1522,5 +1525,29 @@ namespace OSPSuite.SimModel.Tests
          _zero_parameters.Count().ShouldBeEqualTo(11);
          _zero_parameters.Each(p => p.Value.ShouldBeEqualTo(0, $"{p.Name} was not 0"));
       }
+   }
+
+   public class when_running_system_with_output_values_below_the_threshold : concern_for_Simulation
+   {
+      protected override void Because()
+      {
+         LoadFinalizeAndRunSimulation("RemoveBelowAbsTolTest");
+      }
+
+      [Observation]
+      public void should_set_all_values_below_absolute_tolerance_to_zero()
+      {
+         var absTol = sut.RunStatistics.UsedAbsoluteTolerance;
+         var speciesList = sut.AllValues.Where(values => values.VariableType == VariableValues.VariableTypes.Species)
+            .ToList();
+         speciesList.Count.ShouldBeGreaterThan(0);
+
+         foreach (var species in speciesList)
+         {
+            species.Values.Length.ShouldBeGreaterThan(0);
+            species.Values.Where(value=>value!=0).Each(value => Math.Abs(value).ShouldBeGreaterThanOrEqualTo(absTol));
+         }
+      }
+
    }
 }
