@@ -1360,7 +1360,7 @@ namespace OSPSuite.SimModel.Tests
          sut.Options.StopOnWarnings = false;
       }
 
-#if !_WINDOWS
+#if _WINDOWS
       [Ignore("TODO enable again after AppVeyor issue was solved (https://tinyurl.com/appveyorscks)")]
 #endif
       [Observation]
