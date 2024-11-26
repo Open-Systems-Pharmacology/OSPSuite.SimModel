@@ -31,7 +31,7 @@ public:
 	void SimplifyFormulas(bool forCurrentRunOnly);
 	void Finalize();
 
-	bool PerformSwitchUpdate (double * y, double time);
+	bool PerformSwitchUpdate (double * y, double time, bool & switchJacobians);
 
 	std::vector <double> SwitchTimePoints();
 

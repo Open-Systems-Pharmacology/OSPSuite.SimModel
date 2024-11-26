@@ -93,7 +93,9 @@ void Simulation::Finalize ()
 	for (int i = 0; i < _parameters.size(); i++)
 	{
 		if (_parameters[i]->CalculateSensitivity())
+		{
 			_sensitivityParameters.Add(_parameters[i]);
+		}
 	}
 
 	//set hierarchy levels of dependent formula objects
@@ -126,6 +128,20 @@ void Simulation::Finalize ()
 	//
 	//(Default is false!)
 	SetupBandLinearSolver();
+
+	//cache sensitivity derivatives
+	for (int speciesIndex = 0; speciesIndex < m_ODE_NumUnknowns; speciesIndex++)
+	{
+		Species* species = GetDEVariableFromIndex(speciesIndex);
+		for (int otherSpeciesIndex = 0; otherSpeciesIndex < m_ODE_NumUnknowns; otherSpeciesIndex++)
+		{
+			species->JacobianStateVariableFor(otherSpeciesIndex);
+		}
+		for (auto parameterIdx = 0; parameterIdx < _sensitivityParameters.size(); parameterIdx++)
+		{
+			species->JacobianParameterFor(_sensitivityParameters[parameterIdx]->GetId());
+		}
+	}
 	
 	//Everything ok, we can allow the run 
 	_isFinalized = true;
@@ -805,12 +821,16 @@ Species * Simulation::GetDEVariableFromIndex (int DESpeciesIndex)
 	return species;
 }
 
-bool Simulation::PerformSwitchUpdate (double * y, double time)
+bool Simulation::PerformSwitchUpdate (double * y, double time, bool& switchJacobians)
 {
 	bool switchUpdate = false;
 
-	for(int i=0; i<_switches.size(); i++)
-		switchUpdate |= _switches[i]->PerformSwitchUpdate(y, time);
+	for (int i = 0; i < _switches.size(); i++)
+	{
+		auto localSwitch = false;
+		switchUpdate |= _switches[i]->PerformSwitchUpdate(y, time, localSwitch);
+		switchJacobians |= localSwitch;
+	}
 	
 	return switchUpdate;
 }
