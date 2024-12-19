@@ -32,20 +32,19 @@ build_script:
           EXT="so"
           NIX="Ubuntu22"
         fi
-              
-  - sh: cmake -BBuild/Release/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Release -DFuncParserDir=Build/Release/x64/ -DEXT=$EXT
-  - sh: cp packages/OSPSuite.FuncParser.$NIX/OSPSuite.FuncParserNative/bin/native/x64/Release/libOSPSuite.FuncParserNative.$EXT Build/Release/x64/
-  - sh: cp packages/OSPSuite.SimModelSolver_CVODES.$NIX/OSPSuite.SimModelSolver_CVODES/bin/native/x64/Release/libOSPSuite.SimModelSolver_CVODES.$EXT Build/Release/x64/
-  - sh: make -C Build/Release/x64/
-  - sh: dotnet build OSPSuite.SimModel.sln /property:Configuration=Release;Platform=x64
-  - sh: export LD_LIBRARY_PATH=Build/Release/x64/:$LD_LIBRARY_PATH
-  - sh: export DYLD_LIBRARY_PATH=Build/Release/x64/:$DYLD_LIBRARY_PATH
-  # linux debug build
-  - sh: cmake -BBuild/Debug/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Debug -DFuncParserDir=Build/Debug/x64/ -DEXT=$EXT
-  - sh: cp packages/OSPSuite.FuncParser.$NIX/OSPSuite.FuncParserNative/bin/native/x64/Debug/libOSPSuite.FuncParserNative.$EXT Build/Debug/x64/
-  - sh: cp packages/OSPSuite.SimModelSolver_CVODES.$NIX/OSPSuite.SimModelSolver_CVODES/bin/native/x64/Debug/libOSPSuite.SimModelSolver_CVODES.$EXT Build/Debug/x64/
-  - sh: make -C Build/Debug/x64/
-  - sh: dotnet build OSPSuite.SimModel.sln /property:Configuration=Debug;Platform=x64
+        cmake -BBuild/Release/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Release -DFuncParserDir=Build/Release/x64/ -DEXT=$EXT
+        cp packages/OSPSuite.FuncParser.$NIX/OSPSuite.FuncParserNative/bin/native/x64/Release/libOSPSuite.FuncParserNative.$EXT Build/Release/x64/
+        cp packages/OSPSuite.SimModelSolver_CVODES.$NIX/OSPSuite.SimModelSolver_CVODES/bin/native/x64/Release/libOSPSuite.SimModelSolver_CVODES.$EXT Build/Release/x64/
+        make -C Build/Release/x64/
+        dotnet build OSPSuite.SimModel.sln /property:Configuration=Release;Platform=x64
+        export LD_LIBRARY_PATH=Build/Release/x64/:$LD_LIBRARY_PATH
+        export DYLD_LIBRARY_PATH=Build/Release/x64/:$DYLD_LIBRARY_PATH
+        # linux debug build
+        cmake -BBuild/Debug/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Debug -DFuncParserDir=Build/Debug/x64/ -DEXT=$EXT
+        cp packages/OSPSuite.FuncParser.$NIX/OSPSuite.FuncParserNative/bin/native/x64/Debug/libOSPSuite.FuncParserNative.$EXT Build/Debug/x64/
+        cp packages/OSPSuite.SimModelSolver_CVODES.$NIX/OSPSuite.SimModelSolver_CVODES/bin/native/x64/Debug/libOSPSuite.SimModelSolver_CVODES.$EXT Build/Debug/x64/
+        make -C Build/Debug/x64/
+        dotnet build OSPSuite.SimModel.sln /property:Configuration=Debug;Platform=x64
 
 cache:
   - packages -> **\packages.config  # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
