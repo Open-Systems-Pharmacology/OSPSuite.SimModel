@@ -26,6 +26,6 @@ file (GLOB SOURCES
 add_library (OSPSuite.SimModelNative SHARED ${SOURCES})
 
 target_link_libraries (OSPSuite.SimModelNative 
-    ${OSPSuite.SimModelNative_SOURCE_DIR}/../../${FuncParserDir}libOSPSuite.FuncParserNative.so
+    ${OSPSuite.SimModelNative_SOURCE_DIR}/../../${FuncParserDir}libOSPSuite.FuncParserNative.${EXT}
 	${LIBXML2_LIBRARIES}
 )

@@ -12,6 +12,11 @@
 #define SIM_EXPORT
 #endif
 
+#ifdef __APPLE__
+#include <cmath>
+#define SIM_EXPORT
+#endif
+
 #include <string>
 
 namespace SimModelNative

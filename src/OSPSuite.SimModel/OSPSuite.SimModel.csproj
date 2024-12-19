@@ -17,10 +17,32 @@
     <Company>Open Systems Pharmacology Community</Company>
     <Copyright>© Open Systems Pharmacology Community 2020</Copyright>
     <Configurations>Debug;Release;Purify_Debug</Configurations>
+    <NuspecProperties>version=$(PackageVersion)</NuspecProperties>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
     <DefineConstants>_WINDOWS</DefineConstants>
+    <NuspecFile>OSPSuite.SimModel.nuspec</NuspecFile> 
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+    <NuspecFile>OSPSuite.SimModel.Ubuntu22.nuspec</NuspecFile> 
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+    <NuspecFile>OSPSuite.SimModel.MacOS.nuspec</NuspecFile> 
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Purify_Debug' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>

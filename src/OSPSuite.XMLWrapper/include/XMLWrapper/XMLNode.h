@@ -17,6 +17,12 @@
 #define XMLWRAPPER_EXPORT
 #endif
 
+#ifdef __APPLE__
+#include <libxml/parser.h>
+#include <libxml/tree.h>
+#define XMLWRAPPER_EXPORT
+#endif
+
 class XMLWRAPPER_EXPORT XMLNode
 {
 	public:

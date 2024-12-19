@@ -30,6 +30,13 @@ class XMLWRAPPER_EXPORT XMLHelper
 		typedef MSXML2::IXMLDOMParseErrorPtr XMLParseErrorPtr;
 #endif
 
+#ifdef __APPLE__
+
+		// Not used
+		typedef void * XMLParseErrorPtr;
+
+#endif
+
 #ifdef linux
 
 		// Not used

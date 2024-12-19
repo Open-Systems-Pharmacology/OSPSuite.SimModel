@@ -13,6 +13,13 @@
 #include <libxml/xmlschemastypes.h>
 #endif
 
+#ifdef __APPLE__
+#include <libxml/parser.h>
+#include <libxml/tree.h>
+#include <libxml/xmlschemas.h>
+#include <libxml/xmlschemastypes.h>
+#endif
+
 class XMLCache
 {
 	private:
@@ -37,6 +44,14 @@ class XMLCache
 
 #endif
 		void LoadSchemaFromXMLDom (XMLDocument pXMLDoc);
+
+#ifdef __APPLE__
+		typedef xmlSchemaPtr LocalSchemaType;
+
+	private:
+	    xmlSchemaPtr m_Linux_SchemaCache;
+
+#endif
 
 #ifdef linux
 		typedef xmlSchemaPtr LocalSchemaType;

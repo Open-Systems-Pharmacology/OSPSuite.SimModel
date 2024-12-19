@@ -12,6 +12,13 @@
 #define CoTaskMemAlloc malloc
 #endif
 
+#ifdef __APPLE__
+#include <cstring>
+#include <string.h>
+#define STRCPY(DEST, LENGTH, SOURCE) strcpy(DEST, SOURCE)
+#define CoTaskMemAlloc malloc
+#endif
+
 namespace SimModelNative
 {
    using namespace std;
