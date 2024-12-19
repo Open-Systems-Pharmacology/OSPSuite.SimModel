@@ -2,7 +2,7 @@
 #pragma warning(disable:4786)
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 #include <algorithm>
 #endif
 

@@ -7,12 +7,7 @@
 #pragma warning( disable : 4005)
 #endif
 
-#ifdef linux
-#include <cmath>
-#define SIM_EXPORT
-#endif
-
-#ifdef __APPLE__
+#if defined(linux) || defined (__APPLE__)
 #include <cmath>
 #define SIM_EXPORT
 #endif

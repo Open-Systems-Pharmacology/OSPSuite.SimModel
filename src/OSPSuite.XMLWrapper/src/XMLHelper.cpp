@@ -91,7 +91,7 @@ std::string XMLHelper::GetParseError(XMLParseErrorPtr pError)
    return sErr;
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
    // !!! Not implemented yet
    return "Unspecified error (XMLHelper::GetParseError() not implemented yet for Linux)";
 #endif

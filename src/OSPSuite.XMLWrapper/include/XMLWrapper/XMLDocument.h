@@ -10,7 +10,7 @@
 #include <msxml.h>
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xmlschemas.h>
@@ -44,7 +44,7 @@ class XMLWRAPPER_EXPORT XMLDocument
 
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 		xmlDocPtr m_Linux_DocumentPtr;
 #endif
 

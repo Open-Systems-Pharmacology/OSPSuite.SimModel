@@ -12,7 +12,7 @@ const bool IsNan (const double d)
 	return _isnan(d)?true:false;
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	return std::isnan(d);
 #endif
 }

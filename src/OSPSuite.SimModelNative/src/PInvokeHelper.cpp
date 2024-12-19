@@ -5,14 +5,7 @@
 #define STRCPY(DEST, LENGTH, SOURCE) strcpy_s(DEST, LENGTH, SOURCE)
 #endif
 
-#ifdef linux
-#include <cstring>
-#include <string.h>
-#define STRCPY(DEST, LENGTH, SOURCE) strcpy(DEST, SOURCE)
-#define CoTaskMemAlloc malloc
-#endif
-
-#ifdef __APPLE__
+#if defined(linux) || defined (__APPLE__)
 #include <cstring>
 #include <string.h>
 #define STRCPY(DEST, LENGTH, SOURCE) strcpy(DEST, SOURCE)

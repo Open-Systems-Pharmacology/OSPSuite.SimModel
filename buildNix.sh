@@ -12,8 +12,6 @@ else
     EXT="so"
 fi
 
-echo $EXT
-
 git submodule update --init --recursive
 nuget sources add -name bddhelper -source https://ci.appveyor.com/nuget/ospsuite-bddhelper 
 nuget sources add -name utility -source https://ci.appveyor.com/nuget/ospsuite-utility 

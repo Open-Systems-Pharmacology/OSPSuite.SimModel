@@ -8,7 +8,7 @@
 #include "XMLWrapper/WindowsHelper.h"
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 static const char* gs_xmlEncoding = "UTF-8";
 #endif
 
@@ -18,11 +18,11 @@ XMLDocument::XMLDocument()
 	m_Windows_DocumentPtr = NULL;
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)	
 	m_Linux_DocumentPtr = NULL;
 #endif
-
 }
+
 std::string XMLDocument::GetBaseName ()
 {
 	// Return value
@@ -33,11 +33,10 @@ std::string XMLDocument::GetBaseName ()
 	sRet = "At element: " + _bstr_t(m_Windows_DocumentPtr->GetbaseName());
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	//TODO
 #endif
-
 	// Return root node
 	return sRet;
 }
@@ -52,7 +51,7 @@ XMLNode XMLDocument::GetRootElement () const
 	ret.m_Windows_NodePtr = m_Windows_DocumentPtr -> firstChild;
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	ret.m_Linux_NodePtr = xmlDocGetRootElement(m_Linux_DocumentPtr);
 #endif
@@ -68,7 +67,7 @@ const bool XMLDocument::IsNull () const
 	return (m_Windows_DocumentPtr == NULL);
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	return (m_Linux_DocumentPtr == NULL);
 #endif
@@ -89,7 +88,7 @@ void XMLDocument::Create()
   m_Windows_DocumentPtr = XMLDoc;
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
     // ============================================= LINUX
   m_Linux_DocumentPtr = xmlNewDoc(BAD_CAST "1.0");
   if(m_Linux_DocumentPtr == NULL)
@@ -104,10 +103,9 @@ XMLNode XMLDocument::CreateNode(const std::string& nodeName)
   MSXML2::IXMLDOMNodePtr nodePtr = m_Windows_DocumentPtr->createNode((short) MSXML2::NODE_ELEMENT, nodeName.c_str(), "");
   node.m_Windows_NodePtr = nodePtr;
 #endif
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
   node.m_Linux_NodePtr = xmlNewDocNode(m_Linux_DocumentPtr, NULL, BAD_CAST nodeName.c_str(), NULL);
 #endif
-  return node;
 }
 
 XMLNode XMLDocument::CreateRootNode(const std::string& rootNodeName)
@@ -116,7 +114,7 @@ XMLNode XMLDocument::CreateRootNode(const std::string& rootNodeName)
 #ifdef _WINDOWS
   throw "Not implemented yet";
 #endif
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
   xmlDocSetRootElement(m_Linux_DocumentPtr, rootNode.m_Linux_NodePtr);
 #if 0
   // TODO: SaveToFile created duplicate processing instruction when the following lines are executed
@@ -133,7 +131,7 @@ XMLNode XMLDocument::CreateRootNode(const XMLNode& rootNode)
 #ifdef _WINDOWS
   throw "Not implemented yet";
 #endif
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
   xmlDocSetRootElement(m_Linux_DocumentPtr, rootNode.m_Linux_NodePtr);
 #endif
   return rootNode;
@@ -147,7 +145,7 @@ void XMLDocument::Release ()
 	m_Windows_DocumentPtr = NULL;
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	xmlFreeDoc(m_Linux_DocumentPtr);
 	m_Linux_DocumentPtr = NULL;
@@ -197,7 +195,7 @@ XMLDocument XMLDocument::FromString (const std::string & mcrXML)
 		ret.m_Windows_DocumentPtr = pXMLDoc;
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 		// ========================================================== LINUX
 
 		// Read document from memory
@@ -240,7 +238,7 @@ const std::string XMLDocument::ToString () const
 	return (char *) m_Windows_DocumentPtr -> Getxml();
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	xmlChar * mem;
 	int size;
@@ -319,7 +317,7 @@ XMLDocument XMLDocument::FromFile (const std::string & mcrFilename)
 	}
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 
 	// Load XML document
@@ -357,7 +355,7 @@ void XMLDocument::ToFile (const std::string & mcrFilename, bool indent) const
 	}
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	int rc = 0;
     // Save XML document

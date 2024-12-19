@@ -3,7 +3,7 @@
 
 #include <assert.h>
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 #include <stdlib.h>
 #include <cstring>
 #endif

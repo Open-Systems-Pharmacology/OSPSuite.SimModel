@@ -4,7 +4,7 @@
 #include "SimModel/CppODEExporter.h"
 #include "XMLWrapper/XMLHelper.h"
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 #include <string.h> //for memcpy
 #endif
 
