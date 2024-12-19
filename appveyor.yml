@@ -68,11 +68,15 @@ before_build:
 install:
   #linux: install libxml2
   # - sh: sudo apt-get update --assume-yes 
-  - sh: sudo apt-get install libxml2-dev --assume-yes 
+  - sh: |
+      if[$isLinux] 
+      then
+        sudo apt-get install libxml2-dev --assume-yes 
+      fi
  
 after_build:
   - cmd: dotnet pack src/OSPSuite.SimModel/ -p:PackageVersion=%app_version% -o ./
-  - sh: dotnet pack src/OSPSuite.SimModel/ -p:PackageVersion=%app_version% -o ./
+  - sh: dotnet pack src/OSPSuite.SimModel/ -p:PackageVersion=$app_version -o ./
   - ps: Get-ChildItem .\OSPSuite.SimModel.*.nupkg | % { Push-AppveyorArtifact $_.FullName -FileName $_.Name }
 
 test_script:
