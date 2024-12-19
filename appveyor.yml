@@ -24,7 +24,8 @@ build_script:
   - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Release;Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   # linux release build
   - sh: |
-        if [$isMacOS] then
+        if [$isMacOS] 
+        then
           EXT="dylib"
           NIX="MacOS"
         else
