@@ -69,7 +69,7 @@ install:
   #linux: install libxml2
   # - sh: sudo apt-get update --assume-yes 
   - sh: |
-      if[$isLinux] 
+      if [$isLinux] 
       then
         sudo apt-get install libxml2-dev --assume-yes 
       fi
