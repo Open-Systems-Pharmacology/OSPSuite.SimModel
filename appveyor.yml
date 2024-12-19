@@ -1,7 +1,7 @@
 image: 
 - macOS
-- Visual Studio 2022
 - Ubuntu2204
+- Visual Studio 2022
 
 environment:
   major: 4
@@ -24,14 +24,14 @@ build_script:
   - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Release;Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   # linux release build
   - sh: |
-        if ($isMacOS) {
+        if [$isMacOS] then
           EXT=dylib
           NIX=MacOS
-        } else {
+        else
           EXT=so
           NIX=Ubuntu22
-        }
-      
+        fi
+              
   - sh: cmake -BBuild/Release/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Release -DFuncParserDir=Build/Release/x64/ -DEXT=$EXT
   - sh: cp packages/OSPSuite.FuncParser.$NIX/OSPSuite.FuncParserNative/bin/native/x64/Release/libOSPSuite.FuncParserNative.$EXT Build/Release/x64/
   - sh: cp packages/OSPSuite.SimModelSolver_CVODES.$NIX/OSPSuite.SimModelSolver_CVODES/bin/native/x64/Release/libOSPSuite.SimModelSolver_CVODES.$EXT Build/Release/x64/
