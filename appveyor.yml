@@ -25,11 +25,11 @@ build_script:
   # linux release build
   - sh: |
         if [$isMacOS] then
-          EXT=dylib
-          NIX=MacOS
+          EXT="dylib"
+          NIX="MacOS"
         else
-          EXT=so
-          NIX=Ubuntu22
+          EXT="so"
+          NIX="Ubuntu22"
         fi
               
   - sh: cmake -BBuild/Release/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Release -DFuncParserDir=Build/Release/x64/ -DEXT=$EXT
