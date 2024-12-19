@@ -251,5 +251,6 @@ paket-files/
 .idea/
 *.sln.iml
 /tests/TestData/saved_ExampleInput06.xml
+/tests/TestData/saved_POPsim.xml
 
 OSPSuite.SimModel4Nix.sln
