@@ -24,15 +24,15 @@ build_script:
   - cmd: msbuild OSPSuite.SimModel.sln /property:Configuration=Release;Platform=x64 /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
   # linux release build
   - sh: |
-    if [ $isMacOS ] 
-    then
-      EXT="dylib"
-      NIX="MacOS"
-    else
-      EXT="so"
-      NIX="Ubuntu22"
-    fi
-    echo $NIX
+      if [ $isMacOS ] 
+      then
+        EXT="dylib"
+        NIX="MacOS"
+      else
+        EXT="so"
+        NIX="Ubuntu22"
+      fi
+      echo $NIX
 
   - sh: cmake -BBuild/Release/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Release -DFuncParserDir=Build/Release/x64/ -DEXT=$EXT
   - sh: cp packages/OSPSuite.FuncParser.$NIX/OSPSuite.FuncParserNative/bin/native/x64/Release/libOSPSuite.FuncParserNative.$EXT Build/Release/x64/
