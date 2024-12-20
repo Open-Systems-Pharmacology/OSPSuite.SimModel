@@ -30,13 +30,13 @@ dotnet sln OSPSuite.SimModel4Nix.sln remove src/OSPSuite.SysTool/OSPSuite.SysToo
 dotnet sln OSPSuite.SimModel4Nix.sln remove src/OSPSuite.XMLWrapper/OSPSuite.XMLWrapper.vcxproj
 dotnet sln OSPSuite.SimModel4Nix.sln remove tests/TestAppNetCore/TestAppNetCore.csproj
 
-cmake -BBuild/Release/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Release -DFuncParserDir=Build/Release/x64/ -DEXT=$EXT
+cmake -BBuild/Release/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Release -DFuncParserDir=Build/Release/x64/ -DEXT=$EXT -DCMAKE_OSX_ARCHITECTURES=x86_64
 cp packages/OSPSuite.FuncParser.$1/OSPSuite.FuncParserNative/bin/native/x64/Release/libOSPSuite.FuncParserNative.$EXT Build/Release/x64/
 cp packages/OSPSuite.SimModelSolver_CVODES.$1/OSPSuite.SimModelSolver_CVODES/bin/native/x64/Release/libOSPSuite.SimModelSolver_CVODES.$EXT Build/Release/x64/
 make -C Build/Release/x64/
 dotnet build OSPSuite.SimModel4Nix.sln /property:Configuration=Release;Platform=x64
 
-cmake -BBuild/Debug/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Debug -DFuncParserDir=Build/Debug/x64/ -DEXT=$EXT 
+cmake -BBuild/Debug/x64/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Debug -DFuncParserDir=Build/Debug/x64/ -DEXT=$EXT  -DCMAKE_OSX_ARCHITECTURES=x86_64
 cp packages/OSPSuite.FuncParser.$1/OSPSuite.FuncParserNative/bin/native/x64/Debug/libOSPSuite.FuncParserNative.$EXT Build/Debug/x64/
 cp packages/OSPSuite.SimModelSolver_CVODES.$1/OSPSuite.SimModelSolver_CVODES/bin/native/x64/Debug/libOSPSuite.SimModelSolver_CVODES.$EXT Build/Debug/x64/
 make -C Build/Debug/x64/

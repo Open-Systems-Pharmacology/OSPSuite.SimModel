@@ -44,8 +44,11 @@ bool MathHelper::IsFinite (double d)
 #ifdef _WINDOWS
         return _finite(d) ? true : false;
 #endif
-#if defined(linux) || defined (__APPLE__)
+#if defined(linux)
         return (finite(d) != 0);
+#endif
+#if defined (__APPLE__)
+	return isfinite(d);
 #endif
 }
 
