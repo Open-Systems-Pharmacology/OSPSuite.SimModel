@@ -44,7 +44,7 @@ dotnet build OSPSuite.SimModel4Nix.sln /property:Configuration=Debug;Platform=x6
 
 #optionally: run tests
 export LD_LIBRARY_PATH=Build/Release/x64:$LD_LIBRARY_PATH
-export DYLD_LIBRARY_PATH=./Build/Release/x64:$DYLD_LIBRARY_PATH
+export DYLD_LIBRARY_PATH=Build/Release/x64:$DYLD_LIBRARY_PATH
 
 dotnet test tests/OSPSuite.SimModel.Tests/OSPSuite.SimModel.Tests.csproj --no-build --no-restore --configuration:Release --verbosity normal 
 
