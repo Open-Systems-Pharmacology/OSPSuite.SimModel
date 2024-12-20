@@ -106,6 +106,7 @@ XMLNode XMLDocument::CreateNode(const std::string& nodeName)
 #if defined(linux) || defined (__APPLE__)
   node.m_Linux_NodePtr = xmlNewDocNode(m_Linux_DocumentPtr, NULL, BAD_CAST nodeName.c_str(), NULL);
 #endif
+  return node;
 }
 
 XMLNode XMLDocument::CreateRootNode(const std::string& rootNodeName)
