@@ -132,7 +132,7 @@ void XMLCache::LoadSchemaFromXMLDom (XMLDocument pXMLDoc)
     m_Windows_SchemaCache->add(m_SchemaNamespace.c_str(), pXMLDoc.m_Windows_DocumentPtr.GetInterfacePtr());
     m_SchemaInitialized = true;
 #endif
-#if linux
+#if defined(linux) || defined (__APPLE__)
     xmlSchemaParserCtxtPtr ctxt;
     ctxt = xmlSchemaNewDocParserCtxt(pXMLDoc.m_Linux_DocumentPtr);
     xmlSchemaSetParserErrors(ctxt,

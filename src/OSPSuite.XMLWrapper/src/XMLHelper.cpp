@@ -221,7 +221,7 @@ void XMLHelper::ValidateXMLDomWithSchema(XMLDocument pXMLDoc, const XMLCache* pC
    }
    pError.Release();
 #endif
-#if linux
+#if defined(linux) || defined (__APPLE__)
    assert(!pXMLDoc.IsNull());
    assert(pCache != NULL);
    assert(pCache->GetSchemaCache() != NULL);
