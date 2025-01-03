@@ -6,9 +6,10 @@ set (CMAKE_CXX_FLAGS_DEBUG "-g")
 set (CMAKE_CXX_FLAGS_RELEASE "-O3")
 
 if (APPLE)
-	set(CMAKE_MACOSX_RPATH 1)
+    set(CMAKE_MACOSX_RPATH 1)
+    set (CMAKE_CXX_FLAGS_RELEASE "-O0")
     set(RPATH ".")
-	list(APPEND CMAKE_BUILD_RPATH ${RPATH})
+    list(APPEND CMAKE_BUILD_RPATH ${RPATH})
 endif()
 
 find_package(LibXml2 REQUIRED)
