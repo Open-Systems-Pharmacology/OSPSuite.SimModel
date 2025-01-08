@@ -11,10 +11,9 @@
 #include "SimModel/Species.h"
 #include <assert.h>
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 #include <algorithm> //for std::find
 #endif
-
 namespace SimModelNative
 {
 

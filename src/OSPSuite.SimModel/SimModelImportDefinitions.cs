@@ -7,7 +7,6 @@ namespace OSPSuite.SimModel
    {
 #if NETFRAMEWORK
       public const String NATIVE_DLL = "OSPSuite.SimModelNative.dll";
-
 #else
       public const String NATIVE_DLL = "OSPSuite.SimModelNative";
 #endif

@@ -31,7 +31,7 @@ XMLCache::XMLCache ()
 #ifdef _WINDOWS
 	m_Windows_SchemaCache = NULL;
 #endif
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	m_Linux_SchemaCache = NULL;
 #endif
 }
@@ -46,7 +46,7 @@ XMLCache::~XMLCache ()
 		m_Windows_SchemaCache.Release();
 	}
 #endif
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
     if (m_Linux_SchemaCache)
     {
       xmlSchemaFree(m_Linux_SchemaCache);
@@ -132,7 +132,7 @@ void XMLCache::LoadSchemaFromXMLDom (XMLDocument pXMLDoc)
     m_Windows_SchemaCache->add(m_SchemaNamespace.c_str(), pXMLDoc.m_Windows_DocumentPtr.GetInterfacePtr());
     m_SchemaInitialized = true;
 #endif
-#if linux
+#if defined(linux) || defined (__APPLE__)
     xmlSchemaParserCtxtPtr ctxt;
     ctxt = xmlSchemaNewDocParserCtxt(pXMLDoc.m_Linux_DocumentPtr);
     xmlSchemaSetParserErrors(ctxt,
@@ -157,7 +157,7 @@ const XMLCache::LocalSchemaType XMLCache::GetSchemaCache () const
     return m_Windows_SchemaCache;
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// No Schema implementation yet.
 	return m_Linux_SchemaCache;
 #endif

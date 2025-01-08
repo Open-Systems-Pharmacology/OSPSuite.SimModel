@@ -8,7 +8,7 @@
 #include "comdef.h"
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 #define CoTaskMemAlloc malloc
 #endif
 

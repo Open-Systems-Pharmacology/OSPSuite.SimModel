@@ -5,6 +5,12 @@ set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_FLAGS_DEBUG "-g")
 set (CMAKE_CXX_FLAGS_RELEASE "-O3")
 
+if (APPLE)
+    set(CMAKE_MACOSX_RPATH 1)
+    set(RPATH ".")
+    list(APPEND CMAKE_BUILD_RPATH ${RPATH})
+endif()
+
 find_package(LibXml2 REQUIRED)
 
 include_directories (
@@ -26,6 +32,6 @@ file (GLOB SOURCES
 add_library (OSPSuite.SimModelNative SHARED ${SOURCES})
 
 target_link_libraries (OSPSuite.SimModelNative 
-    ${OSPSuite.SimModelNative_SOURCE_DIR}/../../${FuncParserDir}libOSPSuite.FuncParserNative.so
+    ${OSPSuite.SimModelNative_SOURCE_DIR}/../../${FuncParserDir}libOSPSuite.FuncParserNative.${EXT}
 	${LIBXML2_LIBRARIES}
 )

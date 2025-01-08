@@ -13,7 +13,7 @@
 // difference is if quantitiy is "_isFixed" or not
 const bool CONSTANT_CURRENT_RUN = false; //TODO
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 #include <fstream>
 #endif
 

@@ -64,8 +64,13 @@
 #    define SYSTOOL_TEMPLATE
 #  endif
 
-//Linux
+//Mac
+#elif defined(__APPLE__)
+#  define SYSTOOL_LINUX
+//Creating shared libraries requires no special measures.
+#  define SYSTOOL_EXPORT
 
+//Linux
 #elif defined(__linux__)
 #  define SYSTOOL_LINUX
 //Creating shared libraries requires no special measures.

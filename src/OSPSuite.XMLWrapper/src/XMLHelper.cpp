@@ -91,7 +91,7 @@ std::string XMLHelper::GetParseError(XMLParseErrorPtr pError)
    return sErr;
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
    // !!! Not implemented yet
    return "Unspecified error (XMLHelper::GetParseError() not implemented yet for Linux)";
 #endif
@@ -221,7 +221,7 @@ void XMLHelper::ValidateXMLDomWithSchema(XMLDocument pXMLDoc, const XMLCache* pC
    }
    pError.Release();
 #endif
-#if linux
+#if defined(linux) || defined (__APPLE__)
    assert(!pXMLDoc.IsNull());
    assert(pCache != NULL);
    assert(pCache->GetSchemaCache() != NULL);

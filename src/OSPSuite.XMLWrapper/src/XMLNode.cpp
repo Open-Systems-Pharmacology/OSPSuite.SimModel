@@ -15,7 +15,7 @@ XMLNode::XMLNode ()
 	m_Windows_NodePtr = NULL;
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	m_Linux_NodePtr = NULL;
 #endif
@@ -36,7 +36,7 @@ XMLNode XMLNode::GetFirstChild ()
 	ret.m_Windows_NodePtr = m_Windows_NodePtr -> firstChild;
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	ret.m_Linux_NodePtr = m_Linux_NodePtr -> children;
 #endif
@@ -60,7 +60,7 @@ const XMLNode XMLNode::GetFirstChild () const
 	ret.m_Windows_NodePtr = m_Windows_NodePtr -> firstChild;
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	ret.m_Linux_NodePtr = m_Linux_NodePtr -> children;
 #endif
@@ -84,11 +84,10 @@ XMLNode XMLNode::GetNextSibling ()
 	ret.m_Windows_NodePtr = m_Windows_NodePtr -> nextSibling;
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	ret.m_Linux_NodePtr = m_Linux_NodePtr -> next;
 #endif
-
 	// Return value
 	return ret;
 }
@@ -108,7 +107,7 @@ const XMLNode XMLNode::GetNextSibling () const
 	ret.m_Windows_NodePtr = m_Windows_NodePtr -> nextSibling;
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	ret.m_Linux_NodePtr = m_Linux_NodePtr -> next;
 #endif
@@ -129,7 +128,7 @@ const std::string XMLNode::GetNodeName () const
 	return ((char *) m_Windows_NodePtr -> nodeName);
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	return ((char *) m_Linux_NodePtr -> name);
 #endif
@@ -142,7 +141,7 @@ const bool XMLNode::IsNull () const
 	return (m_Windows_NodePtr == NULL);
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	return (m_Linux_NodePtr == NULL);
 #endif
@@ -163,12 +162,11 @@ XMLNode XMLNode::Clone(bool recursive) const
   nodeCopy.m_Windows_NodePtr = m_Windows_NodePtr;
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
     // ============================================= LINUX
     int extended = (recursive) ? 1 : 2;
     nodeCopy.m_Linux_NodePtr = xmlCopyNode(m_Linux_NodePtr, extended);
 #endif
-
     return nodeCopy;
 }
 
@@ -176,7 +174,7 @@ void XMLNode::FreeNode()
 {
   if (!IsNull())
   {
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
     // ============================================= LINUX
     xmlFreeNode(m_Linux_NodePtr);
     m_Linux_NodePtr = NULL;
@@ -201,7 +199,7 @@ bool XMLNode::HasAttribute (const std::string & mcrName) const
     return (attribute != NULL);
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
     // ============================================= LINUX
 
     // Check if attribute exists
@@ -237,7 +235,7 @@ const std::string XMLNode::GetAttribute (const std::string & mcrName, const std:
 	}
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 
 	// Check if attribute exists
@@ -301,7 +299,7 @@ void XMLNode::SetAttribute (const std::string & mcrName, const std::string & mcr
 	m_Windows_NodePtr -> attributes -> setNamedItem(attr);
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
     // Check if attribute exists
     if (xmlHasProp(m_Linux_NodePtr, BAD_CAST mcrName.c_str()))
@@ -339,7 +337,7 @@ XMLNode XMLNode::GetChildNode (const std::string & mcrName)
 	}
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	// Check if node exists
 	if (m_Linux_NodePtr == NULL)
@@ -377,7 +375,7 @@ const XMLNode XMLNode::GetChildNode (const std::string & mcrName) const
 	}
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	// Check if node exists
 	if (m_Linux_NodePtr == NULL)
@@ -386,7 +384,6 @@ const XMLNode XMLNode::GetChildNode (const std::string & mcrName) const
 		return XMLNode();
 	}
 #endif
-
 	// Loop all children for first match
 	for (XMLNode child = GetFirstChild();
 		!child.IsNull();
@@ -430,7 +427,7 @@ XMLNode XMLNode::CreateChildNode (const std::string & mcrName)
 	m_Windows_NodePtr -> appendChild(ret.m_Windows_NodePtr);
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	ret.m_Linux_NodePtr = xmlNewChild(m_Linux_NodePtr, NULL, BAD_CAST mcrName.c_str(), BAD_CAST "");
 #endif
@@ -451,7 +448,7 @@ void XMLNode::RemoveChildNode (XMLNode & mrNode)
 	m_Windows_NodePtr -> removeChild(mrNode.m_Windows_NodePtr);
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	xmlUnlinkNode(mrNode.m_Linux_NodePtr);
 #endif
@@ -469,7 +466,7 @@ void XMLNode::AppendChildNode (XMLNode & mrNode)
 	m_Windows_NodePtr -> appendChild(mrNode.m_Windows_NodePtr);
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	xmlAddChild(m_Linux_NodePtr, mrNode.m_Linux_NodePtr);
 #endif
@@ -525,7 +522,7 @@ const std::string XMLNode::GetXML () const
 	return (char *) m_Windows_NodePtr -> Getxml();
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 
 	// Create buffer
@@ -562,7 +559,7 @@ const double XMLNode::GetValue (const double mcDefault) const
 	}
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	const std::string value = GetValue();
 	if (value == "")
@@ -611,7 +608,7 @@ const std::string XMLNode::GetValue () const
 	}
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 
 	// Loop children
@@ -652,7 +649,7 @@ void XMLNode::SetValue (const std::string & Value)
 	m_Windows_NodePtr -> text = Value.c_str();
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 	// ============================================= LINUX
 	//TODO: Check
 	// The following code sets only the node text content

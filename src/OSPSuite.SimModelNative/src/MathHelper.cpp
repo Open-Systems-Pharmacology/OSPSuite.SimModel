@@ -7,11 +7,10 @@
 #endif
 
 #include <clocale>
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 #include <cstring>
 #include <cmath>
 #endif
-
 namespace SimModelNative
 {
 
@@ -25,7 +24,7 @@ bool MathHelper::IsNaN (double d)
 #ifdef _WINDOWS
         return _isnan(d) ? true : false;
 #endif
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
         return std::isnan(d);
 #endif
 }
@@ -45,8 +44,11 @@ bool MathHelper::IsFinite (double d)
 #ifdef _WINDOWS
         return _finite(d) ? true : false;
 #endif
-#ifdef linux
+#if defined(linux)
         return (finite(d) != 0);
+#endif
+#if defined (__APPLE__)
+	return isfinite(d);
 #endif
 }
 

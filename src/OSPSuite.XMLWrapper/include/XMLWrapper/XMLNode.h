@@ -11,7 +11,7 @@
 #define XMLWRAPPER_EXPORT __declspec(dllexport)
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #define XMLWRAPPER_EXPORT
@@ -58,7 +58,7 @@ class XMLWRAPPER_EXPORT XMLNode
 
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 		//..end "UTF:----- Linux (Start)"
 		xmlNodePtr m_Linux_NodePtr;
 

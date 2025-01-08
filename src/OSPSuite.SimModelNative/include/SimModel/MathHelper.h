@@ -5,7 +5,7 @@
 #include <math.h>
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 #include <cmath>
 #endif
 

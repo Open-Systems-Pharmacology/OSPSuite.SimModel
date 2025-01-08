@@ -6,12 +6,13 @@
 #include <cmath>
 #include <assert.h>
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xmlschemas.h>
 #include <libxml/xmlschemastypes.h>
 #endif
+
 
 class XMLCache
 {
@@ -38,7 +39,8 @@ class XMLCache
 #endif
 		void LoadSchemaFromXMLDom (XMLDocument pXMLDoc);
 
-#ifdef linux
+
+#if defined(linux) || defined (__APPLE__)
 		typedef xmlSchemaPtr LocalSchemaType;
 
 	private:

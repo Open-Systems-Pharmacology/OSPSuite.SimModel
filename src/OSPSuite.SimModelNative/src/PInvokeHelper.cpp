@@ -5,7 +5,7 @@
 #define STRCPY(DEST, LENGTH, SOURCE) strcpy_s(DEST, LENGTH, SOURCE)
 #endif
 
-#ifdef linux
+#if defined(linux) || defined (__APPLE__)
 #include <cstring>
 #include <string.h>
 #define STRCPY(DEST, LENGTH, SOURCE) strcpy(DEST, SOURCE)

@@ -2,7 +2,7 @@
 <package >
   <metadata>    
     <description>Calculation engine for models built with PK-Sim® or MoBi®</description>
-    <id>OSPSuite.SimModel.CentOS7</id>
+    <id>OSPSuite.SimModel.MacOS</id>
     <version>$version$</version>
     <title>OSPSuite.SimModel</title>
     <authors>Open-Systems-Pharmacology</authors>
@@ -15,9 +15,9 @@
     <tags>open-systems-pharmacology</tags>
   </metadata>
   <files>
-    <file src="..\..\Build\Debug\x64\libOSPSuite.SimModelNative.so" target="OSPSuite.SimModelNative\bin\native\x64\Debug" />
+    <file src="..\..\Build\Debug\x64\libOSPSuite.SimModelNative.dylib" target="OSPSuite.SimModelNative\bin\native\x64\Debug" />
  
-    <file src="..\..\Build\Release\x64\libOSPSuite.SimModelNative.so" target="OSPSuite.SimModelNative\bin\native\x64\Release" />
+    <file src="..\..\Build\Release\x64\libOSPSuite.SimModelNative.dylib" target="OSPSuite.SimModelNative\bin\native\x64\Release" />
 
     <file src="bin\Release\netstandard2.0\OSPSuite.SimModel.dll" target="lib\netstandard2.0" />
     <file src="bin\Release\netstandard2.0\OSPSuite.SimModel.pdb" target="lib\netstandard2.0" />

@@ -13,6 +13,18 @@
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
     <DefineConstants>_WINDOWS</DefineConstants>
   </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Purify_Debug' ">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
   
   <ItemGroup>
     <PackageReference Include="nunit" Version="3.14.0" />
@@ -28,11 +40,14 @@
     <ProjectReference Include="..\..\src\OSPSuite.SimModel\OSPSuite.SimModel.csproj" />
   </ItemGroup>
 
-  <Target Name="PostBuildWindows" AfterTargets="PostBuildEvent" Condition=" '$(OS)' == 'Windows_NT' ">
+  <Target Name="PostBuildWindows" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('Windows'))">
     <Exec Command="copy &quot;$(SolutionDir)Build\$(ConfigurationName)\x64\*.dll&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Build\$(ConfigurationName)\x64\OSPSuite.SimModelNative.pdb&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Build\$(ConfigurationName)\x64\OSPSuite.SimModelNative.lib&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;" />
   </Target>
-  <Target Name="PostBuildLinux" AfterTargets="PostBuildEvent" Condition=" '$(OS)' != 'Windows_NT' ">
+  <Target Name="PostBuildLinux" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('Linux'))">
     <Exec Command="cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.SimModelNative.so' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.FuncParserNative.so' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.SimModelSolver_CVODES.so' '$(ProjectDir)$(OutDir)'" />
+  </Target>
+  <Target Name="PostBuildMac" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+    <Exec Command="cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.SimModelNative.dylib' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.FuncParserNative.dylib' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.SimModelSolver_CVODES.dylib' '$(ProjectDir)$(OutDir)'" />
   </Target>
 
 </Project>

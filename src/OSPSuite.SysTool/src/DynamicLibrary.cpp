@@ -25,8 +25,11 @@ DynamicLibrary::Load( const string& libraryName )
   {
 #ifdef SYSTOOL_WIN32
     libraryHandle = ::LoadLibrary( libraryName.c_str() );
-#else
+#elif defined(linux)
     string name = "lib" + libraryName + ".so";
+    libraryHandle = ::dlopen( name.c_str(), RTLD_LAZY | RTLD_GLOBAL );
+#elif defined(__APPLE__)
+    string name = "lib" + libraryName + ".dylib";
     libraryHandle = ::dlopen( name.c_str(), RTLD_LAZY | RTLD_GLOBAL );
 #endif
     libName = libraryName;
