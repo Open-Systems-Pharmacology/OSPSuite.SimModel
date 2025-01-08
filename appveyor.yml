@@ -48,9 +48,6 @@ build_script:
   - sh: make -C Build/Debug/x64/
   - sh: dotnet build OSPSuite.SimModel.sln /property:Configuration=Debug;Platform=x64
 
-cache:
-  - packages -> **\packages.config  # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
-
 before_build:
   - git submodule update --init --recursive
   - dotnet nuget add source --name bddhelper https://ci.appveyor.com/nuget/ospsuite-bddhelper 
