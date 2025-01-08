@@ -63,7 +63,7 @@ void Species::SetODEScaleFactor (double p_ODEScaleFactor)
 void Species::LoadFromXMLNode (const XMLNode & pNode)
 {
 	// ---- XML sample
-	//<Species Id="S1" Name="Drug" Path="Liver/Cells" InitialValueFormulaId="F2" Unit="µmol/l">
+	//<Species Id="S1" Name="Drug" Path="Liver/Cells" InitialValueFormulaId="F2" Unit="ï¿½mol/l">
 	//	<ScaleFactor>17.2</ScaleFactor>
 	//	<RHSFormulaList>
 	//		<RHSFormula Id="F3"/>
@@ -164,15 +164,12 @@ bool Species::IsConstant(bool forCurrentRunOnly)
 
 double Species::GetValue (const double * y, double time, ScaleFactorUsageMode scaleFactorMode)
 {
-//	assert(_valueFormula==NULL);
-
-	if (!IsConstantDuringCalculation())
+	if ((time > _simulationStartTime) && !IsConstantDuringCalculation())
 	{
-		assert(time == _simulationStartTime);
+		return(y[m_ODEIndex]);
 	}
 
 	return GetInitialValue(y, _simulationStartTime);
-//	return _value; 
 }
 
 double Species::GetInitialValue (const double * y, double time)

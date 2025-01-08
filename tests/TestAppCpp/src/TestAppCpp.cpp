@@ -21,11 +21,12 @@ int main(int argc, char** argv)
 //      simName = "Test_dynamic_reduced_3"; 
 //      simName = "SimModel4_ExampleInput06_Modified";
       //simName = "SolverError01";
+      simName = "TableFormulaWithXArgumentRHS";
 
       //TestCPPExport(simName);
-      //Test1(simName);
+      Test1(simName);
 
-      TestParallel1(argc, argv);
+//      TestParallel1(argc, argv);
    }
    catch (ErrorData& ED)
    {

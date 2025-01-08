@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Simulation objectPathDelimiter="|" version="4" xmlns="http://www.systems-biology.com">
+  <FormulaList>
+    <ExplicitFormula id="3">
+      <Equation>1</Equation>
+    </ExplicitFormula>
+    <TableFormula id="5" useDerivedValues="0">
+      <PointList>
+        <Point x="0" y="0" restartSolver="0" />
+        <Point x="60" y="1" restartSolver="0" />
+        <Point x="120" y="2" restartSolver="0" />
+      </PointList>
+    </TableFormula>
+    <TableFormulaWithXArgument id="7">
+      <Table id="4" />
+      <XArgument id="2" />
+    </TableFormulaWithXArgument>
+    <ExplicitFormula id="8">
+      <Equation>1E-09</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="10">
+      <Equation>0.0001</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="12">
+      <Equation>1E-10</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="14">
+      <Equation>0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="16">
+      <Equation>60</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="18">
+      <Equation>100000</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="20">
+      <Equation>1</Equation>
+    </ExplicitFormula>
+  </FormulaList>
+  <VariableList>
+    <V id="2" entityId="hcE8QAN-CUujglPfddqEhQ" name="Age" path="SimpleSim|Organism|Age" unit="min" persistable="1" value="0">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="3" />
+      </RHSFormulaList>
+    </V>
+  </VariableList>
+  <ParameterList>
+    <P id="1" entityId="YXzwB_-vZ0-g4jyVD2fRpw" name="Volume" path="SimpleSim|Organism|Volume" unit="l" persistable="0" value="1" />
+    <P id="4" entityId="TrEFjCw9Dk-_m-miaQQxqg" name="TableParam_Volume" path="SimpleSim|Organism|TableParam_Volume" unit="l" persistable="1" formulaId="5" />
+    <P id="6" entityId="gegHHY72mUesgpjAmeZikg" name="Volume2" path="SimpleSim|Organism|Volume2" unit="l" persistable="1" formulaId="7" />
+    <P id="9" entityId="AbsTol" name="AbsTol" path="AbsTol" persistable="0" formulaId="8" />
+    <P id="11" entityId="RelTol" name="RelTol" path="RelTol" persistable="0" formulaId="10" />
+    <P id="13" entityId="H0" name="H0" path="H0" persistable="0" formulaId="12" />
+    <P id="15" entityId="HMin" name="HMin" path="HMin" persistable="0" formulaId="14" />
+    <P id="17" entityId="HMax" name="HMax" path="HMax" persistable="0" formulaId="16" />
+    <P id="19" entityId="MxStep" name="MxStep" path="MxStep" persistable="0" formulaId="18" />
+    <P id="21" entityId="UseJacobian" name="UseJacobian" path="UseJacobian" persistable="0" formulaId="20" />
+  </ParameterList>
+  <Solver name="CVODES">
+    <H0 id="13" />
+    <HMax id="17" />
+    <HMin id="15" />
+    <AbsTol id="9" />
+    <MxStep id="19" />
+    <RelTol id="11" />
+    <UseJacobian id="21" />
+  </Solver>
+  <OutputSchema>
+    <OutputIntervalList>
+      <OutputInterval distribution="Uniform">
+        <StartTime>0</StartTime>
+        <EndTime>600</EndTime>
+        <NumberOfTimePoints>41</NumberOfTimePoints>
+      </OutputInterval>
+    </OutputIntervalList>
+  </OutputSchema>
+</Simulation>
