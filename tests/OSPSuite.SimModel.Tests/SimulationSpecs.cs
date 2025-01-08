@@ -1534,6 +1534,7 @@ namespace OSPSuite.SimModel.Tests
          LoadFinalizeAndRunSimulation("RemoveBelowAbsTolTest");
       }
 
+      [Ignore("Enable when implementing OSPSuite.SimModel/issues/162 and MoBi/issues/1741")]
       [Observation]
       public void should_set_all_values_below_absolute_tolerance_to_zero()
       {

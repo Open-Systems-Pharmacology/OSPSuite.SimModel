@@ -187,7 +187,11 @@ void SimulationTask::SetValuesBelowAbsTolLevelToZero(double * values, int values
 {
 	for(int i =0; i<valuesSize;i++)
 	{
-		if (fabs(values[i]) < absTol)
+		//TODO replace the condition with the one commented out when implementing
+		//https://github.com/Open-Systems-Pharmacology/OSPSuite.SimModel/issues/162 and
+		//https://github.com/Open-Systems-Pharmacology/MoBi/issues/1741
+//		if (fabs(values[i]) < absTol)
+		if (values[i] < 0.0 && values[i] > -absTol)
 			values[i] = 0.0;
 	}
 }
