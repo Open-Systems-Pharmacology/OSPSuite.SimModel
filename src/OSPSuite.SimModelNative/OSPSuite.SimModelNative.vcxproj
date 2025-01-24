@@ -88,7 +88,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
-      <Command>nuget.exe install ..\..\packages.config -OutputDirectory ..\..\packages</Command>
+      <Command>nuget.exe install ..\..\packages.config -OutputDirectory ..\..\packages -ExcludeVersion</Command>
     </PreBuildEvent>
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
@@ -128,7 +128,7 @@ copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Purify_Debug|x64'">
     <PreBuildEvent>
-      <Command>nuget.exe install ..\..\packages.config -OutputDirectory ..\..\packages</Command>
+      <Command>nuget.exe install ..\..\packages.config -OutputDirectory ..\..\packages -ExcludeVersion</Command>
     </PreBuildEvent>
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
