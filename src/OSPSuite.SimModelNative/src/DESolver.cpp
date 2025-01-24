@@ -267,7 +267,7 @@ namespace SimModelNative
 					if (_parentSim->GetCancelFlag())
 						break; //canceled by user
 
-				   _parentSim->SetProgress(timeStepIdx * 100 / numberOfTimeSteps);
+					_parentSim->SetProgress(timeStepIdx * 100 / numberOfTimeSteps);
 				}
 
 				//get next time point where the solution should be calculated
