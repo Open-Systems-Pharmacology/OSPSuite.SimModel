@@ -259,8 +259,8 @@ namespace SimModelNative
 				}
 
 				//if in interactive mode:
-            // - check if cancel is required
-            // - calculate progress of the solving routine
+				// - check if cancel is required
+				// - calculate progress of the solving routine
 				if (_showProgress)
 				{
 					myDoEvents();
