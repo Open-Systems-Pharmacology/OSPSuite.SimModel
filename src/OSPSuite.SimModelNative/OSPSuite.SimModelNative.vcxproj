@@ -203,7 +203,7 @@ copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>nuget.exe install ..\..\packages.config -OutputDirectory ..\..\packages</Command>
+      <Command>nuget.exe install ..\..\packages.config -OutputDirectory ..\..\packages -ExcludeVersion</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
