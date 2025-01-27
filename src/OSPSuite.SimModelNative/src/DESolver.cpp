@@ -150,6 +150,13 @@ namespace SimModelNative
 		return pSolver;
 	}
 
+	bool DESolver::shouldContinueThisStep(double outTimePoint, double solverOutputTime, int iResultflag) const
+	{
+		return iResultflag == DE_NOERROR &&
+			solverOutputTime < outTimePoint &&
+			!_parentSim->GetCancelFlag();
+	}
+
 	void DESolver::Solve_ODE ()
 	{
 		const char * ERROR_SOURCE = "DESolver::Solve_ODE";
@@ -260,7 +267,7 @@ namespace SimModelNative
 					if (_parentSim->GetCancelFlag())
 						break; //canceled by user
 
-					_parentSim->SetProgress(timeStepIdx*100/numberOfTimeSteps);
+					_parentSim->SetProgress(timeStepIdx * 100 / numberOfTimeSteps);
 				}
 
 				//get next time point where the solution should be calculated
@@ -275,7 +282,14 @@ namespace SimModelNative
 
 				if (m_ODE_NumUnknowns > 0)
 				{
-					iResultflag = pSolver->PerformSolverStep(outTimePoint.Time(), solution, sensitivityValues, solverOutputTime);
+					do
+					{
+						iResultflag = pSolver->PerformSolverStep(outTimePoint.Time(), solution, sensitivityValues, solverOutputTime, SimModelSolverBase::SINGLE);
+					} while (shouldContinueThisStep(outTimePoint.Time(), solverOutputTime, iResultflag));
+
+					if (_parentSim->GetCancelFlag())
+						break; //canceled by user
+
 
 					// Check if solver was successful
 					if (iResultflag != DE_NOERROR)

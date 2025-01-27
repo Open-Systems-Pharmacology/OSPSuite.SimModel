@@ -46,8 +46,10 @@ class DESolver :
 		SimModelSolverBase * GetSolver ();
 
 		SimModelSolverBase * SetupSolver(const double simStartTime, const double * initialvalues);
-		
-		void myDoEvents ();
+
+		bool shouldContinueThisStep(double outTimePoint, double solverOutputTime, int iResultflag) const;
+
+		void myDoEvents();
 
 		double m_AbsTolMin;
 		double m_RelTolMin;

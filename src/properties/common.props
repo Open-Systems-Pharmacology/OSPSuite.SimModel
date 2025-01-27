@@ -2,17 +2,12 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <FuncParserVersion>4.0.0.68</FuncParserVersion>
-    <SolverVersion>4.1.0.10</SolverVersion>
-    <FuncParserPath>$(SolutionDir)packages\OSPSuite.FuncParser.$(FuncParserVersion)\OSPSuite.FuncParserNative\</FuncParserPath>
-    <SolverPath>$(SolutionDir)packages\OSPSuite.SimModelSolver_CVODES.$(SolverVersion)\OSPSuite.SimModelSolver_CVODES\</SolverPath>
+    <FuncParserPath>$(SolutionDir)packages\OSPSuite.FuncParser\OSPSuite.FuncParserNative\</FuncParserPath>
+    <SolverPath>$(SolutionDir)packages\OSPSuite.SimModelSolver_CVODES\OSPSuite.SimModelSolver_CVODES\</SolverPath>
   </PropertyGroup>
   <PropertyGroup />
   <ItemDefinitionGroup />
   <ItemGroup>
-    <BuildMacro Include="FuncParserVersion">
-      <Value>$(FuncParserVersion)</Value>
-    </BuildMacro>
     <BuildMacro Include="SolverVersion">
       <Value>$(SolverVersion)</Value>
     </BuildMacro>
