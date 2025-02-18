@@ -189,4 +189,4 @@ jobs:
         # if it is a merge to default branch
         if: github.event_name == 'push' && github.ref_name == github.event.repository.default_branch
         shell: pwsh
-        run: dotnet nuget push ./*.nupkg --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json --api-key ${{ secrets.GITHUB_TOKEN }}
+        run: dotnet nuget push OSPSuite.SimModel*.nupkg --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json --api-key ${{ secrets.GITHUB_TOKEN }}
