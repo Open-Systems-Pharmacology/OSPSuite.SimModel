@@ -38,17 +38,14 @@ dotnet sln OSPSuite.SimModel4Nix.sln remove src/OSPSuite.SysTool/OSPSuite.SysToo
 dotnet sln OSPSuite.SimModel4Nix.sln remove src/OSPSuite.XMLWrapper/OSPSuite.XMLWrapper.vcxproj
 dotnet sln OSPSuite.SimModel4Nix.sln remove tests/TestAppNetCore/TestAppNetCore.csproj
 
-cmake -BBuild/Release/$ARCH/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Release -DFuncParserDir=Build/Release/$ARCH/ -DEXT=$EXT
-cp packages/OSPSuite.FuncParser.$FUNCPARSER_DIR/OSPSuite.FuncParserNative/bin/native/$ARCH/Release/libOSPSuite.FuncParserNative.$EXT Build/Release/$ARCH/
-cp packages/OSPSuite.SimModelSolver_CVODES.$CVODES_DIR/OSPSuite.SimModelSolver_CVODES/bin/native/$ARCH/Release/libOSPSuite.SimModelSolver_CVODES.$EXT Build/Release/$ARCH/
-make -C Build/Release/$ARCH/
-dotnet build OSPSuite.SimModel4Nix.sln /property:Configuration=Release
-
-cmake -BBuild/Debug/$ARCH/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=Debug -DFuncParserDir=Build/Debug/$ARCH/ -DEXT=$EXT
-cp packages/OSPSuite.FuncParser.$FUNCPARSER_DIR/OSPSuite.FuncParserNative/bin/native/$ARCH/Debug/libOSPSuite.FuncParserNative.$EXT Build/Debug/$ARCH/
-cp packages/OSPSuite.SimModelSolver_CVODES.$CVODES_DIR/OSPSuite.SimModelSolver_CVODES/bin/native/$ARCH/Debug/libOSPSuite.SimModelSolver_CVODES.$EXT Build/Debug/$ARCH/
-make -C Build/Debug/$ARCH/
-dotnet build OSPSuite.SimModel4Nix.sln /property:Configuration=Debug
+for BuildType in Debug Release
+do
+  cmake -BBuild/${BuildType}/$ARCH/ -Hsrc/OSPSuite.SimModelNative/ -DCMAKE_BUILD_TYPE=${BuildType} -DFuncParserDir=Build/${BuildType}/$ARCH/ -DEXT=$EXT
+  cp packages/OSPSuite.FuncParser.$FUNCPARSER_DIR/OSPSuite.FuncParserNative/bin/native/$ARCH/${BuildType}/libOSPSuite.FuncParserNative.$EXT Build/${BuildType}/$ARCH/
+  cp packages/OSPSuite.SimModelSolver_CVODES.$CVODES_DIR/OSPSuite.SimModelSolver_CVODES/bin/native/$ARCH/${BuildType}/libOSPSuite.SimModelSolver_CVODES.$EXT Build/${BuildType}/$ARCH/
+  make -C Build/${BuildType}/$ARCH/
+  dotnet build OSPSuite.SimModel4Nix.sln /property:Configuration=${BuildType}
+done
 
 export LD_LIBRARY_PATH=Build/Release/$ARCH:$LD_LIBRARY_PATH
 export DYLD_LIBRARY_PATH=Build/Release/$ARCH:$DYLD_LIBRARY_PATH
