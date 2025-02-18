@@ -150,8 +150,9 @@ jobs:
       - name: Restore dependencies
         run: |
           nuget sources add -username Open-Systems-Pharmacology -password ${{ secrets.GITHUB_TOKEN }} -name OSP-GitHub-Packages -source "https://nuget.pkg.github.com/Open-Systems-Pharmacology/index.json"
-          dotnet nuget add source --username Open-Systems-Pharmacology --password ${{ secrets.GITHUB_TOKEN }} --name  OSP-Packages "https://nuget.pkg.github.com/Open-Systems-Pharmacology/index.json"
-          dotnet restore --source https://ci.appveyor.com/nuget/ospsuite-utility --source https://ci.appveyor.com/nuget/ospsuite-bddhelper --source https://www.nuget.org/api/v2/
+          nuget sources add -name bddhelper -source https://ci.appveyor.com/nuget/ospsuite-bddhelper 
+          nuget sources add -name utility -source https://ci.appveyor.com/nuget/ospsuite-utility 
+          dotnet restore
 
       - name: Update version.h
         shell: pwsh
