@@ -39,7 +39,7 @@ jobs:
           # Check if the response indicates a package not found error or is not valid JSON
           if echo "$response" | jq -e '.message == "Package not found." or (.[0].name // empty | length == 0)' >/dev/null 2>&1; then
             # Set the build number to 72 if no package is found or response is invalid (since the last released was 4.0.0.71)
-            new_build_id=72
+            new_build_id=73
           else
             latest_version=$(echo "$response" | jq -r '.[0].name // empty')
             
@@ -176,7 +176,7 @@ jobs:
         if: github.event_name == 'push' && github.ref_name != github.event.repository.default_branch
         uses: actions/upload-artifact@v4
         with:
-          name: OSPSuite.SimModelSolver_CVODES
+          name: OSPSuite.SimModel
           path: ./*.nupkg
 
       - name: Push test log as artifact
@@ -189,4 +189,4 @@ jobs:
         # if it is a merge to default branch
         if: github.event_name == 'push' && github.ref_name == github.event.repository.default_branch
         shell: pwsh
-        run: dotnet nuget push .\OSPSuite.SimModelSolver_CVODES*.nupkg --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json --api-key ${{ secrets.GITHUB_TOKEN }}
+        run: dotnet nuget push ./*.nupkg --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json --api-key ${{ secrets.GITHUB_TOKEN }}
