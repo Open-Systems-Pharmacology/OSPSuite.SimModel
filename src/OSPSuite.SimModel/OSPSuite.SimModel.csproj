@@ -29,8 +29,12 @@
     <NuspecFile>OSPSuite.SimModel.Ubuntu22.nuspec</NuspecFile> 
   </PropertyGroup>
 
-  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
-    <NuspecFile>OSPSuite.SimModel.MacOS.nuspec</NuspecFile> 
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX')) AND '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">
+    <NuspecFile>OSPSuite.SimModel.MacOS.x64.nuspec</NuspecFile> 
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX')) AND '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">
+    <NuspecFile>OSPSuite.SimModel.MacOS.Arm64.nuspec</NuspecFile> 
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
