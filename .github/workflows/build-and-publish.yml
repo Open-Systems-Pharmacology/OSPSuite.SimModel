@@ -127,6 +127,12 @@ jobs:
           name: ${{matrix.nuget_package}}
           path: ./*.nupkg
 
+      - name: Push test log as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: testLog_${{matrix.os}}
+          path: ./**/testLog*.html
+
       - name: Publish to GitHub registry
         # if it is a merge to default branch
         if: github.event_name == 'push' && github.ref_name == github.event.repository.default_branch
@@ -173,6 +179,12 @@ jobs:
           name: OSPSuite.SimModelSolver_CVODES
           path: ./*.nupkg
 
+      - name: Push test log as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: testLog_Windows
+          path: ./**/testLog*.html
+          
       - name: Publish to GitHub registry
         # if it is a merge to default branch
         if: github.event_name == 'push' && github.ref_name == github.event.repository.default_branch

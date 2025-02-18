@@ -53,6 +53,6 @@ dotnet build OSPSuite.SimModel4Nix.sln /property:Configuration=Debug
 export LD_LIBRARY_PATH=Build/Release/$ARCH:$LD_LIBRARY_PATH
 export DYLD_LIBRARY_PATH=Build/Release/$ARCH:$DYLD_LIBRARY_PATH
 
-dotnet test tests/OSPSuite.SimModel.Tests/OSPSuite.SimModel.Tests.csproj --no-build --no-restore --configuration:Release --verbosity normal 
+dotnet test tests/OSPSuite.SimModel.Tests/OSPSuite.SimModel.Tests.csproj --no-build --no-restore --configuration:Release --verbosity normal --logger:"html;LogFileName=../../../testLog_$1.html"
 
 dotnet pack src/OSPSuite.SimModel/ -p:PackageVersion=$2 -o ./
