@@ -41,10 +41,10 @@
   </ItemGroup>
 
   <Target Name="PostBuildWindows" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('Windows'))">
-    <Exec Command="copy &quot;$(SolutionDir)Build\$(ConfigurationName)\*.dll&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Build\$(ConfigurationName)\OSPSuite.SimModelNative.pdb&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Build\$(ConfigurationName)\OSPSuite.SimModelNative.lib&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;" />
+    <Exec Command="copy &quot;$(SolutionDir)Build\$(ConfigurationName)\x64\*.dll&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Build\$(ConfigurationName)\x64\OSPSuite.SimModelNative.pdb&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Build\$(ConfigurationName)\x64\OSPSuite.SimModelNative.lib&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;" />
   </Target>
   <Target Name="PostBuildLinux" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('Linux'))">
-    <Exec Command="cp '$(SolutionDir)Build/$(ConfigurationName)/libOSPSuite.SimModelNative.so' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/libOSPSuite.FuncParserNative.so' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/libOSPSuite.SimModelSolver_CVODES.so' '$(ProjectDir)$(OutDir)'" />
+    <Exec Command="cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.SimModelNative.so' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.FuncParserNative.so' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.SimModelSolver_CVODES.so' '$(ProjectDir)$(OutDir)'" />
   </Target>
   <Target Name="PostBuildMacx64" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('OSX')) AND '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">
     <Exec Command="cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.SimModelNative.dylib' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.FuncParserNative.dylib' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.SimModelSolver_CVODES.dylib' '$(ProjectDir)$(OutDir)'" />
