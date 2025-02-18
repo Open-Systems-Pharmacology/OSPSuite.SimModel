@@ -114,7 +114,7 @@ jobs:
               -e "s@MAJOR 0@MAJOR ${{env.MAJOR}}@g" \
               -e "s@MINOR 0@MINOR ${{env.MINOR}}@g" \
               -e "s@BUILD 0@BUILD ${{ env.BUILD_ID }}@g" \
-              src\OSPSuite.SimModelNative\version.h
+              src/OSPSuite.SimModelNative/version.h
 
       - name: Build Debug and Release
         run: ./buildNix.sh ${{matrix.platform}}  ${{env.APP_VERSION}}
