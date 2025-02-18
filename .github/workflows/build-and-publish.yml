@@ -163,7 +163,7 @@ jobs:
         uses: microsoft/setup-msbuild@v2
 
       - name: Build Debug and Release
-        run: ./buildWidows.bat ${{env.APP_VERSION}}
+        run: ./buildWindows.bat ${{env.APP_VERSION}}
 
       - name: Push nupkg as artifact
         # if it is a push to a branch
