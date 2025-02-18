@@ -15,15 +15,15 @@
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Purify_Debug' ">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <PlatformTarget>x64</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   
   <ItemGroup>
@@ -46,8 +46,10 @@
   <Target Name="PostBuildLinux" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('Linux'))">
     <Exec Command="cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.SimModelNative.so' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.FuncParserNative.so' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.SimModelSolver_CVODES.so' '$(ProjectDir)$(OutDir)'" />
   </Target>
-  <Target Name="PostBuildMac" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+  <Target Name="PostBuildMacx64" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('OSX')) AND '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">
     <Exec Command="cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.SimModelNative.dylib' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.FuncParserNative.dylib' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.SimModelSolver_CVODES.dylib' '$(ProjectDir)$(OutDir)'" />
   </Target>
-
+  <Target Name="PostBuildMacArm64" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('OSX')) AND '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">
+    <Exec Command="cp '$(SolutionDir)Build/$(ConfigurationName)/Arm64/libOSPSuite.SimModelNative.dylib' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/Arm64/libOSPSuite.FuncParserNative.dylib' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/Arm64/libOSPSuite.SimModelSolver_CVODES.dylib' '$(ProjectDir)$(OutDir)'" />
+  </Target>
 </Project>

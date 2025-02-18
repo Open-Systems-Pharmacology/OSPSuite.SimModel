@@ -2,7 +2,7 @@
 <package >
   <metadata>    
     <description>Calculation engine for models built with PK-Sim® or MoBi®</description>
-    <id>OSPSuite.SimModel.MacOS</id>
+    <id>OSPSuite.SimModel.MacOS.x64</id>
     <version>$version$</version>
     <title>OSPSuite.SimModel</title>
     <authors>Open-Systems-Pharmacology</authors>
@@ -11,7 +11,7 @@
     <licenseUrl>https://github.com/Open-Systems-Pharmacology/OSPSuite.SimModel/blob/master/LICENSE</licenseUrl>
     <iconUrl>https://raw.githubusercontent.com/Open-Systems-Pharmacology/Suite/master/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <copyright>Copyright © 2020 - Open Systems Pharmacology Community</copyright>
+    <copyright>Copyright © 2025 - Open Systems Pharmacology Community</copyright>
     <tags>open-systems-pharmacology</tags>
   </metadata>
   <files>
