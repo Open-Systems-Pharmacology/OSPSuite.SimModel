@@ -38,8 +38,8 @@ jobs:
 
           # Check if the response indicates a package not found error or is not valid JSON
           if echo "$response" | jq -e '.message == "Package not found." or (.[0].name // empty | length == 0)' >/dev/null 2>&1; then
-            # Set the build number to 74 if no package is found or response is invalid (since the last released was 4.0.0.71)
-            new_build_id=74
+            # exit with error code when a next build number cannot be established
+            exit 1
           else
             latest_version=$(echo "$response" | jq -r '.[0].name // empty')
             
