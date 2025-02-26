@@ -1548,4 +1548,20 @@ namespace OSPSuite.SimModel.Tests
       }
 
    }
+
+   public class when_calculating_table_formula_with_x_argument_defined_by_parameter_with_rhs : concern_for_Simulation
+   {
+      protected override void Because()
+      {
+         LoadFinalizeAndRunSimulation("TableFormulaWithXArgumentRHS");
+      }
+
+      [Observation]
+      public void parameter_defined_by_table_formula_with_xargument_should_increase()
+      {
+         var volume2 = sut.AllValues.First(v => v.Name.Equals("Volume2"));
+         volume2.Values.Last().ShouldBeGreaterThan(0);
+      }
+
+   }
 }
