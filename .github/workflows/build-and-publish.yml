@@ -6,6 +6,9 @@ on:
     branches:
     - master
 
+permissions:
+  packages: write
+
 env:
   MAJOR: 4
   MINOR: 0
