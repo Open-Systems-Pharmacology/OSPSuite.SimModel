@@ -26,7 +26,6 @@ fi
 git submodule update --init --recursive
 
 nuget install packages.config -OutputDirectory packages -ExcludeVersion
-nuget restore
 
 # copy the original solution file because it will be modified for dotnet build
 cp -p -f OSPSuite.SimModel.sln OSPSuite.SimModel4Nix.sln
@@ -35,6 +34,8 @@ dotnet sln OSPSuite.SimModel4Nix.sln remove src/OSPSuite.SimModelNative/OSPSuite
 dotnet sln OSPSuite.SimModel4Nix.sln remove src/OSPSuite.SysTool/OSPSuite.SysTool.vcxproj
 dotnet sln OSPSuite.SimModel4Nix.sln remove src/OSPSuite.XMLWrapper/OSPSuite.XMLWrapper.vcxproj
 dotnet sln OSPSuite.SimModel4Nix.sln remove tests/TestAppNetCore/TestAppNetCore.csproj
+
+nuget restore OSPSuite.SimModel4Nix.sln
 
 for BuildType in Debug Release
 do
