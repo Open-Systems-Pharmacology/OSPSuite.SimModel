@@ -26,7 +26,7 @@ fi
 git submodule update --init --recursive
 
 nuget install packages.config -OutputDirectory packages -ExcludeVersion
-dotnet restore
+nuget restore
 
 # copy the original solution file because it will be modified for dotnet build
 cp -p -f OSPSuite.SimModel.sln OSPSuite.SimModel4Nix.sln
