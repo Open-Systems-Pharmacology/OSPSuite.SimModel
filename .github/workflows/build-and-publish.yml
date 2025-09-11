@@ -84,7 +84,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: macos-latest
+          - os: macos-14
             platform: MacOS
             nuget_package: OSPSuite.SimModel.MacOSArm64
             version_h_modifier: "sed -i ''"
@@ -104,11 +104,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'true'
-
-      - name: Setup NuGet.exe for use with actions
-        uses: NuGet/setup-nuget@v2.0.0
-        with:
-         nuget-version: 'latest'
 
       - name: define env variables
         run: |
