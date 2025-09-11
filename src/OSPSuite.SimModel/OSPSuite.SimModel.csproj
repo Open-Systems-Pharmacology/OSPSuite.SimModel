@@ -58,7 +58,7 @@
     <PackageReference Include="OSPSuite.SimModelSolver_CVODES.Ubuntu22" Version="4.1.0.19" />
     <PackageReference Include="OSPSuite.SimModelSolver_CVODES.MacOSx64" Version="4.1.0.19" />
     <PackageReference Include="OSPSuite.SimModelSolver_CVODES.MacOSArm64" Version="4.1.0.19" />
-    <PackageReference Include="OSPSuite.Utility" Version="4.1.0.6" />
+    <PackageReference Include="OSPSuite.Utility" Version="4.1.1.4" />
   </ItemGroup>
   
 </Project>
