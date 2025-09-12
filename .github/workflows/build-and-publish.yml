@@ -84,7 +84,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: macos-latest
+          - os: macos-14
             platform: MacOS
             nuget_package: OSPSuite.SimModel.MacOSArm64
             version_h_modifier: "sed -i ''"
@@ -159,8 +159,6 @@ jobs:
       - name: Restore dependencies
         run: |
           nuget sources add -username Open-Systems-Pharmacology -password ${{ secrets.GITHUB_TOKEN }} -name OSP-GitHub-Packages -source "https://nuget.pkg.github.com/Open-Systems-Pharmacology/index.json"
-          nuget sources add -name bddhelper -source https://ci.appveyor.com/nuget/ospsuite-bddhelper 
-          nuget sources add -name utility -source https://ci.appveyor.com/nuget/ospsuite-utility 
           dotnet restore
 
       - name: Update version.h
