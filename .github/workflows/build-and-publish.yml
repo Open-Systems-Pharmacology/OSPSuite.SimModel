@@ -17,7 +17,7 @@ env:
 
 jobs:
   get-version:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.GHA_DEFAULT_RUNNER_UBUNTU }}
     outputs:
       BUILD_ID: ${{ steps.get_build_id.outputs.BUILD_ID}}
       APP_VERSION: ${{ steps.get_app_version.outputs.APP_VERSION}}
@@ -84,7 +84,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: macos-14
+          - os: ${{ vars.GHA_DEFAULT_RUNNER_MACOS }}
             platform: MacOS
             nuget_package: OSPSuite.SimModel.MacOSArm64
             version_h_modifier: "sed -i ''"
@@ -92,7 +92,7 @@ jobs:
             platform: MacOS
             nuget_package: OSPSuite.SimModel.MacOSx64
             version_h_modifier: "sed -i ''"
-          - os: ubuntu-22.04
+          - os: ${{ vars.GHA_DEFAULT_RUNNER_UBUNTU }}
             platform: Ubuntu22
             nuget_package: OSPSuite.SimModel.Ubuntu22
             version_h_modifier: "sed -i"
@@ -142,7 +142,7 @@ jobs:
         run: dotnet nuget push ./*.nupkg --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json --api-key ${{ secrets.GITHUB_TOKEN }}
 
   build-windows-x64:
-    runs-on: windows-latest
+    runs-on: ${{ vars.GHA_DEFAULT_RUNNER_WINDOWS }}
     needs: get-version
 
     steps:
