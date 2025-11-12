@@ -110,7 +110,7 @@ namespace SimModelNative
       return m_UseJacobian_ref->GetValue(NULL, 0.0, IGNORE_SCALEFACTOR) == 1;
    }
 
-   bool DESolverProperties::ReduceTolerances(double absTolMin, double relTolMin) const
+   bool DESolverProperties::ReduceTolerances(double absTolMin, double relTolMin)
    {
       double absTol = GetAbsTol();
       double relTol = GetRelTol();

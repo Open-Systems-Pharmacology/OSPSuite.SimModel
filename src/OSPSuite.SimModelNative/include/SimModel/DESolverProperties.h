@@ -46,7 +46,7 @@ class DESolverProperties :
 
 		bool GetUseJacobian () const;
 
-		bool ReduceTolerances(double absTolMin, double relTolMin) const;
+		bool ReduceTolerances(double absTolMin, double relTolMin);
 
 		bool GetCheckForNegativeValues() const;
 };
