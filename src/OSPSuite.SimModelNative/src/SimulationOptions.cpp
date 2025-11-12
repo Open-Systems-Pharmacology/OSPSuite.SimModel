@@ -13,7 +13,6 @@ SimulationOptions::SimulationOptions(void)
 	_stopOnWarnings = true;       //treat warnings of ODE solver as errors
 	_autoReduceTolerances = true; //automatically reduce solver tolerances
 	_writeLogFile = true;
-	_checkForNegativeValues = true;
 	_identifyUsedParameters = false;
 
 	_keepXMLNodeAsString = false; //not required from PK-Sim/MoBi
@@ -30,20 +29,9 @@ void SimulationOptions::CopyFrom(SimulationOptions & srcOptions)
 	_stopOnWarnings = srcOptions.StopOnWarnings();
 	_autoReduceTolerances = srcOptions.AutoReduceTolerances();
 	_writeLogFile = srcOptions.WriteLogFile();
-	_checkForNegativeValues = srcOptions.CheckForNegativeValues();
 	_keepXMLNodeAsString = srcOptions.KeepXMLNodeAsString();
 	_useFloatComparisonInUserOutputTimePoints = srcOptions.UseFloatComparisonInUserOutputTimePoints();
 	_identifyUsedParameters = srcOptions.IdentifyUsedParameters();
-}
-
-void SimulationOptions::SetCheckForNegativeValues(bool performCheck)
-{
-	_checkForNegativeValues = performCheck;
-}
-
-bool SimulationOptions::CheckForNegativeValues(void) const
-{
-	return _checkForNegativeValues;
 }
 
 void SimulationOptions::WriteLogFile(bool writeLogFile)

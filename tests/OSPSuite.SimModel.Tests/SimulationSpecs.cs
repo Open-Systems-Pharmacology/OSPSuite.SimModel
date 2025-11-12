@@ -896,43 +896,6 @@ namespace OSPSuite.SimModel.Tests
       }
    }
 
-   public class when_running_simulation_returning_not_allowed_negative_values : concern_for_Simulation
-   {
-      [Observation]
-      public void
-         should_perform_simulation_run_without_negative_values_check_and_throw_an_exception_with_negative_values_check()
-      {
-         LoadAndFinalizeSimulation("NegativeValuesTestSimple");
-
-         sut.Options.CheckForNegativeValues = false;
-         try
-         {
-            RunSimulation();
-         }
-         catch (Exception)
-         {
-            throw new Exception("Exception was thrown but negative values check was deactivated");
-         }
-
-         sut.Options.CheckForNegativeValues = true;
-         try
-         {
-            RunSimulation();
-         }
-         catch (Exception ex)
-         {
-            ex.Message.Contains("negative").ShouldBeTrue();
-            ex.Message.Contains("when trying to reach t=").ShouldBeTrue();
-
-            //expected behavior. Leave the test case
-            return;
-         }
-
-         //failed (no exception with negative values check)
-         throw new Exception("No exception was thrown with negative values check");
-      }
-   }
-
    public class when_running_simulation_with_events_simultaneously_increasing_a_variable : concern_for_Simulation
    {
       [Observation]
@@ -1417,7 +1380,6 @@ namespace OSPSuite.SimModel.Tests
       [Observation]
       public void simulation_should_throw_an_exception()
       {
-         sut.Options.CheckForNegativeValues = true;
          try
          {
             RunSimulation();
@@ -1435,12 +1397,6 @@ namespace OSPSuite.SimModel.Tests
          throw new Exception("No exception was thrown with negative values check");
       }
 
-      [Observation]
-      public void simulation_should_run_if_negative_values_are_globally_allowed()
-      {
-         sut.Options.CheckForNegativeValues = false;
-         RunSimulation();
-      }
    }
 
    public class when_having_infs_or_nans_in_the_formulas_which_are_not_simplified : concern_for_Simulation
@@ -1544,6 +1500,58 @@ namespace OSPSuite.SimModel.Tests
          {
             species.Values.Length.ShouldBeGreaterThan(0);
             species.Values.Where(value=>value!=0).Each(value => Math.Abs(value).ShouldBeGreaterThanOrEqualTo(absTol));
+         }
+      }
+
+   }
+
+   public class when_running_simulation_returning_not_allowed_negative_values : concern_for_Simulation
+   {
+      private void runSimulationWithExpectedNegativeValuesError(string testFileName)
+      {
+         LoadAndFinalizeSimulation(testFileName);
+
+         try
+         {
+            RunSimulation();
+         }
+         catch (Exception ex)
+         {
+            ex.Message.Contains("negative").ShouldBeTrue();
+            ex.Message.Contains("when trying to reach t=").ShouldBeTrue();
+
+            //expected behavior. Leave the test case
+            return;
+         }
+
+         //failed (no exception with negative values check)
+         throw new Exception("No exception was thrown with negative values check");
+      }
+
+      [Observation]
+      public void should_throw_an_exception_for_the_old_format_without_solver_setting()
+      {
+         runSimulationWithExpectedNegativeValuesError("NegativeValuesForbidden_NoCheckSetting");
+      }
+
+      [Observation]
+      public void should_throw_an_exception_with_check_for_negative_values_solver_setting_true()
+      {
+         runSimulationWithExpectedNegativeValuesError("NegativeValuesForbidden_CheckSettingTrue");
+      }
+
+      [Observation]
+      public void should_perform_simulation_run_with_check_for_negative_values_solver_setting_false()
+      {
+         LoadAndFinalizeSimulation("NegativeValuesForbidden_CheckSettingFalse");
+
+         try
+         {
+            RunSimulation();
+         }
+         catch (Exception)
+         {
+            throw new Exception("Exception was thrown but negative values check was deactivated");
          }
       }
 

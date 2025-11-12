@@ -26,7 +26,9 @@ class DESolverProperties :
 
 		Quantity * m_UseJacobian_ref;
 
-		Quantity * LoadByPropertyName(Simulation * sim, const XMLNode & pNode, const std::string name);
+		Quantity* m_CheckForNegativeValues;
+
+		Quantity * LoadByPropertyName(Simulation * sim, const XMLNode & pNode, const std::string& name) const;
 
 	public:
 		DESolverProperties ();
@@ -44,7 +46,9 @@ class DESolverProperties :
 
 		bool GetUseJacobian () const;
 
-		bool ReduceTolerances(double absTolMin, double relTolMin);
+		bool ReduceTolerances(double absTolMin, double relTolMin) const;
+
+		bool GetCheckForNegativeValues() const;
 };
 
 }//.. end "namespace SimModelNative"

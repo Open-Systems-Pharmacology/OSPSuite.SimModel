@@ -23,9 +23,6 @@ namespace OSPSuite.SimModel
       public bool WriteLogFile;
 
       [MarshalAs(UnmanagedType.I1)]
-      public bool CheckForNegativeValues;
-
-      [MarshalAs(UnmanagedType.I1)]
       public bool ValidateWithXMLSchema;
 
       [MarshalAs(UnmanagedType.I1)]
@@ -110,16 +107,6 @@ namespace OSPSuite.SimModel
       {
          get => _simulationOptions.WriteLogFile;
          set => setOptions(() => _simulationOptions.WriteLogFile = value);
-      }
-
-      /// <summary>
-      /// Enables/disables checking for negative values of positive ODE variables.
-      /// Default value is <value>true</value>
-      /// </summary>
-      public bool CheckForNegativeValues
-      {
-         get => _simulationOptions.CheckForNegativeValues;
-         set => setOptions(() => _simulationOptions.CheckForNegativeValues = value);
       }
 
       /// <summary>

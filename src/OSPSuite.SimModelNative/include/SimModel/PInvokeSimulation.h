@@ -13,7 +13,6 @@ namespace SimModelNative
 		bool StopOnWarnings;
 		bool AutoReduceTolerances;
 		bool WriteLogFile;
-		bool CheckForNegativeValues;
       bool ValidateWithXMLSchema;
       bool IdentifyUsedParameters;
       bool KeepXMLNodeAsString;

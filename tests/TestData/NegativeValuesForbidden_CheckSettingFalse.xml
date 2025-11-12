@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Simulation objectPathDelimiter="|" version="4" xmlns="http://www.systems-biology.com">
+  <FormulaList>
+    <ExplicitFormula id="4">
+      <Equation>V&gt;0 ? M/V : 0</Equation>
+      <ReferenceList>
+        <R alias="M" id="2" />
+        <R alias="V" id="1" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="7">
+      <Equation>V&gt;0 ? M/V : 0</Equation>
+      <ReferenceList>
+        <R alias="M" id="5" />
+        <R alias="V" id="1" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="8">
+      <Equation>-(1)</Equation>
+      <ReferenceList>
+        <R alias="C1" id="2" />
+        <R alias="C2" id="5" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="9">
+      <Equation>1</Equation>
+      <ReferenceList>
+        <R alias="C1" id="2" />
+        <R alias="C2" id="5" />
+      </ReferenceList>
+    </ExplicitFormula>
+    <ExplicitFormula id="10">
+      <Equation>1E-09</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="12">
+      <Equation>0.0001</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="14">
+      <Equation>1E-10</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="16">
+      <Equation>0</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="18">
+      <Equation>60</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="20">
+      <Equation>100000</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="22">
+      <Equation>1</Equation>
+    </ExplicitFormula>
+  </FormulaList>
+  <VariableList>
+    <V id="2" entityId="OQfmcdyT5UybBYC_9d68-g" name="C1" path="2Species1Reaction_NegativeValuesForbidden|Container|C1" unit="µmol" persistable="1" value="0" negativeValuesAllowed="0">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="8" />
+      </RHSFormulaList>
+    </V>
+    <V id="5" entityId="V190Ur8FBU-58L-NRikzgA" name="C2" path="2Species1Reaction_NegativeValuesForbidden|Container|C2" unit="µmol" persistable="1" value="0" negativeValuesAllowed="0">
+      <ScaleFactor>1</ScaleFactor>
+      <RHSFormulaList>
+        <RHSFormula id="9" />
+      </RHSFormulaList>
+    </V>
+  </VariableList>
+  <ParameterList>
+    <P id="1" entityId="Iz6SeeRbJUC4AB_1ADBIGw" name="Volume" path="2Species1Reaction_NegativeValuesForbidden|Container|Volume" unit="l" persistable="0" value="1" />
+    <P id="3" entityId="iuGnLb55206Y9bMh88Ek7g" name="Concentration" path="2Species1Reaction_NegativeValuesForbidden|Container|C1|Concentration" unit="µmol/l" persistable="0" formulaId="4" />
+    <P id="6" entityId="vStWHL64xkqYV_GUk5hBIA" name="Concentration" path="2Species1Reaction_NegativeValuesForbidden|Container|C2|Concentration" unit="µmol/l" persistable="0" formulaId="7" />
+    <P id="11" entityId="AbsTol" name="AbsTol" path="AbsTol" persistable="0" formulaId="10" />
+    <P id="13" entityId="RelTol" name="RelTol" path="RelTol" persistable="0" formulaId="12" />
+    <P id="15" entityId="H0" name="H0" path="H0" persistable="0" formulaId="14" />
+    <P id="17" entityId="HMin" name="HMin" path="HMin" persistable="0" formulaId="16" />
+    <P id="19" entityId="HMax" name="HMax" path="HMax" persistable="0" formulaId="18" />
+    <P id="21" entityId="MxStep" name="MxStep" path="MxStep" persistable="0" formulaId="20" />
+    <P id="23" entityId="UseJacobian" name="UseJacobian" path="UseJacobian" persistable="0" formulaId="22" />
+    <P id="24" entityId="CheckForNegativeValues" name="CheckForNegativeValues" path="CheckForNegativeValues" persistable="0" value="0" />
+  </ParameterList>
+  <Solver name="CVODES">
+    <H0 id="15" />
+    <HMax id="19" />
+    <HMin id="17" />
+    <AbsTol id="11" />
+    <MxStep id="21" />
+    <RelTol id="13" />
+    <UseJacobian id="23" />
+    <CheckForNegativeValues id="24" />
+  </Solver>
+  <OutputSchema>
+    <OutputIntervalList>
+      <OutputInterval distribution="Uniform">
+        <StartTime>0</StartTime>
+        <EndTime>1440</EndTime>
+        <NumberOfTimePoints>97</NumberOfTimePoints>
+      </OutputInterval>
+    </OutputIntervalList>
+  </OutputSchema>
+</Simulation>
