@@ -2,6 +2,7 @@ name: Build and Publish NuGet Package for all supported platforms
 
 on:
   push:
+  workflow_dispatch:
   pull_request:
     branches:
     - master
@@ -88,10 +89,6 @@ jobs:
             platform: MacOS
             nuget_package: OSPSuite.SimModel.MacOSArm64
             version_h_modifier: "sed -i ''"
-          - os: macos-13
-            platform: MacOS
-            nuget_package: OSPSuite.SimModel.MacOSx64
-            version_h_modifier: "sed -i ''"
           - os: ${{ vars.GHA_DEFAULT_RUNNER_UBUNTU }}
             platform: Ubuntu22
             nuget_package: OSPSuite.SimModel.Ubuntu22
@@ -101,7 +98,7 @@ jobs:
     needs: get-version
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: 'true'
 
@@ -125,13 +122,13 @@ jobs:
       - name: Push nupkg as artifact
         # if it is a push to a branch
         if: github.event_name == 'push' && github.ref_name != github.event.repository.default_branch
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{matrix.nuget_package}}
           path: ./*.nupkg
 
       - name: Push test log as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: testLog_${{matrix.os}}
           path: ./**/testLog*.html
@@ -147,7 +144,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           submodules: 'true'
 
@@ -175,13 +172,13 @@ jobs:
       - name: Push nupkg as artifact
         # if it is a push to a branch
         if: github.event_name == 'push' && github.ref_name != github.event.repository.default_branch
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: OSPSuite.SimModel
           path: ./*.nupkg
 
       - name: Push test log as artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: testLog_Windows
           path: ./**/testLog*.html
