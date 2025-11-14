@@ -17,9 +17,17 @@
     </ExplicitFormula>
     <ExplicitFormula id="8">
       <Equation>-(1)</Equation>
+      <ReferenceList>
+        <R alias="C1" id="2" />
+        <R alias="C2" id="5" />
+      </ReferenceList>
     </ExplicitFormula>
     <ExplicitFormula id="9">
       <Equation>1</Equation>
+      <ReferenceList>
+        <R alias="C1" id="2" />
+        <R alias="C2" id="5" />
+      </ReferenceList>
     </ExplicitFormula>
     <ExplicitFormula id="10">
       <Equation>1E-09</Equation>
@@ -44,13 +52,13 @@
     </ExplicitFormula>
   </FormulaList>
   <VariableList>
-    <V id="2" entityId="_29kxISzmEuf-CQXCIRulg" name="A" path="S1|Organism|A" unit="µmol" persistable="1" value="0" negativeValuesAllowed="0">
+    <V id="2" entityId="OQfmcdyT5UybBYC_9d68-g" name="C1" path="2Species1Reaction_NegativeValuesForbidden|Container|C1" unit="µmol" persistable="1" value="0" negativeValuesAllowed="0">
       <ScaleFactor>1</ScaleFactor>
       <RHSFormulaList>
         <RHSFormula id="8" />
       </RHSFormulaList>
     </V>
-    <V id="5" entityId="dn0jKhOMH0aAyC4OIZAVTw" name="B" path="S1|Organism|B" unit="µmol" persistable="1" value="0" negativeValuesAllowed="0">
+    <V id="5" entityId="V190Ur8FBU-58L-NRikzgA" name="C2" path="2Species1Reaction_NegativeValuesForbidden|Container|C2" unit="µmol" persistable="1" value="0" negativeValuesAllowed="0">
       <ScaleFactor>1</ScaleFactor>
       <RHSFormulaList>
         <RHSFormula id="9" />
@@ -58,9 +66,9 @@
     </V>
   </VariableList>
   <ParameterList>
-    <P id="1" entityId="dUM8uit9AE27ZTwrMhrUxw" name="Volume" path="S1|Organism|Volume" unit="l" persistable="0" value="1" />
-    <P id="3" entityId="3SJRmFhcM0Sh48lLZhG5Ag" name="Concentration" path="S1|Organism|A|Concentration" unit="µmol/l" persistable="0" formulaId="4" />
-    <P id="6" entityId="eR8dqEnTVEeb8qy11Ct03g" name="Concentration" path="S1|Organism|B|Concentration" unit="µmol/l" persistable="0" formulaId="7" />
+    <P id="1" entityId="Iz6SeeRbJUC4AB_1ADBIGw" name="Volume" path="2Species1Reaction_NegativeValuesForbidden|Container|Volume" unit="l" persistable="0" value="1" />
+    <P id="3" entityId="iuGnLb55206Y9bMh88Ek7g" name="Concentration" path="2Species1Reaction_NegativeValuesForbidden|Container|C1|Concentration" unit="µmol/l" persistable="0" formulaId="4" />
+    <P id="6" entityId="vStWHL64xkqYV_GUk5hBIA" name="Concentration" path="2Species1Reaction_NegativeValuesForbidden|Container|C2|Concentration" unit="µmol/l" persistable="0" formulaId="7" />
     <P id="11" entityId="AbsTol" name="AbsTol" path="AbsTol" persistable="0" formulaId="10" />
     <P id="13" entityId="RelTol" name="RelTol" path="RelTol" persistable="0" formulaId="12" />
     <P id="15" entityId="H0" name="H0" path="H0" persistable="0" formulaId="14" />
@@ -69,7 +77,7 @@
     <P id="21" entityId="MxStep" name="MxStep" path="MxStep" persistable="0" formulaId="20" />
     <P id="23" entityId="UseJacobian" name="UseJacobian" path="UseJacobian" persistable="0" formulaId="22" />
   </ParameterList>
-  <Solver name="CVODE1002_2">
+  <Solver name="CVODES">
     <H0 id="15" />
     <HMax id="19" />
     <HMin id="17" />

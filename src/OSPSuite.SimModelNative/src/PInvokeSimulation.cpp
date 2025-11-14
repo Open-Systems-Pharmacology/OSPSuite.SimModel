@@ -19,7 +19,6 @@ namespace SimModelNative
       StopOnWarnings = options.StopOnWarnings();
       AutoReduceTolerances = options.AutoReduceTolerances();
       WriteLogFile = options.WriteLogFile();
-      CheckForNegativeValues = options.CheckForNegativeValues();
       ValidateWithXMLSchema = options.ValidateWithXMLSchema();
       IdentifyUsedParameters = options.IdentifyUsedParameters();
       KeepXMLNodeAsString = options.KeepXMLNodeAsString();
@@ -132,7 +131,6 @@ namespace SimModelNative
       simulationOptions.SetStopOnWarnings(options.StopOnWarnings);
       simulationOptions.SetAutoReduceTolerances(options.AutoReduceTolerances);
       simulationOptions.WriteLogFile(options.WriteLogFile);
-      simulationOptions.SetCheckForNegativeValues(options.CheckForNegativeValues);
       simulationOptions.ValidateWithXMLSchema(options.ValidateWithXMLSchema);
       simulationOptions.IdentifyUsedParameters(options.IdentifyUsedParameters);
       simulationOptions.SetKeepXMLNodeAsString(options.KeepXMLNodeAsString);

@@ -120,6 +120,7 @@ const string XMLConstants::HMin = "HMin";
 const string XMLConstants::HMax = "HMax";
 const string XMLConstants::MxStep = "MxStep";
 const string XMLConstants::UseJacobian = "UseJacobian";
+const string XMLConstants::CheckForNegativeValues = "CheckForNegativeValues";
 const string XMLConstants::SolverOptionsList = "SolverOptionsList";
 const string XMLConstants::SolverOption = "SolverOption";
 

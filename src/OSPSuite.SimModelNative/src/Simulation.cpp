@@ -757,7 +757,7 @@ double * Simulation::GetDEInitialValues ()
 			}
 
 			//check if initial value of every positive variable is >=0
-			if (!_options.CheckForNegativeValues())
+			if (!m_Solver.GetSolverProperties().GetCheckForNegativeValues())
 				continue;
 
 			if (initialvalues[k] < 0.0)

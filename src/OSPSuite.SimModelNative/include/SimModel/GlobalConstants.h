@@ -111,6 +111,7 @@ public:
 	static const std::string HMax;
 	static const std::string MxStep;
 	static const std::string UseJacobian;
+	static const std::string CheckForNegativeValues;
 	static const std::string SolverOptionsList;
 	static const std::string SolverOption;
 
