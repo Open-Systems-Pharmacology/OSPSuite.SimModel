@@ -1,8 +1,8 @@
 name: Build and Publish NuGet Package for all supported platforms
-run-name: Version 4.0.0.${{ github.run_number }}
 
 on:
   push:
+  workflow_dispatch:
   pull_request:
     branches:
     - master
