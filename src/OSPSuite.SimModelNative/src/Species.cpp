@@ -9,6 +9,7 @@
 #include "SimModel/SimulationTask.h"
 #include "SimModel/ParameterSensitivity.h"
 #include "SimModel/SumFormula.h"
+#include "SimModel/ConstantFormula.h"
 #include <map>
 
 namespace SimModelNative
@@ -27,6 +28,7 @@ Species::Species(void)
 	_RHS_UsedVariablesIndices = NULL;
 	
 	_negativeValuesAllowed = true;
+	_constantZeroFormula = new ConstantFormula(0);
 }
 
 Species::~Species(void)
@@ -37,6 +39,51 @@ Species::~Species(void)
 		delete[] _RHS_UsedVariablesIndices;
 		_RHS_UsedVariablesIndices = NULL;
 	}
+	for (const auto& myPair : _jacobian_parameter_map) {
+		delete myPair.second;
+	}
+	for (const auto& myPair : _jacobian_state_variable_map) {
+		delete myPair.second;
+	}
+	delete _constantZeroFormula;
+}
+
+Formula* Species::createJacobianFor(const int index)
+{
+	const auto& formula = DE_Jacobian(index);
+	return formula->RecursiveSimplify();
+}
+
+Formula* Species::jacobianFor(const int index, const int mode, std::map<int, Formula*>& map)
+{
+	auto it = map.find(index);
+	if (it != map.end())
+		return it->second;
+
+	auto formula = createJacobianFor(index * mode);
+	map.insert(std::pair<int, Formula*>(index, formula));
+	return formula;
+}
+
+Formula* Species::JacobianParameterFor(const int parameterId) {
+	return jacobianFor(parameterId, -1, _jacobian_parameter_map);
+}
+
+void Species::ClearJacobians() {
+	for (const auto& myPair : _jacobian_parameter_map) {
+		delete myPair.second;
+	}
+	for (const auto& myPair : _jacobian_state_variable_map) {
+		delete myPair.second;
+	}
+	_jacobian_state_variable_map.clear();
+	_jacobian_parameter_map.clear();
+}
+
+Formula* Species::JacobianStateVariableFor(const int stateVariableIndex) {
+	if (!RHSDependsOn(stateVariableIndex))
+		return _constantZeroFormula;
+	return jacobianFor(stateVariableIndex, 1, _jacobian_state_variable_map);
 }
 
 double Species::GetODEScaleFactor () const
