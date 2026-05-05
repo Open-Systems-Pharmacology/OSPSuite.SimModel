@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using OSPSuite.Utility.Exceptions;
 
 // ReSharper disable UnusedMember.Global
+//whatever
 
 namespace OSPSuite.SimModel
 {
