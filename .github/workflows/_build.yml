@@ -61,14 +61,16 @@ jobs:
         with:
           dotnet-version: 10.x
 
-      # buildNix.sh invokes the standalone `nuget` CLI to restore packages.config
-      # (the C++ build needs the upstream natives + headers from FuncParser and
-      # CVODES). `nuget sources add` writes to the shared NuGet.Config that both
-      # `nuget` and `dotnet` read, so this single command covers both clients.
-      # Using `dotnet nuget add source` here breaks macOS because it writes to a
-      # different config file that `nuget install` doesn't consult.
+      # buildNix.sh uses BOTH the standalone `nuget` CLI (for the C++ build's
+      # packages.config — pulls upstream natives/headers from FuncParser and
+      # CVODES) and `dotnet restore` (for the managed projects — pulls
+      # OSPSuite.Utility and other managed deps). On macOS/Linux those two
+      # clients read separate NuGet.Config files, so the OSP feed must be
+      # registered twice.
       - name: Add OSP NuGet Source
-        run: nuget sources add -username Open-Systems-Pharmacology -password ${{ secrets.GITHUB_TOKEN }} -name OSP-GitHub-Packages -source "https://nuget.pkg.github.com/Open-Systems-Pharmacology/index.json"
+        run: |
+          nuget sources add -username Open-Systems-Pharmacology -password ${{ secrets.GITHUB_TOKEN }} -name OSP-GitHub-Packages -source "https://nuget.pkg.github.com/Open-Systems-Pharmacology/index.json"
+          dotnet nuget add source "https://nuget.pkg.github.com/Open-Systems-Pharmacology/index.json" --name OSP-GitHub-Packages --username Open-Systems-Pharmacology --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text
 
       - name: Build native and run .NET tests
         run: ./buildNix.sh ${{ matrix.platform }}
