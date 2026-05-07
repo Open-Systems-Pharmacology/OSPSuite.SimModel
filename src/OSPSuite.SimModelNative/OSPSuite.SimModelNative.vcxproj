@@ -26,21 +26,21 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>false</CLRSupport>
     <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>false</CLRSupport>
     <UseDebugLibraries>true</UseDebugLibraries>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Purify_Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
     <CLRSupport>false</CLRSupport>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -95,7 +95,7 @@
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(FuncParserPath)include;$(SolverPath)include;$(ProjectDir)..\OSPSuite.SysTool\Include;$(ProjectDir)..\OSPSuite.XMLWrapper\Include;$(ProjectDir)..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(FuncParserPath)OSPSuite.FuncParserNative\include;$(SolverPath)OSPSuite.SimModelSolver_CVODES\include;$(ProjectDir)..\OSPSuite.SysTool\Include;$(ProjectDir)..\OSPSuite.XMLWrapper\Include;$(ProjectDir)..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;SIMMODEL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -113,18 +113,13 @@
     <Link>
       <AdditionalDependencies>OSPSuite.FuncParserNative.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(FuncParserPath)bin\native\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(FuncParserPath)runtimes\win-x64\native;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX64</TargetMachine>
       <EnableUAC>false</EnableUAC>
     </Link>
-    <PostBuildEvent>
-      <Command>copy "$(FuncParserPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"
-copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"
-</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Purify_Debug|x64'">
     <PreBuildEvent>
@@ -135,7 +130,7 @@ copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)
     </Midl>
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(FuncParserPath)include;$(SolverPath)include;$(ProjectDir)..\OSPSuite.SysTool\Include;$(ProjectDir)..\OSPSuite.XMLWrapper\Include;$(ProjectDir)..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(FuncParserPath)OSPSuite.FuncParserNative\include;$(SolverPath)OSPSuite.SimModelSolver_CVODES\include;$(ProjectDir)..\OSPSuite.SysTool\Include;$(ProjectDir)..\OSPSuite.XMLWrapper\Include;$(ProjectDir)..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;SIMMODEL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
@@ -154,7 +149,7 @@ copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)
     <Link>
       <AdditionalDependencies>OSPSuite.FuncParserNative.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(FuncParserPath)bin\native\$(Platform)\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(FuncParserPath)runtimes\win-x64\native;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AssemblyDebug>true</AssemblyDebug>
       <SubSystem>Windows</SubSystem>
@@ -162,11 +157,6 @@ copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)
       <EnableUAC>false</EnableUAC>
       <AdditionalOptions>/fixed:no %(AdditionalOptions)</AdditionalOptions>
     </Link>
-    <PostBuildEvent>
-      <Command>copy "$(FuncParserPath)bin\native\$(Platform)\Debug\*.dll" "$(OutputPath)"
-copy "$(SolverPath)bin\native\$(Platform)\Debug\*.dll" "$(OutputPath)"
-</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
@@ -175,7 +165,7 @@ copy "$(SolverPath)bin\native\$(Platform)\Debug\*.dll" "$(OutputPath)"
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(FuncParserPath)include;$(SolverPath)include;$(ProjectDir)..\OSPSuite.SysTool\Include;$(ProjectDir)..\OSPSuite.XMLWrapper\Include;$(ProjectDir)..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(FuncParserPath)OSPSuite.FuncParserNative\include;$(SolverPath)OSPSuite.SimModelSolver_CVODES\include;$(ProjectDir)..\OSPSuite.SysTool\Include;$(ProjectDir)..\OSPSuite.XMLWrapper\Include;$(ProjectDir)..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;SIMMODEL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -189,7 +179,7 @@ copy "$(SolverPath)bin\native\$(Platform)\Debug\*.dll" "$(OutputPath)"
     <Link>
       <AdditionalDependencies>OSPSuite.FuncParserNative.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(TargetName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(FuncParserPath)bin\native\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(FuncParserPath)runtimes\win-x64\native;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -197,24 +187,10 @@ copy "$(SolverPath)bin\native\$(Platform)\Debug\*.dll" "$(OutputPath)"
       <TargetMachine>MachineX64</TargetMachine>
       <EnableUAC>false</EnableUAC>
     </Link>
-    <PostBuildEvent>
-      <Command>copy "$(FuncParserPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"
-copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)"
-</Command>
-    </PostBuildEvent>
     <PreBuildEvent>
       <Command>nuget.exe install ..\..\packages.config -OutputDirectory ..\..\packages -ExcludeVersion</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <Reference Include="OSPSuite.Utility">
-      <HintPath>..\..\packages\OSPSuite.Utility.2.0.1.4\lib\net452\OSPSuite.Utility.dll</HintPath>
-    </Reference>
-    <Reference Include="System">
-      <CopyLocalSatelliteAssemblies>true</CopyLocalSatelliteAssemblies>
-      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
-    </Reference>
-  </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\src\OptionInfo.cpp" />
     <ClCompile Include="..\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\src\OptionValueInfo.cpp" />
@@ -544,11 +520,6 @@ copy "$(SolverPath)bin\native\$(Platform)\$(Configuration)\*.dll" "$(OutputPath)
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SimModel.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="OSPSuite.SimModel.nuspec">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OSPSuite.SysTool\OSPSuite.SysTool.vcxproj">

@@ -1,64 +1,65 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
-	<AssemblyName>OSPSuite.SimModel</AssemblyName>
+    <TargetFramework>net10.0</TargetFramework>
+    <AssemblyName>OSPSuite.SimModel</AssemblyName>
     <Version>1.0.0</Version>
     <PackageVersion>1.0.0</PackageVersion>
     <AssemblyVersion>1.0.0</AssemblyVersion>
     <FileVersion>1.0.0</FileVersion>
     <InformationalVersion>1.0.0.0</InformationalVersion>
-	<PackageProjectUrl>https://github.com/Open-Systems-Pharmacology/OSPSuite.SimModel</PackageProjectUrl>
-	<PackageIconUrl>https://raw.githubusercontent.com/Open-Systems-Pharmacology/Suite/master/logo.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/Open-Systems-Pharmacology/OSPSuite.SimModel</PackageProjectUrl>
     <RepositoryUrl>https://github.com/Open-Systems-Pharmacology/OSPSuite.SimModel</RepositoryUrl>
     <PackageTags>open-systems-pharmacology, ospsuite-components</PackageTags>
     <Description>Calculation engine for models built with PK-Sim® or MoBi®</Description>
     <Authors>Open Systems Pharmacology Community</Authors>
     <Company>Open Systems Pharmacology Community</Company>
-    <Copyright>© Open Systems Pharmacology Community 2020</Copyright>
+    <Copyright>© Open Systems Pharmacology Community 2026</Copyright>
     <Configurations>Debug;Release;Purify_Debug</Configurations>
+    <NuspecFile>OSPSuite.SimModel.nuspec</NuspecFile>
     <NuspecProperties>version=$(PackageVersion)</NuspecProperties>
+    <!-- Avoid the obj/<config>/<tfm>/ref/ reference assembly. In a mixed C++/C#
+         .sln, VS's parallel build can have downstream csprojs (the test project)
+         start compiling against the ref dll before the vcxproj→csproj dependency
+         chain has produced it, surfacing as `CS0006: Metadata file
+         '...\obj\Debug\net10.0\ref\OSPSuite.SimModel.dll' could not be found`.
+         Forcing consumers to wait for the full dll eliminates that race. -->
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
   </PropertyGroup>
 
   <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
     <DefineConstants>_WINDOWS</DefineConstants>
-    <NuspecFile>OSPSuite.SimModel.nuspec</NuspecFile> 
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
-    <NuspecFile>OSPSuite.SimModel.Ubuntu22.nuspec</NuspecFile> 
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX')) AND '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">
-    <NuspecFile>OSPSuite.SimModel.MacOS.x64.nuspec</NuspecFile> 
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX')) AND '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">
-    <NuspecFile>OSPSuite.SimModel.MacOS.Arm64.nuspec</NuspecFile> 
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)' == 'Purify_Debug' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OSPSuite.FuncParser" Version="4.0.0.75" />
-    <PackageReference Include="OSPSuite.FuncParser.Ubuntu22" Version="4.0.0.75" />
-    <PackageReference Include="OSPSuite.FuncParser.MacOS.x64" Version="4.0.0.75" />
-    <PackageReference Include="OSPSuite.FuncParser.MacOS.Arm64" Version="4.0.0.75" />
-    <PackageReference Include="OSPSuite.SimModelSolver_CVODES" Version="4.1.0.19" />
-    <PackageReference Include="OSPSuite.SimModelSolver_CVODES.Ubuntu22" Version="4.1.0.19" />
-    <PackageReference Include="OSPSuite.SimModelSolver_CVODES.MacOSx64" Version="4.1.0.19" />
-    <PackageReference Include="OSPSuite.SimModelSolver_CVODES.MacOSArm64" Version="4.1.0.19" />
-    <PackageReference Include="OSPSuite.Utility" Version="4.1.1.4" />
+    <PackageReference Include="OSPSuite.FuncParser" Version="5.0.0.3" />
+    <PackageReference Include="OSPSuite.SimModelSolver_CVODES" Version="5.0.0.53" />
+    <PackageReference Include="OSPSuite.Utility" Version="5.0.0.6" />
   </ItemGroup>
-  
+
+  <!-- Surface the current-OS native binary as content so it propagates to projects that
+       reference this one (tests, samples). The file is produced by the C++ build into
+       runtimes/<rid>/native/ before this project is built (see buildNix.sh and the
+       Windows native build step in the CI workflows). -->
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\OSPSuite.SimModelNative.dll"
+             Condition="$([MSBuild]::IsOSPlatform('Windows')) And Exists('$(MSBuildThisFileDirectory)..\..\runtimes\win-x64\native\OSPSuite.SimModelNative.dll')"
+             Link="OSPSuite.SimModelNative.dll"
+             CopyToOutputDirectory="PreserveNewest"
+             Pack="false"
+             Visible="false" />
+    <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\linux-x64\native\libOSPSuite.SimModelNative.so"
+             Condition="$([MSBuild]::IsOSPlatform('Linux')) And Exists('$(MSBuildThisFileDirectory)..\..\runtimes\linux-x64\native\libOSPSuite.SimModelNative.so')"
+             Link="libOSPSuite.SimModelNative.so"
+             CopyToOutputDirectory="PreserveNewest"
+             Pack="false"
+             Visible="false" />
+    <Content Include="$(MSBuildThisFileDirectory)..\..\runtimes\osx-arm64\native\libOSPSuite.SimModelNative.dylib"
+             Condition="$([MSBuild]::IsOSPlatform('OSX')) And Exists('$(MSBuildThisFileDirectory)..\..\runtimes\osx-arm64\native\libOSPSuite.SimModelNative.dylib')"
+             Link="libOSPSuite.SimModelNative.dylib"
+             CopyToOutputDirectory="PreserveNewest"
+             Pack="false"
+             Visible="false" />
+  </ItemGroup>
+
 </Project>

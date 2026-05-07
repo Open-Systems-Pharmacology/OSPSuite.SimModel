@@ -1,0 +1,193 @@
+name: Build, test, and pack
+
+# Reusable workflow shared by build-pr.yml (PR validation) and
+# build-and-publish.yml (master pushes that publish to GitHub Packages).
+# The only behavioural difference between the two is whether the resulting
+# nupkg is pushed, controlled by the `publish` input.
+
+on:
+  workflow_call:
+    inputs:
+      app_version:
+        description: "Full four-part version string, e.g. 5.0.0.42"
+        type: string
+        required: true
+      publish:
+        description: "Push the resulting nupkg to GitHub Packages"
+        type: boolean
+        default: false
+
+jobs:
+  build-native-nix:
+    strategy:
+      matrix:
+        include:
+          - os: ${{ vars.GHA_DEFAULT_RUNNER_MACOS }}
+            platform: MacOS
+            rid: osx-arm64
+            native_file: libOSPSuite.SimModelNative.dylib
+            version_h_modifier: "sed -i ''"
+          - os: ${{ vars.GHA_DEFAULT_RUNNER_UBUNTU }}
+            platform: Linux
+            rid: linux-x64
+            native_file: libOSPSuite.SimModelNative.so
+            version_h_modifier: "sed -i"
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          submodules: 'true'
+
+      - name: Parse version components
+        run: |
+          IFS='.' read MAJOR MINOR RELEASE BUILD_ID <<< "${{ inputs.app_version }}"
+          echo "MAJOR=$MAJOR" >> $GITHUB_ENV
+          echo "MINOR=$MINOR" >> $GITHUB_ENV
+          echo "RELEASE=$RELEASE" >> $GITHUB_ENV
+          echo "BUILD_ID=$BUILD_ID" >> $GITHUB_ENV
+
+      - name: Update version.h
+        run: |
+          LC_ALL=C ${{ matrix.version_h_modifier }} -e "s@RELEASE 0@RELEASE ${{env.RELEASE}}@g" \
+              -e "s@MAJOR 0@MAJOR ${{env.MAJOR}}@g" \
+              -e "s@MINOR 0@MINOR ${{env.MINOR}}@g" \
+              -e "s@BUILD 0@BUILD ${{env.BUILD_ID}}@g" \
+              src/OSPSuite.SimModelNative/version.h
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.x
+
+      # buildNix.sh uses BOTH the standalone `nuget` CLI (for the C++ build's
+      # packages.config — pulls upstream natives/headers from FuncParser and
+      # CVODES) and `dotnet restore` (for the managed projects — pulls
+      # OSPSuite.Utility and other managed deps). On macOS/Linux those two
+      # clients read separate NuGet.Config files, so the OSP feed must be
+      # registered twice.
+      - name: Add OSP NuGet Source
+        run: |
+          nuget sources add -username Open-Systems-Pharmacology -password ${{ secrets.GITHUB_TOKEN }} -name OSP-GitHub-Packages -source "https://nuget.pkg.github.com/Open-Systems-Pharmacology/index.json"
+          dotnet nuget add source "https://nuget.pkg.github.com/Open-Systems-Pharmacology/index.json" --name OSP-GitHub-Packages --username Open-Systems-Pharmacology --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text
+
+      - name: Build native and run .NET tests
+        run: ./buildNix.sh ${{ matrix.platform }}
+
+      - name: Upload native binary as artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: native-${{ matrix.rid }}
+          path: runtimes/${{ matrix.rid }}/native/${{ matrix.native_file }}
+
+      - name: Push test log as artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: testLog_${{ matrix.os }}
+          path: ./**/testLog*.html
+
+  build-test-pack-windows:
+    runs-on: ${{ vars.GHA_DEFAULT_RUNNER_WINDOWS }}
+    needs: build-native-nix
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+        with:
+          submodules: 'true'
+
+      - name: Parse version components
+        shell: pwsh
+        run: |
+          $parts = "${{ inputs.app_version }}".Split('.')
+          "MAJOR=$($parts[0])"     | Out-File -FilePath $env:GITHUB_ENV -Append
+          "MINOR=$($parts[1])"     | Out-File -FilePath $env:GITHUB_ENV -Append
+          "RELEASE=$($parts[2])"   | Out-File -FilePath $env:GITHUB_ENV -Append
+          "BUILD_ID=$($parts[3])"  | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.x
+
+      - name: Add OSP NuGet Source
+        run: nuget sources add -username Open-Systems-Pharmacology -password ${{ secrets.GITHUB_TOKEN }} -name OSP-GitHub-Packages -source "https://nuget.pkg.github.com/Open-Systems-Pharmacology/index.json"
+
+      - name: Restore native upstream packages (FuncParser + CVODES)
+        run: nuget install packages.config -OutputDirectory packages -ExcludeVersion
+
+      - name: Update version.h
+        shell: pwsh
+        run: |
+          (get-content src\OSPSuite.SimModelNative\version.h) | foreach-object {$_ -replace "RELEASE 0", "RELEASE ${{env.RELEASE}}" -replace "MAJOR 0", "MAJOR ${{env.MAJOR}}" -replace "MINOR 0", "MINOR ${{env.MINOR}}" -replace "BUILD 0", "BUILD ${{env.BUILD_ID}}" } | set-content src\OSPSuite.SimModelNative\version.h
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v3
+
+      # The C++ vcxprojs are built with the VS-bundled MSBuild, while the .NET
+      # projects are built with the SDK installed by setup-dotnet. This keeps
+      # the .NET version we target independent of whichever Visual Studio
+      # version ships on the GitHub-hosted runner image. SolutionDir is passed
+      # explicitly so each vcxproj's $(SolutionDir)-relative OutDir resolves to
+      # the repo-root Build/ directory the same way it does when MSBuild loads
+      # the .sln.
+      # SysTool/XMLWrapper are pulled in via <ProjectReference> from the
+      # SimModelNative vcxproj, so building the latter recursively builds them.
+      - name: Build native (Release)
+        run: msbuild src\OSPSuite.SimModelNative\OSPSuite.SimModelNative.vcxproj /p:Configuration=Release /p:Platform=x64 /p:SolutionDir=${{ github.workspace }}\
+
+      - name: Stage Windows native at runtimes/win-x64/native/
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path runtimes\win-x64\native | Out-Null
+          Copy-Item Build\Release\x64\OSPSuite.SimModelNative.dll runtimes\win-x64\native\
+
+      - name: Download linux-x64 native
+        uses: actions/download-artifact@v7
+        with:
+          name: native-linux-x64
+          path: runtimes/linux-x64/native
+
+      - name: Download osx-arm64 native
+        uses: actions/download-artifact@v7
+        with:
+          name: native-osx-arm64
+          path: runtimes/osx-arm64/native
+
+      - name: Create .NET-only solution
+        shell: pwsh
+        run: |
+          Copy-Item OSPSuite.SimModel.sln OSPSuite.SimModel.NetOnly.sln
+          dotnet sln OSPSuite.SimModel.NetOnly.sln remove src\OSPSuite.SimModelNative\OSPSuite.SimModelNative.vcxproj
+          dotnet sln OSPSuite.SimModel.NetOnly.sln remove src\OSPSuite.SysTool\OSPSuite.SysTool.vcxproj
+          dotnet sln OSPSuite.SimModel.NetOnly.sln remove src\OSPSuite.XMLWrapper\OSPSuite.XMLWrapper.vcxproj
+
+      - name: Restore .NET projects
+        run: dotnet restore OSPSuite.SimModel.NetOnly.sln
+
+      - name: Build managed (Release)
+        run: dotnet build OSPSuite.SimModel.NetOnly.sln --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test tests\OSPSuite.SimModel.Tests\OSPSuite.SimModel.Tests.csproj --no-build --no-restore --configuration Release --logger:"html;LogFileName=../../../testLog_Windows.html"
+
+      - name: Pack the project
+        run: dotnet pack src/OSPSuite.SimModel/ -o ./ -p:PackageVersion=${{ inputs.app_version }} --no-build --no-restore --configuration Release
+
+      - name: Push test log as artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: testLog_Windows
+          path: ./**/testLog*.html
+
+      - name: Push nupkg as artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: OSPSuite.SimModel
+          path: ./*.nupkg
+
+      - name: Publish to GitHub registry
+        if: ${{ inputs.publish }}
+        shell: pwsh
+        run: dotnet nuget push .\OSPSuite.SimModel*.nupkg --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json --api-key ${{ secrets.GITHUB_TOKEN }}

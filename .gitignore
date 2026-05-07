@@ -253,5 +253,9 @@ paket-files/
 /tests/TestData/saved_ExampleInput06.xml
 /tests/TestData/saved_POPsim.xml
 
-OSPSuite.SimModel4Nix.sln
+OSPSuite.SimModel.NetOnly.sln
 .vscode/*
+
+# Native binaries staged for the unified multi-RID nupkg
+/runtimes/
+
