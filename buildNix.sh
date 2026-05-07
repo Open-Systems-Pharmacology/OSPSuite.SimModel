@@ -16,6 +16,11 @@
 
 set -e
 
+if [ -z "$1" ]; then
+  echo "Usage: $0 <distributionName>   e.g. $0 Linux | $0 MacOS" >&2
+  exit 1
+fi
+
 UNAME_S="$(uname)"
 UNAME_M="$(uname -m)"
 
