@@ -28,13 +28,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -70,7 +70,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;SIMMODEL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(FuncParserPath)include;$(SolverPath)include;$(ProjectDir)..\..\src\OSPSuite.SysTool\Include;$(ProjectDir)..\..\src\OSPSuite.XMLWrapper\Include;$(ProjectDir)..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include;$(ProjectDir)..\..\src\OSPSuite.SimModelNative\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(FuncParserPath)OSPSuite.FuncParserNative\include;$(SolverPath)OSPSuite.SimModelSolver_CVODES\include;$(ProjectDir)..\..\src\OSPSuite.SysTool\Include;$(ProjectDir)..\..\src\OSPSuite.XMLWrapper\Include;$(ProjectDir)..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include;$(ProjectDir)..\..\src\OSPSuite.SimModelNative\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAsManaged>false</CompileAsManaged>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
@@ -101,7 +101,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;SIMMODEL_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(FuncParserPath)include;$(SolverPath)include;$(ProjectDir)..\..\src\OSPSuite.SysTool\Include;$(ProjectDir)..\..\src\OSPSuite.XMLWrapper\Include;$(ProjectDir)..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include;$(ProjectDir)..\..\src\OSPSuite.SimModelNative\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Include;$(FuncParserPath)OSPSuite.FuncParserNative\include;$(SolverPath)OSPSuite.SimModelSolver_CVODES\include;$(ProjectDir)..\..\src\OSPSuite.SysTool\Include;$(ProjectDir)..\..\src\OSPSuite.XMLWrapper\Include;$(ProjectDir)..\..\src\OSPSuite.SimModelSolverBase\src\OSPSuite.SimModelSolverBase\include;$(ProjectDir)..\..\src\OSPSuite.SimModelNative\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <CompileAsManaged>false</CompileAsManaged>
     </ClCompile>
     <Link>

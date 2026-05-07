@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<package >
-  <metadata>    
+<package>
+  <metadata>
     <description>Calculation engine for models built with PK-Sim® or MoBi®</description>
     <id>OSPSuite.SimModel</id>
     <version>$version$</version>
@@ -8,24 +8,28 @@
     <authors>Open-Systems-Pharmacology</authors>
     <owners>Open-Systems-Pharmacology</owners>
     <projectUrl>https://github.com/Open-Systems-Pharmacology/OSPSuite.SimModel</projectUrl>
-    <licenseUrl>https://github.com/Open-Systems-Pharmacology/OSPSuite.SimModel/blob/master/LICENSE</licenseUrl>
-    <iconUrl>https://raw.githubusercontent.com/Open-Systems-Pharmacology/Suite/master/logo.png</iconUrl>
+    <license type="file">LICENSE</license>
+    <icon>logo.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <copyright>Copyright © 2025 - Open Systems Pharmacology Community</copyright>
+    <copyright>Copyright © 2026 - Open Systems Pharmacology Community</copyright>
     <tags>open-systems-pharmacology</tags>
+    <dependencies>
+      <group targetFramework="net10.0">
+        <dependency id="OSPSuite.FuncParser" version="5.0.0.3" />
+        <dependency id="OSPSuite.SimModelSolver_CVODES" version="5.0.0.53" />
+        <dependency id="OSPSuite.Utility" version="5.0.0.6" />
+      </group>
+    </dependencies>
   </metadata>
   <files>
-    <file src="..\..\Build\Debug\x64\OSPSuite.SimModelNative.dll" target="OSPSuite.SimModelNative\bin\native\x64\Debug" />
-    <file src="..\..\Build\Debug\x64\OSPSuite.SimModelNative.lib" target="OSPSuite.SimModelNative\bin\native\x64\Debug" />
-    <file src="..\..\Build\Debug\x64\OSPSuite.SimModelNative.pdb" target="OSPSuite.SimModelNative\bin\native\x64\Debug" />
- 
-    <file src="..\..\Build\Release\x64\OSPSuite.SimModelNative.dll" target="OSPSuite.SimModelNative\bin\native\x64\Release" />
-    <file src="..\..\Build\Release\x64\OSPSuite.SimModelNative.lib" target="OSPSuite.SimModelNative\bin\native\x64\Release" />
-    <file src="..\..\Build\Release\x64\OSPSuite.SimModelNative.pdb" target="OSPSuite.SimModelNative\bin\native\x64\Release" />
+    <file src="..\..\LICENSE" />
+    <file src="..\..\logo.png" />
 
-    <file src="bin\Release\netstandard2.0\OSPSuite.SimModel.dll" target="lib\netstandard2.0" />
-    <file src="bin\Release\netstandard2.0\OSPSuite.SimModel.pdb" target="lib\netstandard2.0" />
+    <file src="bin\Release\net10.0\OSPSuite.SimModel.dll" target="lib\net10.0" />
+    <file src="bin\Release\net10.0\OSPSuite.SimModel.pdb" target="lib\net10.0" />
 
-    <file src="..\OSPSuite.SimModelNative\include\**\*.h" target="OSPSuite.SimModelNative\include" />
+    <file src="..\..\runtimes\win-x64\native\OSPSuite.SimModelNative.dll" target="runtimes\win-x64\native" />
+    <file src="..\..\runtimes\linux-x64\native\libOSPSuite.SimModelNative.so" target="runtimes\linux-x64\native" />
+    <file src="..\..\runtimes\osx-arm64\native\libOSPSuite.SimModelNative.dylib" target="runtimes\osx-arm64\native" />
   </files>
 </package>

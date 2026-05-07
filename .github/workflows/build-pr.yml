@@ -1,0 +1,18 @@
+name: Build PR for all supported platforms
+
+on:
+  pull_request:
+    branches:
+    - master
+
+permissions:
+  packages: read
+  contents: read
+
+jobs:
+  build:
+    uses: ./.github/workflows/_build.yml
+    with:
+      app_version: 5.0.0.999${{ github.run_number }}
+      publish: false
+    secrets: inherit

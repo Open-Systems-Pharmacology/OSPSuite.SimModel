@@ -410,7 +410,4 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="OSPSuite.SimModel.nuspec" />
-  </ItemGroup>
 </Project>

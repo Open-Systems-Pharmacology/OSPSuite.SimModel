@@ -1,11 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
-
-    <RunPostBuildEvent>Always</RunPostBuildEvent>
 
     <Configurations>Debug;Release;Purify_Debug</Configurations>
   </PropertyGroup>
@@ -14,18 +12,6 @@
     <DefineConstants>_WINDOWS</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)' == 'Purify_Debug' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  
   <ItemGroup>
     <PackageReference Include="nunit" Version="3.14.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0">
@@ -33,23 +19,11 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-	<PackageReference Include="OSPSuite.BDDHelper" Version="4.0.1.1" />
+    <PackageReference Include="OSPSuite.BDDHelper" Version="4.0.1.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\OSPSuite.SimModel\OSPSuite.SimModel.csproj" />
   </ItemGroup>
 
-  <Target Name="PostBuildWindows" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('Windows'))">
-    <Exec Command="copy &quot;$(SolutionDir)Build\$(ConfigurationName)\x64\*.dll&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Build\$(ConfigurationName)\x64\OSPSuite.SimModelNative.pdb&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;copy &quot;$(SolutionDir)Build\$(ConfigurationName)\x64\OSPSuite.SimModelNative.lib&quot; &quot;$(ProjectDir)$(OutDir)&quot;&#xD;&#xA;" />
-  </Target>
-  <Target Name="PostBuildLinux" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('Linux'))">
-    <Exec Command="cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.SimModelNative.so' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.FuncParserNative.so' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.SimModelSolver_CVODES.so' '$(ProjectDir)$(OutDir)'" />
-  </Target>
-  <Target Name="PostBuildMacx64" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('OSX')) AND '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'X64'">
-    <Exec Command="cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.SimModelNative.dylib' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.FuncParserNative.dylib' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/x64/libOSPSuite.SimModelSolver_CVODES.dylib' '$(ProjectDir)$(OutDir)'" />
-  </Target>
-  <Target Name="PostBuildMacArm64" AfterTargets="PostBuildEvent" Condition="$([MSBuild]::IsOSPlatform('OSX')) AND '$([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture)' == 'Arm64'">
-    <Exec Command="cp '$(SolutionDir)Build/$(ConfigurationName)/Arm64/libOSPSuite.SimModelNative.dylib' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/Arm64/libOSPSuite.FuncParserNative.dylib' '$(ProjectDir)$(OutDir)';cp '$(SolutionDir)Build/$(ConfigurationName)/Arm64/libOSPSuite.SimModelSolver_CVODES.dylib' '$(ProjectDir)$(OutDir)'" />
-  </Target>
 </Project>

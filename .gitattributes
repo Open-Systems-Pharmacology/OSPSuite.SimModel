@@ -40,3 +40,7 @@
 *.xunit text
 
 *.sln text eol=crlf merge=union
+
+*.sh text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
