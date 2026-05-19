@@ -48,7 +48,7 @@ public:
 
 	Formula * GetNewFormula(void);
 
-	bool PerformSwitchUpdate (double * y, double time);
+	bool PerformSwitchUpdate (double * y, double time, bool & switchJacobians);
 
 	void WriteMatlabCode (std::ostream & mrOut);
 	void WriteCppCode(const std::map<int, formulaParameterInfo > & formulaParameterIDs, const std::set<int> & usedIDs, std::ostream & mrOut);
