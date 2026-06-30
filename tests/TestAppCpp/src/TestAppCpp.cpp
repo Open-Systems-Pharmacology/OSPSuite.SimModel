@@ -17,6 +17,7 @@ int main(int argc, char** argv)
       //TestSetTablePoints();
 
       string simName;
+      simName = "Vanessa_sim2";
 //      simName = "CPPExportTest01";
 //      simName = "Test_dynamic_reduced_3"; 
 //      simName = "SimModel4_ExampleInput06_Modified";
@@ -25,7 +26,40 @@ int main(int argc, char** argv)
       //TestCPPExport(simName);
       //Test1(simName);
 
-      TestParallel1(argc, argv);
+      vector<string> variableParameterPaths = {
+          "Neighborhoods|Kidney_pls_Kidney_ur|FLU-benzamide|Renal Clearances-Default Renal Cl|Specific clearance",
+          "FLU to FLU-benzamide-CYP3A4-Default CYP|kcat",
+          "FLU-benzamide|Fraction unbound (plasma, reference value)",
+          "Fluopyram|Fraction unbound (plasma, reference value)",
+          "FLU-benzamide|Lipophilicity",
+          "Fluopyram|Lipophilicity",
+          "FLU to FLU-benzamide-CYP3A4-Default CYP|Km"
+      };
+
+      vector<double> valuesToUse = {
+          0.1,
+          50,
+          0.08,   
+          0.298168334380156,
+          0.4,
+          3.6,
+          10
+      };
+
+      vector<int> variableParameterIndices = {
+        10174,
+        13238,
+        12584,
+        12433,
+        12583,
+        12432,
+        13237
+      };
+
+      Test1(simName);
+      vector<bool> calculateSensitivities = { true, false, false, false, false, false, false };
+      TestSensitivities(simName, variableParameterPaths, valuesToUse, variableParameterIndices, calculateSensitivities);
+      //TestParallel1(argc, argv);
    }
    catch (ErrorData& ED)
    {
@@ -186,7 +220,7 @@ void TestSetTablePoints()
    bool success;
    char* errorMsg = NULL;
 
-   const string simName = "SimModel4_ExampleInput06_Modified2";//"SimModel4_ExampleInput06_Modified";
+   const string simName = "SimModel4_ExampleInput06_Modified";
 
    Simulation* sim = NULL;
    vector<ParameterInfo>* parameterInfos = NULL;
@@ -254,6 +288,42 @@ void TestSetTablePoints()
    }
 }
 
+void TestSensitivities(
+    const string& simName, 
+    const vector<string> variableParameterPaths, 
+    const vector<double> variableParameterValues,
+    vector<int> variableParameterIndices,
+    const vector<bool> calculateSensitivities) {
+    Simulation* sim = NULL;
+    try
+    {
+        sim = LoadSimulation(simName);
+        vector<ParameterInfo>* parameterInfos = NULL;
+        parameterInfos = GetParameterProperties(sim);
+        for (auto i = 0; i < variableParameterPaths.size(); i++)
+        {
+            (*parameterInfos)[variableParameterIndices[i]].SetValue(variableParameterValues[i]);
+            (*parameterInfos)[variableParameterIndices[i]].SetCalculateSensitivity(calculateSensitivities[i]);
+        }
+        SetVariableParameters(sim, parameterInfos, variableParameterIndices);
+
+        FinalizeSimulation(sim);
+        RunSimulation(sim);
+
+        //double* sensitivities = SensitivityValuesByPathsFor(sim, "Organism|Egg 1|DefaultCompound|Whole Egg", "Neighborhoods|Kidney_pls_Kidney_ur|FLU-benzamide|Renal Clearances-Default Renal Cl|Specific clearance");
+
+        DisposeSimulation(sim);
+        //delete sensitivities;
+        sim = NULL;
+    }
+    catch (...)
+    {
+        if (sim != NULL)
+            DisposeSimulation(sim);
+        throw;
+    }
+}
+
 void Test1(const string& simName)
 {
    Simulation* sim = NULL;
@@ -286,7 +356,7 @@ void TestCPPExport(const string& simName)
       //DisposeSimulation(sim);
 
       sim = LoadSimulation(simName, true);
-      cppExporter->WriteCppCode(sim, "C:\\SW-Dev\\SimModel\\CPPExportTest01", false);
+      cppExporter->WriteCppCode(sim, ".\\", false);
       DisposeSimulation(sim);
 
       sim = NULL;

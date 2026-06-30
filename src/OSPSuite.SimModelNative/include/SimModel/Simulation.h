@@ -166,7 +166,7 @@ namespace SimModelNative
       // - y is DE solution at <time>, which will be UPDATED by the function
       // y must be allocated before function call
       //Returns true if at least one quantity was effectively changed by switches
-      bool PerformSwitchUpdate(double* y, double time);
+      bool PerformSwitchUpdate(double* y, double time, bool& switchJacobians);
 
       //get species used in DE system by its DE index
       Species* GetDEVariableFromIndex(int DESpeciesIndex);

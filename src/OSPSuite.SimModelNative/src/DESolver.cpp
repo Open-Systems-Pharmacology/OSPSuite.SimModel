@@ -219,8 +219,9 @@ namespace SimModelNative
 			if (!solution || !solutionAboveAbsTol)
 				throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE,"Cannot allocate memory for solution vector");
 
+			bool switchJacobians = false;
 			//---- perform initial switch update on <initialvalues>
-			_parentSim->PerformSwitchUpdate(initialvalues, simStartTime);
+			_parentSim->PerformSwitchUpdate(initialvalues, simStartTime, switchJacobians);
 
 			//initialize solution vector with initial data
 			for (i = 0; i < m_ODE_NumUnknowns; i++)
@@ -342,8 +343,9 @@ namespace SimModelNative
 					storeSensitivityValues(TimeStepNumber, sensitivityValues);
 				}
 
+				bool switchJacobians = false;
 				//---- perform switches
-				bool switchUpdate = _parentSim->PerformSwitchUpdate(solution, solverOutputTime);
+				bool switchUpdate = _parentSim->PerformSwitchUpdate(solution, solverOutputTime, switchJacobians);
 
 				if((switchUpdate || outTimePoint.RestartSystem()) &&(m_ODE_NumUnknowns > 0))
 				{
@@ -354,6 +356,13 @@ namespace SimModelNative
 
 					// Reset ODE system (we solve a new one)
 					iResultflag = pSolver->ReInit(solverOutputTime, new_initialvalues_vec);
+					if (switchJacobians)
+					{
+						for (int iEquation = 0; iEquation < m_ODE_NumUnknowns; iEquation++)
+						{
+							m_ODEVariables[iEquation]->ClearJacobians();
+						}
+					}
 
 					if (iResultflag != DE_NOERROR)
 						throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, pSolver->GetSolverErrMsg(iResultflag));
@@ -547,7 +556,9 @@ namespace SimModelNative
 
 		//set value of sensitivity parameters
 		for (i = 0; i < _sensitivityParameters.size(); i++)
+		{
 			_sensitivityParameters[i]->SetInitialValue(p[i]);
+		}
 
 		//save solution at the current time step into the compartments
 		for (i = 0; i < m_ODE_NumUnknowns; i++)
@@ -675,8 +686,11 @@ namespace SimModelNative
 
 		// Compute Jacobian
 		for (int iEquation = 0; iEquation < m_ODE_NumUnknowns; iEquation++)
-		{	
-			m_ODEVariables[iEquation]->DE_Jacobian(Jacobian, y, t);
+		{
+			for (int otherVariable = 0; otherVariable < m_ODE_NumUnknowns; otherVariable++)
+			{
+				MATRIX_ELEM(Jacobian, iEquation, otherVariable) = m_ODEVariables[iEquation]->JacobianStateVariableFor(otherVariable)->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR);
+			}
 		}
 
 		//----for debug only
@@ -688,27 +702,35 @@ namespace SimModelNative
 	Sensitivity_Rhs_Return_Value DESolver::ODESensitivityRhsFunction(double t, const double * y, double * ydot,
 		int iS, const double * yS, double * ySdot, void * f_data)
 	{
-		throw "Not implemented yet";
+		//fill the RHS of the ODE variables first
+		Rhs_Return_Value odeRHSReturnValue = ODERhsFunction(t, y, yS, ydot, f_data);
 
-//		//fill the RHS of the ODE variables first
-//		Rhs_Return_Value odeRHSReturnValue = ODERhsFunction(t, y, ydot, f_data);
-//
-//		if (odeRHSReturnValue == RHS_FAILED)
-//			return SENSITIVITY_RHS_FAILED;
-//
-//		if (odeRHSReturnValue == RHS_RECOVERABLE_ERROR)
-//			return SENSITIVITY_RHS_RECOVERABLE_ERROR;
-//
-//		//just in case (return value should be ok now)
-//		if (odeRHSReturnValue != RHS_OK)
-//			throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "ODERhsFunction return unknown exit code");
-//
+		if (odeRHSReturnValue == RHS_FAILED)
+			return SENSITIVITY_RHS_FAILED;
+
+		if (odeRHSReturnValue == RHS_RECOVERABLE_ERROR)
+			return SENSITIVITY_RHS_RECOVERABLE_ERROR;
+
+		//just in case (return value should be ok now)
+		if (odeRHSReturnValue != RHS_OK)
+			throw ErrorData(ErrorData::ED_ERROR, "ODESensitivityRhsFunction", "ODERhsFunction return unknown exit code");
+
 //		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "ODESensitivityRhsFunction not implemented yet");
-//
-//		//-------------------------------------------------
-//		// 1. Get cached values
-//		//-------------------------------------------------
 
+		//-------------------------------------------------
+		// 1. Get cached values
+		//-------------------------------------------------
+		for (int i = 0; i < m_ODE_NumUnknowns; i++)
+		{
+			ySdot[i] = 0;
+			for (int j = 0; j < m_ODE_NumUnknowns; j++)
+			{
+				ySdot[i] += m_ODEVariables[i]->JacobianStateVariableFor(j)->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR) * yS[j];
+			}
+			ySdot[i] += m_ODEVariables[i]->JacobianParameterFor(_sensitivityParameters[iS]->GetId())->DE_Compute(y, t, ScaleFactorUsageMode::USE_SCALEFACTOR);
+		}
+
+		return SENSITIVITY_RHS_OK;
 	}
 
 	void DESolver::addJacobianTimeValueTriple(double t, const double * y, const double * * Jacobian)
@@ -754,11 +776,7 @@ namespace SimModelNative
 
 	bool DESolver::IsSet_ODESensitivityRhsFunction()
 	{
-		return false; //TODO until implemented
-
-		//function may be called only if Jacobian calculation is activated
-		if (!IsSet_ODEJacFunction())
-			return false;
+		return IsSet_ODEJacFunction();
 	}
 
 	bool DESolver::IsSet_DDERhsFunction ()
