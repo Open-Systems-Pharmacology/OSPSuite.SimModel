@@ -5,6 +5,16 @@
 
 using namespace SimModelNative;
 
+// Provide access to the protected createAdjacencyInfo method via public inheritance.
+class RcmExtender : public Rcm
+{
+public:
+   void createAdjacencyInfo(std::vector<std::vector<bool>>& matrix, int& adjacencyNumber, int*& adj, int*& adj_row)
+   {
+      Rcm::createAdjacencyInfo(matrix, adjacencyNumber, adj, adj_row);
+   }
+};
+
 class when_testing_rcm : public ::testing::Test
 {
 protected:
@@ -13,6 +23,23 @@ protected:
    std::vector<std::vector<bool>> createMatrix(int n) const
    {
       return std::vector<std::vector<bool>>(n, std::vector<bool>(n, false));
+   }
+
+   // The 10x10 example documented in Rcm.h, also used by the original C++/CLI specs.
+   std::vector<std::vector<bool>> createTenNodeMatrix() const
+   {
+      auto matrix = createMatrix(10);
+      matrix[0][3] = true; matrix[0][5] = true;
+      matrix[1][2] = true; matrix[1][4] = true; matrix[1][6] = true; matrix[1][9] = true;
+      matrix[2][1] = true; matrix[2][3] = true; matrix[2][4] = true;
+      matrix[3][0] = true; matrix[3][2] = true; matrix[3][5] = true; matrix[3][8] = true;
+      matrix[4][1] = true; matrix[4][2] = true; matrix[4][6] = true;
+      matrix[5][0] = true; matrix[5][3] = true; matrix[5][6] = true; matrix[5][7] = true;
+      matrix[6][1] = true; matrix[6][4] = true; matrix[6][5] = true; matrix[6][7] = true;
+      matrix[7][5] = true; matrix[7][6] = true;
+      matrix[8][3] = true;
+      matrix[9][1] = true;
+      return matrix;
    }
 
    void verifyPermutation(const std::vector<unsigned int>& perm, unsigned int n) const
@@ -76,28 +103,7 @@ TEST_F(when_testing_rcm, should_return_valid_permutation_for_line_graph)
 TEST_F(when_testing_rcm, should_return_valid_permutation_for_ten_node_example)
 {
    // The 10x10 example from the header documentation
-   auto matrix = createMatrix(10);
-
-   // Row 0: connected to 3, 5
-   matrix[0][3] = true; matrix[0][5] = true;
-   // Row 1: connected to 2, 4, 6, 9
-   matrix[1][2] = true; matrix[1][4] = true; matrix[1][6] = true; matrix[1][9] = true;
-   // Row 2: connected to 1, 3, 4
-   matrix[2][1] = true; matrix[2][3] = true; matrix[2][4] = true;
-   // Row 3: connected to 0, 2, 5, 8
-   matrix[3][0] = true; matrix[3][2] = true; matrix[3][5] = true; matrix[3][8] = true;
-   // Row 4: connected to 1, 2, 6
-   matrix[4][1] = true; matrix[4][2] = true; matrix[4][6] = true;
-   // Row 5: connected to 0, 3, 6, 7
-   matrix[5][0] = true; matrix[5][3] = true; matrix[5][6] = true; matrix[5][7] = true;
-   // Row 6: connected to 1, 4, 5, 7
-   matrix[6][1] = true; matrix[6][4] = true; matrix[6][5] = true; matrix[6][7] = true;
-   // Row 7: connected to 5, 6
-   matrix[7][5] = true; matrix[7][6] = true;
-   // Row 8: connected to 3
-   matrix[8][3] = true;
-   // Row 9: connected to 1
-   matrix[9][1] = true;
+   auto matrix = createTenNodeMatrix();
 
    auto perm = rcm.GenRcm(matrix);
    verifyPermutation(perm, 10);
@@ -139,3 +145,57 @@ TEST_F(when_testing_rcm, should_return_valid_permutation_for_star_graph)
    auto perm = rcm.GenRcm(matrix);
    verifyPermutation(perm, 5);
 }
+
+// --- Migrated from the original C++/CLI RcmSpecs.cpp ---------------------------
+
+TEST_F(when_testing_rcm, should_create_proper_rcm_inputs)
+{
+   auto matrix = createTenNodeMatrix();
+
+   RcmExtender rcmExtender;
+   int adjacencyNumber = 0;
+   int* adj = nullptr;
+   int* adj_row = nullptr;
+
+   rcmExtender.createAdjacencyInfo(matrix, adjacencyNumber, adj, adj_row);
+
+   // expected outputs for the adjacency info (1-based indices)
+   const int adj_save[28] = {
+      4, 6,
+      3, 5, 7, 10,
+      2, 4, 5,
+      1, 3, 6, 9,
+      2, 3, 7,
+      1, 4, 7, 8,
+      2, 5, 6, 8,
+      6, 7,
+      4,
+      2};
+
+   const int adj_row_save[11] = {1, 3, 7, 10, 14, 17, 21, 25, 27, 28, 29};
+
+   EXPECT_EQ(28, adjacencyNumber);
+
+   for (int i = 0; i < 28; i++)
+      EXPECT_EQ(adj_save[i], adj[i]);
+
+   for (int i = 0; i < 11; i++)
+      EXPECT_EQ(adj_row_save[i], adj_row[i]);
+
+   delete[] adj;
+   delete[] adj_row;
+}
+
+TEST_F(when_testing_rcm, should_return_correct_permutation_for_ten_node_example)
+{
+   auto matrix = createTenNodeMatrix();
+
+   auto permutation = rcm.GenRcm(matrix);
+
+   const unsigned int permutation_save[10] = {8, 0, 7, 5, 3, 6, 4, 2, 1, 9};
+
+   ASSERT_EQ(10u, permutation.size());
+   for (int i = 0; i < 10; i++)
+      EXPECT_EQ(permutation_save[i], permutation[i]);
+}
+

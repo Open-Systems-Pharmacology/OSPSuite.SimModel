@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include "SimModel/OutputSchema.h"
+#include "SimModel/SimModelTypeDefs.h"
+#include "SimModel/TObjectVector.h"
 #include <ErrorData.h>
 
 using namespace SimModelNative;
@@ -126,4 +128,26 @@ TEST(when_getting_time_points_for_an_equidistant_interval_with_three_points, sho
    EXPECT_DOUBLE_EQ(0.0, points[0]);
    EXPECT_DOUBLE_EQ(0.5, points[1]);
    EXPECT_DOUBLE_EQ(1.0, points[2]);
+}
+
+// --- OutputSchema::AllTimePoints (migrated from the original C++/CLI specs) ---
+
+TEST(when_retrieving_points_from_output_schema_with_overlapping_intervals, should_retrieve_all_unique_points_in_increasing_order)
+{
+   OutputSchema schema;
+
+   TObjectVector<OutputInterval>& intervals = schema.OutputIntervals();
+   intervals.push_back(new OutputInterval(10, 20, 3, Equidistant)); // 10, 15, 20
+   intervals.push_back(new OutputInterval(20, 30, 3, Equidistant)); // 20, 25, 30
+   intervals.push_back(new OutputInterval(0, 10, 3, Equidistant));  // 0, 5, 10
+
+   DoubleQueue timePointsQueue = schema.AllTimePoints<float>();
+
+   // should return [0 5 10 15 20 25 30]
+   ASSERT_EQ((size_t)7, timePointsQueue.size());
+   for (int i = 0; i <= 6; i++)
+   {
+      EXPECT_DOUBLE_EQ(5.0 * i, timePointsQueue.top());
+      timePointsQueue.pop();
+   }
 }

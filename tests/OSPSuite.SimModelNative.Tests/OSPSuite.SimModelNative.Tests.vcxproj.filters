@@ -187,6 +187,27 @@
     <ClCompile Include="src\RcmSpecs.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\ExplicitFormulaSpecs.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TestEnvironment.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ParameterSpecs.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimulationTaskSpecs.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TableFormulaSpecs.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TableFormulaWithOffsetSpecs.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TableFormulaWithXArgumentSpecs.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\SimulationOptionsSpecs.cpp">
       <Filter>src</Filter>
     </ClCompile>
