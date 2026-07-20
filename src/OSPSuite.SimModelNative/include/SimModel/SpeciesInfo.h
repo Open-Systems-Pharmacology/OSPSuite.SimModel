@@ -7,17 +7,17 @@
 namespace SimModelNative
 {
 
-class SpeciesInfo 
-		: public QuantityInfo
-{
-protected:
-	double _scaleFactor;
-public:
-	SIM_EXPORT SpeciesInfo(void);
+   class SpeciesInfo
+      : public QuantityInfo
+   {
+   protected:
+      double _scaleFactor;
+   public:
+      SIM_EXPORT SpeciesInfo(void);
 
-	SIM_EXPORT double GetScaleFactor();
-	SIM_EXPORT void SetScaleFactor(double scaleFactor);
-};
+      SIM_EXPORT double GetScaleFactor();
+      SIM_EXPORT void SetScaleFactor(double scaleFactor);
+   };
 
 }//.. end "namespace SimModelNative"
 

@@ -14,324 +14,323 @@
 namespace SimModelNative
 {
 
-using namespace std;
+   using namespace std;
 
-Parameter::Parameter(void)
-{
-	_canBeVaried = true;
-	_isPersistable = false;
-	_calculateSensitivity = false;
-	_isUsedInSimulation = false;
-}
+   Parameter::Parameter(void)
+   {
+      _canBeVaried = true;
+      _isPersistable = false;
+      _calculateSensitivity = false;
+      _isUsedInSimulation = false;
+   }
 
-Parameter::~Parameter(void)
-{
-}
+   Parameter::~Parameter(void)
+   {}
 
-bool Parameter::CanBeVaried () const
-{
-	return _canBeVaried;
-}
+   bool Parameter::CanBeVaried() const
+   {
+      return _canBeVaried;
+   }
 
-void Parameter::SetCanBeVaried(bool canBeVaried)
-{
-	_canBeVaried=canBeVaried;
-}
+   void Parameter::SetCanBeVaried(bool canBeVaried)
+   {
+      _canBeVaried = canBeVaried;
+   }
 
-bool Parameter::CalculateSensitivity() const
-{
-	return _calculateSensitivity;
-}
+   bool Parameter::CalculateSensitivity() const
+   {
+      return _calculateSensitivity;
+   }
 
-void Parameter::SetCalculateSensitivity(bool calculateSensitivity)
-{
-	_calculateSensitivity = calculateSensitivity;
-}
+   void Parameter::SetCalculateSensitivity(bool calculateSensitivity)
+   {
+      _calculateSensitivity = calculateSensitivity;
+   }
 
-bool Parameter::IsUsedInSimulation() const
-{
-	return _isUsedInSimulation;
-}
+   bool Parameter::IsUsedInSimulation() const
+   {
+      return _isUsedInSimulation;
+   }
 
-void Parameter::SetIsUsedInSimulation(bool isUsedInSimulation)
-{
-	_isUsedInSimulation = isUsedInSimulation;
-}
+   void Parameter::SetIsUsedInSimulation(bool isUsedInSimulation)
+   {
+      _isUsedInSimulation = isUsedInSimulation;
+   }
 
-void Parameter::LoadFromXMLNode (const XMLNode & pNode)
-{
-	// ---- XML sample
-	//<Parameter Id="P1" Name="Volume" Path="Liver/Cells" FormulaId="F1" Unit="µmol" canBeVaried="1" calculateSensitivity="0">
+   void Parameter::LoadFromXMLNode(const XMLNode& pNode)
+   {
+      // ---- XML sample
+      //<Parameter Id="P1" Name="Volume" Path="Liver/Cells" FormulaId="F1" Unit="Âµmol" canBeVaried="1" calculateSensitivity="0">
 
-	//common quantity part
-	Quantity::LoadFromXMLNode(pNode);
+      //common quantity part
+      Quantity::LoadFromXMLNode(pNode);
 
-	//parameter specific part
-	_canBeVaried = (pNode.GetAttribute(XMLConstants::CanBeVaried,_canBeVaried ? 1:0)==1);
-	_calculateSensitivity = (pNode.GetAttribute(XMLConstants::CalculateSensitivity, _calculateSensitivity ? 1 : 0) == 1);
-}
-string Parameter::getFormulaXMLAttributeName()
-{
-	return XMLConstants::FormulaId;
-}
+      //parameter specific part
+      _canBeVaried = (pNode.GetAttribute(XMLConstants::CanBeVaried, _canBeVaried ? 1 : 0) == 1);
+      _calculateSensitivity = (pNode.GetAttribute(XMLConstants::CalculateSensitivity, _calculateSensitivity ? 1 : 0) == 1);
+   }
+   string Parameter::getFormulaXMLAttributeName()
+   {
+      return XMLConstants::FormulaId;
+   }
 
-void Parameter::XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim)
-{
-	//---- common quantity part
-	Quantity::XMLFinalizeInstance(pNode, sim);
+   void Parameter::XMLFinalizeInstance(const XMLNode& pNode, Simulation* sim)
+   {
+      //---- common quantity part
+      Quantity::XMLFinalizeInstance(pNode, sim);
 
-	//---- parameter specific part
-	//     (nothing to do so far)
-}
+      //---- parameter specific part
+      //     (nothing to do so far)
+   }
 
-vector < HierarchicalFormulaObject * > Parameter::GetUsedHierarchicalFormulaObjects ()
-{
-	if (_valueFormula == NULL)
-		return std::vector < HierarchicalFormulaObject * > ();
+   vector < HierarchicalFormulaObject* > Parameter::GetUsedHierarchicalFormulaObjects()
+   {
+      if (_valueFormula == NULL)
+         return std::vector < HierarchicalFormulaObject* >();
 
-	return _valueFormula->GetUsedHierarchicalFormulaObjects();
-}
+      return _valueFormula->GetUsedHierarchicalFormulaObjects();
+   }
 
 
-double Parameter::GetValue (const double * y, double time, ScaleFactorUsageMode scaleFactorMode)
-{
-	if (_valueFormula)
-	{
-		return _valueFormula->DE_Compute(y, time, scaleFactorMode);
-	}
-	else
-		return _value;
-}
+   double Parameter::GetValue(const double* y, double time, ScaleFactorUsageMode scaleFactorMode)
+   {
+      if (_valueFormula)
+      {
+         return _valueFormula->DE_Compute(y, time, scaleFactorMode);
+      }
+      else
+         return _value;
+   }
 
-void Parameter::DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor)
-{
-	if (preFactor == 0.0)
-		return;
+   void Parameter::DE_Jacobian(double** jacobian, const double* y, const double time, const int iEquation, const double preFactor)
+   {
+      if (preFactor == 0.0)
+         return;
 
-	if (!_valueFormula)
-		return; //nothing to do (constant parameter)
+      if (!_valueFormula)
+         return; //nothing to do (constant parameter)
 
-	_valueFormula->DE_Jacobian(jacobian, y, time, iEquation, preFactor);
-}
+      _valueFormula->DE_Jacobian(jacobian, y, time, iEquation, preFactor);
+   }
 
-Formula* Parameter::DE_Jacobian(const int iEquation)
-{
-	if (GetId()==-iEquation)
-		return new ConstantFormula(1.0);
+   Formula* Parameter::DE_Jacobian(const int iEquation)
+   {
+      if (GetId() == -iEquation)
+         return new ConstantFormula(1.0);
 
-	if (!_valueFormula)
-		return new ConstantFormula(0.0);
+      if (!_valueFormula)
+         return new ConstantFormula(0.0);
 
-	return _valueFormula->DE_Jacobian(iEquation);
-}
+      return _valueFormula->DE_Jacobian(iEquation);
+   }
 
-Formula* Parameter::clone()
-{
-	if (!_valueFormula)
-		return new ConstantFormula(_value);
-	
-	return _valueFormula->clone();
-}
+   Formula* Parameter::clone()
+   {
+      if (!_valueFormula)
+         return new ConstantFormula(_value);
 
-std::string Parameter::GetShortUniqueName ()
-{
-    return _shortUniqueName;
-}
+      return _valueFormula->clone();
+   }
 
-void Parameter::SetShortUniqueNameForDESystem (const std::string & uniqueName)
-{
-	_shortUniqueName = uniqueName;
-}
+   std::string Parameter::GetShortUniqueName()
+   {
+      return _shortUniqueName;
+   }
 
-void Parameter::WriteMatlabCode (std::ostream & mrOut, bool forInitialValue)
-{
-	if (forInitialValue && IsTable())
-		return;
+   void Parameter::SetShortUniqueNameForDESystem(const std::string& uniqueName)
+   {
+      _shortUniqueName = uniqueName;
+   }
 
-	if (_isChangedBySwitch || IsTable())
-	{
-		if (forInitialValue)
-		{
-			mrOut<<"if isempty("<<_shortUniqueName<<")"<<endl;
-			mrOut<<"    "<<_shortUniqueName+" = ";
-			if (!_valueFormula)
-			{
-				mrOut<<MathHelper::ToString(_value);
-			}
-			else
-			{
-				_valueFormula->WriteMatlabCode(mrOut);
-			}
-			mrOut<<";  % "<<GetFullName()<<std::endl;
-			mrOut<<"end"<<endl;
-		}
-		else
-		{
-			mrOut<<"EvalParameter("<<_shortUniqueName<<", Time, y)";
-		}
-	}
-	else
-	{
-		mrOut<<_shortUniqueName+" = ";
-		if (!_valueFormula)
-		{
-			mrOut<<MathHelper::ToString(_value);
-		}
-		else
-		{
-			_valueFormula->WriteMatlabCode(mrOut);
-		}
-		mrOut<<";  % "<<GetFullName()<<std::endl;
-	}
-}
+   void Parameter::WriteMatlabCode(std::ostream& mrOut, bool forInitialValue)
+   {
+      if (forInitialValue && IsTable())
+         return;
 
-void Parameter::WriteCppCode(std::ostream & mrOut, bool declaration)
-{
-	if (IsChangedBySwitch())
-	{
-		if (!_valueFormula)
-			mrOut << MathHelper::ToString(_value);
-		else
-			_valueFormula->WriteCppCode(mrOut);
-		return;
-	}
+      if (_isChangedBySwitch || IsTable())
+      {
+         if (forInitialValue)
+         {
+            mrOut << "if isempty(" << _shortUniqueName << ")" << endl;
+            mrOut << "    " << _shortUniqueName + " = ";
+            if (!_valueFormula)
+            {
+               mrOut << MathHelper::ToString(_value);
+            }
+            else
+            {
+               _valueFormula->WriteMatlabCode(mrOut);
+            }
+            mrOut << ";  % " << GetFullName() << std::endl;
+            mrOut << "end" << endl;
+         }
+         else
+         {
+            mrOut << "EvalParameter(" << _shortUniqueName << ", Time, y)";
+         }
+      }
+      else
+      {
+         mrOut << _shortUniqueName + " = ";
+         if (!_valueFormula)
+         {
+            mrOut << MathHelper::ToString(_value);
+         }
+         else
+         {
+            _valueFormula->WriteMatlabCode(mrOut);
+         }
+         mrOut << ";  % " << GetFullName() << std::endl;
+      }
+   }
 
-	if (!_valueFormula)
-	{
-		if (declaration)
-		{
-			// check if integer, TODO: necessary?
-			if (std::floor(_value) == _value && std::abs(_value) < INT_MAX)
-				mrOut << "    " << "constexpr int ";
-			else
-				mrOut << "    " << "constexpr double ";
-		}
-		mrOut << _shortUniqueName + " = ";
-		mrOut << MathHelper::ToString(_value);
-	}
-	else
-	{
-		if (declaration)
-			mrOut << "    " << "const double ";
-		mrOut << _shortUniqueName + " = ";
-		_valueFormula->WriteCppCode(mrOut);
-	}
-	mrOut << ";" << "  // " << GetFullName() << endl;
-}
+   void Parameter::WriteCppCode(std::ostream& mrOut, bool declaration)
+   {
+      if (IsChangedBySwitch())
+      {
+         if (!_valueFormula)
+            mrOut << MathHelper::ToString(_value);
+         else
+            _valueFormula->WriteCppCode(mrOut);
+         return;
+      }
 
-//will be called between Load and Finalize of the parent simulation
-//must set all properties of the quantity info (name, unit, id, ...)
-//The quantity formula may not be evaluated at this time point
-//The only exception are constant formulas, which were already replaced
-//by values in Simulation::LoadFromXXX
-void Parameter::InitialFillInfo(ParameterInfo & info)
-{
-	//---- fill common quantity properties first
-	Quantity::InitialFillInfo(info);
+      if (!_valueFormula)
+      {
+         if (declaration)
+         {
+            // check if integer, TODO: necessary?
+            if (std::floor(_value) == _value && std::abs(_value) < INT_MAX)
+               mrOut << "    " << "constexpr int ";
+            else
+               mrOut << "    " << "constexpr double ";
+         }
+         mrOut << _shortUniqueName + " = ";
+         mrOut << MathHelper::ToString(_value);
+      }
+      else
+      {
+         if (declaration)
+            mrOut << "    " << "const double ";
+         mrOut << _shortUniqueName + " = ";
+         _valueFormula->WriteCppCode(mrOut);
+      }
+      mrOut << ";" << "  // " << GetFullName() << endl;
+   }
 
-	//---- set parameter specific properties
-	FillInfoWithParameterSpecificProperties(info);
-}
+   //will be called between Load and Finalize of the parent simulation
+   //must set all properties of the quantity info (name, unit, id, ...)
+   //The quantity formula may not be evaluated at this time point
+   //The only exception are constant formulas, which were already replaced
+   //by values in Simulation::LoadFromXXX
+   void Parameter::InitialFillInfo(ParameterInfo& info)
+   {
+      //---- fill common quantity properties first
+      Quantity::InitialFillInfo(info);
 
-//will be called after the finalize of the parent simulation
-//only formula/value info must be updated
-//Species initial values and sim. start time are required for the formula evaluation
-void Parameter::FillInfo(ParameterInfo & info,const double * speciesInitialValues, double simulationStartTime)
-{
-	//---- fill common quantity properties first
-	Quantity::FillInfo(info, speciesInitialValues, simulationStartTime);
+      //---- set parameter specific properties
+      FillInfoWithParameterSpecificProperties(info);
+   }
 
-	//---- set parameter specific properties
-	FillInfoWithParameterSpecificProperties(info);
-}
+   //will be called after the finalize of the parent simulation
+   //only formula/value info must be updated
+   //Species initial values and sim. start time are required for the formula evaluation
+   void Parameter::FillInfo(ParameterInfo& info, const double* speciesInitialValues, double simulationStartTime)
+   {
+      //---- fill common quantity properties first
+      Quantity::FillInfo(info, speciesInitialValues, simulationStartTime);
 
-bool Parameter::IsTable(void)
-{
-	return _valueFormula && _valueFormula->IsTable();
-}
+      //---- set parameter specific properties
+      FillInfoWithParameterSpecificProperties(info);
+   }
 
-void Parameter::FillInfoWithParameterSpecificProperties(ParameterInfo & info)
-{
-	info.SetCanBeVaried(_canBeVaried);
-	info.SetCalculateSensitivity(_calculateSensitivity);
+   bool Parameter::IsTable(void)
+   {
+      return _valueFormula && _valueFormula->IsTable();
+   }
 
-	if (IsTable())
-		info.SetTablePoints(_valueFormula->GetTablePoints());
+   void Parameter::FillInfoWithParameterSpecificProperties(ParameterInfo& info)
+   {
+      info.SetCanBeVaried(_canBeVaried);
+      info.SetCalculateSensitivity(_calculateSensitivity);
 
-	info.SetIsUsedInSimulation(_isUsedInSimulation);
-}
+      if (IsTable())
+         info.SetTablePoints(_valueFormula->GetTablePoints());
 
-void Parameter::SetTablePoints(const std::vector <ValuePoint> & valuePoints)
-{
-	if(!IsTable())
-	{
-		//previous formula was not a table and must be created first
-		DeleteFormula();
+      info.SetIsUsedInSimulation(_isUsedInSimulation);
+   }
 
-		_value = 0.0;
-		_originalValue = 0.0;
+   void Parameter::SetTablePoints(const std::vector <ValuePoint>& valuePoints)
+   {
+      if (!IsTable())
+      {
+         //previous formula was not a table and must be created first
+         DeleteFormula();
 
-		TableFormula * tableFormula = new TableFormula();
-		tableFormula->SetUseDerivedValues(false); //TODO There is no information how to set UseDerivedValues-property
-		                                           //Setting it to false solves the current problem of aging populations, but ...
-		_valueFormula = tableFormula;
+         _value = 0.0;
+         _originalValue = 0.0;
 
-		_originalValueFormula = _valueFormula;
-	}
+         TableFormula* tableFormula = new TableFormula();
+         tableFormula->SetUseDerivedValues(false); //TODO There is no information how to set UseDerivedValues-property
+         //Setting it to false solves the current problem of aging populations, but ...
+         _valueFormula = tableFormula;
 
-	_valueFormula->SetTablePoints(valuePoints);
-}
+         _originalValueFormula = _valueFormula;
+      }
 
-Observer * Parameter::CreateObserverWithId(long objectId, Formula * observerFormula)
-{
-	return new Observer(objectId, 
-		                _name, _fullName, _description, _containerPath, _unit, 
-						observerFormula, _entityId, _pathWithoutRoot);
-}
+      _valueFormula->SetTablePoints(valuePoints);
+   }
 
-bool Parameter::IsConstant(bool forCurrentRunOnly)
-{
-	return (Quantity::IsConstant(forCurrentRunOnly) && !_calculateSensitivity);
-}
+   Observer* Parameter::CreateObserverWithId(long objectId, Formula* observerFormula)
+   {
+      return new Observer(objectId,
+         _name, _fullName, _description, _containerPath, _unit,
+         observerFormula, _entityId, _pathWithoutRoot);
+   }
 
-bool Parameter::ExportAsGlobalForMatlab()
-{
-	return (IsChangedBySwitch() || IsUsedBySwitch() || IsTable());
-}
+   bool Parameter::IsConstant(bool forCurrentRunOnly)
+   {
+      return (Quantity::IsConstant(forCurrentRunOnly) && !_calculateSensitivity);
+   }
 
-//the name of the table function which will be assigned to the parameter in case it's table-based
-string Parameter::TableFunctionNameForMatlab()
-{
-	return GetShortUniqueName()+"_Table";
-}
+   bool Parameter::ExportAsGlobalForMatlab()
+   {
+      return (IsChangedBySwitch() || IsUsedBySwitch() || IsTable());
+   }
 
-//writes the table function in matlab code
-void Parameter::WriteTableFunctionForMatlab(ostream & mrOut)
-{
-	const char * ERROR_SOURCE = "Parameter::WriteTableFunctionForMatlab";
+   //the name of the table function which will be assigned to the parameter in case it's table-based
+   string Parameter::TableFunctionNameForMatlab()
+   {
+      return GetShortUniqueName() + "_Table";
+   }
 
-	TableFormula *tableFormula = dynamic_cast<TableFormula *>(_valueFormula);
+   //writes the table function in matlab code
+   void Parameter::WriteTableFunctionForMatlab(ostream& mrOut)
+   {
+      const char* ERROR_SOURCE = "Parameter::WriteTableFunctionForMatlab";
 
-	if(tableFormula == NULL)
-		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, 
-		                "Trying to export non-table parameter ("+_fullName+") as a table");
+      TableFormula* tableFormula = dynamic_cast<TableFormula*>(_valueFormula);
 
-	mrOut<<"function yout = "+TableFunctionNameForMatlab()+"(Time, y)"<<endl<<endl;
-	tableFormula->WriteMatlabCode(mrOut);
-}
+      if (tableFormula == NULL)
+         throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE,
+            "Trying to export non-table parameter (" + _fullName + ") as a table");
 
-//writes the table function in C++ code
-void Parameter::WriteTableFunctionForCpp(ostream & mrOut)
-{
-	const char * ERROR_SOURCE = "Parameter::WriteTableFunctionForCpp";
+      mrOut << "function yout = " + TableFunctionNameForMatlab() + "(Time, y)" << endl << endl;
+      tableFormula->WriteMatlabCode(mrOut);
+   }
 
-	TableFormula *tableFormula = dynamic_cast<TableFormula *>(_valueFormula);
+   //writes the table function in C++ code
+   void Parameter::WriteTableFunctionForCpp(ostream& mrOut)
+   {
+      const char* ERROR_SOURCE = "Parameter::WriteTableFunctionForCpp";
 
-	if (tableFormula == NULL)
-		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE,
-		"Trying to export non-table parameter (" + _fullName + ") as a table");
+      TableFormula* tableFormula = dynamic_cast<TableFormula*>(_valueFormula);
 
-	tableFormula->WriteCppCode(mrOut);
-}
+      if (tableFormula == NULL)
+         throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE,
+            "Trying to export non-table parameter (" + _fullName + ") as a table");
+
+      tableFormula->WriteCppCode(mrOut);
+   }
 
 }//.. end "namespace SimModelNative"

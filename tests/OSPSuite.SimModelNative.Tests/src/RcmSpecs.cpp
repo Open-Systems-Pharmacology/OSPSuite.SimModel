@@ -170,9 +170,9 @@ TEST_F(when_testing_rcm, should_create_proper_rcm_inputs)
       2, 5, 6, 8,
       6, 7,
       4,
-      2};
+      2 };
 
-   const int adj_row_save[11] = {1, 3, 7, 10, 14, 17, 21, 25, 27, 28, 29};
+   const int adj_row_save[11] = { 1, 3, 7, 10, 14, 17, 21, 25, 27, 28, 29 };
 
    EXPECT_EQ(28, adjacencyNumber);
 
@@ -192,7 +192,7 @@ TEST_F(when_testing_rcm, should_return_correct_permutation_for_ten_node_example)
 
    auto permutation = rcm.GenRcm(matrix);
 
-   const unsigned int permutation_save[10] = {8, 0, 7, 5, 3, 6, 4, 2, 1, 9};
+   const unsigned int permutation_save[10] = { 8, 0, 7, 5, 3, 6, 4, 2, 1, 9 };
 
    ASSERT_EQ(10u, permutation.size());
    for (int i = 0; i < 10; i++)

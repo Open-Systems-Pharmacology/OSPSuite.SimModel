@@ -11,18 +11,17 @@
 namespace SimModelNative
 {
 
-class Simulation;
+   class Simulation;
 
-class XMLLoader
-{
-	public:
-	virtual ~XMLLoader()
-	{
-	}
+   class XMLLoader
+   {
+   public:
+      virtual ~XMLLoader()
+      {}
 
-	virtual void LoadFromXMLNode (const XMLNode & pNode) = 0;
-		virtual void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim) = 0;
-};
+      virtual void LoadFromXMLNode(const XMLNode& pNode) = 0;
+      virtual void XMLFinalizeInstance(const XMLNode& pNode, Simulation* sim) = 0;
+   };
 
 }//.. end "namespace SimModelNative"
 

@@ -10,35 +10,35 @@
 namespace SimModelNative
 {
 
-class HierarchicalFormulaObject : 
-	public Quantity
-{	
-	private:
-		//Depth in the hierarchy graph:
-		//  = HFOBJECT_TOP_LEVEL     -> independent object
-		//  = HFOBJECT_TOP_LEVEL + 1 -> depends only on hierarchical formula objects 
-		//                              with HierarchyLevel=HFOBJECT_TOP_LEVEL etc.
-		int _hierarchyLevel;
+   class HierarchicalFormulaObject :
+      public Quantity
+   {
+   private:
+      //Depth in the hierarchy graph:
+      //  = HFOBJECT_TOP_LEVEL     -> independent object
+      //  = HFOBJECT_TOP_LEVEL + 1 -> depends only on hierarchical formula objects 
+      //                              with HierarchyLevel=HFOBJECT_TOP_LEVEL etc.
+      int _hierarchyLevel;
 
-		//Index in the total list of all HierarchicalFormulaObjects 
-		//of the simulation (0..N-1)
-		int _hierarchicalObjectIndex;
+      //Index in the total list of all HierarchicalFormulaObjects 
+      //of the simulation (0..N-1)
+      int _hierarchicalObjectIndex;
 
-		//Total list of all HierarchicalFormulaObjects of the parent simulation
-		TObjectVector < HierarchicalFormulaObject > _simHierarchicalObjects;
-	
-	public:
-		HierarchicalFormulaObject ();
-		virtual ~HierarchicalFormulaObject();
-		void SetObjectIndex (int pIndex);
-		int GetObjectIndex ();
-		int GetHierarchyLevel ();
-		void SetHierarchicalObjects (TObjectVector < HierarchicalFormulaObject > & pHObjects);
-		bool AdjustHierarchyLevel ();
-		void CheckCyclicDependencies ();
+      //Total list of all HierarchicalFormulaObjects of the parent simulation
+      TObjectVector < HierarchicalFormulaObject > _simHierarchicalObjects;
 
-		virtual std::vector < HierarchicalFormulaObject * > GetUsedHierarchicalFormulaObjects () = 0;
-};
+   public:
+      HierarchicalFormulaObject();
+      virtual ~HierarchicalFormulaObject();
+      void SetObjectIndex(int pIndex);
+      int GetObjectIndex();
+      int GetHierarchyLevel();
+      void SetHierarchicalObjects(TObjectVector < HierarchicalFormulaObject >& pHObjects);
+      bool AdjustHierarchyLevel();
+      void CheckCyclicDependencies();
+
+      virtual std::vector < HierarchicalFormulaObject* > GetUsedHierarchicalFormulaObjects() = 0;
+   };
 
 }//.. end "namespace SimModelNative"
 

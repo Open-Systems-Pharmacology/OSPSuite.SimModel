@@ -9,14 +9,14 @@ namespace SimModelNative
    struct SimulationOptionsStructure
    {
       bool ShowProgress;
-		double ExecutionTimeLimit;
-		bool StopOnWarnings;
-		bool AutoReduceTolerances;
-		bool WriteLogFile;
+      double ExecutionTimeLimit;
+      bool StopOnWarnings;
+      bool AutoReduceTolerances;
+      bool WriteLogFile;
       bool ValidateWithXMLSchema;
       bool IdentifyUsedParameters;
       bool KeepXMLNodeAsString;
-		bool UseFloatComparisonInUserOutputTimePoints;
+      bool UseFloatComparisonInUserOutputTimePoints;
 
       void CopyFrom(const SimulationOptions& options);
    };
@@ -35,8 +35,8 @@ namespace SimModelNative
       //SIM_EXPORT char* GetSimModelVersion();
       SIM_EXPORT char* GetObjectPathDelimiter(Simulation* simulation);
 
-      SIM_EXPORT void FillSimulationOptions(Simulation* simulation, SimulationOptionsStructure * options);
-      
+      SIM_EXPORT void FillSimulationOptions(Simulation* simulation, SimulationOptionsStructure* options);
+
       SIM_EXPORT void SetSimulationOptions(Simulation* simulation, SimulationOptionsStructure options);
 
       SIM_EXPORT void RunSimulation(Simulation* simulation, bool& toleranceWasReduced, double& newAbsTol, double& newRelTol, bool& success, char** errorMessage);
@@ -85,23 +85,23 @@ namespace SimModelNative
       //fills parameter infos from parameterInfos[parameterIndex]
       //tablePointsXXX arrays are pre-allocated with <tablePointsSize> elements
       SIM_EXPORT void FillSingleParameterProperties(Simulation* simulation, std::vector<SimModelNative::ParameterInfo>* parameterInfos, int parameterIndex,
-                                                    char** entityId, char** pathWithoutRoot, char** fullName, double& value, 
-                                                    double* tablePointsX, double* tablePointsY, bool* tablePointsRestartSolver, int tablePointsSize,
-                                                    bool& success, char** errorMessage);
+         char** entityId, char** pathWithoutRoot, char** fullName, double& value,
+         double* tablePointsX, double* tablePointsY, bool* tablePointsRestartSolver, int tablePointsSize,
+         bool& success, char** errorMessage);
 
       SIM_EXPORT void SetParameterValue(std::vector<SimModelNative::ParameterInfo>* parameterInfos, int parameterIndex, double value, bool& success, char** errorMessage);
       SIM_EXPORT void SetParameterCalculateSensitivity(std::vector<SimModelNative::ParameterInfo>* parameterInfos, int parameterIndex, bool calculateSensitivity, bool& success, char** errorMessage);
-      SIM_EXPORT void SetParameterTablePoints(std::vector<SimModelNative::ParameterInfo>* parameterInfos, int parameterIndex, 
-                                              double* tablePointsX, double* tablePointsY, bool* tablePointsRestartSolver, int tablePointsSize, 
-                                              bool& success, char** errorMessage);
+      SIM_EXPORT void SetParameterTablePoints(std::vector<SimModelNative::ParameterInfo>* parameterInfos, int parameterIndex,
+         double* tablePointsX, double* tablePointsY, bool* tablePointsRestartSolver, int tablePointsSize,
+         bool& success, char** errorMessage);
       SIM_EXPORT bool ParameterIsUsedInSimulation(std::vector<SimModelNative::ParameterInfo>* parameterInfos, int parameterIndex, bool& success, char** errorMessage);
-      
+
       //selects parameters from <parameterInfos> with index in parameterIndices and sets them as variable into simulation
       SIM_EXPORT void SetVariableParameters(Simulation* simulation, std::vector<SimModelNative::ParameterInfo>* parameterInfos, int* parameterIndices,
-                                            int numberOfVariableParameters, bool& success, char** errorMessage);
+         int numberOfVariableParameters, bool& success, char** errorMessage);
 
       SIM_EXPORT void SetParameterValues(Simulation* simulation, std::vector<SimModelNative::ParameterInfo>* parameterInfos, int* parameterIndices,
-                                         int numberOfVariableParameters, bool& success, char** errorMessage);
+         int numberOfVariableParameters, bool& success, char** errorMessage);
 
       SIM_EXPORT std::vector<SimModelNative::SpeciesInfo>* CreateSpeciesInfoVector();
       SIM_EXPORT void DisposeSpeciesInfoVector(std::vector<SimModelNative::SpeciesInfo>* speciesInfos);
@@ -125,7 +125,7 @@ namespace SimModelNative
          int numberOfVariableSpecies, bool& success, char** errorMessage);
 
       SIM_EXPORT void SetSpeciesValues(Simulation* simulation, std::vector<SimModelNative::SpeciesInfo>* speciesInfos, int* speciesIndices,
-                                       int numberOfVariableSpecies, bool& success, char** errorMessage);
+         int numberOfVariableSpecies, bool& success, char** errorMessage);
 
       SIM_EXPORT int GetNumberOfSolverWarnings(Simulation* simulation);
 

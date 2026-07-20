@@ -13,7 +13,7 @@ namespace SimModelNative
       SIM_EXPORT bool QuantityIsObserver(Quantity* quantity);
       SIM_EXPORT int GetQuantityValuesSize(Quantity* quantity, bool& success, char** errorMessage);
       SIM_EXPORT bool QuantityIsConstant(Quantity* quantity);
-      
+
       //<array> has preallocated memory for <size> elements
       SIM_EXPORT void FillQuantityValues(Quantity* quantity, double* values, int size, bool& success, char** errorMessage);
 

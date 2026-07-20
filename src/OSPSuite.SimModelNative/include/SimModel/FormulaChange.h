@@ -11,60 +11,60 @@
 namespace SimModelNative
 {
 
-class Quantity;
-class Formula;
+   class Quantity;
+   class Formula;
 
-struct formulaParameterInfo {
-	int switchIndex;
-	int valueIndex;
-	int initialIndex;
-	std::vector<Formula *> vecFormulas;
-	formulaParameterInfo(Formula * f, int _init=0) : switchIndex(-1), valueIndex(-1), initialIndex(_init), vecFormulas(1, f) {}
-};
+   struct formulaParameterInfo {
+      int switchIndex;
+      int valueIndex;
+      int initialIndex;
+      std::vector<Formula*> vecFormulas;
+      formulaParameterInfo(Formula* f, int _init = 0) : switchIndex(-1), valueIndex(-1), initialIndex(_init), vecFormulas(1, f) {}
+   };
 
-class FormulaChange : 
-	public XMLLoader,
-	public EntityWithCachedScaleFactor
-{
-protected:
-	std::string _parentSwitchInfo;
+   class FormulaChange :
+      public XMLLoader,
+      public EntityWithCachedScaleFactor
+   {
+   protected:
+      std::string _parentSwitchInfo;
 
-	Quantity * _quantity;
-	Formula  * _newFormula;
+      Quantity* _quantity;
+      Formula* _newFormula;
 
-	int _speciesDEIndex;
-	double _speciesScaleFactor;
-	bool _useAsValue;
+      int _speciesDEIndex;
+      double _speciesScaleFactor;
+      bool _useAsValue;
 
-public:
-	FormulaChange(void);
-	virtual ~FormulaChange(void);
+   public:
+      FormulaChange(void);
+      virtual ~FormulaChange(void);
 
-	void LoadFromXMLNode (const XMLNode & pNode);
-	void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim);
+      void LoadFromXMLNode(const XMLNode& pNode);
+      void XMLFinalizeInstance(const XMLNode& pNode, Simulation* sim);
 
-	void SetParentSwitchInfo(const std::string & switchInfo);
-	void Finalize();
+      void SetParentSwitchInfo(const std::string& switchInfo);
+      void Finalize();
 
-	Formula * GetNewFormula(void);
+      Formula* GetNewFormula(void);
 
-	bool PerformSwitchUpdate (double * y, double time);
+      bool PerformSwitchUpdate(double* y, double time);
 
-	void WriteMatlabCode (std::ostream & mrOut);
-	void WriteCppCode(const std::map<int, formulaParameterInfo > & formulaParameterIDs, const std::set<int> & usedIDs, std::ostream & mrOut);
+      void WriteMatlabCode(std::ostream& mrOut);
+      void WriteCppCode(const std::map<int, formulaParameterInfo >& formulaParameterIDs, const std::set<int>& usedIDs, std::ostream& mrOut);
 
-	void MarkQuantitiesDirectlyUsedBy(void); //required for Matlab code generation only
+      void MarkQuantitiesDirectlyUsedBy(void); //required for Matlab code generation only
 
-	//used variables are only added into the list if UseAsValue=false
-	void AppendVariablesUsedInNewFormula(std::set<int> & usedVariablesIndices, const std::set<int> & variablesIndicesUsedInSwitchAssignments);
-	void AppendUsedParameters(std::set<int> & usedParameterIDs, bool alwaysAppend);
-	void AppendFormulaParameters(std::map<int, formulaParameterInfo > & formulaParameterIDs);
+      //used variables are only added into the list if UseAsValue=false
+      void AppendVariablesUsedInNewFormula(std::set<int>& usedVariablesIndices, const std::set<int>& variablesIndicesUsedInSwitchAssignments);
+      void AppendUsedParameters(std::set<int>& usedParameterIDs, bool alwaysAppend);
+      void AppendFormulaParameters(std::map<int, formulaParameterInfo >& formulaParameterIDs);
 
-	//update the index of the target species (if any)
-	void UpdateDEIndexOfTargetSpecies();
+      //update the index of the target species (if any)
+      void UpdateDEIndexOfTargetSpecies();
 
-	virtual void UpdateScaleFactorOfReferencedVariable(const int odeIndex, const double ODEScaleFactor);
-};
+      virtual void UpdateScaleFactorOfReferencedVariable(const int odeIndex, const double ODEScaleFactor);
+   };
 
 }//.. end "namespace SimModelNative"
 

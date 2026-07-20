@@ -14,71 +14,71 @@
 namespace SimModelNative
 {
 
-class Simulation;
+   class Simulation;
 
-class ExplicitFormula :
-	public Formula
-{
-private:
-	bool      _isGloballySimplified;
+   class ExplicitFormula :
+      public Formula
+   {
+   private:
+      bool      _isGloballySimplified;
 
-	FuncParserNative::ParsedFunction _funcParser;
-	void AddQuantityRefsFromXMLNode(XMLNode refListNode, Simulation * sim);
+      FuncParserNative::ParsedFunction _funcParser;
+      void AddQuantityRefsFromXMLNode(XMLNode refListNode, Simulation* sim);
 
-	XMLNode GetRateNode(FuncParserNative::ParsedFunction & parsedFunction);
+      XMLNode GetRateNode(FuncParserNative::ParsedFunction& parsedFunction);
 
-protected:
-	Formula * _formula;
+   protected:
+      Formula* _formula;
 
-	TObjectVector<QuantityReference> _quantityRefs;
-	std::string _equation;
+      TObjectVector<QuantityReference> _quantityRefs;
+      std::string _equation;
 
-	void SetupFormula();
-	void CreateFormulaFromEquation(const std::vector<std::string> & variableNames, 
-		                           const std::vector<std::string> & parameterNames,
-		                           const std::vector<double> & parameterValues,
-		                           const std::vector<std::string> & parameterNotToSimplifyNames,
-								   bool simplifyParameter);
-	
-	void WriteFormulaMatlabCode (std::ostream & mrOut);
-	void WriteFormulaCppCode (std::ostream & mrOut);
-	bool UseBracketsForODESystemGeneration ();
+      void SetupFormula();
+      void CreateFormulaFromEquation(const std::vector<std::string>& variableNames,
+         const std::vector<std::string>& parameterNames,
+         const std::vector<double>& parameterValues,
+         const std::vector<std::string>& parameterNotToSimplifyNames,
+         bool simplifyParameter);
 
-public:
-	ExplicitFormula(void);
-	virtual ~ExplicitFormula(void);
+      void WriteFormulaMatlabCode(std::ostream& mrOut);
+      void WriteFormulaCppCode(std::ostream& mrOut);
+      bool UseBracketsForODESystemGeneration();
 
-	virtual void LoadFromXMLNode (const XMLNode & pNode);
-	virtual void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim);
+   public:
+      ExplicitFormula(void);
+      virtual ~ExplicitFormula(void);
 
-	bool Simplify(bool forCurrentRunOnly);
+      virtual void LoadFromXMLNode(const XMLNode& pNode);
+      virtual void XMLFinalizeInstance(const XMLNode& pNode, Simulation* sim);
 
-	std::vector < HierarchicalFormulaObject * > GetUsedHierarchicalFormulaObjects();
+      bool Simplify(bool forCurrentRunOnly);
 
-	double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
-	void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor);
-	virtual Formula * DE_Jacobian(const int iEquation);
-	virtual Formula * clone();
-	virtual Formula * RecursiveSimplify();
-	void SetQuantityReference (const QuantityReference & quantityReference);
+      std::vector < HierarchicalFormulaObject* > GetUsedHierarchicalFormulaObjects();
 
-	//returns true for formulas like "2.5" or "2*sin(pi/3)"
-	bool IsRefIndependent(double & value);
+      double DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode);
+      void DE_Jacobian(double** jacobian, const double* y, const double time, const int iEquation, const double preFactor);
+      virtual Formula* DE_Jacobian(const int iEquation);
+      virtual Formula* clone();
+      virtual Formula* RecursiveSimplify();
+      void SetQuantityReference(const QuantityReference& quantityReference);
 
-	virtual bool IsZero(void);
+      //returns true for formulas like "2.5" or "2*sin(pi/3)"
+      bool IsRefIndependent(double& value);
 
-	virtual void Finalize();
+      virtual bool IsZero(void);
 
-	std::vector <double> SwitchTimePoints();
-	virtual bool IsConstant(bool forCurrentRunOnly);
+      virtual void Finalize();
 
-	std::string Equation();
+      std::vector <double> SwitchTimePoints();
+      virtual bool IsConstant(bool forCurrentRunOnly);
 
-	virtual void AppendUsedVariables(std::set<int> & usedVariablesIndices, const std::set<int> & variablesIndicesUsedInSwitchAssignments);
-	virtual void AppendUsedParameters(std::set<int> & usedParameterIDs);
+      std::string Equation();
 
-	virtual void UpdateIndicesOfReferencedVariables();
-};
+      virtual void AppendUsedVariables(std::set<int>& usedVariablesIndices, const std::set<int>& variablesIndicesUsedInSwitchAssignments);
+      virtual void AppendUsedParameters(std::set<int>& usedParameterIDs);
+
+      virtual void UpdateIndicesOfReferencedVariables();
+   };
 
 }//.. end "namespace SimModelNative"
 

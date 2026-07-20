@@ -11,45 +11,45 @@
 namespace SimModelNative
 {
 
-class DESolverProperties :
-	public XMLLoader
-{
-	private:
-		Quantity * m_H0_ref;
-		Quantity * m_HMin_ref;
-		Quantity * m_HMax_ref;
+   class DESolverProperties :
+      public XMLLoader
+   {
+   private:
+      Quantity* m_H0_ref;
+      Quantity* m_HMin_ref;
+      Quantity* m_HMax_ref;
 
-		Quantity * m_MxStep_ref;
+      Quantity* m_MxStep_ref;
 
-		Quantity * m_AbsTol_ref;
-		Quantity * m_RelTol_ref;
+      Quantity* m_AbsTol_ref;
+      Quantity* m_RelTol_ref;
 
-		Quantity * m_UseJacobian_ref;
+      Quantity* m_UseJacobian_ref;
 
-		Quantity* m_CheckForNegativeValues;
+      Quantity* m_CheckForNegativeValues;
 
-		Quantity * LoadByPropertyName(Simulation * sim, const XMLNode & pNode, const std::string& name) const;
+      Quantity* LoadByPropertyName(Simulation* sim, const XMLNode& pNode, const std::string& name) const;
 
-	public:
-		DESolverProperties ();
-		virtual ~DESolverProperties ();
-		void LoadFromXMLNode (const XMLNode & pNode);
-		void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim);
+   public:
+      DESolverProperties();
+      virtual ~DESolverProperties();
+      void LoadFromXMLNode(const XMLNode& pNode);
+      void XMLFinalizeInstance(const XMLNode& pNode, Simulation* sim);
 
-		double GetH0 () const;
-		double GetHMin () const;
-		double GetHMax () const;
+      double GetH0() const;
+      double GetHMin() const;
+      double GetHMax() const;
 
-		long GetMxStep () const;
-		double GetAbsTol () const;
-		double GetRelTol () const;
+      long GetMxStep() const;
+      double GetAbsTol() const;
+      double GetRelTol() const;
 
-		bool GetUseJacobian () const;
+      bool GetUseJacobian() const;
 
-		bool ReduceTolerances(double absTolMin, double relTolMin);
+      bool ReduceTolerances(double absTolMin, double relTolMin);
 
-		bool GetCheckForNegativeValues() const;
-};
+      bool GetCheckForNegativeValues() const;
+   };
 
 }//.. end "namespace SimModelNative"
 

@@ -3,23 +3,23 @@
 namespace SimModelNative
 {
 
-	ParameterSensitivity::ParameterSensitivity(Parameter * parameter)
-	{
-		_parameter = parameter;
-	}
+   ParameterSensitivity::ParameterSensitivity(Parameter* parameter)
+   {
+      _parameter = parameter;
+   }
 
-	Parameter * ParameterSensitivity::GetParameter()
-	{
-		return _parameter;
-	}
+   Parameter* ParameterSensitivity::GetParameter()
+   {
+      return _parameter;
+   }
 
-	long ParameterSensitivity::GetId(void)
-	{
-		return _parameter->GetId();
-	}
+   long ParameterSensitivity::GetId(void)
+   {
+      return _parameter->GetId();
+   }
 
-	std::string ParameterSensitivity::GetEntityId()
-	{
-		return _parameter->GetEntityId();
-	}
+   std::string ParameterSensitivity::GetEntityId()
+   {
+      return _parameter->GetEntityId();
+   }
 }

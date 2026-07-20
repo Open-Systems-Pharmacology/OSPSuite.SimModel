@@ -11,59 +11,59 @@
 
 namespace SimModelNative
 {
-class TableFormulaWithOffset :
-	public Formula
-{
-private:
-	//Id of referenced table object
-	long _tableObjectId;
+   class TableFormulaWithOffset :
+      public Formula
+   {
+   private:
+      //Id of referenced table object
+      long _tableObjectId;
 
-	//Id of referenced offset object
-	long _offsetObjectId;
+      //Id of referenced offset object
+      long _offsetObjectId;
 
-protected:
-	void WriteFormulaMatlabCode (std::ostream & mrOut);
-	void WriteFormulaCppCode (std::ostream & mrOut);
+   protected:
+      void WriteFormulaMatlabCode(std::ostream& mrOut);
+      void WriteFormulaCppCode(std::ostream& mrOut);
 
-	//Referenced table object
-	Quantity * _tableObject;
+      //Referenced table object
+      Quantity* _tableObject;
 
-	//Referenced offset object
-	Quantity * _offsetObject;
-	
-	//formula of referenced table formula object
-	TableFormula * _tableFormula;
+      //Referenced offset object
+      Quantity* _offsetObject;
 
-public:
-	TableFormulaWithOffset(void);
-	virtual ~TableFormulaWithOffset(void);
+      //formula of referenced table formula object
+      TableFormula* _tableFormula;
 
-	virtual void LoadFromXMLNode (const XMLNode & pNode);
-	virtual void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim);
+   public:
+      TableFormulaWithOffset(void);
+      virtual ~TableFormulaWithOffset(void);
 
-	bool Simplify(bool forCurrentRunOnly);
+      virtual void LoadFromXMLNode(const XMLNode& pNode);
+      virtual void XMLFinalizeInstance(const XMLNode& pNode, Simulation* sim);
 
-	std::string Equation();
+      bool Simplify(bool forCurrentRunOnly);
 
-	double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
-	void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor);
-	virtual Formula * DE_Jacobian(const int iEquation);
-	virtual Formula * clone();
-	virtual Formula * RecursiveSimplify();
-	void SetQuantityReference (const QuantityReference & quantityReference);
+      std::string Equation();
 
-	virtual bool IsZero(void);
-	bool IsRefIndependent(double & value);
-	std::vector < HierarchicalFormulaObject * > GetUsedHierarchicalFormulaObjects();
-	void Finalize();
+      double DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode);
+      void DE_Jacobian(double** jacobian, const double* y, const double time, const int iEquation, const double preFactor);
+      virtual Formula* DE_Jacobian(const int iEquation);
+      virtual Formula* clone();
+      virtual Formula* RecursiveSimplify();
+      void SetQuantityReference(const QuantityReference& quantityReference);
 
-	std::vector <double> RestartTimePoints();
+      virtual bool IsZero(void);
+      bool IsRefIndependent(double& value);
+      std::vector < HierarchicalFormulaObject* > GetUsedHierarchicalFormulaObjects();
+      void Finalize();
 
-	virtual void AppendUsedVariables(std::set<int> & usedVariablesIndices, const std::set<int> & variablesIndicesUsedInSwitchAssignments);
-	virtual void AppendUsedParameters(std::set<int> & usedParameterIDs);
+      std::vector <double> RestartTimePoints();
 
-	virtual void UpdateIndicesOfReferencedVariables();
-};
+      virtual void AppendUsedVariables(std::set<int>& usedVariablesIndices, const std::set<int>& variablesIndicesUsedInSwitchAssignments);
+      virtual void AppendUsedParameters(std::set<int>& usedParameterIDs);
+
+      virtual void UpdateIndicesOfReferencedVariables();
+   };
 
 }//.. end "namespace SimModelNative"
 

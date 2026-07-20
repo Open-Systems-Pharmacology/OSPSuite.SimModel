@@ -124,7 +124,7 @@ namespace SimModelNative
 
    void SetSimulationOptions(Simulation* simulation, SimulationOptionsStructure options)
    {
-      auto & simulationOptions = simulation->Options();
+      auto& simulationOptions = simulation->Options();
 
       simulationOptions.SetShowProgress(options.ShowProgress);
       simulationOptions.SetExecutionTimeLimit(options.ExecutionTimeLimit);
@@ -280,7 +280,7 @@ namespace SimModelNative
       catch (ErrorData& ED)
       {
          *errorMessage = ErrorMessageFrom(ED);
-         
+
          return NULL;
       }
       catch (...)
@@ -475,7 +475,7 @@ namespace SimModelNative
          }
 
          //check that array to fill has correct length
-         if(entityIdsVec.size()!= size)
+         if (entityIdsVec.size() != size)
             throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Expected number of quantities with values does not match");
 
          for (i = 0; i < entityIdsVec.size(); i++)
@@ -594,7 +594,7 @@ namespace SimModelNative
 
       try
       {
-         return (int)parameterInfos->size(); 
+         return (int)parameterInfos->size();
       }
       catch (ErrorData& ED)
       {
@@ -610,7 +610,7 @@ namespace SimModelNative
       }
    }
 
-   ParameterInfo & getParameterInfoFrom(vector<SimModelNative::ParameterInfo>*& parameterInfos, int parameterIndex, const char* functionName)
+   ParameterInfo& getParameterInfoFrom(vector<SimModelNative::ParameterInfo>*& parameterInfos, int parameterIndex, const char* functionName)
    {
       if (parameterIndex < 0 || parameterIndex >= parameterInfos->size())
          throw ErrorData(ErrorData::ED_ERROR, functionName, "Parameter index is invalid");
@@ -625,9 +625,9 @@ namespace SimModelNative
 
       try
       {
-         auto & parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         auto& parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
          success = true;
-         
+
          return (int)parameterInfo.GetTablePoints().size();
       }
       catch (ErrorData& ED)
@@ -645,7 +645,7 @@ namespace SimModelNative
    }
 
    void FillSingleParameterProperties(Simulation* simulation, vector<SimModelNative::ParameterInfo>* parameterInfos, int parameterIndex,
-      char** entityId, char** pathWithoutRoot, char** fullName, double& value, double* tablePointsX, 
+      char** entityId, char** pathWithoutRoot, char** fullName, double& value, double* tablePointsX,
       double* tablePointsY, bool* tablePointsRestartSolver, int tablePointsSize, bool& success, char** errorMessage)
    {
       const char* ERROR_SOURCE = "FillSingleParameterProperties";
@@ -653,10 +653,10 @@ namespace SimModelNative
 
       try
       {
-         auto & parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
-         auto & tablePoints = parameterInfo.GetTablePoints();
+         auto& parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         auto& tablePoints = parameterInfo.GetTablePoints();
 
-         if((int)tablePoints.size() != tablePointsSize)
+         if ((int)tablePoints.size() != tablePointsSize)
             throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Invalid number of table points passed");
 
          *entityId = MarshalString(parameterInfo.GetEntityId());
@@ -667,7 +667,7 @@ namespace SimModelNative
 
          for (auto tablePointIdx = 0; tablePointIdx < tablePoints.size(); tablePointIdx++)
          {
-            auto & tablePoint = tablePoints[tablePointIdx];
+            auto& tablePoint = tablePoints[tablePointIdx];
 
             tablePointsX[tablePointIdx] = tablePoint.X;
             tablePointsY[tablePointIdx] = tablePoint.Y;
@@ -695,7 +695,7 @@ namespace SimModelNative
 
       try
       {
-         auto & parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         auto& parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
          parameterInfo.SetValue(value);
 
          success = true;
@@ -719,7 +719,7 @@ namespace SimModelNative
 
       try
       {
-         auto & parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         auto& parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
          parameterInfo.SetCalculateSensitivity(calculateSensitivity);
 
          success = true;
@@ -743,8 +743,8 @@ namespace SimModelNative
 
       try
       {
-         auto & parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
-         
+         auto& parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+
          vector <ValuePoint> tablePoints;
          for (auto idx = 0; idx < tablePointsSize; idx++)
          {
@@ -773,7 +773,7 @@ namespace SimModelNative
 
       try
       {
-         auto & parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
+         auto& parameterInfo = getParameterInfoFrom(parameterInfos, parameterIndex, ERROR_SOURCE);
          success = true;
 
          return parameterInfo.IsUsedInSimulation();
@@ -805,7 +805,7 @@ namespace SimModelNative
          {
             variableParameters.push_back(getParameterInfoFrom(parameterInfos, parameterIndices[idx], ERROR_SOURCE));
          }
-         
+
          simulation->SetVariableParameters(variableParameters);
          success = true;
       }
@@ -928,7 +928,7 @@ namespace SimModelNative
       try
       {
          auto& speciesInfo = getSpeciesInfoFrom(speciesInfos, speciesIndex, ERROR_SOURCE);
-         
+
          *entityId = MarshalString(speciesInfo.GetEntityId());
          *pathWithoutRoot = MarshalString(speciesInfo.PathWithoutRoot(simulation->GetObjectPathDelimiter()));
          *fullName = MarshalString(speciesInfo.GetFullName());
@@ -1066,7 +1066,7 @@ namespace SimModelNative
          {
             variableSpecies.push_back(getSpeciesInfoFrom(speciesInfos, speciesIndices[idx], ERROR_SOURCE));
          }
-         
+
          simulation->SetDEVariablesProperties(variableSpecies);
          success = true;
       }

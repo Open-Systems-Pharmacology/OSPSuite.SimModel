@@ -10,225 +10,225 @@
 namespace SimModelNative
 {
 
-	using namespace std;
+   using namespace std;
 
-ParameterFormula::ParameterFormula ()
-{
-	//m_IsTime = false;
-}
+   ParameterFormula::ParameterFormula()
+   {
+      //m_IsTime = false;
+   }
 
-ParameterFormula::ParameterFormula(long formulaId, const string & name, 
-								   Parameter * parameter, const string & alias)
-{
-	_id = formulaId;
-	m_Name = name;
-	_quantityRef.SetupFrom(parameter, alias);
-}
+   ParameterFormula::ParameterFormula(long formulaId, const string& name,
+      Parameter* parameter, const string& alias)
+   {
+      _id = formulaId;
+      m_Name = name;
+      _quantityRef.SetupFrom(parameter, alias);
+   }
 
-bool ParameterFormula::IsZero(void)
-{
-	bool forCurrentRunOnly = false;
+   bool ParameterFormula::IsZero(void)
+   {
+      bool forCurrentRunOnly = false;
 
-	if(!IsConstant(forCurrentRunOnly))
-		return false;
+      if (!IsConstant(forCurrentRunOnly))
+         return false;
 
-	double value = DE_Compute(NULL, 0.0, USE_SCALEFACTOR);
+      double value = DE_Compute(NULL, 0.0, USE_SCALEFACTOR);
 
-	return (value == 0.0);
-}
+      return (value == 0.0);
+   }
 
-void ParameterFormula::LoadFromXMLNode (const XMLNode & pNode)
-{
-	 // Check if the current tag is actually the one we expect
-	assert(pNode.HasName(FormulaName::Parameter));
-	m_Name = pNode.GetValue();
-	
-}
+   void ParameterFormula::LoadFromXMLNode(const XMLNode& pNode)
+   {
+      // Check if the current tag is actually the one we expect
+      assert(pNode.HasName(FormulaName::Parameter));
+      m_Name = pNode.GetValue();
 
-void ParameterFormula::XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim)
-{
- 	//Check if the current tag is actually the one we expect
-	assert(pNode.HasName(FormulaName::Parameter));
-	
-	//assert that we have the good object!! 
-	assert(_quantityRef.GetAlias() == m_Name);
-}
+   }
 
-void ParameterFormula::SetQuantityReference (const QuantityReference & quantityReference)
-{
-	if (m_Name != quantityReference.GetAlias()) return;
-	_quantityRef = quantityReference;
-}
+   void ParameterFormula::XMLFinalizeInstance(const XMLNode& pNode, Simulation* sim)
+   {
+      //Check if the current tag is actually the one we expect
+      assert(pNode.HasName(FormulaName::Parameter));
 
-double ParameterFormula::DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode)
-{
-	return _quantityRef.GetValue(y, time, scaleFactorMode);
-}
+      //assert that we have the good object!! 
+      assert(_quantityRef.GetAlias() == m_Name);
+   }
 
-void ParameterFormula::DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor)
-{
-	if (preFactor == 0.0)
-		return;
+   void ParameterFormula::SetQuantityReference(const QuantityReference& quantityReference)
+   {
+      if (m_Name != quantityReference.GetAlias()) return;
+      _quantityRef = quantityReference;
+   }
 
-	_quantityRef.DE_Jacobian(jacobian, y, time, iEquation, preFactor);
-}
+   double ParameterFormula::DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode)
+   {
+      return _quantityRef.GetValue(y, time, scaleFactorMode);
+   }
 
-Formula* ParameterFormula::DE_Jacobian(const int iEquation)
-{
-	return _quantityRef.DE_Jacobian(iEquation);
-}
+   void ParameterFormula::DE_Jacobian(double** jacobian, const double* y, const double time, const int iEquation, const double preFactor)
+   {
+      if (preFactor == 0.0)
+         return;
 
-Formula* ParameterFormula::clone()
-{
-	ParameterFormula* f = new ParameterFormula();
-	f->_quantityRef = _quantityRef;
-	return f;
-}
+      _quantityRef.DE_Jacobian(jacobian, y, time, iEquation, preFactor);
+   }
 
-Formula * ParameterFormula::RecursiveSimplify()
-{
-	return this; // TODO: check
-}
+   Formula* ParameterFormula::DE_Jacobian(const int iEquation)
+   {
+      return _quantityRef.DE_Jacobian(iEquation);
+   }
 
-void ParameterFormula::Finalize()
-{
-	//nothing to do
-}
+   Formula* ParameterFormula::clone()
+   {
+      ParameterFormula* f = new ParameterFormula();
+      f->_quantityRef = _quantityRef;
+      return f;
+   }
 
-bool ParameterFormula::IsTime()
-{
-	return _quantityRef.IsTime();
-}
+   Formula* ParameterFormula::RecursiveSimplify()
+   {
+      return this; // TODO: check
+   }
 
-bool ParameterFormula::IsConstant(bool forCurrentRunOnly)
-{
-	return _quantityRef.IsConstant(forCurrentRunOnly);
-}
+   void ParameterFormula::Finalize()
+   {
+      //nothing to do
+   }
 
-void ParameterFormula::WriteFormulaMatlabCode (std::ostream & mrOut)
-{
-	if (_quantityRef.IsTime())
-		mrOut<<csTime;
-	else if (_quantityRef.IsParameter())
-	{
-		Parameter * param = dynamic_cast<Parameter *>(_quantityRef.GetHierarchicalFormulaObject());
-		assert (param != NULL); 
+   bool ParameterFormula::IsTime()
+   {
+      return _quantityRef.IsTime();
+   }
 
-		if (param->IsChangedBySwitch() || param->IsTable())
-			mrOut<<"EvalParameter("<<param->GetShortUniqueName()<<", Time, y)";
-		else
-			mrOut<<param->GetShortUniqueName();
-	}
+   bool ParameterFormula::IsConstant(bool forCurrentRunOnly)
+   {
+      return _quantityRef.IsConstant(forCurrentRunOnly);
+   }
 
-	else if (_quantityRef.IsSpecies())
-	{
-		Species * species = dynamic_cast<Species *>(_quantityRef.GetHierarchicalFormulaObject());
-		assert (species != NULL); 
+   void ParameterFormula::WriteFormulaMatlabCode(std::ostream& mrOut)
+   {
+      if (_quantityRef.IsTime())
+         mrOut << csTime;
+      else if (_quantityRef.IsParameter())
+      {
+         Parameter* param = dynamic_cast<Parameter*>(_quantityRef.GetHierarchicalFormulaObject());
+         assert(param != NULL);
 
-		//TODO isn't it sufficient just to call species->GetInitialValue(NULL,0.0)?
-		if (species->IsConstantDuringCalculation())
-		{
-			double * values = species->GetValues();
+         if (param->IsChangedBySwitch() || param->IsTable())
+            mrOut << "EvalParameter(" << param->GetShortUniqueName() << ", Time, y)";
+         else
+            mrOut << param->GetShortUniqueName();
+      }
 
-			if(values)
-				mrOut<<values[0];
-			else
-				mrOut<<species->GetInitialValue(NULL,0.0);
-		}
-		else
-			mrOut<<species->GetInitialValue(NULL,0.0);
-	}
+      else if (_quantityRef.IsSpecies())
+      {
+         Species* species = dynamic_cast<Species*>(_quantityRef.GetHierarchicalFormulaObject());
+         assert(species != NULL);
 
-	else
-	{
-		throw ErrorData(ErrorData::ED_ERROR, "ParameterFormula::WriteFormulaMatlabCode", "Cannot write matlab code for " + _quantityRef.GetHierarchicalFormulaObject()->GetFullName());
-	}
-}
+         //TODO isn't it sufficient just to call species->GetInitialValue(NULL,0.0)?
+         if (species->IsConstantDuringCalculation())
+         {
+            double* values = species->GetValues();
 
-void ParameterFormula::WriteFormulaCppCode(std::ostream & mrOut)
-{
-	if (_quantityRef.IsTime())
-		mrOut << csTime;
+            if (values)
+               mrOut << values[0];
+            else
+               mrOut << species->GetInitialValue(NULL, 0.0);
+         }
+         else
+            mrOut << species->GetInitialValue(NULL, 0.0);
+      }
 
-	else if (_quantityRef.IsParameter())
-	{
-		Parameter * param = dynamic_cast<Parameter *>(_quantityRef.GetHierarchicalFormulaObject());
-		assert(param != NULL);
+      else
+      {
+         throw ErrorData(ErrorData::ED_ERROR, "ParameterFormula::WriteFormulaMatlabCode", "Cannot write matlab code for " + _quantityRef.GetHierarchicalFormulaObject()->GetFullName());
+      }
+   }
 
-		mrOut << param->GetShortUniqueName();
-	}
+   void ParameterFormula::WriteFormulaCppCode(std::ostream& mrOut)
+   {
+      if (_quantityRef.IsTime())
+         mrOut << csTime;
 
-	else if (_quantityRef.IsSpecies())
-	{
-		Species * species = dynamic_cast<Species *>(_quantityRef.GetHierarchicalFormulaObject());
-		assert(species != NULL);
+      else if (_quantityRef.IsParameter())
+      {
+         Parameter* param = dynamic_cast<Parameter*>(_quantityRef.GetHierarchicalFormulaObject());
+         assert(param != NULL);
 
-		species->GetInitialFormula()->WriteCppCode(mrOut);
-	}
+         mrOut << param->GetShortUniqueName();
+      }
 
-	else if (_quantityRef.IsObserver())
-	{
-		Observer * observer = dynamic_cast<Observer *>(_quantityRef.GetHierarchicalFormulaObject());
+      else if (_quantityRef.IsSpecies())
+      {
+         Species* species = dynamic_cast<Species*>(_quantityRef.GetHierarchicalFormulaObject());
+         assert(species != NULL);
 
-		if (observer == NULL) // no formula available, e.g. removed during optimization --> getValue
-			mrOut << _quantityRef.GetValue(NULL, 0.0, IGNORE_SCALEFACTOR);
-		else {
-			Formula *f = observer->getValueFormula();
-			if (f == NULL) // TODO: check: redundant with above?
-				mrOut << observer->GetValue(NULL, 0.0, IGNORE_SCALEFACTOR);
-			else
-				f->WriteCppCode(mrOut);
-		}
-	}
+         species->GetInitialFormula()->WriteCppCode(mrOut);
+      }
 
-	else
-	{
-		throw ErrorData(ErrorData::ED_ERROR, "ParameterFormula::WriteFormulaCppCode", "Cannot write C++ code for " + _quantityRef.GetHierarchicalFormulaObject()->GetFullName());
-	}
-}
+      else if (_quantityRef.IsObserver())
+      {
+         Observer* observer = dynamic_cast<Observer*>(_quantityRef.GetHierarchicalFormulaObject());
 
-bool ParameterFormula::UseBracketsForODESystemGeneration ()
-{
-	return false;
-}
+         if (observer == NULL) // no formula available, e.g. removed during optimization --> getValue
+            mrOut << _quantityRef.GetValue(NULL, 0.0, IGNORE_SCALEFACTOR);
+         else {
+            Formula* f = observer->getValueFormula();
+            if (f == NULL) // TODO: check: redundant with above?
+               mrOut << observer->GetValue(NULL, 0.0, IGNORE_SCALEFACTOR);
+            else
+               f->WriteCppCode(mrOut);
+         }
+      }
 
-vector <double> ParameterFormula::SwitchTimePoints()
-{
-	return vector <double> ();
-}
+      else
+      {
+         throw ErrorData(ErrorData::ED_ERROR, "ParameterFormula::WriteFormulaCppCode", "Cannot write C++ code for " + _quantityRef.GetHierarchicalFormulaObject()->GetFullName());
+      }
+   }
 
-string ParameterFormula::Equation()
-{
-	return m_Name;
-}
+   bool ParameterFormula::UseBracketsForODESystemGeneration()
+   {
+      return false;
+   }
 
-void ParameterFormula::AppendUsedVariables(set<int> & usedVariablesIndices, const set<int> & variablesIndicesUsedInSwitchAssignments)
-{
-	//---- first, add variables used in parameter formula
-	_quantityRef.AppendUsedVariables(usedVariablesIndices, variablesIndicesUsedInSwitchAssignments);
+   vector <double> ParameterFormula::SwitchTimePoints()
+   {
+      return vector <double>();
+   }
 
-	//---- second: if parameter is changed by switches, add all DE variables
-	//             that can be potentially set into parameter formula
-	if (_quantityRef.IsChangedBySwitch())
-	{
-		usedVariablesIndices.insert(variablesIndicesUsedInSwitchAssignments.begin(), 
-			                       variablesIndicesUsedInSwitchAssignments.end());
-	}
-}
+   string ParameterFormula::Equation()
+   {
+      return m_Name;
+   }
 
-void ParameterFormula::AppendUsedParameters(std::set<int> & usedParameterIDs)
-{
-	_quantityRef.AppendUsedParameters(usedParameterIDs);
-}
+   void ParameterFormula::AppendUsedVariables(set<int>& usedVariablesIndices, const set<int>& variablesIndicesUsedInSwitchAssignments)
+   {
+      //---- first, add variables used in parameter formula
+      _quantityRef.AppendUsedVariables(usedVariablesIndices, variablesIndicesUsedInSwitchAssignments);
 
-void ParameterFormula::InsertNewParameters(std::map<std::string, ParameterFormula *> & mapNewP)
-{
-	// nothing to do
-}
+      //---- second: if parameter is changed by switches, add all DE variables
+      //             that can be potentially set into parameter formula
+      if (_quantityRef.IsChangedBySwitch())
+      {
+         usedVariablesIndices.insert(variablesIndicesUsedInSwitchAssignments.begin(),
+            variablesIndicesUsedInSwitchAssignments.end());
+      }
+   }
 
-void ParameterFormula::UpdateIndicesOfReferencedVariables()
-{
-	_quantityRef.UpdateIndicesOfReferencedVariables();
-}
+   void ParameterFormula::AppendUsedParameters(std::set<int>& usedParameterIDs)
+   {
+      _quantityRef.AppendUsedParameters(usedParameterIDs);
+   }
+
+   void ParameterFormula::InsertNewParameters(std::map<std::string, ParameterFormula*>& mapNewP)
+   {
+      // nothing to do
+   }
+
+   void ParameterFormula::UpdateIndicesOfReferencedVariables()
+   {
+      _quantityRef.UpdateIndicesOfReferencedVariables();
+   }
 
 }//.. end "namespace SimModelNative"

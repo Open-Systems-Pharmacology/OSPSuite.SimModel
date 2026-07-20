@@ -19,7 +19,7 @@ TEST(when_creating_a_constant_formula_with_a_value, should_store_and_return_the_
 TEST(when_computing_the_value_of_a_constant_formula, should_ignore_time_and_y_vector)
 {
    ConstantFormula formula(42.0);
-   double y[] = {1.0, 2.0, 3.0};
+   double y[] = { 1.0, 2.0, 3.0 };
 
    EXPECT_DOUBLE_EQ(42.0, formula.DE_Compute(nullptr, 0.0, IGNORE_SCALEFACTOR));
    EXPECT_DOUBLE_EQ(42.0, formula.DE_Compute(y, 100.0, IGNORE_SCALEFACTOR));

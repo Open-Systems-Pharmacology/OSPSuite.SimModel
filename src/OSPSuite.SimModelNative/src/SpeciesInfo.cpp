@@ -4,21 +4,21 @@
 namespace SimModelNative
 {
 
-using namespace std;
+   using namespace std;
 
-SpeciesInfo::SpeciesInfo(void)
-{
-	_scaleFactor = MathHelper::GetNaN();
-}
+   SpeciesInfo::SpeciesInfo(void)
+   {
+      _scaleFactor = MathHelper::GetNaN();
+   }
 
-double SpeciesInfo::GetScaleFactor()
-{
-	return _scaleFactor;
-}
+   double SpeciesInfo::GetScaleFactor()
+   {
+      return _scaleFactor;
+   }
 
-void SpeciesInfo::SetScaleFactor(double scaleFactor)
-{
-	_scaleFactor = scaleFactor;
-}
+   void SpeciesInfo::SetScaleFactor(double scaleFactor)
+   {
+      _scaleFactor = scaleFactor;
+   }
 
 }//.. end "namespace SimModelNative"

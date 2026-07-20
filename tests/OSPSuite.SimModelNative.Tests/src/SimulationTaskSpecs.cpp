@@ -11,12 +11,12 @@ class SimulationTaskExtender : public SimulationTask
 {
 public:
    static std::vector<OutputTimePoint> OutputTimePoints(const DoubleQueue& userOutputTimePoints,
-                                                        const DoubleQueue& switchTimePoints,
-                                                        const DoubleQueue& tableFormulaRestartTimePoints)
+      const DoubleQueue& switchTimePoints,
+      const DoubleQueue& tableFormulaRestartTimePoints)
    {
       return SimulationTask::OutputTimePoints(userOutputTimePoints,
-                                              switchTimePoints,
-                                              tableFormulaRestartTimePoints);
+         switchTimePoints,
+         tableFormulaRestartTimePoints);
    }
 };
 
@@ -25,8 +25,8 @@ class when_creating_timepoint_list : public ::testing::Test
 protected:
 
    void CheckTimePoints(const std::vector<OutputTimePoint>& outputTimePoints, unsigned int size,
-                        const double times[], const bool saveSolution[],
-                        const bool isSwitchTimePoint[], const bool restartNeeded[]) const
+      const double times[], const bool saveSolution[],
+      const bool isSwitchTimePoint[], const bool restartNeeded[]) const
    {
       ASSERT_EQ((size_t)size, outputTimePoints.size());
 
@@ -73,22 +73,22 @@ TEST_F(when_creating_timepoint_list, should_return_correct_timepoints_1)
    DoubleQueue switchTimePoints;
    DoubleQueue tableFormulaRestartTimePoints;
 
-   userOutputTimePoints.push(- 5);
+   userOutputTimePoints.push(-5);
    userOutputTimePoints.push(10);
    userOutputTimePoints.push(30);
    userOutputTimePoints.push(20);
 
-   switchTimePoints.push(- 3);
+   switchTimePoints.push(-3);
    switchTimePoints.push(15);
    switchTimePoints.push(25);
 
    tableFormulaRestartTimePoints.push(28);
    tableFormulaRestartTimePoints.push(25);
 
-   double times[] =             {-3, 10, 15, 20, 25, 28, 30};
-   bool saveSolution[] =        { false,  true,     false,    true,     false,    false,    true};
-   bool isSwitchTimePoint[] =   { true,   false,    true,     false,    true,     true,     false};
-   bool restart[] =             { false,  false,    false,    false,    true,     true,     false};
+   double times[] = { -3, 10, 15, 20, 25, 28, 30 };
+   bool saveSolution[] = { false,  true,     false,    true,     false,    false,    true };
+   bool isSwitchTimePoint[] = { true,   false,    true,     false,    true,     true,     false };
+   bool restart[] = { false,  false,    false,    false,    true,     true,     false };
 
    std::vector<OutputTimePoint> outputTimePoints =
       SimulationTaskExtender::OutputTimePoints(userOutputTimePoints, switchTimePoints, tableFormulaRestartTimePoints);
@@ -106,19 +106,19 @@ TEST_F(when_creating_timepoint_list, should_return_correct_timepoints_2)
    DoubleQueue switchTimePoints;
    DoubleQueue tableFormulaRestartTimePoints;
 
-   userOutputTimePoints.push(- 5);
+   userOutputTimePoints.push(-5);
    userOutputTimePoints.push(10);
    userOutputTimePoints.push(30);
    userOutputTimePoints.push(20);
 
-   switchTimePoints.push(- 3);
+   switchTimePoints.push(-3);
    switchTimePoints.push(10);
    switchTimePoints.push(25);
 
-   double times[] =             {-3, 10, 20, 25, 30};
-   bool saveSolution[] =        {false,  true,     true,     false,    true};
-   bool isSwitchTimePoint[] =   {true,   true,     false,    true,     false};
-   bool restart[] =             {false,  false,    false,    false,    false};
+   double times[] = { -3, 10, 20, 25, 30 };
+   bool saveSolution[] = { false,  true,     true,     false,    true };
+   bool isSwitchTimePoint[] = { true,   true,     false,    true,     false };
+   bool restart[] = { false,  false,    false,    false,    false };
 
    std::vector<OutputTimePoint> outputTimePoints =
       SimulationTaskExtender::OutputTimePoints(userOutputTimePoints, switchTimePoints, tableFormulaRestartTimePoints);
@@ -134,19 +134,19 @@ TEST_F(when_creating_timepoint_list, should_return_correct_timepoints_3)
    DoubleQueue switchTimePoints;
    DoubleQueue tableFormulaRestartTimePoints;
 
-   userOutputTimePoints.push(- 5);
+   userOutputTimePoints.push(-5);
    userOutputTimePoints.push(10);
    userOutputTimePoints.push(30);
    userOutputTimePoints.push(20);
 
-   switchTimePoints.push(- 3);
+   switchTimePoints.push(-3);
    switchTimePoints.push(5);
    switchTimePoints.push(25);
 
-   double times[] =             {-3, 5, 10, 20, 25, 30};
-   bool saveSolution[] =        {false,  false,   true,     true,     false,    true};
-   bool isSwitchTimePoint[] =   {true,   true,    false,    false,    true,     false};
-   bool restart[] =             {false,  false,   false,    false,    false,    false};
+   double times[] = { -3, 5, 10, 20, 25, 30 };
+   bool saveSolution[] = { false,  false,   true,     true,     false,    true };
+   bool isSwitchTimePoint[] = { true,   true,    false,    false,    true,     false };
+   bool restart[] = { false,  false,   false,    false,    false,    false };
 
    std::vector<OutputTimePoint> outputTimePoints =
       SimulationTaskExtender::OutputTimePoints(userOutputTimePoints, switchTimePoints, tableFormulaRestartTimePoints);
@@ -162,19 +162,19 @@ TEST_F(when_creating_timepoint_list, should_return_correct_timepoints_4)
    DoubleQueue switchTimePoints;
    DoubleQueue tableFormulaRestartTimePoints;
 
-   userOutputTimePoints.push(- 5);
+   userOutputTimePoints.push(-5);
    userOutputTimePoints.push(10);
    userOutputTimePoints.push(30);
    userOutputTimePoints.push(20);
 
-   switchTimePoints.push(- 3);
+   switchTimePoints.push(-3);
    switchTimePoints.push(15);
    switchTimePoints.push(30);
 
-   double times[] =             {-3, 10, 15, 20, 30};
-   bool saveSolution[] =        {false,  true,     false,    true,     true};
-   bool isSwitchTimePoint[] =   {true,   false,    true,     false,    true};
-   bool restart[] =             {false,  false,    false,    false,    false};
+   double times[] = { -3, 10, 15, 20, 30 };
+   bool saveSolution[] = { false,  true,     false,    true,     true };
+   bool isSwitchTimePoint[] = { true,   false,    true,     false,    true };
+   bool restart[] = { false,  false,    false,    false,    false };
 
    std::vector<OutputTimePoint> outputTimePoints =
       SimulationTaskExtender::OutputTimePoints(userOutputTimePoints, switchTimePoints, tableFormulaRestartTimePoints);
@@ -190,19 +190,19 @@ TEST_F(when_creating_timepoint_list, should_return_correct_timepoints_5)
    DoubleQueue switchTimePoints;
    DoubleQueue tableFormulaRestartTimePoints;
 
-   userOutputTimePoints.push(- 5);
+   userOutputTimePoints.push(-5);
    userOutputTimePoints.push(10);
    userOutputTimePoints.push(30);
    userOutputTimePoints.push(20);
 
-   switchTimePoints.push(- 3);
+   switchTimePoints.push(-3);
    switchTimePoints.push(15);
    switchTimePoints.push(35);
 
-   double times[] =             {-3, 10, 15, 20, 30};
-   bool saveSolution[] =        {false,  true,     false,    true,     true};
-   bool isSwitchTimePoint[] =   {true,   false,    true,     false,    false};
-   bool restart[] =             {false,  false,    false,    false,    false};
+   double times[] = { -3, 10, 15, 20, 30 };
+   bool saveSolution[] = { false,  true,     false,    true,     true };
+   bool isSwitchTimePoint[] = { true,   false,    true,     false,    false };
+   bool restart[] = { false,  false,    false,    false,    false };
 
    std::vector<OutputTimePoint> outputTimePoints =
       SimulationTaskExtender::OutputTimePoints(userOutputTimePoints, switchTimePoints, tableFormulaRestartTimePoints);

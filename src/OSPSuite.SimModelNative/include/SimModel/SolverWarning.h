@@ -7,19 +7,19 @@
 namespace SimModelNative
 {
 
-class SolverWarning
-{
-	protected:
-		double _time;
-		std::string _message;
+   class SolverWarning
+   {
+   protected:
+      double _time;
+      std::string _message;
 
-	public:
-		SolverWarning(double time, std::string message);
-		SolverWarning(std::string message);
+   public:
+      SolverWarning(double time, std::string message);
+      SolverWarning(std::string message);
 
-		SIM_EXPORT double Time() const;
-		SIM_EXPORT std::string Message() const;
-};
+      SIM_EXPORT double Time() const;
+      SIM_EXPORT std::string Message() const;
+   };
 
 }//.. end "namespace SimModelNative"
 
