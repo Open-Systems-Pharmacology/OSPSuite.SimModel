@@ -1599,7 +1599,7 @@ namespace OSPSuite.SimModel.Tests
          // Verify last output point is at t=24h
          solverTimes[noOfOutputTimePoints - 1].ShouldBeEqualTo(24.0*60, relTol);
 
-         var C1Values = sut.ValuesFor("C1").Values;
+         var C1Values = sut.ValuesFor("Container1|C1").Values;
          C1Values.Length.ShouldBeEqualTo(noOfOutputTimePoints);
 
          // First output point at t=2h: C1 should be 7
