@@ -1577,13 +1577,13 @@ namespace OSPSuite.SimModel.Tests
          // The species Organism|Container1|C1 is setup as:
          // C1(0) = 0
          // dC1/dt = 1
-         // Event: If (Time = -3) then C1 = 2
+         // Event: If (Time = -3 [min]) then C1 = 2
          //
          //Simulation output schema is set as 2..24h (4 pts/h)
          //
          //Thus the expected results are:
-         // - first output point at t=2h: C1 = 7
-         // - last output point at t=24h: C1 = 31
+         // - first output point at t=2h: C1 = 2+5*60
+         // - last output point at t=24h: C1 = 2+27*60
 
          const double relTol = 1e-5;
 
@@ -1599,14 +1599,14 @@ namespace OSPSuite.SimModel.Tests
          // Verify last output point is at t=24h
          solverTimes[noOfOutputTimePoints - 1].ShouldBeEqualTo(24.0*60, relTol);
 
-         var C1Values = sut.ValuesFor("Container1|C1").Values;
+         var C1Values = sut.ValuesFor("C1").Values;
          C1Values.Length.ShouldBeEqualTo(noOfOutputTimePoints);
 
          // First output point at t=2h: C1 should be 7
-         C1Values[0].ShouldBeEqualTo(7.0, relTol);
+         C1Values[0].ShouldBeEqualTo(2 + 5 * 60, relTol);
 
          // Last output point at t=24h: C1 should be 31
-         C1Values[noOfOutputTimePoints - 1].ShouldBeEqualTo(31.0, relTol);
+         C1Values[noOfOutputTimePoints - 1].ShouldBeEqualTo(2 + 27 * 60, relTol);
 
       }
    }

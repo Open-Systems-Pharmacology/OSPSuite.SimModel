@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Simulation objectPathDelimiter="|" version="4" xmlns="http://www.systems-biology.com">
+  <EventList>
+    <Event conditionFormulaId="7" id="6" entityId="7lDTuNWhMkqmPZ5zdOrW4Q" oneTime="0">
+      <AssignmentList>
+        <Assignment objectId="2" newFormulaId="8" useAsValue="0" />
+      </AssignmentList>
+    </Event>
+  </EventList>
   <FormulaList>
     <ExplicitFormula id="4">
       <Equation>V&gt;0 ? M/V : 0</Equation>
@@ -11,30 +18,39 @@
     <ExplicitFormula id="5">
       <Equation>1</Equation>
     </ExplicitFormula>
-    <ExplicitFormula id="6">
-      <Equation>1E-09</Equation>
+    <ExplicitFormula id="7">
+      <Equation>Time=-3</Equation>
+      <ReferenceList>
+        <R alias="Time" id="0" />
+      </ReferenceList>
     </ExplicitFormula>
     <ExplicitFormula id="8">
+      <Equation>2</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="9">
+      <Equation>1E-09</Equation>
+    </ExplicitFormula>
+    <ExplicitFormula id="11">
       <Equation>0.0001</Equation>
     </ExplicitFormula>
-    <ExplicitFormula id="10">
+    <ExplicitFormula id="13">
       <Equation>1E-10</Equation>
     </ExplicitFormula>
-    <ExplicitFormula id="12">
+    <ExplicitFormula id="15">
       <Equation>0</Equation>
     </ExplicitFormula>
-    <ExplicitFormula id="14">
+    <ExplicitFormula id="17">
       <Equation>60</Equation>
     </ExplicitFormula>
-    <ExplicitFormula id="16">
+    <ExplicitFormula id="19">
       <Equation>100000</Equation>
     </ExplicitFormula>
-    <ExplicitFormula id="18">
+    <ExplicitFormula id="21">
       <Equation>1</Equation>
     </ExplicitFormula>
   </FormulaList>
   <VariableList>
-    <V id="2" entityId="qM7B2beG-EmEp9D0piDUqw" name="C1" path="EventNegativeOutputStartsAfterZero|Container1|C1" unit="µmol" persistable="1" value="0" negativeValuesAllowed="0">
+    <V id="2" entityId="C1" name="C1" path="EventNegativeOutputStartsAfterZero|Container1|C1" unit="µmol" persistable="1" value="0" negativeValuesAllowed="0">
       <ScaleFactor>1</ScaleFactor>
       <RHSFormulaList>
         <RHSFormula id="5" />
@@ -42,24 +58,24 @@
     </V>
   </VariableList>
   <ParameterList>
-    <P id="1" entityId="RWAghxh1sk2T5GvXMhyrsg" name="Volume" path="EventNegativeOutputStartsAfterZero|Container1|Volume" unit="l" persistable="0" value="1" />
-    <P id="3" entityId="NYT6V932ykC3WYFDYiGv4A" name="Concentration" path="EventNegativeOutputStartsAfterZero|Container1|C1|Concentration" unit="µmol/l" persistable="0" formulaId="4" />
-    <P id="7" entityId="AbsTol" name="AbsTol" path="AbsTol" persistable="0" formulaId="6" />
-    <P id="9" entityId="RelTol" name="RelTol" path="RelTol" persistable="0" formulaId="8" />
-    <P id="11" entityId="H0" name="H0" path="H0" persistable="0" formulaId="10" />
-    <P id="13" entityId="HMin" name="HMin" path="HMin" persistable="0" formulaId="12" />
-    <P id="15" entityId="HMax" name="HMax" path="HMax" persistable="0" formulaId="14" />
-    <P id="17" entityId="MxStep" name="MxStep" path="MxStep" persistable="0" formulaId="16" />
-    <P id="19" entityId="UseJacobian" name="UseJacobian" path="UseJacobian" persistable="0" formulaId="18" />
+    <P id="1" entityId="dbxotAHGuE2VUpiHIas4nQ" name="Volume" path="EventNegativeOutputStartsAfterZero|Container1|Volume" unit="l" persistable="0" value="1" />
+    <P id="3" entityId="Cd8nwfKRiky60D-0R9l3Mg" name="Concentration" path="EventNegativeOutputStartsAfterZero|Container1|C1|Concentration" unit="µmol/l" persistable="0" formulaId="4" />
+    <P id="10" entityId="AbsTol" name="AbsTol" path="AbsTol" persistable="0" formulaId="9" />
+    <P id="12" entityId="RelTol" name="RelTol" path="RelTol" persistable="0" formulaId="11" />
+    <P id="14" entityId="H0" name="H0" path="H0" persistable="0" formulaId="13" />
+    <P id="16" entityId="HMin" name="HMin" path="HMin" persistable="0" formulaId="15" />
+    <P id="18" entityId="HMax" name="HMax" path="HMax" persistable="0" formulaId="17" />
+    <P id="20" entityId="MxStep" name="MxStep" path="MxStep" persistable="0" formulaId="19" />
+    <P id="22" entityId="UseJacobian" name="UseJacobian" path="UseJacobian" persistable="0" formulaId="21" />
   </ParameterList>
   <Solver name="CVODES">
-    <H0 id="11" />
-    <HMax id="15" />
-    <HMin id="13" />
-    <AbsTol id="7" />
-    <MxStep id="17" />
-    <RelTol id="9" />
-    <UseJacobian id="19" />
+    <H0 id="14" />
+    <HMax id="18" />
+    <HMin id="16" />
+    <AbsTol id="10" />
+    <MxStep id="20" />
+    <RelTol id="12" />
+    <UseJacobian id="22" />
   </Solver>
   <OutputSchema>
     <OutputIntervalList>

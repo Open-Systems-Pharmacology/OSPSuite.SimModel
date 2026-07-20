@@ -633,14 +633,14 @@ OutputSchema & Simulation::GetOutputSchema()
 	return _outputSchema;
 }
 
-void Simulation::RedimAndInitValues (int numberOfTimePoints, 
+void Simulation::RedimAndInitValues (int numberOfTimePoints, bool includeStartTimePoint,
 									 double * speciesInitialValuesScaled, double * speciesInitialValuesUnscaled)
 {
 	const char * ERROR_SOURCE = "Simulation::RedimValues";
 
 	int i, numberOfSensitivityTimePoints;
 
-	if (numberOfTimePoints<2) //should never happen
+	if (numberOfTimePoints<1) //should never happen
 		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "At least one time step for performing simulation required");
 
 	//set number of output time points
@@ -652,13 +652,14 @@ void Simulation::RedimAndInitValues (int numberOfTimePoints,
 		delete[] m_TimeValues;
 		m_TimeValues = NULL;
 	}
-	
+
 	m_TimeValues = new double[numberOfTimePoints];
 	if (!m_TimeValues)
 		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE,"Cannot allocate memory for time values vector");
 
-	//set initial time
-	m_TimeValues[0] = GetStartTime();
+	//set initial time (only when the simulation start time is included as the first output point)
+	if (includeStartTimePoint)
+		m_TimeValues[0] = GetStartTime();
 
 	//---- redim species values vector and set their initial value
 	for(i=0; i<_species.size(); i++)
@@ -682,7 +683,9 @@ void Simulation::RedimAndInitValues (int numberOfTimePoints,
 			//thus redim those variables to 1 value, which will be overwritten with the latest value
 			//during every ODE iteration
 			species->RedimValues(species->IsPersistable() ?  numberOfTimePoints : 1);
-			species->SetValue(0, speciesInitialValuesScaled[species->GetODEIndex()]);
+
+			if (includeStartTimePoint)
+				species->SetValue(0, speciesInitialValuesScaled[species->GetODEIndex()]);
 		}
 
 		//init and redim parameter sensitivity values
@@ -697,7 +700,7 @@ void Simulation::RedimAndInitValues (int numberOfTimePoints,
 			continue;
 
 		numberOfSensitivityTimePoints = numberOfTimePoints;
-		
+
 		double initialValue = observer->CalculateValue(speciesInitialValuesScaled, GetStartTime(), USE_SCALEFACTOR);
 
 		if (observer->IsConstantDuringCalculation())
@@ -712,7 +715,9 @@ void Simulation::RedimAndInitValues (int numberOfTimePoints,
 			//same as for species: values of non-persistable observers are not of interest and
 			//will be overwritten with the latest value during every ODE iteration
 			observer->RedimValues(observer->IsPersistable() ?  numberOfTimePoints : 1);
-			observer->SetValue(0, initialValue);
+
+			if (includeStartTimePoint)
+				observer->SetValue(0, initialValue);
 		}
 
 		//init and redim parameter sensitivity values
