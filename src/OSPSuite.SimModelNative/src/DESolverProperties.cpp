@@ -24,8 +24,7 @@ namespace SimModelNative
    }
 
    DESolverProperties::~DESolverProperties()
-   {
-   }
+   {}
 
    void DESolverProperties::LoadFromXMLNode(const XMLNode& pNode)
    {

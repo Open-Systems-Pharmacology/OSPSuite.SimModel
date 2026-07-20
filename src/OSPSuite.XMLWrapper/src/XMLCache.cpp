@@ -1,165 +1,165 @@
 #include "XMLWrapper/XMLCache.h"
 #include "XMLWrapper/XMLDocument.h"
- 
+
 #ifdef _WINDOWS
 #include "XMLWrapper/WindowsHelper.h"
 #endif
 
 
-XMLCache * XMLCache::m_Instance;
-XMLCache * XMLCache::GetInstance ()
+XMLCache* XMLCache::m_Instance;
+XMLCache* XMLCache::GetInstance()
 {
-	// Implement the XML Cache as a singleton for sake of ease of use.
+   // Implement the XML Cache as a singleton for sake of ease of use.
 
-	// Check if we already have an instance
-	if (m_Instance == NULL) {
+   // Check if we already have an instance
+   if (m_Instance == NULL) {
 
-		// We don't. Create instance
-		m_Instance = new XMLCache();
-	}
+      // We don't. Create instance
+      m_Instance = new XMLCache();
+   }
 
-	// Return pointer to instance.
-	return m_Instance;
+   // Return pointer to instance.
+   return m_Instance;
 }
 
-XMLCache::XMLCache ()
+XMLCache::XMLCache()
 {
-	m_Instance = NULL;
-	m_SchemaInitialized = false;
-	m_SchemaNamespace = "http://www.pk-sim.com/SimModelSchema";//for backwards compatibility
+   m_Instance = NULL;
+   m_SchemaInitialized = false;
+   m_SchemaNamespace = "http://www.pk-sim.com/SimModelSchema";//for backwards compatibility
 
 #ifdef _WINDOWS
-	m_Windows_SchemaCache = NULL;
+   m_Windows_SchemaCache = NULL;
 #endif
 #if defined(linux) || defined (__APPLE__)
-	m_Linux_SchemaCache = NULL;
+   m_Linux_SchemaCache = NULL;
 #endif
 }
 
-XMLCache::~XMLCache ()
+XMLCache::~XMLCache()
 {
-	m_Instance = NULL;
+   m_Instance = NULL;
 
 #ifdef _WINDOWS
-	if (m_Windows_SchemaCache)
-	{
-		m_Windows_SchemaCache.Release();
-	}
+   if (m_Windows_SchemaCache)
+   {
+      m_Windows_SchemaCache.Release();
+   }
 #endif
 #if defined(linux) || defined (__APPLE__)
-    if (m_Linux_SchemaCache)
-    {
+   if (m_Linux_SchemaCache)
+   {
       xmlSchemaFree(m_Linux_SchemaCache);
       m_Linux_SchemaCache = NULL;
-    }
-    xmlSchemaCleanupTypes();
+   }
+   xmlSchemaCleanupTypes();
 #endif
 }
 
-void XMLCache::LoadSchemaFromXMLString (const std::string & sXML)
+void XMLCache::LoadSchemaFromXMLString(const std::string& sXML)
 {
-	try
-	{
-		// Create XML DOM for schema
-		XMLDocument pXMLDoc = XMLDocument::FromString(sXML);
-		assert(!pXMLDoc.IsNull());
+   try
+   {
+      // Create XML DOM for schema
+      XMLDocument pXMLDoc = XMLDocument::FromString(sXML);
+      assert(!pXMLDoc.IsNull());
 
-		//Load DOM Schema
-		LoadSchemaFromXMLDom(pXMLDoc);
-		pXMLDoc.Release();
-	}
-	catch(ErrorData &)
-	{
-		throw;
-	}
+      //Load DOM Schema
+      LoadSchemaFromXMLDom(pXMLDoc);
+      pXMLDoc.Release();
+   }
+   catch (ErrorData&)
+   {
+      throw;
+   }
 #ifdef _WINDOWS
-	catch(_com_error & e)
-	{
-		throw ErrorData(ErrorData::ED_ERROR,
-			            "XMLCache::LoadSchemaFromXMLString ("+SourceFromComError(e)+")",
-		                DescriptionFromComError(e));
-	}
+   catch (_com_error& e)
+   {
+      throw ErrorData(ErrorData::ED_ERROR,
+         "XMLCache::LoadSchemaFromXMLString (" + SourceFromComError(e) + ")",
+         DescriptionFromComError(e));
+   }
 #endif
-	catch(...)
-	{
-		throw ErrorData(ErrorData::ED_ERROR,"XMLCache::LoadSchemaFromXMLString",
-		                 "Unknown Error occured during loading from the XML string");
-	}
+   catch (...)
+   {
+      throw ErrorData(ErrorData::ED_ERROR, "XMLCache::LoadSchemaFromXMLString",
+         "Unknown Error occured during loading from the XML string");
+   }
 }
 
-void XMLCache::LoadSchemaFromFile (const std::string & sFileName)
+void XMLCache::LoadSchemaFromFile(const std::string& sFileName)
 {
-	try
-	{
-		// Create XML DOM for schema
-		XMLDocument pXMLDoc = XMLDocument::FromFile(sFileName);
-		assert(!pXMLDoc.IsNull());
+   try
+   {
+      // Create XML DOM for schema
+      XMLDocument pXMLDoc = XMLDocument::FromFile(sFileName);
+      assert(!pXMLDoc.IsNull());
 
-		//Load DOM Schema
-		LoadSchemaFromXMLDom(pXMLDoc);
-		pXMLDoc.Release();
-	}
-	catch(ErrorData &)
-	{
-		throw;
-	}
+      //Load DOM Schema
+      LoadSchemaFromXMLDom(pXMLDoc);
+      pXMLDoc.Release();
+   }
+   catch (ErrorData&)
+   {
+      throw;
+   }
 #ifdef _WINDOWS
-	catch(_com_error & e)
-	{
-		throw ErrorData(ErrorData::ED_ERROR,
-			            "XMLCache::LoadSchemaFromFile ("+SourceFromComError(e)+")",
-		                DescriptionFromComError(e));
-	}
+   catch (_com_error& e)
+   {
+      throw ErrorData(ErrorData::ED_ERROR,
+         "XMLCache::LoadSchemaFromFile (" + SourceFromComError(e) + ")",
+         DescriptionFromComError(e));
+   }
 #endif
-	catch(...)
-	{
-		throw ErrorData(ErrorData::ED_ERROR,"XMLCache::LoadSchemaFromFile",
-		                 "Unknown Error occured during loading from the XML string");
-	}
+   catch (...)
+   {
+      throw ErrorData(ErrorData::ED_ERROR, "XMLCache::LoadSchemaFromFile",
+         "Unknown Error occured during loading from the XML string");
+   }
 }
 
-bool XMLCache::SchemaInitialized () const
+bool XMLCache::SchemaInitialized() const
 {
-	return m_SchemaInitialized;
+   return m_SchemaInitialized;
 }
 
-void XMLCache::LoadSchemaFromXMLDom (XMLDocument pXMLDoc)
+void XMLCache::LoadSchemaFromXMLDom(XMLDocument pXMLDoc)
 {
 #ifdef _WINDOWS
-    assert(!pXMLDoc.IsNull());
+   assert(!pXMLDoc.IsNull());
 
-    m_Windows_SchemaCache.CreateInstance(__uuidof(MSXML2::XMLSchemaCache60));
-    m_Windows_SchemaCache->add(m_SchemaNamespace.c_str(), pXMLDoc.m_Windows_DocumentPtr.GetInterfacePtr());
-    m_SchemaInitialized = true;
+   m_Windows_SchemaCache.CreateInstance(__uuidof(MSXML2::XMLSchemaCache60));
+   m_Windows_SchemaCache->add(m_SchemaNamespace.c_str(), pXMLDoc.m_Windows_DocumentPtr.GetInterfacePtr());
+   m_SchemaInitialized = true;
 #endif
 #if defined(linux) || defined (__APPLE__)
-    xmlSchemaParserCtxtPtr ctxt;
-    ctxt = xmlSchemaNewDocParserCtxt(pXMLDoc.m_Linux_DocumentPtr);
-    xmlSchemaSetParserErrors(ctxt,
-        (xmlSchemaValidityErrorFunc) fprintf,
-        (xmlSchemaValidityWarningFunc) fprintf,
-        stderr);
-    m_Linux_SchemaCache = xmlSchemaParse(ctxt);
-    xmlSchemaFreeParserCtxt(ctxt);
-    m_SchemaInitialized = true;
+   xmlSchemaParserCtxtPtr ctxt;
+   ctxt = xmlSchemaNewDocParserCtxt(pXMLDoc.m_Linux_DocumentPtr);
+   xmlSchemaSetParserErrors(ctxt,
+      (xmlSchemaValidityErrorFunc)fprintf,
+      (xmlSchemaValidityWarningFunc)fprintf,
+      stderr);
+   m_Linux_SchemaCache = xmlSchemaParse(ctxt);
+   xmlSchemaFreeParserCtxt(ctxt);
+   m_SchemaInitialized = true;
 
 #endif
 }
 
 void XMLCache::SetSchemaNamespace(std::string schemaNamespace)
 {
-	m_SchemaNamespace = schemaNamespace;
+   m_SchemaNamespace = schemaNamespace;
 }
 
-const XMLCache::LocalSchemaType XMLCache::GetSchemaCache () const
+const XMLCache::LocalSchemaType XMLCache::GetSchemaCache() const
 {
 #ifdef _WINDOWS
-    return m_Windows_SchemaCache;
+   return m_Windows_SchemaCache;
 #endif
 
 #if defined(linux) || defined (__APPLE__)
-	// No Schema implementation yet.
-	return m_Linux_SchemaCache;
+   // No Schema implementation yet.
+   return m_Linux_SchemaCache;
 #endif
 }
 

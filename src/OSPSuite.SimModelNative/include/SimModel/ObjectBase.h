@@ -9,28 +9,28 @@
 namespace SimModelNative
 {
 
-class Simulation;
+   class Simulation;
 
-class ObjectBase : 
-	public XMLLoader
-{	
-	protected:
-		//object id - unique for all quantities all over the simulation
-		long _id;
+   class ObjectBase :
+      public XMLLoader
+   {
+   protected:
+      //object id - unique for all quantities all over the simulation
+      long _id;
 
-		//object id as string - used in descriptions etc.
-		std::string _idAsString;
+      //object id as string - used in descriptions etc.
+      std::string _idAsString;
 
-		//Entity ID produced by caller
-		std::string _entityId;
-	public:
-		ObjectBase ();
-		SIM_EXPORT long GetId(void);
-		std::string GetEntityId();
+      //Entity ID produced by caller
+      std::string _entityId;
+   public:
+      ObjectBase();
+      SIM_EXPORT long GetId(void);
+      std::string GetEntityId();
 
-		virtual void LoadFromXMLNode (const XMLNode & pNode);
-		virtual void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim);
-};
+      virtual void LoadFromXMLNode(const XMLNode& pNode);
+      virtual void XMLFinalizeInstance(const XMLNode& pNode, Simulation* sim);
+   };
 
 }//.. end "namespace SimModelNative"
 

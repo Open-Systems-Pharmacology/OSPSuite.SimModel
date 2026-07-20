@@ -8,71 +8,71 @@
 namespace SimModelNative
 {
 
-class Observer;
+   class Observer;
 
-class Parameter :
-	public HierarchicalFormulaObject
-{
-protected:
-	bool _canBeVaried;
-	bool _calculateSensitivity;
-	bool _isUsedInSimulation;
+   class Parameter :
+      public HierarchicalFormulaObject
+   {
+   protected:
+      bool _canBeVaried;
+      bool _calculateSensitivity;
+      bool _isUsedInSimulation;
 
-	std::string _shortUniqueName;
-	std::string getFormulaXMLAttributeName();
-	void FillInfoWithParameterSpecificProperties(ParameterInfo & info);
+      std::string _shortUniqueName;
+      std::string getFormulaXMLAttributeName();
+      void FillInfoWithParameterSpecificProperties(ParameterInfo& info);
 
-public:
-	Parameter(void);
-	virtual ~Parameter(void);
+   public:
+      Parameter(void);
+      virtual ~Parameter(void);
 
-	bool CanBeVaried () const;
-	void SetCanBeVaried(bool canBeVaried);
+      bool CanBeVaried() const;
+      void SetCanBeVaried(bool canBeVaried);
 
-	bool CalculateSensitivity() const;
-	void SetCalculateSensitivity(bool calculateSensitivity);
+      bool CalculateSensitivity() const;
+      void SetCalculateSensitivity(bool calculateSensitivity);
 
-	bool IsUsedInSimulation() const;
-	void SetIsUsedInSimulation(bool isUsedInSimulation);
+      bool IsUsedInSimulation() const;
+      void SetIsUsedInSimulation(bool isUsedInSimulation);
 
-	virtual void LoadFromXMLNode (const XMLNode & pNode);
-	virtual void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim);
+      virtual void LoadFromXMLNode(const XMLNode& pNode);
+      virtual void XMLFinalizeInstance(const XMLNode& pNode, Simulation* sim);
 
-	std::vector < HierarchicalFormulaObject * > GetUsedHierarchicalFormulaObjects ();
+      std::vector < HierarchicalFormulaObject* > GetUsedHierarchicalFormulaObjects();
 
-	double GetValue (const double * y, double time, ScaleFactorUsageMode scaleFactorMode);
-	virtual void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor);
-	virtual Formula* DE_Jacobian(const int iEquation);
-	virtual Formula* clone();
+      double GetValue(const double* y, double time, ScaleFactorUsageMode scaleFactorMode);
+      virtual void DE_Jacobian(double** jacobian, const double* y, const double time, const int iEquation, const double preFactor);
+      virtual Formula* DE_Jacobian(const int iEquation);
+      virtual Formula* clone();
 
-	std::string GetShortUniqueName ();
-	void SetShortUniqueNameForDESystem (const std::string & uniqueName);
-	void WriteMatlabCode (std::ostream & mrOut, bool forInitialValue = false);
-	void WriteCppCode (std::ostream & mrOut, bool declaration);
+      std::string GetShortUniqueName();
+      void SetShortUniqueNameForDESystem(const std::string& uniqueName);
+      void WriteMatlabCode(std::ostream& mrOut, bool forInitialValue = false);
+      void WriteCppCode(std::ostream& mrOut, bool declaration);
 
-	//will be called between Load and Finalize of the parent simulation
-	void InitialFillInfo(ParameterInfo & info);
+      //will be called between Load and Finalize of the parent simulation
+      void InitialFillInfo(ParameterInfo& info);
 
-	//will be called after the finalize of the parent simulation
-	void FillInfo(ParameterInfo & info,const double * speciesInitialValues, double simulationStartTime);
+      //will be called after the finalize of the parent simulation
+      void FillInfo(ParameterInfo& info, const double* speciesInitialValues, double simulationStartTime);
 
-	//create observer from parameter in order to return parameter values over time
-	Observer * CreateObserverWithId(long objectId, Formula * observerFormula);
+      //create observer from parameter in order to return parameter values over time
+      Observer* CreateObserverWithId(long objectId, Formula* observerFormula);
 
-	bool IsConstant(bool forCurrentRunOnly);
-	bool IsTable(void);
-	void SetTablePoints(const std::vector <ValuePoint> & valuePoints);
+      bool IsConstant(bool forCurrentRunOnly);
+      bool IsTable(void);
+      void SetTablePoints(const std::vector <ValuePoint>& valuePoints);
 
-	//true, if parameter should be declared as global in Matlab export code
-	bool ExportAsGlobalForMatlab();
+      //true, if parameter should be declared as global in Matlab export code
+      bool ExportAsGlobalForMatlab();
 
-	//the name of the table function which will be assigned to the parameter in case it's table-based
-	std::string TableFunctionNameForMatlab();
+      //the name of the table function which will be assigned to the parameter in case it's table-based
+      std::string TableFunctionNameForMatlab();
 
-	//writes the table function in matlab code
-	void WriteTableFunctionForMatlab(std::ostream & mrOut);
-	void WriteTableFunctionForCpp(std::ostream & mrOut);
-};
+      //writes the table function in matlab code
+      void WriteTableFunctionForMatlab(std::ostream& mrOut);
+      void WriteTableFunctionForCpp(std::ostream& mrOut);
+   };
 
 }//.. end "namespace SimModelNative"
 

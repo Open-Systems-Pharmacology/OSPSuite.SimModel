@@ -7,18 +7,18 @@
 namespace SimModelNative
 {
 
-	class ParameterSensitivity : public Variable
-	{
-	protected:
-		Parameter * _parameter;
+   class ParameterSensitivity : public Variable
+   {
+   protected:
+      Parameter* _parameter;
 
-	public:
-		ParameterSensitivity(Parameter * parameter);
-		Parameter * GetParameter();
+   public:
+      ParameterSensitivity(Parameter* parameter);
+      Parameter* GetParameter();
 
-		long GetId(void);
-		std::string GetEntityId();
-	};
+      long GetId(void);
+      std::string GetEntityId();
+   };
 
 }
 #endif 

@@ -14,27 +14,27 @@
 namespace SimModelNative
 {
 
-class MathHelper
-{
+   class MathHelper
+   {
 
-	public:
-		static double GetNaN ();
-		static bool IsNaN (double d);
-		static double GetInf ();
-		static double GetNegInf ();
-		static bool IsFinite (double d);
-		static bool IsInf (double d);
-		static bool IsNegInf (double d);
-		static bool IsNumeric (const std::string & aString);
-		static double Pi ();
-		static double NormalDistribution (double Mean, double Sigma, double X);
-		static double LogNormalDistribution (double Mean, double Std, double X, double & IntegralValue);
-		static double LogNormalIntegral (double Mean, double Sigma);
+   public:
+      static double GetNaN();
+      static bool IsNaN(double d);
+      static double GetInf();
+      static double GetNegInf();
+      static bool IsFinite(double d);
+      static bool IsInf(double d);
+      static bool IsNegInf(double d);
+      static bool IsNumeric(const std::string& aString);
+      static double Pi();
+      static double NormalDistribution(double Mean, double Sigma, double X);
+      static double LogNormalDistribution(double Mean, double Std, double X, double& IntegralValue);
+      static double LogNormalIntegral(double Mean, double Sigma);
 
-		//Values-Array must be created by caller!!!
-		static void LogDistribution (double Min, double Max, long NUM_POINTS, double * Values);
-		static std::string ToString (double value);
-};
+      //Values-Array must be created by caller!!!
+      static void LogDistribution(double Min, double Max, long NUM_POINTS, double* Values);
+      static std::string ToString(double value);
+   };
 
 }//.. end "namespace SimModelNative"
 

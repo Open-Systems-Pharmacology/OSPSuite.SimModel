@@ -15,9 +15,9 @@
 namespace SimModelNative
 {
    char* MarshalString(const char* sourceString);
-   char* MarshalString(const std::string & sourceString);
+   char* MarshalString(const std::string& sourceString);
    char* ErrorMessageFrom(ErrorData& ED);
-   char* ErrorMessageFromUnknown(const std::string & errorSource="");
+   char* ErrorMessageFromUnknown(const std::string& errorSource = "");
 }//.. end "namespace SimModelNative"
 
 

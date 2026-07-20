@@ -69,9 +69,9 @@ namespace SimModelNative
             throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Quantity is not a variable");
 
          auto valuesSize = quantity->IsConstant(false) ? 1 : variable->GetValuesSize();
-         
+
          //check that variable values size matches the expectation
-         if(valuesSize != size)
+         if (valuesSize != size)
             throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Values size does not match");
 
          memcpy(values, variable->GetValues(), valuesSize * sizeof(double));

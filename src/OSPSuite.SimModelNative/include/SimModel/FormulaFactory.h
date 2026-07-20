@@ -7,14 +7,14 @@
 namespace SimModelNative
 {
 
-class FormulaFactory
-{
-public:
-	FormulaFactory(void);
-	virtual ~FormulaFactory(void);
+   class FormulaFactory
+   {
+   public:
+      FormulaFactory(void);
+      virtual ~FormulaFactory(void);
 
-	static Formula * CreateFormula(std::string formulaName);
-};
+      static Formula* CreateFormula(std::string formulaName);
+   };
 
 }//.. end "namespace SimModelNative"
 

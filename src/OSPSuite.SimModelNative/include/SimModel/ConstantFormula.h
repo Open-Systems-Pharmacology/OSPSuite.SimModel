@@ -6,45 +6,45 @@
 namespace SimModelNative
 {
 
-class ConstantFormula : 	
-	public Formula
-{
-	private:
-		double m_Value{};
-	
-	public:
-		ConstantFormula();
-		ConstantFormula(double value);
+   class ConstantFormula :
+      public Formula
+   {
+   private:
+      double m_Value{};
 
-		virtual void LoadFromXMLNode (const XMLNode & pNode);
-		virtual void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim);
+   public:
+      ConstantFormula();
+      ConstantFormula(double value);
 
-		void SetQuantityReference (const QuantityReference & quantityReference);
+      virtual void LoadFromXMLNode(const XMLNode& pNode);
+      virtual void XMLFinalizeInstance(const XMLNode& pNode, Simulation* sim);
 
-		virtual double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
-		virtual void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor);
-		virtual Formula * DE_Jacobian(const int iEquation);
-		virtual Formula * clone();
-		virtual Formula * RecursiveSimplify();
+      void SetQuantityReference(const QuantityReference& quantityReference);
 
-		void SetValue (double p_Value);
+      virtual double DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode);
+      virtual void DE_Jacobian(double** jacobian, const double* y, const double time, const int iEquation, const double preFactor);
+      virtual Formula* DE_Jacobian(const int iEquation);
+      virtual Formula* clone();
+      virtual Formula* RecursiveSimplify();
 
-		virtual bool IsConstant(bool forCurrentRunOnly);
+      void SetValue(double p_Value);
 
-		virtual std::vector <double> SwitchTimePoints();
+      virtual bool IsConstant(bool forCurrentRunOnly);
 
-		virtual bool IsZero(void);
+      virtual std::vector <double> SwitchTimePoints();
 
-		virtual void AppendUsedVariables(std::set<int> & usedVariablesIndices, const std::set<int> & variablesIndicesUsedInSwitchAssignments);
-		virtual void AppendUsedParameters(std::set<int> & usedParameterIDs);
+      virtual bool IsZero(void);
 
-		virtual void UpdateIndicesOfReferencedVariables();
-	
-	protected:
-		virtual void WriteFormulaMatlabCode (std::ostream & mrOut);
-		virtual void WriteFormulaCppCode (std::ostream & mrOut);
-		bool UseBracketsForODESystemGeneration ();
-};
+      virtual void AppendUsedVariables(std::set<int>& usedVariablesIndices, const std::set<int>& variablesIndicesUsedInSwitchAssignments);
+      virtual void AppendUsedParameters(std::set<int>& usedParameterIDs);
+
+      virtual void UpdateIndicesOfReferencedVariables();
+
+   protected:
+      virtual void WriteFormulaMatlabCode(std::ostream& mrOut);
+      virtual void WriteFormulaCppCode(std::ostream& mrOut);
+      bool UseBracketsForODESystemGeneration();
+   };
 
 }//.. end "namespace SimModelNative"
 

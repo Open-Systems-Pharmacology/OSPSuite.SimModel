@@ -190,7 +190,7 @@ TEST_F(when_creating_for_parameter_and_species_references, should_calculate_corr
 {
    _formula.Finalize();
 
-   double yy[2] = {_x, _y};
+   double yy[2] = { _x, _y };
    double value = _formula.DE_Compute(yy, 0.0, USE_SCALEFACTOR);
 
    EXPECT_DOUBLE_EQ(_value, value);
@@ -202,7 +202,7 @@ TEST_F(when_creating_for_parameter_and_species_references, should_calculate_corr
 
    _formula.Finalize();
 
-   double yy[2] = {_x, _y};
+   double yy[2] = { _x, _y };
    double value = _formula.DE_Compute(yy, 0.0, USE_SCALEFACTOR);
 
    EXPECT_DOUBLE_EQ(_value, value);
@@ -248,7 +248,7 @@ TEST_F(when_creating_for_parameter_species_and_time, should_calculate_correct_va
    _p1Formula->Finalize();
    _formula.Finalize();
 
-   double yy[2] = {_x, _y}, time = 17.5;
+   double yy[2] = { _x, _y }, time = 17.5;
 
    double p1 = _p1Formula->DE_Compute(yy, time, USE_SCALEFACTOR);
    EXPECT_DOUBLE_EQ(time + _x, p1);
@@ -265,7 +265,7 @@ TEST_F(when_creating_for_parameter_species_and_time, should_calculate_correct_va
    _p1Formula->Finalize();
    _formula.Finalize();
 
-   double yy[2] = {_x, _y}, time = 17.5;
+   double yy[2] = { _x, _y }, time = 17.5;
 
    double p1 = _p1Formula->DE_Compute(yy, time, USE_SCALEFACTOR);
    EXPECT_DOUBLE_EQ(time + _x, p1);

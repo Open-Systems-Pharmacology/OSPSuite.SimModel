@@ -6,75 +6,75 @@
 namespace SimModelNative
 {
 
-class TableFormula :
-	public Formula
-{
-private:
-	//Times to Restart the solver
-	std::vector <double> _restartTimes;
+   class TableFormula :
+      public Formula
+   {
+   private:
+      //Times to Restart the solver
+      std::vector <double> _restartTimes;
 
-	//should formula values be used directly (e.g. as value of some time dependent parameter)
-	// or should the values be derived (e.g. in some rate definition)
-	bool _useDerivedValues;
-	
-	//cache some stuff for speed up
-	long _numberOfValuePoints;
-	double * _X_values;
-	double * _Y_values;
-	
-	//derived values are filled only if the formula has _useDerivedValues=true
-	// In this case, the i-th derived value is calculated for the interval [x_i; x_i+1)
-	// Thus the number of derived values is one less than number of x-points
-	double * _derivedValues;
-protected:
-	TObjectVector <ValuePoint> _valuePoints;
+      //should formula values be used directly (e.g. as value of some time dependent parameter)
+      // or should the values be derived (e.g. in some rate definition)
+      bool _useDerivedValues;
 
-	void CacheValues(void);
-	void WriteFormulaMatlabCode (std::ostream & mrOut);
-	void WriteFormulaCppCode (std::ostream & mrOut);
+      //cache some stuff for speed up
+      long _numberOfValuePoints;
+      double* _X_values;
+      double* _Y_values;
 
-	bool UseBracketsForODESystemGeneration ();
+      //derived values are filled only if the formula has _useDerivedValues=true
+      // In this case, the i-th derived value is calculated for the interval [x_i; x_i+1)
+      // Thus the number of derived values is one less than number of x-points
+      double* _derivedValues;
+   protected:
+      TObjectVector <ValuePoint> _valuePoints;
 
-public:
-	TableFormula(void);
-	virtual ~TableFormula(void);
+      void CacheValues(void);
+      void WriteFormulaMatlabCode(std::ostream& mrOut);
+      void WriteFormulaCppCode(std::ostream& mrOut);
 
-	virtual void LoadFromXMLNode (const XMLNode & pNode);
-	virtual void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim);
+      bool UseBracketsForODESystemGeneration();
 
-	bool Simplify(bool forCurrentRunOnly);
+   public:
+      TableFormula(void);
+      virtual ~TableFormula(void);
 
-	std::string Equation();
+      virtual void LoadFromXMLNode(const XMLNode& pNode);
+      virtual void XMLFinalizeInstance(const XMLNode& pNode, Simulation* sim);
 
-	double DE_Compute (const double * y, const double time, ScaleFactorUsageMode scaleFactorMode);
-	void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor);
-	virtual Formula * DE_Jacobian(const int iEquation);
-	virtual Formula * clone();
-	virtual Formula * RecursiveSimplify();
-	void SetQuantityReference (const QuantityReference & quantityReference);
+      bool Simplify(bool forCurrentRunOnly);
 
-	virtual bool IsZero(void);
-	bool IsRefIndependent(double & value);
-	std::vector < HierarchicalFormulaObject * > GetUsedHierarchicalFormulaObjects();
-	void Finalize();
+      std::string Equation();
 
-	std::vector <double> RestartTimePoints();
+      double DE_Compute(const double* y, const double time, ScaleFactorUsageMode scaleFactorMode);
+      void DE_Jacobian(double** jacobian, const double* y, const double time, const int iEquation, const double preFactor);
+      virtual Formula* DE_Jacobian(const int iEquation);
+      virtual Formula* clone();
+      virtual Formula* RecursiveSimplify();
+      void SetQuantityReference(const QuantityReference& quantityReference);
 
-	bool IsTable(void);
-	std::vector <ValuePoint> GetTablePoints();
-	void SetTablePoints(const std::vector <ValuePoint> & valuePoints);
+      virtual bool IsZero(void);
+      bool IsRefIndependent(double& value);
+      std::vector < HierarchicalFormulaObject* > GetUsedHierarchicalFormulaObjects();
+      void Finalize();
 
-	virtual void AppendUsedVariables(std::set<int> & usedVariablesIndices, const std::set<int> & variablesIndicesUsedInSwitchAssignments);
-	virtual void AppendUsedParameters(std::set<int> & usedParameterIDs);
+      std::vector <double> RestartTimePoints();
 
-	virtual void UpdateIndicesOfReferencedVariables();
+      bool IsTable(void);
+      std::vector <ValuePoint> GetTablePoints();
+      void SetTablePoints(const std::vector <ValuePoint>& valuePoints);
 
-	void SetUseDerivedValues(bool useDerivedValues);
-	bool UseDerivedValues();
+      virtual void AppendUsedVariables(std::set<int>& usedVariablesIndices, const std::set<int>& variablesIndicesUsedInSwitchAssignments);
+      virtual void AppendUsedParameters(std::set<int>& usedParameterIDs);
 
-	//get table formula value for the argument passed
-	double GetValue(double argument);
-};
+      virtual void UpdateIndicesOfReferencedVariables();
+
+      void SetUseDerivedValues(bool useDerivedValues);
+      bool UseDerivedValues();
+
+      //get table formula value for the argument passed
+      double GetValue(double argument);
+   };
 
 }//.. end "namespace SimModelNative"
 
