@@ -7,7 +7,6 @@
 #include <vector>
 #include "XMLWrapper/XMLHelper.h"
 #include "SimModel/SimulationTask.h"
-#include "SimModel/ParameterSensitivity.h"
 #include "SimModel/SumFormula.h"
 #include <map>
 
@@ -18,7 +17,7 @@ namespace SimModelNative
 
 using namespace std;
 
-Species::Species(void)
+Species::Species()
 {
 	m_ODEScaleFactor = 1.0;
 	_DEScaleFactorInv = 1.0;
@@ -31,7 +30,7 @@ Species::Species(void)
 	_negativeValuesAllowed = true;
 }
 
-Species::~Species(void)
+Species::~Species()
 {
 	_rhsFormulaList.FreeVector();
 	if (_RHS_UsedVariablesIndices != NULL)
@@ -55,10 +54,9 @@ void Species::SetODEScaleFactor (double p_ODEScaleFactor)
 	_DEScaleFactorInv = 1.0 / m_ODEScaleFactor;
 
 	//Also set the new scale factor in all formulas that use this species.
-	for (int i = 0; i < _entitiesWithCachedScaleFactor.size(); i++)
-	{
-		auto entity = _entitiesWithCachedScaleFactor[i];
-		entity->UpdateScaleFactorOfReferencedVariable(GetODEIndex(), m_ODEScaleFactor);
+	for (auto entity : _entitiesWithCachedScaleFactor)
+   {
+      entity->UpdateScaleFactorOfReferencedVariable(GetODEIndex(), m_ODEScaleFactor);
 	}
 }
 
@@ -97,7 +95,7 @@ string Species::getFormulaXMLAttributeName()
 /*
 Update the scale factor value in the XML node of the species.
 */
-void Species::UpdateScaleFactorInXMLNode(const XMLNode & speciesListNode)
+void Species::UpdateScaleFactorInXMLNode(const XMLNode & speciesListNode) const
 {
    const char * ERROR_SOURCE = "Species::UpdateScaleFactorInXMLNode";
 
@@ -149,12 +147,10 @@ void Species::XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim)
 		}
 	}
 
-	//_simulationStartTime = sim->GetStartTime();
-
 	_rhsFormulaListSize = _rhsFormulaList.size(); //cache for performance optimization
 }
 
-bool Species::IsConstantDuringCalculation()
+bool Species::IsConstantDuringCalculation() const
 {
 	return ((_rhsFormulaListSize == 0) && !_isChangedBySwitch);
 }
@@ -177,7 +173,7 @@ double Species::GetValue (const double * y, double time, ScaleFactorUsageMode sc
 	return GetInitialValue(y, _simulationStartTime);
 }
 
-double Species::GetInitialValue (const double * y, double time)
+double Species::GetInitialValue (const double * y, double time) const
 {
 	//getting initial value must IGNORE scale factor
 	if (_valueFormula)
@@ -217,8 +213,8 @@ bool Species::SimplifyRHSList()
 	}
 
 	_rhsFormulaList.FreeVector();
-	for (unsigned j=0; j<nonZeroFormulas.size(); j++)
-		_rhsFormulaList.Add(nonZeroFormulas[j]);
+	for (auto& nonZeroFormula : nonZeroFormulas)
+      _rhsFormulaList.Add(nonZeroFormula);
 
 	_rhsFormulaListSize = _rhsFormulaList.size(); //cache for performance optimization
 
@@ -274,7 +270,7 @@ Formula* Species::DE_Jacobian(const int iEquation)
 	return s;
 }
 
-bool Species::RHSDependsOn(int DE_VariableIndex)
+bool Species::RHSDependsOn(int DE_VariableIndex) const
 {
 	if (_RHS_noOfUsedVariables == 0)
 		return false;
