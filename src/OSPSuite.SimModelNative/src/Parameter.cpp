@@ -60,7 +60,7 @@ namespace SimModelNative
    void Parameter::LoadFromXMLNode(const XMLNode& pNode)
    {
       // ---- XML sample
-      //<Parameter Id="P1" Name="Volume" Path="Liver/Cells" FormulaId="F1" Unit="�mol" canBeVaried="1" calculateSensitivity="0">
+      //<Parameter Id="P1" Name="Volume" Path="Liver/Cells" FormulaId="F1" Unit="µmol" canBeVaried="1" calculateSensitivity="0">
 
       //common quantity part
       Quantity::LoadFromXMLNode(pNode);

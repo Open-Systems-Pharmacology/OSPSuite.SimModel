@@ -44,7 +44,7 @@ namespace SimModelNative
    void Observer::LoadFromXMLNode(const XMLNode& pNode)
    {
       // ---- XML sample
-      //<Observer Id="O1" Name="Obs1" Path="Liver/Cells" FormulaId="F5" Unit="�mol"/>
+      //<Observer Id="O1" Name="Obs1" Path="Liver/Cells" FormulaId="F5" Unit="µmol"/>
 
       //common quantity part
       Quantity::LoadFromXMLNode(pNode);
