@@ -29,7 +29,7 @@ public:
 
 	static void CheckForNegativeValues(Species ** odeVariables, int numberOfVariables, double absTol, double solverOutputTime);
 
-	//mark all parameters which are used in any ODE varaible or observer as unused
+	//mark all parameters which are used in any ODE variable or observer as unused
 	static void MarkUsedParameters(Simulation * sim);
 
 	//cache DE variables indices used in the RHS equations

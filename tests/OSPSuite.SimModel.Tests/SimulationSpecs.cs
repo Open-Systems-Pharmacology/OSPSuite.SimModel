@@ -1582,8 +1582,8 @@ namespace OSPSuite.SimModel.Tests
          //Simulation output schema is set as 2..24h (4 pts/h)
          //
          //Thus the expected results are:
-         // - first output point at t=2h: C1 = 2+5*60
-         // - last output point at t=24h: C1 = 2+27*60
+         // - first output point at t=2h: C1 = 2+3+2*60 (= C1(-3) + time since t=-3 min to t=2h)
+         // - last output point at t=24h: C1 = 2+3+24*60 (= C1(-3) + time since t=-3 min to t=24h)
 
          const double relTol = 1e-5;
 
@@ -1602,11 +1602,11 @@ namespace OSPSuite.SimModel.Tests
          var C1Values = sut.ValuesFor("C1").Values;
          C1Values.Length.ShouldBeEqualTo(noOfOutputTimePoints);
 
-         // First output point at t=2h: C1 should be 7
-         C1Values[0].ShouldBeEqualTo(2 + 5 * 60, relTol);
+         // First output point at t=2h: C1 should be 2 + 3 + 2 * 60
+         C1Values[0].ShouldBeEqualTo(2 + 3 + 2 * 60, relTol);
 
-         // Last output point at t=24h: C1 should be 31
-         C1Values[noOfOutputTimePoints - 1].ShouldBeEqualTo(2 + 27 * 60, relTol);
+         // Last output point at t=24h: C1 should be 2+3+24*60 
+         C1Values[noOfOutputTimePoints - 1].ShouldBeEqualTo(2 + 3 + 24 * 60, relTol);
 
       }
    }
