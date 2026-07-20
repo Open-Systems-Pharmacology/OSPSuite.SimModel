@@ -44,15 +44,15 @@ public:
 	void SetODEScaleFactor (double p_ODEScaleFactor);
 
 	void LoadFromXMLNode (const XMLNode & pNode);
-    void UpdateScaleFactorInXMLNode(const XMLNode & speciesListNode);
+    void UpdateScaleFactorInXMLNode(const XMLNode & speciesListNode) const;
     void XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim);
 
 	std::vector < HierarchicalFormulaObject * > GetUsedHierarchicalFormulaObjects ();
 	
 	bool IsConstant(bool forCurrentRunOnly);
-	bool IsConstantDuringCalculation();
+	bool IsConstantDuringCalculation() const;
 
-	double GetInitialValue (const double * y, double time);
+	double GetInitialValue (const double * y, double time) const;
 	double GetValue (const double * y, double time, ScaleFactorUsageMode scaleFactorMode);
 	virtual void DE_Jacobian (double * * jacobian, const double * y, const double time, const int iEquation, const double preFactor);
 	virtual Formula * DE_Jacobian(const int iEquation);
@@ -93,7 +93,7 @@ public:
 	void CacheRHSUsedVariables(const std::set<int> & DEVariblesUsedInSwitchAssignments);
 
 	//checks if RHS of the current variable depends on the DE Variable with given index (using cached info)
-	bool RHSDependsOn(int DE_VariableIndex);
+	bool RHSDependsOn(int DE_VariableIndex) const;
 
 	//Return dependency info of the RHS of the given variable
 	std::vector<bool> RHSDependencyVector(int numberOfVariables);
@@ -116,6 +116,8 @@ public:
 	void AddEntityWithCachedScaleFactor(EntityWithCachedScaleFactor * entityWithCachedScaleFactor);
 
 	bool NegativeValuesAllowed(void);
+
+	void SetSimulationStartTime(double time);
 };
 
 }//.. end "namespace SimModelNative"

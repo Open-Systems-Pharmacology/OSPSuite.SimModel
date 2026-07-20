@@ -145,11 +145,11 @@ namespace SimModelNative
       SIM_EXPORT void LoadFromXMLString(const std::string& sSimulationXML);
 
       int GetODENumUnknowns();
-      double GetStartTime();
+      double GetStartTime() const;
 
       SIM_EXPORT OutputSchema& GetOutputSchema();
 
-      void RedimAndInitValues(int numberOfTimePoints, double* speciesInitialValuesScaled, double* speciesInitialValuesUnscaled);
+      void RedimAndInitValues(int numberOfTimePoints, bool includeStartTimePoint, double* speciesInitialValuesScaled, double* speciesInitialValuesUnscaled);
 
       //replace formulas with values where possible
       void SimplifyObjects(bool forCurrentRunOnly);

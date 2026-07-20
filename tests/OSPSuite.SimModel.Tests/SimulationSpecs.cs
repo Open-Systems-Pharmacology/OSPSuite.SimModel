@@ -157,6 +157,9 @@ namespace OSPSuite.SimModel.Tests
 
          const double relTol = 1e-5; //max. allowed relative deviation 0.001%
 
+         solverTimes.Length.ShouldBeGreaterThan(0);
+         solverTimes[0].ShouldBeEqualTo(0.0, relTol);
+
          y3_Values[0].ShouldBeEqualTo(2.0, relTol);
 
          for (var i = 0; i < noOfOutputTimePoints; i++)
@@ -313,7 +316,8 @@ namespace OSPSuite.SimModel.Tests
 
    }
 
-   public class when_running_testsystem_06_modified_setting_parameter_values_and_initial_values : when_running_testsystem_06
+   public class
+      when_running_testsystem_06_modified_setting_parameter_values_and_initial_values : when_running_testsystem_06
    {
       //Modifications made in the system (compared to the test system) in XML
       // y2(0) changed from P1 + P2 -1 (=0) to 10
@@ -476,7 +480,7 @@ namespace OSPSuite.SimModel.Tests
       [TestCaseSource(nameof(TestData))]
       public void should_load_finalize_and_run_simulation(string shortFileName)
       {
-         LoadFinalizeAndRunSimulation(shortFileName, performBasicTests:true);
+         LoadFinalizeAndRunSimulation(shortFileName, performBasicTests: true);
       }
 
       protected static IEnumerable<string> TestData()
@@ -490,8 +494,8 @@ namespace OSPSuite.SimModel.Tests
          yield return "OralTable01";
          yield return "GrowConst";
          yield return "GIM_Table_01";
-         yield return "pH_Solubility_Table"; 
-         yield return "pH_Solubility_Table_Zero"; 
+         yield return "pH_Solubility_Table";
+         yield return "pH_Solubility_Table_Zero";
          yield return "pH_Solubility_Table_Const";
          yield return "Test4Model_Reduced03";
          //yield return "Neg_t_TimeSinceMeal"; //TODO "Enable test in case negative meal offset will be allowed"
@@ -684,7 +688,8 @@ namespace OSPSuite.SimModel.Tests
       }
    }
 
-   public class when_solving_cvsRoberts_FSA_dns_with_sensitivity_Sensitivity_RHS_function_not_set : concern_for_Simulation
+   public class
+      when_solving_cvsRoberts_FSA_dns_with_sensitivity_Sensitivity_RHS_function_not_set : concern_for_Simulation
    {
       private const int _numberOfTimeSteps = 2;
       private const int _numberOfUnknowns = 3;
@@ -721,16 +726,16 @@ namespace OSPSuite.SimModel.Tests
          {
             {
                //time step #1
-               {-3.5611e-001, 9.4831e-008, -1.5733e-011}, // {dy1/dp1, dy1/dp2, dy1/dp3}
-               {3.9023e-004, -2.1325e-010, -5.2897e-013}, // {dy2/dp1, dy2/dp2, dy2/dp3}
-               {3.5572e-001, -9.4618e-008, 1.6262e-011} // {dy3/dp1, dy3/dp2, dy3/dp3}
+               { -3.5611e-001, 9.4831e-008, -1.5733e-011 }, // {dy1/dp1, dy1/dp2, dy1/dp3}
+               { 3.9023e-004, -2.1325e-010, -5.2897e-013 }, // {dy2/dp1, dy2/dp2, dy2/dp3}
+               { 3.5572e-001, -9.4618e-008, 1.6262e-011 } // {dy3/dp1, dy3/dp2, dy3/dp3}
             },
 
             {
                //time step #2
-               {-1.8761e+000, 2.9612e-006, -4.9330e-010}, // {dy1/dp1, dy1/dp2, dy1/dp3}
-               {1.7922e-004, -5.8308e-010, -2.7624e-013}, // {dy2/dp1, dy2/dp2, dy2/dp3}
-               {1.8760e+000, -2.9606e-006, 4.9357e-010} // {dy3/dp1, dy3/dp2, dy3/dp3}
+               { -1.8761e+000, 2.9612e-006, -4.9330e-010 }, // {dy1/dp1, dy1/dp2, dy1/dp3}
+               { 1.7922e-004, -5.8308e-010, -2.7624e-013 }, // {dy2/dp1, dy2/dp2, dy2/dp3}
+               { 1.8760e+000, -2.9606e-006, 4.9357e-010 } // {dy3/dp1, dy3/dp2, dy3/dp3}
             }
          };
 
@@ -746,16 +751,16 @@ namespace OSPSuite.SimModel.Tests
          {
             {
                //time step #1
-               {dy1_dp1[1], dy1_dp2[1], dy1_dp3[1]}, // {dy1/dp1, dy1/dp2, dy1/dp3}
-               {dy2_dp1[1], dy2_dp2[1], dy2_dp3[1]}, // {dy2/dp1, dy2/dp2, dy2/dp3}
-               {dy3_dp1[1], dy3_dp2[1], dy3_dp3[1]} // {dy3/dp1, dy3/dp2, dy3/dp3}
+               { dy1_dp1[1], dy1_dp2[1], dy1_dp3[1] }, // {dy1/dp1, dy1/dp2, dy1/dp3}
+               { dy2_dp1[1], dy2_dp2[1], dy2_dp3[1] }, // {dy2/dp1, dy2/dp2, dy2/dp3}
+               { dy3_dp1[1], dy3_dp2[1], dy3_dp3[1] } // {dy3/dp1, dy3/dp2, dy3/dp3}
             },
 
             {
                //time step #2
-               {dy1_dp1[2], dy1_dp2[2], dy1_dp3[2]}, // {dy1/dp1, dy1/dp2, dy1/dp3}
-               {dy2_dp1[2], dy2_dp2[2], dy2_dp3[2]}, // {dy2/dp1, dy2/dp2, dy2/dp3}
-               {dy3_dp1[2], dy3_dp2[2], dy3_dp3[2]} // {dy3/dp1, dy3/dp2, dy3/dp3}
+               { dy1_dp1[2], dy1_dp2[2], dy1_dp3[2] }, // {dy1/dp1, dy1/dp2, dy1/dp3}
+               { dy2_dp1[2], dy2_dp2[2], dy2_dp3[2] }, // {dy2/dp1, dy2/dp2, dy2/dp3}
+               { dy3_dp1[2], dy3_dp2[2], dy3_dp3[2] } // {dy3/dp1, dy3/dp2, dy3/dp3}
             }
          };
 
@@ -1067,7 +1072,7 @@ namespace OSPSuite.SimModel.Tests
       protected override void OptionalTasksBeforeFinalize()
       {
          _a = sut.SpeciesProperties.First(v => v.EntityId.Equals("a"));
-         sut.VariableSpecies = new[] {_a};
+         sut.VariableSpecies = new[] { _a };
       }
 
       protected override void OptionalTasksBeforeRun()
@@ -1099,7 +1104,8 @@ namespace OSPSuite.SimModel.Tests
       {
          var amount = 0.0;
 
-         foreach (var variableValues in sut.AllValues.Where(v => v.VariableType == VariableValues.VariableTypes.Species))
+         foreach (var variableValues in
+                  sut.AllValues.Where(v => v.VariableType == VariableValues.VariableTypes.Species))
          {
             amount += variableValues.IsConstant ? variableValues.Values[0] : variableValues.Values[index];
          }
@@ -1198,7 +1204,8 @@ namespace OSPSuite.SimModel.Tests
       {
          var absTol = sut.RunStatistics.UsedAbsoluteTolerance;
 
-         foreach (var variableValues in sut.AllValues.Where(v=>v.VariableType==VariableValues.VariableTypes.Species))
+         foreach (var variableValues in
+                  sut.AllValues.Where(v => v.VariableType == VariableValues.VariableTypes.Species))
          {
             var values = variableValues.Values;
 
@@ -1241,7 +1248,7 @@ namespace OSPSuite.SimModel.Tests
          for (var i = 0; i < sut.GetNumberOfTimePoints; i++)
          {
             obsValues[i].ShouldBeEqualTo(solverTimes[i], 1e-5);
-            inverseObsValues[i].ShouldBeEqualTo(i==0 ? Double.PositiveInfinity : 1.0 / solverTimes[i], 1e-5);
+            inverseObsValues[i].ShouldBeEqualTo(i == 0 ? Double.PositiveInfinity : 1.0 / solverTimes[i], 1e-5);
          }
       }
    }
@@ -1271,7 +1278,7 @@ namespace OSPSuite.SimModel.Tests
       {
          var value1 = SumVenPls;
 
-         _startTimeParameter.Value=1000000; //EHC beyond simulation time
+         _startTimeParameter.Value = 1000000; //EHC beyond simulation time
          sut.SetParameterValues();
          sut.RunSimulation();
 
@@ -1435,25 +1442,25 @@ namespace OSPSuite.SimModel.Tests
       [TestCaseSource(nameof(TestData))]
       public void observer_should_return_correct_value(string observerName, double expectedValue)
       {
-         _results.First(r=>r.Name.Equals(observerName)).Values.Last().ShouldBeEqualTo(expectedValue);
+         _results.First(r => r.Name.Equals(observerName)).Values.Last().ShouldBeEqualTo(expectedValue);
       }
    }
 
    public class when_nans_appear_in_conditional_if_min_max_formulas : concern_for_Simulation
    {
       //for the definition of parameters s. the test project tests\TestData\Nan_If_Conditional_Min_Max.mbp3 
-      private IEnumerable<ParameterProperties> _nan_parameters;  //parameters which value must be NaN
-      private IEnumerable<ParameterProperties> _one_parameters;  //parameters which value must be 1
+      private IEnumerable<ParameterProperties> _nan_parameters; //parameters which value must be NaN
+      private IEnumerable<ParameterProperties> _one_parameters; //parameters which value must be 1
       private IEnumerable<ParameterProperties> _zero_parameters; //parameters which value must be 0
 
       protected override void Because()
       {
          base.Because();
          LoadAndFinalizeSimulation("Nan_If_Conditional_Min_Max");
-         
+
          var namePrefix = "Nan_If_Conditional_Min_Max|Organism|";
 
-         _nan_parameters = sut.ParameterProperties.Where(p=>p.Name.StartsWith($"{namePrefix}P"));
+         _nan_parameters = sut.ParameterProperties.Where(p => p.Name.StartsWith($"{namePrefix}P"));
          _one_parameters = sut.ParameterProperties.Where(p => p.Name.StartsWith($"{namePrefix}T"));
          _zero_parameters = sut.ParameterProperties.Where(p => p.Name.StartsWith($"{namePrefix}F"));
       }
@@ -1469,7 +1476,7 @@ namespace OSPSuite.SimModel.Tests
       public void all_one_parameters_should_be_one()
       {
          _one_parameters.Count().ShouldBeEqualTo(21);
-         _one_parameters.Each(p=>p.Value.ShouldBeEqualTo(1, $"{p.Name} was not 1")); 
+         _one_parameters.Each(p => p.Value.ShouldBeEqualTo(1, $"{p.Name} was not 1"));
       }
 
       [Observation]
@@ -1499,7 +1506,8 @@ namespace OSPSuite.SimModel.Tests
          foreach (var species in speciesList)
          {
             species.Values.Length.ShouldBeGreaterThan(0);
-            species.Values.Where(value=>value!=0).Each(value => Math.Abs(value).ShouldBeGreaterThanOrEqualTo(absTol));
+            species.Values.Where(value => value != 0)
+               .Each(value => Math.Abs(value).ShouldBeGreaterThanOrEqualTo(absTol));
          }
       }
 
@@ -1555,5 +1563,54 @@ namespace OSPSuite.SimModel.Tests
          }
       }
 
+   }
+
+   public class when_running_simulation_with_negative_event_start_times : concern_for_Simulation
+   {
+
+      protected override void Because()
+      {
+         base.Because();
+         LoadFinalizeAndRunSimulation("EventNegativeOutputStartsAfterZero");
+      }
+
+      [Observation]
+      public void should_calculate_correct_results()
+      {
+         // The species Organism|Container1|C1 is setup as:
+         // C1(0) = 0
+         // dC1/dt = 1
+         // Event: If (Time = -3 [min]) then C1 = 2
+         //
+         //Simulation output schema is set as 2..24h (4 pts/h)
+         //
+         //Thus the expected results are:
+         // - first output point at t=2h: C1 = 2+3+2*60 (= C1(-3) + time since t=-3 min to t=2h)
+         // - last output point at t=24h: C1 = 2+3+24*60 (= C1(-3) + time since t=-3 min to t=24h)
+
+         const double relTol = 1e-5;
+
+         var solverTimes = sut.SimulationTimes;
+         var noOfOutputTimePoints = sut.GetNumberOfTimePoints;
+
+         // Output schema: 2..24h at 4 pts/h => (24-2)*4 + 1 = 89 points
+         noOfOutputTimePoints.ShouldBeEqualTo(89);
+
+         // Verify first output point is at t=2h (=120 min)
+         solverTimes[0].ShouldBeEqualTo(2.0*60, relTol);
+
+         // Verify last output point is at t=24h
+         solverTimes[noOfOutputTimePoints - 1].ShouldBeEqualTo(24.0*60, relTol);
+
+         var C1Values = sut.ValuesFor("C1").Values;
+         C1Values.Length.ShouldBeEqualTo(noOfOutputTimePoints);
+
+         // First output point at t=2h: C1 should be 2 + 3 + 2 * 60
+         C1Values[0].ShouldBeEqualTo(2 + 3 + 2 * 60, relTol);
+
+         // Last output point at t=24h: C1 should be 2+3+24*60 
+         C1Values[noOfOutputTimePoints - 1].ShouldBeEqualTo(2 + 3 + 24 * 60, relTol);
+
+      }
    }
 }

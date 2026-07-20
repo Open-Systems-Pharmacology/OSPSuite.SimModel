@@ -190,6 +190,22 @@ namespace SimModelNative
 			int numberOfTimeSteps = (unsigned int)outputTimePoints.size();
 			int numberOfSimulatedTimeSteps = SimulationTask::NumberOfSimulatedTimeSteps(outputTimePoints);
 
+			//Check if the first user output time point from the output schema
+			//matches the simulation start time. If the first user output point is
+			//strictly later than the start time, do not insert start time as an
+			//extra first result point.
+			bool includeStartTimePoint = false;
+			{
+				bool useFloatComparison = _parentSim->Options().UseFloatComparisonInUserOutputTimePoints();
+				DoubleQueue allUserTimePoints = useFloatComparison ?
+					_parentSim->GetOutputSchema().AllTimePoints<float>() :
+					_parentSim->GetOutputSchema().AllTimePoints<double>();
+
+				if (!allUserTimePoints.empty() && allUserTimePoints.top() <= simStartTime)
+					includeStartTimePoint = true;
+			}
+			int extraPointForStartTime = includeStartTimePoint ? 1 : 0;
+
 			//get scaled initial values for DE variables
 			initialvalues = _parentSim->GetDEInitialValuesScaled();
 
@@ -197,9 +213,11 @@ namespace SimModelNative
 			initialvaluesUnscaled = _parentSim->GetDEInitialValues();
 
 			//redim species/observers/time array of the simulation
-			_parentSim->RedimAndInitValues(numberOfSimulatedTimeSteps+1,
-				                           initialvalues, initialvaluesUnscaled); //+1 because of sim start time, 
-			                                                       //which is not included in outputTimePoints
+			//When the first user output time point equals the simulation start time,
+			//an extra slot (+1) is reserved at index 0 for the start time values.
+			//Otherwise, results start directly from the first user output time point.
+			_parentSim->RedimAndInitValues(numberOfSimulatedTimeSteps + extraPointForStartTime,
+				                           includeStartTimePoint, initialvalues, initialvaluesUnscaled);
 
 			//---- cache DE variables arranged by their ODE Index
 			m_ODEVariables= new Species * [m_ODE_NumUnknowns];
@@ -240,7 +258,10 @@ namespace SimModelNative
 			double executionTimeLimit = _parentSim->Options().ExecutionTimeLimit();
 
 			//index of the next reached output time point
-			int TimeStepNumber = 0; 
+			//When start time is included, results are stored starting at index 1
+			//(index 0 holds initial values set in RedimAndInitValues).
+			//When start time is NOT included, results start at index 0.
+			int TimeStepNumber = includeStartTimePoint ? 0 : -1;
 
 			_noOfInfiniteWarnings = 0;
 			
