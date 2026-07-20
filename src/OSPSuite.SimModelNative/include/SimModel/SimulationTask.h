@@ -17,9 +17,8 @@ private:
 	static std::string GetErrorMessageForNegativeVariables(const std::vector<std::string> & positiveVariablesWithNegativeValues, double solverOutputTime);
 protected:
 	static std::vector <OutputTimePoint> OutputTimePoints(DoubleQueue userOutputTimePoints, 
-	                                                      DoubleQueue switchTimePoints,
-														  DoubleQueue tableFormulaRestartTimePoints,
-														  double simulationStartTime);
+                                                         DoubleQueue switchTimePoints,
+                                                         DoubleQueue tableFormulaRestartTimePoints);
 	static DoubleQueue TableFormulaRestartTimePoints(Simulation * sim);
 	static void MakePriorityQueueUnique(DoubleQueue & queue);
 public:

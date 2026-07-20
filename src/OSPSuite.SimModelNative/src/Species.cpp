@@ -11,6 +11,8 @@
 #include "SimModel/SumFormula.h"
 #include <map>
 
+#include "SimModel/MathHelper.h"
+
 namespace SimModelNative
 {
 
@@ -21,7 +23,7 @@ Species::Species(void)
 	m_ODEScaleFactor = 1.0;
 	_DEScaleFactorInv = 1.0;
 	m_ODEIndex = DE_INVALID_INDEX;
-	_simulationStartTime = 0.0;
+	_simulationStartTime = MathHelper::GetNaN();
 	_rhsFormulaListSize = 0;
 	_RHS_noOfUsedVariables = 0;
 	_RHS_UsedVariablesIndices = NULL;
@@ -63,7 +65,7 @@ void Species::SetODEScaleFactor (double p_ODEScaleFactor)
 void Species::LoadFromXMLNode (const XMLNode & pNode)
 {
 	// ---- XML sample
-	//<Species Id="S1" Name="Drug" Path="Liver/Cells" InitialValueFormulaId="F2" Unit="µmol/l">
+	//<Species Id="S1" Name="Drug" Path="Liver/Cells" InitialValueFormulaId="F2" Unit="ï¿½mol/l">
 	//	<ScaleFactor>17.2</ScaleFactor>
 	//	<RHSFormulaList>
 	//		<RHSFormula Id="F3"/>
@@ -147,7 +149,7 @@ void Species::XMLFinalizeInstance (const XMLNode & pNode, Simulation * sim)
 		}
 	}
 
-	_simulationStartTime = sim->GetStartTime();
+	//_simulationStartTime = sim->GetStartTime();
 
 	_rhsFormulaListSize = _rhsFormulaList.size(); //cache for performance optimization
 }
@@ -164,7 +166,8 @@ bool Species::IsConstant(bool forCurrentRunOnly)
 
 double Species::GetValue (const double * y, double time, ScaleFactorUsageMode scaleFactorMode)
 {
-//	assert(_valueFormula==NULL);
+   if (MathHelper::IsNaN(_simulationStartTime))
+      throw ErrorData(ErrorData::ED_ERROR, "Species::GetValue", "Simulation start time was not set");
 
 	if (!IsConstantDuringCalculation())
 	{
@@ -172,7 +175,6 @@ double Species::GetValue (const double * y, double time, ScaleFactorUsageMode sc
 	}
 
 	return GetInitialValue(y, _simulationStartTime);
-//	return _value; 
 }
 
 double Species::GetInitialValue (const double * y, double time)
@@ -292,6 +294,9 @@ bool Species::RHSDependsOn(int DE_VariableIndex)
 
 void Species::FillWithInitialValue(const double * speciesInitialValuesUnscaled)
 {
+	if (MathHelper::IsNaN(_simulationStartTime))
+		throw ErrorData(ErrorData::ED_ERROR, "Species::FillWithInitialValue", "Simulation start time was not set");
+
 	double initialValue = GetInitialValue(speciesInitialValuesUnscaled, _simulationStartTime); //GetValue(NULL, 0.0, IGNORE_SCALEFACTOR);
 
 	//According to specification, GetInitialValue must ignore scale factor - no need to scale back!
@@ -507,6 +512,11 @@ void Species::AddEntityWithCachedScaleFactor(EntityWithCachedScaleFactor * entit
 bool Species::NegativeValuesAllowed(void)
 {
 	return _negativeValuesAllowed;
+}
+
+void Species::SetSimulationStartTime(double time)
+{
+   _simulationStartTime = time;
 }
 
 }//.. end "namespace SimModelNative"

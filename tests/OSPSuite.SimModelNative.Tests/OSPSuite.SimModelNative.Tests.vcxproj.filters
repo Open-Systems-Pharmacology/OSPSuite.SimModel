@@ -253,4 +253,7 @@
   <ItemGroup>
     <Text Include="CMakeLists.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\TableFormulaTestExtender.h" />
+  </ItemGroup>
 </Project>

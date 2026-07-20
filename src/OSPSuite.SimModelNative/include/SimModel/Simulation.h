@@ -145,7 +145,7 @@ namespace SimModelNative
       SIM_EXPORT void LoadFromXMLString(const std::string& sSimulationXML);
 
       int GetODENumUnknowns();
-      double GetStartTime();
+      double GetStartTime() const;
 
       SIM_EXPORT OutputSchema& GetOutputSchema();
 

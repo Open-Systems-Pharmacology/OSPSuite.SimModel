@@ -99,6 +99,12 @@ void Simulation::Finalize ()
 	//set hierarchy levels of dependent formula objects
 	SetupHierarchicalFormulaObjects(DontCheckForCyclingDependencies);
 
+	//set simulation start time for all species
+	for (int i = 0; i < _species.size(); i++)
+	{
+		_species[i]->SetSimulationStartTime(GetStartTime());
+	}
+
 	// - simplify formulas for: parameters, species initial values, RHS equations;
 	// - identify species constant during calculations (i.e. RHS Formula is constant zero)
 	//   (such species are treated as parameters with constant value, not as DEQ-variables)
@@ -603,10 +609,23 @@ int Simulation::GetODENumUnknowns ()
     return m_ODE_NumUnknowns;
 }
 
-double Simulation::GetStartTime ()
+double Simulation::GetStartTime () const
 {
-	//by now start time is always 0
-	return 0.0;
+	//find the lowest time point of all switches
+   //if no switches are defined or if the found time point is >=0, return 0.0; otherwise return the found time point
+   auto lowestSwitchStartTime = 0.0;
+
+   for (int i = 0; i < _switches.size(); i++)
+   {
+      auto switchStartTimes = _switches[i]->SwitchTimePoints();
+
+		for (auto switchStartTime : switchStartTimes)
+		{
+         lowestSwitchStartTime = min(switchStartTime, lowestSwitchStartTime);
+      }
+   }
+
+   return lowestSwitchStartTime < 0.0 ? lowestSwitchStartTime : 0.0;
 }
 
 OutputSchema & Simulation::GetOutputSchema()

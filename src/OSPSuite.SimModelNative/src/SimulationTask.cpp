@@ -19,9 +19,9 @@ int SimulationTask::NumberOfSimulatedTimeSteps(const vector <OutputTimePoint> & 
 {
 	int noOfSimulatedTimeSteps = 0;
 
-	for(unsigned int i=0; i<outputTimePoints.size(); i++)
-	{
-		if (outputTimePoints[i].SaveSystemSolution())
+	for (auto outputTimePoint : outputTimePoints)
+   {
+		if (outputTimePoint.SaveSystemSolution())
 			noOfSimulatedTimeSteps++;
 	}
 
@@ -39,8 +39,7 @@ vector <OutputTimePoint> SimulationTask::OutputTimePoints(Simulation * sim)
 	const DoubleQueue & tableFormulaRestartTimePoints = TableFormulaRestartTimePoints(sim);
 
 	return SimulationTask::OutputTimePoints(userOutputTimePoints, switchTimePoints, 
-		                                    tableFormulaRestartTimePoints,
-		                                    sim->GetStartTime());
+		                                    tableFormulaRestartTimePoints);
 }
 
 DoubleQueue SimulationTask::TableFormulaRestartTimePoints(Simulation * sim)
@@ -64,17 +63,16 @@ DoubleQueue SimulationTask::TableFormulaRestartTimePoints(Simulation * sim)
 				singleRestartTimePoints = tableFormulaWithOffset->RestartTimePoints();
 		}
 		
-		for(unsigned int pointIdx=0; pointIdx<singleRestartTimePoints.size(); pointIdx++)
-			restartTimePoints.push(singleRestartTimePoints[pointIdx]);
+		for (double singleRestartTimePoint : singleRestartTimePoints)
+         restartTimePoints.push(singleRestartTimePoint);
 	}
 
 	return restartTimePoints;
 }
 
 vector <OutputTimePoint> SimulationTask::OutputTimePoints(DoubleQueue userOutputTimePoints, 
-                                                          DoubleQueue switchTimePoints,
-														  DoubleQueue tableFormulaRestartTimePoints,
- 													      double simulationStartTime)
+                                                          DoubleQueue switchTimePoints, 
+                                                          DoubleQueue tableFormulaRestartTimePoints)
 {
 	const char * ERROR_SOURCE = "SimulationTask::OutputTimePoints";
 	
@@ -99,18 +97,13 @@ vector <OutputTimePoint> SimulationTask::OutputTimePoints(DoubleQueue userOutput
 	MakePriorityQueueUnique(userOutputTimePoints); 
 	MakePriorityQueueUnique(switchTimePoints);
 
-	//---- remove all time points from user/switch queues which are <= simulation start time
-	while(!userOutputTimePoints.empty() && (userOutputTimePoints.top() <= simulationStartTime))
+	//---- remove all time points from user queue which are <= 0.0
+	while (!userOutputTimePoints.empty() && (userOutputTimePoints.top() <= 0.0))
 	{
 		userOutputTimePoints.pop();
 	}
 
-	while(!switchTimePoints.empty() && (switchTimePoints.top() <= simulationStartTime))
-	{
-		switchTimePoints.pop();
-	}
-
-	//at least one time point> simulationStartTime must be available
+	//at least one time point must be available
 	if (userOutputTimePoints.size() == 0)
 		throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Time points output schema is empty");
 
@@ -176,9 +169,9 @@ void SimulationTask::MakePriorityQueueUnique(DoubleQueue & queue)
 		queue.pop();
 	}
 
-	for (set<double>::iterator iter=uniqueElements.begin(); iter!=uniqueElements.end(); iter++)
-	{
-		queue.push(*iter);
+	for (double uniqueElement : uniqueElements)
+   {
+		queue.push(uniqueElement);
 	}
 }
 
@@ -284,8 +277,8 @@ string SimulationTask::GetErrorMessageForNegativeVariables(const vector<string> 
 	msg += "\n\n";
 	msg += "The following variables became negative :\n";
 
-	for (size_t i = 0; i < positiveVariablesWithNegativeValues.size(); i++)
-		msg += positiveVariablesWithNegativeValues[i] + "\n";
+	for (const auto& positiveVariablesWithNegativeValue : positiveVariablesWithNegativeValues)
+      msg += positiveVariablesWithNegativeValue + "\n";
 
 	return msg;
 }
@@ -308,9 +301,9 @@ void SimulationTask::CacheRHSUsedVariables(Simulation * sim)
 
 	vector<Species *> & DE_Variables = sim->DE_Variables();
 	//---- now cache used DE Variables
-	for (size_t j = 0; j<DE_Variables.size(); j++)
-	{
-		DE_Variables[j]->CacheRHSUsedVariables(DEVariblesUsedInSwitchAssignments);
+	for (auto& DE_Variable : DE_Variables)
+   {
+      DE_Variable->CacheRHSUsedVariables(DEVariblesUsedInSwitchAssignments);
 	}
 
 	////for debug only: write out RHS dependency matrix

@@ -116,6 +116,8 @@ public:
 	void AddEntityWithCachedScaleFactor(EntityWithCachedScaleFactor * entityWithCachedScaleFactor);
 
 	bool NegativeValuesAllowed(void);
+
+	void SetSimulationStartTime(double time);
 };
 
 }//.. end "namespace SimModelNative"
