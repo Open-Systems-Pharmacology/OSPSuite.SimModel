@@ -157,6 +157,9 @@ namespace OSPSuite.SimModel.Tests
 
          const double relTol = 1e-5; //max. allowed relative deviation 0.001%
 
+         solverTimes.Length.ShouldBeGreaterThan(0);
+         solverTimes[0].ShouldBeEqualTo(0.0, relTol);
+
          y3_Values[0].ShouldBeEqualTo(2.0, relTol);
 
          for (var i = 0; i < noOfOutputTimePoints; i++)
