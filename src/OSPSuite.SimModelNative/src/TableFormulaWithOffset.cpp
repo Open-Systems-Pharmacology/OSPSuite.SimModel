@@ -2,6 +2,8 @@
 #include "SimModel/Simulation.h"
 #include "XMLWrapper/XMLHelper.h"
 #include "SimModel/ConstantFormula.h"
+#include "SimModel/Parameter.h"
+#include "SimModel/MathHelper.h"
 
 namespace SimModelNative
 {
@@ -186,7 +188,42 @@ namespace SimModelNative
    {
       const char* ERROR_SOURCE = "TableFormulaWithOffset::WriteFormulaMatlabCode";
 
-      throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Table formulas with offset not supported by matlab export" + FormulaInfoForErrorMessage());
+      assert((_tableObject != NULL) && (_offsetObject != NULL));
+
+      Parameter* tableParameter = dynamic_cast<Parameter*>(_tableObject);
+
+      if ((tableParameter == NULL) || !tableParameter->IsTable())
+         throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Table formula with offset referencing a non-table parameter is not supported by matlab export" + FormulaInfoForErrorMessage());
+
+      //the referenced table parameter is exported as a global function handle
+      //(s. MatlabODEExporter::WriteTableParametersFile), so it can be evaluated
+      //at the shifted time point
+      mrOut << "EvalParameter(" << tableParameter->GetShortUniqueName() << ", Time - (";
+      WriteOffsetMatlabCode(mrOut);
+      mrOut << "), y)";
+   }
+
+   void TableFormulaWithOffset::WriteOffsetMatlabCode(ostream& mrOut)
+   {
+      const char* ERROR_SOURCE = "TableFormulaWithOffset::WriteOffsetMatlabCode";
+
+      const bool forCurrentRunOnly = false;
+
+      if (_offsetObject->IsConstant(forCurrentRunOnly))
+      {
+         mrOut << MathHelper::ToString(_offsetObject->GetValue(NULL, 0.0, USE_SCALEFACTOR));
+         return;
+      }
+
+      Parameter* offsetParameter = dynamic_cast<Parameter*>(_offsetObject);
+
+      if (offsetParameter == NULL)
+         throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Table formula with a nonconstant, nonparameter offset is not supported by matlab export" + FormulaInfoForErrorMessage());
+
+      if (offsetParameter->IsChangedBySwitch() || offsetParameter->IsTable())
+         mrOut << "EvalParameter(" << offsetParameter->GetShortUniqueName() << ", Time, y)";
+      else
+         mrOut << offsetParameter->GetShortUniqueName();
    }
 
    void TableFormulaWithOffset::WriteFormulaCppCode(ostream& mrOut)

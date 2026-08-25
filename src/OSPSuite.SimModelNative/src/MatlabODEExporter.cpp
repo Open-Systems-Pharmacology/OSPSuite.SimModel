@@ -152,26 +152,8 @@ namespace SimModelNative
 
    void MatlabODEExporter::CheckIfSimulationCanBeExported(Simulation* sim)
    {
-      int i;
-
-      double simStartTime = sim->GetStartTime();
-
-      //---- table formulas with any restart time > simulation start time are not handled at the moment
-      for (i = 0; i < sim->Formulas().size(); i++)
-      {
-         TableFormula* tableFormula = dynamic_cast <TableFormula*>(sim->Formulas()[i]);
-
-         if (tableFormula == NULL)
-            continue; //not a table formula
-
-         vector <double> restartTimePoints = tableFormula->RestartTimePoints();
-
-         if (restartTimePoints.size() == 0)
-            continue;
-
-         if ((restartTimePoints.size() >= 2) || (restartTimePoints[0] > simStartTime))
-            throw ErrorData(ErrorData::ED_ERROR, "MatlabODEExporter::WriteMatlabCode", "Table formulas with required restart times>0 are currently not supported by matlab export");
-      }
+      //table formulas with restart times are supported: all restart time points
+      //are exported as system restart times (s. WriteODEMainFile)
    }
 
    void MatlabODEExporter::WriteODEOptionsFile(Simulation* sim, const string& ODEOptionsFile)
@@ -380,6 +362,17 @@ namespace SimModelNative
          //get unique application start times for the simulation
          std::set<double> switchTimes = sim->GetSwitchTimes();
 
+         //write output times vector
+         vector <OutputTimePoint> outputTimePoints = SimulationTask::OutputTimePoints(sim);
+
+         //add restart time points of all table formulas: at those time points
+         //the ODE system must be restarted as well
+         for (unsigned int timeStepIdx = 0; timeStepIdx < outputTimePoints.size(); timeStepIdx++)
+         {
+            if (outputTimePoints[timeStepIdx].RestartSystem())
+               switchTimes.emplace(outputTimePoints[timeStepIdx].Time());
+         }
+
          outfile.open(ODEMainFile.c_str());
          outfile.precision(16);
 
@@ -410,8 +403,6 @@ namespace SimModelNative
          outfile << "    yout = y0.';" << endl << endl;
 
          //write output times vector
-         vector <OutputTimePoint> outputTimePoints = SimulationTask::OutputTimePoints(sim);
-
          outfile << "    outtimes = [ " << sim->GetStartTime() << " ";
          for (unsigned int timeStepIdx = 0; timeStepIdx < outputTimePoints.size(); timeStepIdx++)
          {

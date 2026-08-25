@@ -3,6 +3,7 @@
 #include "XMLWrapper/XMLHelper.h"
 #include "SimModel/ConstantFormula.h"
 #include "SimModel/MathHelper.h"
+#include "SimModel/Parameter.h"
 
 namespace SimModelNative
 {
@@ -225,10 +226,35 @@ namespace SimModelNative
          mrOut << MathHelper::ToString(_tableFormula->GetValue(argument));
 
          //TODO produce "Full" table formula export
+         return;
       }
 
-      //both table formula and x-Argument are not const ==> cannot be handled now
-      throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Nonconatant table formulas with X argument not supported by matlab export" + FormulaInfoForErrorMessage());
+      //---- case #3: neither table formula nor x-Argument are constant.
+      //     Evaluate the table parameter (exported as a global function handle)
+      //     at the value of the x-Argument
+      Parameter* tableParameter = dynamic_cast<Parameter*>(_tableObject);
+
+      if ((tableParameter == NULL) || !tableParameter->IsTable())
+         throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Nonconstant table formula with X argument referencing a non-table parameter is not supported by matlab export" + FormulaInfoForErrorMessage());
+
+      mrOut << "EvalParameter(" << tableParameter->GetShortUniqueName() << ", ";
+      WriteXArgumentMatlabCode(mrOut);
+      mrOut << ", y)";
+   }
+
+   void TableFormulaWithXArgument::WriteXArgumentMatlabCode(ostream& mrOut)
+   {
+      const char* ERROR_SOURCE = "TableFormulaWithXArgument::WriteXArgumentMatlabCode";
+
+      Parameter* xArgumentParameter = dynamic_cast<Parameter*>(_XArgumentObject);
+
+      if (xArgumentParameter == NULL)
+         throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, "Table formula with a nonconstant, nonparameter X argument is not supported by matlab export" + FormulaInfoForErrorMessage());
+
+      if (xArgumentParameter->IsChangedBySwitch() || xArgumentParameter->IsTable())
+         mrOut << "EvalParameter(" << xArgumentParameter->GetShortUniqueName() << ", Time, y)";
+      else
+         mrOut << xArgumentParameter->GetShortUniqueName();
    }
 
    void TableFormulaWithXArgument::WriteFormulaCppCode(ostream& mrOut)

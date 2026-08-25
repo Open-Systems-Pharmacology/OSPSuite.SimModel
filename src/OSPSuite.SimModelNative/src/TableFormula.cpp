@@ -5,7 +5,7 @@ namespace SimModelNative
 {
    using namespace std;
 
-   TableFormula::TableFormula(void)
+   TableFormula::TableFormula()
    {
       //for the moment, ALWAYS use derived values (no XML attribute for that)
       _useDerivedValues = true;
@@ -17,7 +17,7 @@ namespace SimModelNative
       _derivedValues = NULL;
    }
 
-   TableFormula::~TableFormula(void)
+   TableFormula::~TableFormula()
    {
       _valuePoints.clear();
 
@@ -315,12 +315,12 @@ namespace SimModelNative
       mrOut << "    X_Values = [ " << endl;
       for (i = 0; i < _numberOfValuePoints; i++)
          mrOut << _X_values[i] << " ";
-      mrOut << "]" << endl;
+      mrOut << "];" << endl;
 
       mrOut << "    Y_Values = [ " << endl;
       for (i = 0; i < _numberOfValuePoints; i++)
          mrOut << _Y_values[i] << " ";
-      mrOut << "]" << endl;
+      mrOut << "];" << endl;
 
       mrOut << "    yout =  interp1(X_Values, Y_Values, Time);" << endl;
 

@@ -901,6 +901,23 @@ namespace OSPSuite.SimModel.Tests
       }
    }
 
+   public class when_exporting_simulation_with_table_formulas_with_restart_times_to_matlab : concern_for_Simulation
+   {
+      [Observation]
+      public void should_export_to_matlab_in_formula_mode()
+      {
+         LoadSimulation("S1_MultiTableFormulation");
+         sut.ExportToCode(CreateTempFolder(), CodeExportLanguage.Matlab, CodeExportMode.Formula);
+      }
+
+      [Observation]
+      public void should_export_to_matlab_in_value_mode()
+      {
+         LoadSimulation("S1_MultiTableFormulation");
+         sut.ExportToCode(CreateTempFolder(), CodeExportLanguage.Matlab, CodeExportMode.Values);
+      }
+   }
+
    public class when_running_simulation_with_events_simultaneously_increasing_a_variable : concern_for_Simulation
    {
       [Observation]
