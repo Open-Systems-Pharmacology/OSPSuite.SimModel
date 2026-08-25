@@ -25,6 +25,9 @@ namespace SimModelNative
       void WriteFormulaMatlabCode(std::ostream& mrOut);
       void WriteFormulaCppCode(std::ostream& mrOut);
 
+      //writes matlab code of the offset object
+      void WriteOffsetMatlabCode(std::ostream& mrOut);
+
       //Referenced table object
       Quantity* _tableObject;
 

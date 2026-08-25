@@ -24,7 +24,6 @@ namespace SimModelNative
       DoubleQueue GetSwitchTimes(Simulation* sim);
       void MarkQuantitiesUsedBySwitches(Simulation* sim);
 
-      void CheckIfSimulationCanBeExported(Simulation* sim);
    };
 
 
