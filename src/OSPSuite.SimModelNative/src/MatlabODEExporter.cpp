@@ -73,8 +73,6 @@ namespace SimModelNative
          sim->Finalize();
       }
 
-      CheckIfSimulationCanBeExported(sim);
-
       sim->MarkQuantitiesUsedBySwitches();
 
       ////simplify parameters that could not be simplified earlier (in Finalize)
@@ -148,12 +146,6 @@ namespace SimModelNative
 
          throw;
       }
-   }
-
-   void MatlabODEExporter::CheckIfSimulationCanBeExported(Simulation* sim)
-   {
-      //table formulas with restart times are supported: all restart time points
-      //are exported as system restart times (s. WriteODEMainFile)
    }
 
    void MatlabODEExporter::WriteODEOptionsFile(Simulation* sim, const string& ODEOptionsFile)
