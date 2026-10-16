@@ -65,9 +65,13 @@ make -C Build/Release/$ARCH/
 # nuspec (for packing). FuncParser and CVODES natives don't need staging here;
 # the .NET SDK auto-copies them to the test bin output via PackageReference
 # RID-based asset resolution, and SimModelNative finds them at runtime via
-# RPATH=$ORIGIN (Linux) / @rpath (macOS).
+# RPATH=$ORIGIN (Linux) / @loader_path (macOS).
 mkdir -p runtimes/$RID/native
 cp Build/Release/$ARCH/$NATIVE_FILE runtimes/$RID/native/
+
+# Stage FuncParser next to the built native binary so the C++ tests below find
+# it via that RPATH, as the Windows job does for the test exe.
+cp packages/OSPSuite.FuncParser/runtimes/$RID/native/libOSPSuite.FuncParserNative.$EXT Build/Release/$ARCH/
 
 # Build and run the native C++ unit tests (OSPSuite.SimModelNative.Tests). The
 # tests link against the SimModelNative shared library just built above and
