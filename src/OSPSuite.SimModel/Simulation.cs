@@ -85,7 +85,7 @@ namespace OSPSuite.SimModel
       public static extern int GetNumberOfQuantitiesWithValues(IntPtr simulation, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void FillEntityIdsForQuantitiesWithValues(IntPtr simulation, [In, Out] string[] entityIds, int size, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
+      public static extern void FillEntityIdsForQuantitiesWithValues(IntPtr simulation, [In, Out] IntPtr[] entityIds, int size, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void FillIdsForQuantitiesWithValues(IntPtr simulation, [In, Out] int[] ids, int size, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
