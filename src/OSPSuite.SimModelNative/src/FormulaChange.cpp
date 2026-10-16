@@ -105,6 +105,35 @@ namespace SimModelNative
       return true; //simulation conditions changed by switch (solver restart needed)
    }
 
+   //returns true if <formula> uses <hfObject> directly or indirectly (via formulas of the used objects).
+   //DE variables are not followed, because their values are taken from the solution vector
+   static bool FormulaDependsOn(Formula* formula, HierarchicalFormulaObject* hfObject)
+   {
+      vector<HierarchicalFormulaObject*> objectsToCheck = formula->GetUsedHierarchicalFormulaObjects();
+      set<HierarchicalFormulaObject*> checkedObjects;
+
+      while (!objectsToCheck.empty())
+      {
+         HierarchicalFormulaObject* usedObject = objectsToCheck.back();
+         objectsToCheck.pop_back();
+
+         if (usedObject == hfObject)
+            return true;
+
+         if (!checkedObjects.insert(usedObject).second)
+            continue; //already checked
+
+         Species* species = dynamic_cast<Species*>(usedObject);
+         if (species && !species->IsConstantDuringCalculation())
+            continue;
+
+         vector<HierarchicalFormulaObject*> indirectlyUsedObjects = usedObject->GetUsedHierarchicalFormulaObjects();
+         objectsToCheck.insert(objectsToCheck.end(), indirectlyUsedObjects.begin(), indirectlyUsedObjects.end());
+      }
+
+      return false;
+   }
+
    void FormulaChange::Finalize()
    {
       const char* ERROR_SOURCE = "FormulaChange::Finalize";
@@ -124,6 +153,12 @@ namespace SimModelNative
          _speciesScaleFactor = species->GetODEScaleFactor();
       }
 
+      //---- if parameter gets new formula: the formula may not depend on the parameter itself
+      //     (otherwise evaluating the parameter after the switch fired would recurse endlessly)
+      Parameter* parameter = dynamic_cast<Parameter*>(_quantity);
+      if (parameter && !_useAsValue && FormulaDependsOn(_newFormula, parameter))
+         throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, _parentSwitchInfo + ": cyclic dependency found - new formula of " +
+            parameter->GetFullName() + " depends on " + parameter->GetFullName() + " itself");
    }
 
    void FormulaChange::WriteMatlabCode(std::ostream& mrOut)

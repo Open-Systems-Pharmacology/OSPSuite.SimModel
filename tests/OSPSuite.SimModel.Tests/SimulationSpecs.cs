@@ -939,6 +939,35 @@ namespace OSPSuite.SimModel.Tests
       }
    }
 
+   public class when_finalizing_simulation_with_event_assigning_a_formula_depending_on_the_changed_parameter : concern_for_Simulation
+   {
+      [Observation]
+      public void should_throw_an_exception_about_cyclic_dependency()
+      {
+         //simulation has only 1 parameter M1, which is modified by 2 events firing at t=10:
+         //    event #1: M1=M1+10
+         //    event #2: M1=M1+20
+         //both assignments have useAsValue=0, so M1 would become M1+10 (cyclic dependency)
+         //and evaluating it after the events fired would overflow the stack
+         LoadSimulation("TestCrashSimultaneousEvents");
+
+         try
+         {
+            FinalizeSimulation();
+         }
+         catch (Exception ex)
+         {
+            ex.Message.Contains("cyclic dependency").ShouldBeTrue();
+            ex.Message.Contains("S1|Organism|M1").ShouldBeTrue();
+
+            //expected behavior. Leave the test case
+            return;
+         }
+
+         throw new Exception("No exception was thrown for cyclic dependency in event assignment");
+      }
+   }
+
    public class when_running_simulation_with_almost_equal_output_times : concern_for_Simulation
    {
       [Observation]
