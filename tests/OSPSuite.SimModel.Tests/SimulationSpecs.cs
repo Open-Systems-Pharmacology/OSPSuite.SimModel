@@ -1701,26 +1701,31 @@ namespace OSPSuite.SimModel.Tests
       }
    }
 
-   public class when_exporting_to_matlab_into_a_folder_with_a_name_outside_the_ansi_code_page : concern_for_simulation_with_characters_outside_the_ansi_code_page
+   public class when_exporting_to_cpp_into_a_folder_with_a_name_outside_the_ansi_code_page : concern_for_simulation_with_characters_outside_the_ansi_code_page
    {
       private string _exportFolder;
+
+      protected override void OptionalTasksBeforeLoad()
+      {
+         sut.Options.KeepXMLNodeAsString = true;
+      }
 
       protected override void Context()
       {
          base.Context();
          _exportFolder = CreateTempFolderWithNonAnsiName();
-         LoadSimulation("SimModel4_ExampleInput05");
+         LoadSimulation("CPPExportTest01");
       }
 
       protected override void Because()
       {
-         sut.ExportToCode(_exportFolder, CodeExportLanguage.Matlab, CodeExportMode.Formula);
+         sut.ExportToCode(_exportFolder, CodeExportLanguage.Cpp, CodeExportMode.Formula, "CPPExportTest01");
       }
 
       [Observation]
-      public void should_write_the_files_into_the_folder()
+      public void should_write_the_file_into_the_folder()
       {
-         Directory.GetFiles(_exportFolder).Any().ShouldBeTrue();
+         File.Exists(Path.Combine(_exportFolder, "CPPExportTest01.cpp")).ShouldBeTrue();
       }
    }
 }
