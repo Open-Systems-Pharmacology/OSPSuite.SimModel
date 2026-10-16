@@ -27,6 +27,7 @@
 
 #include "SysToolConfig.h"
 #include <string>
+#include <fstream>
 #include <vector>
 
 using namespace std;
@@ -154,6 +155,9 @@ class SYSTOOL_EXPORT FileSystem
 	//This character will either be a forward or backward
 	//slash, depending on the operating system used.
 	static void AppendSlash( string& pathName );
+
+	//opens ~file~ for writing. ~fileName~ is UTF-8 encoded.
+	static void OpenForWriting( ofstream& file, const string& fileName );
 
  protected:
  private:

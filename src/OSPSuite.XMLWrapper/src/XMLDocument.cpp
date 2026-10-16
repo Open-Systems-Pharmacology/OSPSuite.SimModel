@@ -236,7 +236,7 @@ const std::string XMLDocument::ToString() const
 {
 #ifdef _WINDOWS
    // ============================================= WINDOWS
-   return (char*)m_Windows_DocumentPtr->Getxml();
+   return BStrToSTDString(m_Windows_DocumentPtr->Getxml());
 #endif
 
 #if defined(linux) || defined (__APPLE__)

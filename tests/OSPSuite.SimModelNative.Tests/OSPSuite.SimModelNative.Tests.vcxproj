@@ -197,12 +197,15 @@
   <!-- SysTool sources compiled directly: avoids linking the prebuilt .lib (IDL=0) against
        the test .obj files and gtestd.lib which both default to IDL=2 in Debug. -->
   <ItemGroup>
-    <!-- /UUNICODE /U_UNICODE: DynamicLibrary.cpp calls LoadLibrary/SearchPath with narrow
+    <!-- /UUNICODE /U_UNICODE: DynamicLibrary.cpp and FileSystem.cpp call Win32 APIs with narrow
          char strings; without these undefs the Unicode project maps those to the W variants. -->
     <ClCompile Include="..\..\src\OSPSuite.SysTool\src\DynamicLibrary.cpp">
       <AdditionalOptions>/UUNICODE /U_UNICODE %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <ClCompile Include="..\..\src\OSPSuite.SysTool\src\ErrorData.cpp" />
+    <ClCompile Include="..\..\src\OSPSuite.SysTool\src\FileSystem.cpp">
+      <AdditionalOptions>/UUNICODE /U_UNICODE %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\OSPSuite.XMLWrapper\src\WindowsHelper.cpp" />

@@ -7,6 +7,7 @@ using System.Xml.Linq;
 using NUnit.Framework;
 using OSPSuite.BDDHelper;
 using OSPSuite.BDDHelper.Extensions;
+using OSPSuite.Utility.Exceptions;
 using OSPSuite.Utility.Extensions;
 
 namespace OSPSuite.SimModel.Tests
@@ -1628,6 +1629,98 @@ namespace OSPSuite.SimModel.Tests
          // Last output point at t=24h: C1 should be 2+3+24*60 
          C1Values[noOfOutputTimePoints - 1].ShouldBeEqualTo(2 + 3 + 24 * 60, relTol);
 
+      }
+   }
+
+   public abstract class concern_for_simulation_with_characters_outside_the_ansi_code_page : concern_for_Simulation
+   {
+      protected const string NON_ANSI_NAME = "Organ\u200B_Jörg_α";
+      protected const string EDUCT_ENTITY_ID = "7ae7c65a-5588-462c-98f2-f15d55d0831a";
+      protected const string P1_ENTITY_ID = "1ae91a91-bdb3-4fa0-abf6-234b05912c5a";
+
+      protected string SimulationXMLWithNonAnsiContainerName()
+      {
+         return File.ReadAllText(TestFileFrom("SimModel4_ExampleInput05")).Replace("path=\"TopContainer\"", $"path=\"{NON_ANSI_NAME}\"");
+      }
+
+      protected string CreateTempFolderWithNonAnsiName()
+      {
+         var tempFolder = Path.Combine(CreateTempFolder(), NON_ANSI_NAME);
+         Directory.CreateDirectory(tempFolder);
+         return tempFolder;
+      }
+   }
+
+   public class when_running_a_simulation_with_names_outside_the_ansi_code_page : concern_for_simulation_with_characters_outside_the_ansi_code_page
+   {
+      protected override void Because()
+      {
+         sut.LoadFromXMLString(SimulationXMLWithNonAnsiContainerName());
+         FinalizeSimulation();
+         RunSimulation();
+      }
+
+      [Observation]
+      public void should_return_the_container_path_unchanged()
+      {
+         sut.ValuesFor(EDUCT_ENTITY_ID).Path.ShouldBeEqualTo(NON_ANSI_NAME);
+      }
+
+      [Observation]
+      public void should_return_the_parameter_full_name_unchanged()
+      {
+         sut.ParameterProperties.Single(x => x.EntityId == P1_ENTITY_ID).Name.Contains(NON_ANSI_NAME).ShouldBeTrue();
+      }
+
+      [Observation]
+      public void should_return_error_messages_unchanged()
+      {
+         var invalidPath = $"{NON_ANSI_NAME}|Missing";
+         var exception = Assert.Throws<OSPSuiteException>(() => sut.SensitivityValuesByPathFor(invalidPath, invalidPath));
+         exception.Message.Contains(invalidPath).ShouldBeTrue();
+      }
+   }
+
+   public class when_loading_a_simulation_from_a_folder_with_a_name_outside_the_ansi_code_page : concern_for_simulation_with_characters_outside_the_ansi_code_page
+   {
+      private string _simulationFile;
+
+      protected override void Context()
+      {
+         base.Context();
+         _simulationFile = Path.Combine(CreateTempFolderWithNonAnsiName(), "Simulation.xml");
+         File.Copy(TestFileFrom("SimModel4_ExampleInput05"), _simulationFile);
+      }
+
+      [Observation]
+      public void should_load_finalize_and_run_the_simulation()
+      {
+         sut.LoadFromXMLFile(_simulationFile);
+         FinalizeSimulation();
+         RunSimulation();
+      }
+   }
+
+   public class when_exporting_to_matlab_into_a_folder_with_a_name_outside_the_ansi_code_page : concern_for_simulation_with_characters_outside_the_ansi_code_page
+   {
+      private string _exportFolder;
+
+      protected override void Context()
+      {
+         base.Context();
+         _exportFolder = CreateTempFolderWithNonAnsiName();
+         LoadSimulation("SimModel4_ExampleInput05");
+      }
+
+      protected override void Because()
+      {
+         sut.ExportToCode(_exportFolder, CodeExportLanguage.Matlab, CodeExportMode.Formula);
+      }
+
+      [Observation]
+      public void should_write_the_files_into_the_folder()
+      {
+         Directory.GetFiles(_exportFolder).Any().ShouldBeTrue();
       }
    }
 }

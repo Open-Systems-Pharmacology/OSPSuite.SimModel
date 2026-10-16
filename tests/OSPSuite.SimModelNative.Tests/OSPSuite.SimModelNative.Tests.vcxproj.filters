@@ -220,6 +220,9 @@
     <ClCompile Include="..\..\src\OSPSuite.SysTool\src\ErrorData.cpp">
       <Filter>src_SysTool</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\OSPSuite.SysTool\src\FileSystem.cpp">
+      <Filter>src_SysTool</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\src\OSPSuite.XMLWrapper\src\WindowsHelper.cpp">
       <Filter>src_XMLWrapper</Filter>
     </ClCompile>

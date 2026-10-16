@@ -4,6 +4,7 @@
 #include "SimModel/DESolverProperties.h"
 #include "SimModel/SimulationTask.h"
 #include "SimModel/OutputSchema.h"
+#include "FileSystem.h"
 #include "SimModel/TableFormula.h"
 
 #ifdef _WINDOWS
@@ -109,7 +110,7 @@ namespace SimModelNative
          int i;
          vector <Parameter*> tableParameters;
 
-         outfile.open(tableParametersFile.c_str());
+         FileSystem::OpenForWriting(outfile, tableParametersFile);
          outfile.precision(16);
 
          outfile << "function SetupTableParameters" << endl << endl;
@@ -158,7 +159,7 @@ namespace SimModelNative
 
          string BDFOption = "'on'";
 
-         outfile.open(ODEOptionsFile.c_str());
+         FileSystem::OpenForWriting(outfile, ODEOptionsFile);
 
          outfile << "function opt = ODEoptions" << endl << endl;
 
@@ -194,7 +195,7 @@ namespace SimModelNative
       {
          InitialValues = sim->GetDEInitialValues();
 
-         outfile.open(ODEInitValuesFile.c_str());
+         FileSystem::OpenForWriting(outfile, ODEInitValuesFile);
 
          outfile << "function y = ODEInitialValues" << endl << endl;
 
@@ -231,7 +232,7 @@ namespace SimModelNative
 
       try
       {
-         outfile.open(RHSFunctionFile.c_str());
+         FileSystem::OpenForWriting(outfile, RHSFunctionFile);
 
          outfile << "function dy = ODERHSFunction(Time,y)" << endl << endl;
 
@@ -299,7 +300,7 @@ namespace SimModelNative
       {
          int i;
 
-         outfile.open(switchFile.c_str());
+         FileSystem::OpenForWriting(outfile, switchFile);
          outfile.precision(16);
 
          outfile << "function [yOut switchUpdate] = PerformSwitches(Time, y)" << endl << endl;
@@ -365,7 +366,7 @@ namespace SimModelNative
                switchTimes.emplace(outputTimePoints[timeStepIdx].Time());
          }
 
-         outfile.open(ODEMainFile.c_str());
+         FileSystem::OpenForWriting(outfile, ODEMainFile);
          outfile.precision(16);
 
          outfile << "function [tout, yout] = ODEMain" << endl << endl;
@@ -497,7 +498,7 @@ namespace SimModelNative
       {
          //-------------- IIf (If-function) -----------------------
          string iifFile = OutDir + "\\IIf.m";
-         outfile.open(iifFile.c_str());
+         FileSystem::OpenForWriting(outfile, iifFile);
 
          outfile << "function y = IIf(condition, truepart, falsepart)" << endl << endl;
          outfile << "    if condition" << endl;
@@ -511,7 +512,7 @@ namespace SimModelNative
          //-------------- EvalParameter -----------------------
          //Evaluates parameter depending on its type: numeric value or function handle
          string evalParameterFile = OutDir + "\\EvalParameter.m";
-         outfile.open(evalParameterFile.c_str());
+         FileSystem::OpenForWriting(outfile, evalParameterFile);
 
          outfile << "function value = EvalParameter(P, t, y)" << endl << endl;
          outfile << "    if isnumeric(P)" << endl;

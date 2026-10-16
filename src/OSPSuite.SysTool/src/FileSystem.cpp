@@ -439,6 +439,19 @@ FileSystem::AppendSlash( string& pathName )
   }
 }
 
+void
+FileSystem::OpenForWriting( ofstream& file, const string& fileName )
+{
+#ifdef SYSTOOL_WIN32
+  int length = ::MultiByteToWideChar( CP_UTF8, 0, fileName.c_str(), -1, NULL, 0 );
+  wstring wideFileName( length, L'\0' );
+  ::MultiByteToWideChar( CP_UTF8, 0, fileName.c_str(), -1, &wideFileName[0], length );
+  file.open( wideFileName.c_str() );
+#else
+  file.open( fileName.c_str() );
+#endif
+}
+
 #ifdef SYSTOOL_WIN32
 void
 FileSystem::UnprotectFile( const string& fileName )

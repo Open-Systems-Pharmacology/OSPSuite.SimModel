@@ -9,18 +9,18 @@ namespace OSPSuite.SimModel
       public static extern bool QuantityIsConstant(IntPtr quantity);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern int GetQuantityValuesSize(IntPtr quantity, out bool success, out string errorMessage);
+      public static extern int GetQuantityValuesSize(IntPtr quantity, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       //<values> has preallocated memory for <size> elements
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void FillQuantityValues(IntPtr quantity, [In, Out] double[] values, int size, out bool success, out string errorMessage);
+      public static extern void FillQuantityValues(IntPtr quantity, [In, Out] double[] values, int size, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern double GetQuantityComparisonThreshold(IntPtr quantity, out bool success, out string errorMessage);
+      public static extern double GetQuantityComparisonThreshold(IntPtr quantity, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       //<values> has preallocated memory for <size> elements
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void FillSensitivityValues(IntPtr quantity, [In, Out] double[] values, int size, string parameterPath,  out bool success, out string errorMessage);
+      public static extern void FillSensitivityValues(IntPtr quantity, [In, Out] double[] values, int size, [MarshalAs(UnmanagedType.LPUTF8Str)] string parameterPath,  out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
    }
 
    public class VariableValues : EntityProperties
