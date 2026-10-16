@@ -1728,4 +1728,26 @@ namespace OSPSuite.SimModel.Tests
          File.Exists(Path.Combine(_exportFolder, "CPPExportTest01.cpp")).ShouldBeTrue();
       }
    }
+
+   public class when_running_a_simulation_with_chinese_names : concern_for_Simulation
+   {
+      private const string PLASMA_OBSERVER_ENTITY_ID = "aG6IyZftlUyELMcRwjewcw";
+
+      protected override void Because()
+      {
+         LoadFinalizeAndRunSimulation("SimulationWithChineseNames");
+      }
+
+      [Observation]
+      public void should_return_the_output_path_with_the_chinese_names_unchanged()
+      {
+         sut.ValuesFor(PLASMA_OBSERVER_ENTITY_ID).Path.ShouldBeEqualTo("20mg-12例|Organism|PeripheralVenousBlood|Rivaroxaban-全|Plasma (Peripheral Venous Blood)");
+      }
+
+      [Observation]
+      public void should_return_values_for_the_output()
+      {
+         sut.ValuesFor(PLASMA_OBSERVER_ENTITY_ID).Values.Any().ShouldBeTrue();
+      }
+   }
 }
