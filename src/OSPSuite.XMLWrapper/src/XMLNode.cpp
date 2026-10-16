@@ -6,6 +6,19 @@
 #include "XMLWrapper/WindowsHelper.h"
 #endif
 
+#if defined(linux) || defined (__APPLE__)
+// Even with XML_PARSE_NOBLANKS, libxml2 keeps whitespace-only text inside an element
+// without element children (e.g. "<ParameterList>\n</ParameterList>"), while MSXML drops it.
+// Skip such text nodes so that child iteration behaves the same on all platforms.
+static xmlNodePtr SkipBlankTextNodes(xmlNodePtr node)
+{
+   while (node != NULL && node->type == XML_TEXT_NODE && xmlIsBlankNode(node))
+      node = node->next;
+
+   return node;
+}
+#endif
+
 XMLNode::XMLNode()
 {
    // Initialize as NULL pointer
@@ -38,7 +51,7 @@ XMLNode XMLNode::GetFirstChild()
 
 #if defined(linux) || defined (__APPLE__)
    // ============================================= LINUX
-   ret.m_Linux_NodePtr = m_Linux_NodePtr->children;
+   ret.m_Linux_NodePtr = SkipBlankTextNodes(m_Linux_NodePtr->children);
 #endif
 
    // Return value
@@ -62,7 +75,7 @@ const XMLNode XMLNode::GetFirstChild() const
 
 #if defined(linux) || defined (__APPLE__)
    // ============================================= LINUX
-   ret.m_Linux_NodePtr = m_Linux_NodePtr->children;
+   ret.m_Linux_NodePtr = SkipBlankTextNodes(m_Linux_NodePtr->children);
 #endif
 
    // Return value
@@ -86,7 +99,7 @@ XMLNode XMLNode::GetNextSibling()
 
 #if defined(linux) || defined (__APPLE__)
    // ============================================= LINUX
-   ret.m_Linux_NodePtr = m_Linux_NodePtr->next;
+   ret.m_Linux_NodePtr = SkipBlankTextNodes(m_Linux_NodePtr->next);
 #endif
    // Return value
    return ret;
@@ -109,7 +122,7 @@ const XMLNode XMLNode::GetNextSibling() const
 
 #if defined(linux) || defined (__APPLE__)
    // ============================================= LINUX
-   ret.m_Linux_NodePtr = m_Linux_NodePtr->next;
+   ret.m_Linux_NodePtr = SkipBlankTextNodes(m_Linux_NodePtr->next);
 #endif
 
    // Return value
