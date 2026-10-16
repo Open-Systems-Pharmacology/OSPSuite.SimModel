@@ -30,7 +30,7 @@ std::string XMLDocument::GetBaseName()
 
 #ifdef _WINDOWS
    // ============================================= WINDOWS
-   sRet = "At element: " + _bstr_t(m_Windows_DocumentPtr->GetbaseName());
+   sRet = "At element: " + BStrToSTDString(m_Windows_DocumentPtr->GetbaseName());
 #endif
 
 #if defined(linux) || defined (__APPLE__)

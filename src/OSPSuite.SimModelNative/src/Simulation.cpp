@@ -310,7 +310,7 @@ namespace SimModelNative
       try
       {
          LPCTSTR errMsg = e.ErrorMessage();
-         return string(ATL::CT2A(errMsg));
+         return string(ATL::CT2A(errMsg, CP_UTF8));
       }
       catch (...)
       {
