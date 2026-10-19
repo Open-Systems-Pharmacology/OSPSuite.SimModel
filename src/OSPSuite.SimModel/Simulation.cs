@@ -17,13 +17,13 @@ namespace OSPSuite.SimModel
       public static extern void DisposeSimulation(IntPtr simulation);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void LoadSimulationFromXMLFile(IntPtr simulation, string fileName, out bool success, out string errorMessage);
+      public static extern void LoadSimulationFromXMLFile(IntPtr simulation, [MarshalAs(UnmanagedType.LPUTF8Str)] string fileName, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void LoadSimulationFromXMLString(IntPtr simulation, string simulationXML, out bool success, out string errorMessage);
+      public static extern void LoadSimulationFromXMLString(IntPtr simulation, [MarshalAs(UnmanagedType.LPUTF8Str)] string simulationXML, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void FinalizeSimulation(IntPtr simulation, out bool success, out string errorMessage);
+      public static extern void FinalizeSimulation(IntPtr simulation, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern int GetSimulationProgress(IntPtr simulation);
@@ -32,6 +32,7 @@ namespace OSPSuite.SimModel
       public static extern void CancelSimulationRun(IntPtr simulation);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
+      [return: MarshalAs(UnmanagedType.LPUTF8Str)]
       public static extern string GetObjectPathDelimiter(IntPtr simulation);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
@@ -41,52 +42,53 @@ namespace OSPSuite.SimModel
       public static extern void SetSimulationOptions(IntPtr simulation, SimulationOptionsStructure options);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void RunSimulation(IntPtr simulation, out bool toleranceWasReduced, out double newAbsTol, out double newRelTol, out bool success, out string errorMessage);
+      public static extern void RunSimulation(IntPtr simulation, out bool toleranceWasReduced, out double newAbsTol, out double newRelTol, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern int GetNumberOfTimePoints(IntPtr simulation);
 
       //The caller must call GetNumberOfTimePoints() first and pass an array where NumberOfTimePoints elements are preallocated 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void FillTimeValues(IntPtr simulation, [In, Out] double[] timepoints, out bool success, out string errorMessage);
+      public static extern void FillTimeValues(IntPtr simulation, [In, Out] double[] timepoints, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       //returns XML string of the simulation (with updated formulas for not fixed parameters/species initial values)
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern string GetSimulationXMLString(IntPtr simulation, out bool success, out string errorMessage);
+      [return: MarshalAs(UnmanagedType.LPUTF8Str)]
+      public static extern string GetSimulationXMLString(IntPtr simulation, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       //checks if simulation has any contains parameters
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern bool ContainsPersistableParameters(IntPtr simulation, out bool success, out string errorMessage);
+      public static extern bool ContainsPersistableParameters(IntPtr simulation, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern int GetXMLVersion(IntPtr simulation);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void ReleaseSimulationMemory(IntPtr simulation, out bool success, out string errorMessage);
+      public static extern void ReleaseSimulationMemory(IntPtr simulation, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern IntPtr GetObserverFrom(IntPtr simulation, string entityId, out bool success, out string errorMessage);
+      public static extern IntPtr GetObserverFrom(IntPtr simulation, [MarshalAs(UnmanagedType.LPUTF8Str)] string entityId, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern IntPtr GetSpeciesFrom(IntPtr simulation, string entityId, out bool success, out string errorMessage);
+      public static extern IntPtr GetSpeciesFrom(IntPtr simulation, [MarshalAs(UnmanagedType.LPUTF8Str)] string entityId, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern IntPtr GetObserverFromId(IntPtr simulation, int id, out bool success, out string errorMessage);
+      public static extern IntPtr GetObserverFromId(IntPtr simulation, int id, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern IntPtr GetSpeciesFromId(IntPtr simulation, int id, out bool success, out string errorMessage);
+      public static extern IntPtr GetSpeciesFromId(IntPtr simulation, int id, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void GetQuantityProperties(IntPtr quantity, out string containerPath, out string name, out string entityId);
+      public static extern void GetQuantityProperties(IntPtr quantity, [MarshalAs(UnmanagedType.LPUTF8Str)] out string containerPath, [MarshalAs(UnmanagedType.LPUTF8Str)] out string name, [MarshalAs(UnmanagedType.LPUTF8Str)] out string entityId);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern int GetNumberOfQuantitiesWithValues(IntPtr simulation, out bool success, out string errorMessage);
+      public static extern int GetNumberOfQuantitiesWithValues(IntPtr simulation, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void FillEntityIdsForQuantitiesWithValues(IntPtr simulation, [In, Out] string[] entityIds, int size, out bool success, out string errorMessage);
+      public static extern void FillEntityIdsForQuantitiesWithValues(IntPtr simulation, [In, Out] IntPtr[] entityIds, int size, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void FillIdsForQuantitiesWithValues(IntPtr simulation, [In, Out] int[] ids, int size, out bool success, out string errorMessage);
+      public static extern void FillIdsForQuantitiesWithValues(IntPtr simulation, [In, Out] int[] ids, int size, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern IntPtr CreateParameterInfoVector();
@@ -98,41 +100,41 @@ namespace OSPSuite.SimModel
       public static extern void ClearParameterInfoVector(IntPtr parameterInfos);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void FillParameterProperties(IntPtr simulation, IntPtr parameterInfos, out bool success, out string errorMessage);
+      public static extern void FillParameterProperties(IntPtr simulation, IntPtr parameterInfos, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern int GetNumberOfParameterProperties(IntPtr parameterInfos, out bool success, out string errorMessage);
+      public static extern int GetNumberOfParameterProperties(IntPtr parameterInfos, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern int GetNumberOfParameterTablePoints(IntPtr parameterInfos, int parameterIndex, out bool success, out string errorMessage);
+      public static extern int GetNumberOfParameterTablePoints(IntPtr parameterInfos, int parameterIndex, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void FillSingleParameterProperties(IntPtr simulation, IntPtr parameterInfos,
-         int parameterIndex, out string entityId, out string pathWithoutRoot, out string fullName, out double value,
+         int parameterIndex, [MarshalAs(UnmanagedType.LPUTF8Str)] out string entityId, [MarshalAs(UnmanagedType.LPUTF8Str)] out string pathWithoutRoot, [MarshalAs(UnmanagedType.LPUTF8Str)] out string fullName, out double value,
          [In, Out] double[] tablePointsX, [In, Out] double[] tablePointsY, [In, Out] bool[] tablePointsRestartSolver,
-         int tablePointsSize, out bool success, out string errorMessage);
+         int tablePointsSize, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void SetParameterValue(IntPtr parameterInfos, int parameterIndex, double value, out bool success, out string errorMessage);
+      public static extern void SetParameterValue(IntPtr parameterInfos, int parameterIndex, double value, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void SetParameterCalculateSensitivity(IntPtr parameterInfos, int parameterIndex, bool calculateSensitivity, out bool success, out string errorMessage);
+      public static extern void SetParameterCalculateSensitivity(IntPtr parameterInfos, int parameterIndex, bool calculateSensitivity, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
       
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void SetParameterTablePoints(IntPtr parameterInfos, int parameterIndex,
          [In] double[] tablePointsX, [In] double[] tablePointsY, [In] bool[] tablePointsRestartSolver, int tablePointsSize,
-         out bool success, out string errorMessage);
+         out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern bool ParameterIsUsedInSimulation(IntPtr parameterInfos, int parameterIndex, out bool success, out string errorMessage);
+      public static extern bool ParameterIsUsedInSimulation(IntPtr parameterInfos, int parameterIndex, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
       
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void SetVariableParameters(IntPtr simulation, IntPtr parameterInfos, [In] int[] parameterIndices,
-                                                      int numberOfVariableParameters, out bool success, out string errorMessage);
+                                                      int numberOfVariableParameters, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void SetParameterValues(IntPtr simulation, IntPtr parameterInfos, [In] int[] parameterIndices,
-         int numberOfVariableParameters, out bool success, out string errorMessage);
+         int numberOfVariableParameters, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern IntPtr CreateSpeciesInfoVector();
@@ -144,51 +146,51 @@ namespace OSPSuite.SimModel
       public static extern void ClearSpeciesInfoVector(IntPtr speciesInfos);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void FillSpeciesProperties(IntPtr simulation, IntPtr speciesInfos, out bool success, out string errorMessage);
+      public static extern void FillSpeciesProperties(IntPtr simulation, IntPtr speciesInfos, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern int GetNumberOfSpeciesProperties(IntPtr speciesInfos, out bool success, out string errorMessage);
+      public static extern int GetNumberOfSpeciesProperties(IntPtr speciesInfos, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void FillSingleSpeciesProperties(IntPtr simulation, IntPtr speciesInfos,
-         int speciesIndex, out string entityId, out string pathWithoutRoot, out string fullName, out double initialValue,
-         out double scaleFactor, out bool success, out string errorMessage);
+         int speciesIndex, [MarshalAs(UnmanagedType.LPUTF8Str)] out string entityId, [MarshalAs(UnmanagedType.LPUTF8Str)] out string pathWithoutRoot, [MarshalAs(UnmanagedType.LPUTF8Str)] out string fullName, out double initialValue,
+         out double scaleFactor, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void SetSpeciesInitialValue(IntPtr speciesInfos, int speciesIndex, double initialValue, out bool success, out string errorMessage);
+      public static extern void SetSpeciesInitialValue(IntPtr speciesInfos, int speciesIndex, double initialValue, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern void SetSpeciesScaleFactor(IntPtr speciesInfos, int speciesIndex, double scaleFactor, out bool success, out string errorMessage);
+      public static extern void SetSpeciesScaleFactor(IntPtr speciesInfos, int speciesIndex, double scaleFactor, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern bool SpeciesIsUsedInSimulation(IntPtr speciesInfos, int speciesIndex, out bool success, out string errorMessage);
+      public static extern bool SpeciesIsUsedInSimulation(IntPtr speciesInfos, int speciesIndex, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void SetVariableSpecies(IntPtr simulation, IntPtr speciesInfos, [In] int[] speciesIndices,
-                                                      int numberOfVariableSpecies, out bool success, out string errorMessage);
+                                                      int numberOfVariableSpecies, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void SetSpeciesValues(IntPtr simulation, IntPtr speciesInfos, [In] int[] speciesIndices,
-         int numberOfVariableSpecies, out bool success, out string errorMessage);
+         int numberOfVariableSpecies, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern int GetNumberOfSolverWarnings(IntPtr simulation);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
       public static extern void FillSolverWarnings(IntPtr simulation, int size, [In, Out] double[] outputTimes, 
-         [In, Out] string[] warnings, out bool success, out string errorMessage);
+         [In, Out] IntPtr[] warnings, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern IntPtr GetQuantityByPath(IntPtr simulation, string quantityPathWithoutRoot, out bool success, out string errorMessage);
+      public static extern IntPtr GetQuantityByPath(IntPtr simulation, [MarshalAs(UnmanagedType.LPUTF8Str)] string quantityPathWithoutRoot, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern IntPtr ExportSimulationToMatlabCode(IntPtr simulation, string outputFolder, bool fullMode, out bool success, out string errorMessage);
+      public static extern IntPtr ExportSimulationToMatlabCode(IntPtr simulation, [MarshalAs(UnmanagedType.LPUTF8Str)] string outputFolder, bool fullMode, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern IntPtr ExportSimulationToCppCode(IntPtr simulation, string outputFolder, bool fullMode, string modelName, out bool success, out string errorMessage);
+      public static extern IntPtr ExportSimulationToCppCode(IntPtr simulation, [MarshalAs(UnmanagedType.LPUTF8Str)] string outputFolder, bool fullMode, [MarshalAs(UnmanagedType.LPUTF8Str)] string modelName, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
       [DllImport(SimModelImportDefinitions.NATIVE_DLL, CallingConvention = SimModelImportDefinitions.CALLING_CONVENTION)]
-      public static extern IntPtr ExportSimulationToRCode(IntPtr simulation, string outputFolder, bool fullMode, out bool success, out string errorMessage);
+      public static extern IntPtr ExportSimulationToRCode(IntPtr simulation, [MarshalAs(UnmanagedType.LPUTF8Str)] string outputFolder, bool fullMode, out bool success, [MarshalAs(UnmanagedType.LPUTF8Str)] out string errorMessage);
 
    }
 
@@ -337,14 +339,15 @@ namespace OSPSuite.SimModel
             return;
 
          var times = new double[numberOfWarnings];
-         var warnings=new string[numberOfWarnings];
+         var warnings=new IntPtr[numberOfWarnings];
 
          SimulationImports.FillSolverWarnings(_simulation, numberOfWarnings, times, warnings, out var success, out var errorMessage);
          evaluateCppCallResult(success, errorMessage);
 
          for (var i = 0; i < numberOfWarnings; i++)
          {
-            _solverWarnings.Add(new SolverWarning(times[i], warnings[i]));
+            _solverWarnings.Add(new SolverWarning(times[i], Marshal.PtrToStringUTF8(warnings[i])));
+            Marshal.FreeCoTaskMem(warnings[i]);
          }
       }
 

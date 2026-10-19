@@ -310,7 +310,9 @@ void XMLNode::SetAttribute(const std::string& mcrName, const std::string& mcrVal
    MSXML2::IXMLDOMAttributePtr attr = document->createAttribute(mcrName.c_str());
 
    // Set attribute value
-   attr->nodeTypedValue = mcrValue.c_str();
+   BSTR bstrValue;
+   STDStringToBStr(mcrValue, bstrValue);
+   attr->nodeTypedValue = _bstr_t(bstrValue, false);
    m_Windows_NodePtr->attributes->setNamedItem(attr);
 #endif
 
@@ -534,7 +536,7 @@ const std::string XMLNode::GetXML() const
    }
 #ifdef _WINDOWS
    // ============================================= WINDOWS
-   return (char*)m_Windows_NodePtr->Getxml();
+   return BStrToSTDString(m_Windows_NodePtr->Getxml());
 #endif
 
 #if defined(linux) || defined (__APPLE__)
@@ -663,7 +665,9 @@ void XMLNode::SetValue(const std::string& Value)
    }
 #ifdef _WINDOWS
    // ============================================= WINDOWS
-   m_Windows_NodePtr->text = Value.c_str();
+   BSTR bstrValue;
+   STDStringToBStr(Value, bstrValue);
+   m_Windows_NodePtr->text = _bstr_t(bstrValue, false);
 #endif
 
 #if defined(linux) || defined (__APPLE__)

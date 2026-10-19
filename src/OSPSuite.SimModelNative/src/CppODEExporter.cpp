@@ -5,6 +5,7 @@
 #include "SimModel/DESolverProperties.h"
 #include "SimModel/SimulationTask.h"
 #include "SimModel/OutputSchema.h"
+#include "FileSystem.h"
 
 #ifdef _WINDOWS
 #pragma warning(disable:4996)
@@ -561,7 +562,7 @@ namespace SimModelNative
             filenameBase = OutDir + name;
 
          filename = filenameBase + ".cpp";// +"Base.cpp";
-         outfile.open(filename.c_str());
+         FileSystem::OpenForWriting(outfile, filename);
          outfile << ossBufferExport.str();
          //outfile.close();
          //filename = filenameBase + "JacDense.cpp";
