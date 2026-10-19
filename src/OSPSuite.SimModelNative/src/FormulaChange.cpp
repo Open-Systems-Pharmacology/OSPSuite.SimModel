@@ -106,7 +106,8 @@ namespace SimModelNative
    }
 
    //returns true if <formula> uses <hfObject> directly or indirectly (via formulas of the used objects).
-   //DE variables are not followed, because their values are taken from the solution vector
+   //Species are not followed: DE variables take their values from the solution vector and
+   //constant species are set to their initial value before any switch fires
    static bool FormulaDependsOn(Formula* formula, HierarchicalFormulaObject* hfObject)
    {
       vector<HierarchicalFormulaObject*> objectsToCheck = formula->GetUsedHierarchicalFormulaObjects();
@@ -123,8 +124,7 @@ namespace SimModelNative
          if (!checkedObjects.insert(usedObject).second)
             continue; //already checked
 
-         Species* species = dynamic_cast<Species*>(usedObject);
-         if (species && !species->IsConstantDuringCalculation())
+         if (dynamic_cast<Species*>(usedObject))
             continue;
 
          vector<HierarchicalFormulaObject*> indirectlyUsedObjects = usedObject->GetUsedHierarchicalFormulaObjects();
