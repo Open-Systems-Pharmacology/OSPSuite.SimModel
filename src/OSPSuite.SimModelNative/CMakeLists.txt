@@ -5,14 +5,15 @@ set (CMAKE_CXX_STANDARD 17)
 set (CMAKE_CXX_FLAGS_DEBUG "-g")
 set (CMAKE_CXX_FLAGS_RELEASE "-O3")
 
+# Ship only the library-relative RPATH, not the build-tree FuncParser path
+# CMake would otherwise add for the full-path link below.
 if (APPLE)
     set(CMAKE_MACOSX_RPATH 1)
-    set(RPATH ".")
-    list(APPEND CMAKE_BUILD_RPATH ${RPATH})
+    set(CMAKE_INSTALL_RPATH "@loader_path")
 elseif (UNIX)
     set(CMAKE_INSTALL_RPATH "$ORIGIN")
-    set(CMAKE_BUILD_RPATH "$ORIGIN")
 endif()
+set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
 
 find_package(LibXml2 REQUIRED)
 

@@ -13,13 +13,14 @@ endif()
 
 set (SRC_ROOT ${OSPSuite.SimModelNative.Tests_SOURCE_DIR}/../../src)
 
-# Find FuncParser/libxml2 at runtime via the shared library's RPATH ($ORIGIN /
-# @rpath); add the native dir and FuncParser dir so the test exe resolves them.
+# FuncParser is staged next to the shared library by buildNix.sh and found via
+# its RPATH ($ORIGIN / @loader_path); add the native dir so the test exe
+# resolves the shared library itself.
 if (APPLE)
 	 set (CMAKE_MACOSX_RPATH 1)
-	 list (APPEND CMAKE_BUILD_RPATH ${SIMMODEL_NATIVE_DIR} ${SRC_ROOT}/../packages/OSPSuite.FuncParser/runtimes/${RID}/native)
+	 list (APPEND CMAKE_BUILD_RPATH ${SIMMODEL_NATIVE_DIR})
 elseif (UNIX)
-	 list (APPEND CMAKE_BUILD_RPATH ${SIMMODEL_NATIVE_DIR} ${SRC_ROOT}/../packages/OSPSuite.FuncParser/runtimes/${RID}/native)
+	 list (APPEND CMAKE_BUILD_RPATH ${SIMMODEL_NATIVE_DIR})
 endif()
 
 find_package (LibXml2 REQUIRED)
