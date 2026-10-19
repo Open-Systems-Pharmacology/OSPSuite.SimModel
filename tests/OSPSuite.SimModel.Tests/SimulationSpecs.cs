@@ -817,9 +817,6 @@ namespace OSPSuite.SimModel.Tests
          }
       }
 
-#if !_WINDOWS
-      [Ignore("Ignore under Linux for the moment")]
-#endif
       [Observation]
       public void should_solve_example_system_and_return_correct_sensitivity_values()
       {
@@ -846,9 +843,6 @@ namespace OSPSuite.SimModel.Tests
 
    public class when_loading_cvsRoberts_FSA_dns : concern_for_Simulation
    {
-#if !_WINDOWS
-      [Ignore("Ignore under Linux for the moment")]
-#endif
       [Observation]
       public void should_load_simulation()
       {
