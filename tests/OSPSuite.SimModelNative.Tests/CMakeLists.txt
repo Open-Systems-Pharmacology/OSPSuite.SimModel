@@ -23,7 +23,12 @@ elseif (UNIX)
 	 list (APPEND CMAKE_BUILD_RPATH ${SIMMODEL_NATIVE_DIR})
 endif()
 
-find_package (LibXml2 REQUIRED)
+if (APPLE)
+	 find_package (LibXml2 REQUIRED)
+else()
+	 # Headers of the static libxml2 built into SimModelNative
+	 set (LIBXML2_INCLUDE_DIR ${SIMMODEL_NATIVE_DIR}/libxml2/include/libxml2)
+endif()
 
 # Fetch GoogleTest so the build has no system-level test-framework dependency,
 # mirroring the Microsoft.googletest NuGet package used by the Windows vcxproj.
