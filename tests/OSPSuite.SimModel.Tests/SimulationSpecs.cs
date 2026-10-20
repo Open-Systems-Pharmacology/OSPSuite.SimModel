@@ -934,6 +934,85 @@ namespace OSPSuite.SimModel.Tests
       }
    }
 
+   public class when_running_simulation_with_events_assigning_formulas_with_cyclic_dependency : concern_for_Simulation
+   {
+      private void runSimulationWithExpectedCyclicDependencyError(string testFileName, string parameterPath)
+      {
+         LoadAndFinalizeSimulation(testFileName);
+
+         try
+         {
+            RunSimulation();
+         }
+         catch (Exception ex)
+         {
+            ex.Message.Contains("cyclic dependency").ShouldBeTrue();
+            ex.Message.Contains(parameterPath).ShouldBeTrue();
+
+            //expected behavior. Leave the test case
+            return;
+         }
+
+         throw new Exception("No exception was thrown for cyclic dependency in event assignment");
+      }
+
+      [Observation]
+      public void should_throw_an_exception_if_the_new_formula_depends_on_the_changed_parameter()
+      {
+         //simulation has only 1 parameter M1, which is modified by 2 events firing at t=10:
+         //    event #1: M1=M1+10
+         //    event #2: M1=M1+20
+         //both assignments have useAsValue=0, so M1 would become M1+10 (cyclic dependency)
+         //and evaluating it after the events fired would overflow the stack
+         runSimulationWithExpectedCyclicDependencyError("TestCrashSimultaneousEvents", "S1|Organism|M1");
+      }
+
+      [Observation]
+      public void should_throw_an_exception_if_formulas_assigned_by_different_events_depend_on_each_other()
+      {
+         //parameters M1 and B have constant start values
+         //    event #1 at t=5:  M1=B+1
+         //    event #2 at t=10: B=M1+1 (cyclic dependency together with the formula assigned by event #1)
+         runSimulationWithExpectedCyclicDependencyError("EventsAssigningFormulasWithCyclicDependency", "S1|Organism|B");
+      }
+   }
+
+   public class when_running_simulation_with_event_assigning_a_formula_after_another_event_removed_the_dependency : concern_for_Simulation
+   {
+      [Observation]
+      public void should_use_the_formulas_set_by_the_events()
+      {
+         //parameter B has the start formula B=M1 (M1=5 at start)
+         //    event #1 at t=5:  B=7
+         //    event #2 at t=10: M1=B+1
+         //when event #2 fires, B does not depend on M1 anymore, so this is no cyclic dependency: M1=B+1=8
+         LoadFinalizeAndRunSimulation("EventsAssigningFormulasRemovingDependencyFirst");
+
+         var values = sut.ValuesFor("M1").Values;
+
+         values[0].ShouldBeEqualTo(5.0, 1e-5);
+         values[values.Length - 1].ShouldBeEqualTo(8.0, 1e-5);
+      }
+   }
+
+   public class when_running_simulation_with_event_assigning_a_formula_using_a_constant_species_depending_on_the_changed_parameter : concern_for_Simulation
+   {
+      [Observation]
+      public void should_use_the_initial_value_of_the_constant_species()
+      {
+         //constant species S has the initial value formula S=M1 (M1=5 at start)
+         //event at t=10 assigns the formula M1=S+1 (useAsValue=0)
+         //constant species are set to their initial value before any event fires,
+         //so this is no cyclic dependency: after the event, M1=S+1=6
+         LoadFinalizeAndRunSimulation("EventAssignsFormulaUsingConstantSpecies");
+
+         var values = sut.ValuesFor("M1").Values;
+
+         values[0].ShouldBeEqualTo(5.0, 1e-5);
+         values[values.Length - 1].ShouldBeEqualTo(6.0, 1e-5);
+      }
+   }
+
    public class when_running_simulation_with_almost_equal_output_times : concern_for_Simulation
    {
       [Observation]

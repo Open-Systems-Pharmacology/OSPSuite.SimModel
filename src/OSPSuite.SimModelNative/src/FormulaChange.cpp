@@ -72,8 +72,39 @@ namespace SimModelNative
       return _newFormula;
    }
 
+   //returns true if <formula> uses <hfObject> directly or indirectly (via current formulas of the used objects).
+   //Species are not followed: DE variables take their values from the solution vector and
+   //constant species are set to their initial value before any switch fires
+   static bool FormulaDependsOn(Formula* formula, HierarchicalFormulaObject* hfObject)
+   {
+      vector<HierarchicalFormulaObject*> objectsToCheck = formula->GetUsedHierarchicalFormulaObjects();
+      set<HierarchicalFormulaObject*> checkedObjects;
+
+      while (!objectsToCheck.empty())
+      {
+         HierarchicalFormulaObject* usedObject = objectsToCheck.back();
+         objectsToCheck.pop_back();
+
+         if (usedObject == hfObject)
+            return true;
+
+         if (!checkedObjects.insert(usedObject).second)
+            continue; //already checked
+
+         if (dynamic_cast<Species*>(usedObject))
+            continue;
+
+         vector<HierarchicalFormulaObject*> indirectlyUsedObjects = usedObject->GetUsedHierarchicalFormulaObjects();
+         objectsToCheck.insert(objectsToCheck.end(), indirectlyUsedObjects.begin(), indirectlyUsedObjects.end());
+      }
+
+      return false;
+   }
+
    bool FormulaChange::PerformSwitchUpdate(double* y, double time)
    {
+      const char* ERROR_SOURCE = "FormulaChange::PerformSwitchUpdate";
+
       if (_speciesDEIndex != DE_INVALID_INDEX)
       {
          //object to change is a species
@@ -101,6 +132,13 @@ namespace SimModelNative
 
       //really new formula - set new FORMULA
       _quantity->SetFormula(_newFormula);
+
+      //---- the new formula may not depend on the changed parameter itself, considering the formulas
+      //     currently set (otherwise evaluating the parameter would recurse endlessly)
+      Parameter* parameter = dynamic_cast<Parameter*>(_quantity);
+      if (parameter && FormulaDependsOn(_newFormula, parameter))
+         throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, _parentSwitchInfo + " at t=" + XMLHelper::ToString(time) +
+            ": cyclic dependency found - new formula of " + parameter->GetFullName() + " depends on " + parameter->GetFullName() + " itself");
 
       return true; //simulation conditions changed by switch (solver restart needed)
    }
