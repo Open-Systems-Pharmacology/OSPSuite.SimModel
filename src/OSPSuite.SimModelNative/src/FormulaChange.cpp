@@ -72,40 +72,7 @@ namespace SimModelNative
       return _newFormula;
    }
 
-   bool FormulaChange::PerformSwitchUpdate(double* y, double time)
-   {
-      if (_speciesDEIndex != DE_INVALID_INDEX)
-      {
-         //object to change is a species
-         double newValue = _newFormula->DE_Compute(y, time, USE_SCALEFACTOR);
-         newValue /= _speciesScaleFactor;
-
-         if (newValue == y[_speciesDEIndex])
-            return false; //new formula produced the same value as before - no change
-
-         y[_speciesDEIndex] = newValue;
-
-         return true; //simulation conditions changed by switch (solver restart needed)
-      }
-
-      //---- object to change is not a species - set new formula or value
-      if (_useAsValue)
-      {
-         //set formula VALUE of the new formula
-         _quantity->SetConstantValue(_newFormula->DE_Compute(y, time, USE_SCALEFACTOR));
-         return true;
-      }
-
-      if (_quantity->IsFormulaEqualTo(_newFormula))
-         return false; //same formula already set - no change
-
-      //really new formula - set new FORMULA
-      _quantity->SetFormula(_newFormula);
-
-      return true; //simulation conditions changed by switch (solver restart needed)
-   }
-
-   //returns true if <formula> uses <hfObject> directly or indirectly (via formulas of the used objects).
+   //returns true if <formula> uses <hfObject> directly or indirectly (via current formulas of the used objects).
    //Species are not followed: DE variables take their values from the solution vector and
    //constant species are set to their initial value before any switch fires
    static bool FormulaDependsOn(Formula* formula, HierarchicalFormulaObject* hfObject)
@@ -134,6 +101,48 @@ namespace SimModelNative
       return false;
    }
 
+   bool FormulaChange::PerformSwitchUpdate(double* y, double time)
+   {
+      const char* ERROR_SOURCE = "FormulaChange::PerformSwitchUpdate";
+
+      if (_speciesDEIndex != DE_INVALID_INDEX)
+      {
+         //object to change is a species
+         double newValue = _newFormula->DE_Compute(y, time, USE_SCALEFACTOR);
+         newValue /= _speciesScaleFactor;
+
+         if (newValue == y[_speciesDEIndex])
+            return false; //new formula produced the same value as before - no change
+
+         y[_speciesDEIndex] = newValue;
+
+         return true; //simulation conditions changed by switch (solver restart needed)
+      }
+
+      //---- object to change is not a species - set new formula or value
+      if (_useAsValue)
+      {
+         //set formula VALUE of the new formula
+         _quantity->SetConstantValue(_newFormula->DE_Compute(y, time, USE_SCALEFACTOR));
+         return true;
+      }
+
+      if (_quantity->IsFormulaEqualTo(_newFormula))
+         return false; //same formula already set - no change
+
+      //really new formula - set new FORMULA
+      _quantity->SetFormula(_newFormula);
+
+      //---- the new formula may not depend on the changed parameter itself, considering the formulas
+      //     currently set (otherwise evaluating the parameter would recurse endlessly)
+      Parameter* parameter = dynamic_cast<Parameter*>(_quantity);
+      if (parameter && FormulaDependsOn(_newFormula, parameter))
+         throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, _parentSwitchInfo + " at t=" + XMLHelper::ToString(time) +
+            ": cyclic dependency found - new formula of " + parameter->GetFullName() + " depends on " + parameter->GetFullName() + " itself");
+
+      return true; //simulation conditions changed by switch (solver restart needed)
+   }
+
    void FormulaChange::Finalize()
    {
       const char* ERROR_SOURCE = "FormulaChange::Finalize";
@@ -153,12 +162,6 @@ namespace SimModelNative
          _speciesScaleFactor = species->GetODEScaleFactor();
       }
 
-      //---- if parameter gets new formula: the formula may not depend on the parameter itself
-      //     (otherwise evaluating the parameter after the switch fired would recurse endlessly)
-      Parameter* parameter = dynamic_cast<Parameter*>(_quantity);
-      if (parameter && !_useAsValue && FormulaDependsOn(_newFormula, parameter))
-         throw ErrorData(ErrorData::ED_ERROR, ERROR_SOURCE, _parentSwitchInfo + ": cyclic dependency found - new formula of " +
-            parameter->GetFullName() + " depends on " + parameter->GetFullName() + " itself");
    }
 
    void FormulaChange::WriteMatlabCode(std::ostream& mrOut)
